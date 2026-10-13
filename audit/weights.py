@@ -1,22 +1,33 @@
 # weights.py -- Compare checkpoint tensors without loading a checkpoint at once.
 # Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  download limit from the environment; send the hub token.
 # Modified: SDE 2026-10-13  measure differences and test the projection envelope.
+# Modified: SDE 2026-10-13  hash shards on the compute interpreter too.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
 import json
 import math
+import os
 import re
 from pathlib import Path
 
 import requests
 import torch
+from huggingface_hub import get_token
 from safetensors import safe_open
 from safetensors.torch import save_file
 
 
 ROOT = Path(__file__).resolve().parents[1]
-MAX_DOWNLOAD = 1_000_000_000
+# One gigabyte a file on a shared box unless the machine running this says otherwise (PERMAFROST_MAX_DOWNLOAD_GB).
+MAX_DOWNLOAD = int(float(os.environ.get("PERMAFROST_MAX_DOWNLOAD_GB", "1")) * 1_000_000_000)
+
+
+def auth_header():
+    """Send the saved hub token when there is one; gated originals need it."""
+    token = get_token()
+    return {"Authorization": "Bearer " + token} if token else {}
 
 
 def safe_name(value):
@@ -41,7 +52,10 @@ def write_json(path, record):
 def digest(path):
     """Hash a file in small blocks; checkpoint provenance costs no extra copy."""
     with Path(path).open("rb") as stream:
-        return hashlib.file_digest(stream, "sha256").hexdigest()
+        checksum = hashlib.sha256()
+        for block in iter(lambda: stream.read(1024 * 1024), b""):
+            checksum.update(block)
+        return checksum.hexdigest()
 
 
 def inside(directory, name):
@@ -72,7 +86,7 @@ def resolve_checkpoint(value, revision="main", cache=None):
         if (name.endswith(".safetensors") and "/" not in name) or name in metadata:
             size = item.get("size")
             if size is None or size > MAX_DOWNLOAD:
-                raise ValueError(f"file size missing or above 1 GB: {name}")
+                raise ValueError(f"file size missing or above the download limit ({MAX_DOWNLOAD // 1_000_000_000} GB): {name}")
             selected.append(item)
     if not any(item["rfilename"].endswith(".safetensors") for item in selected):
         raise ValueError("checkpoint has no safetensors shards")
@@ -85,11 +99,11 @@ def resolve_checkpoint(value, revision="main", cache=None):
         temporary = path.with_suffix(path.suffix + ".part")
         url = f"https://huggingface.co/{value}/resolve/{sha}/{item['rfilename']}"
         try:
-            with requests.get(url, stream=True, timeout=30) as download:
+            with requests.get(url, stream=True, timeout=30, headers=auth_header()) as download:
                 download.raise_for_status()
                 length = download.headers.get("Content-Length")
                 if length and int(length) > MAX_DOWNLOAD:
-                    raise ValueError("download exceeds 1 GB")
+                    raise ValueError("download exceeds the limit of %d GB" % (MAX_DOWNLOAD // 1_000_000_000))
                 total = 0
                 with temporary.open("wb") as stream:
                     for block in download.iter_content(1024 * 1024):
