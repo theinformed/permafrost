@@ -1,5 +1,6 @@
 # download.py -- Pin a snapshot and verify its published object checksums.
 # Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  the hub token is optional; only gated originals need it.
 # Modified: SDE 2026-10-13  keep the hub token out of records and command lines.
 import hashlib
 import json
@@ -53,7 +54,7 @@ def main():
             if token_file.is_symlink() or stat.S_IMODE(token_file.stat().st_mode) != 0o600:
                 raise ValueError('hub token must be a regular mode-600 file')
             token = token_file.read_text().strip()
-        elif os.environ.get('AUDIT_REHEARSAL') != '1':
+        elif os.environ.get('AUDIT_NEEDS_HUB_TOKEN') == '1':
             raise ValueError('hub token file is missing')
         api = HfApi(token=token)
         info = api.model_info(base, revision='main', files_metadata=True)
