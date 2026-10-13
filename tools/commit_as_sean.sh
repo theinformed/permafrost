@@ -1,7 +1,7 @@
 #!/bin/bash
 # ============================================================================
 # commit_as_sean.sh -- commit the named files with the project's author details.
-# Created by LT Sean Egan, PhD                                       2026-10-08
+# Created by Sean Egan                                               2026-10-08
 # Purpose: lint the message and sources without sweeping in somebody else's edits.
 # Modified: SDE 2026-10-08  use a temporary index for the selected paths.
 # Modified: SDE 2026-10-08  skip data files in the comment check.
@@ -11,6 +11,7 @@
 # Modified: SDE 2026-10-12  verify the current author and committer before committing.
 # Modified: SDE 2026-10-13  sign Permafrost as Sean Egan; this is personal work, not duty.  verify the current author and committer before committing.
 # Modified: SDE 2026-10-13  start an empty repository and keep the index here.
+# Modified: SDE 2026-10-13  use the full author and committer name.
 # ============================================================================
 set -euo pipefail
 if [[ $# -lt 2 ]]; then
