@@ -1,5 +1,6 @@
 # test_hpc.py -- Check round packaging and scheduler failures in local folders.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  exercise pinned copies, build history and measurement failures.
 # Modified: SDE 2026-10-13  check login syntax and the protected submission chain.
 import ast
 import hashlib
@@ -12,6 +13,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import types
 import unittest
 from unittest.mock import patch
@@ -146,14 +148,14 @@ hpc_job_fail() { :; }
         self.assertIn('--dependency=afterok:1001', rows[1]['arguments'])
         self.assertIn('--kill-on-invalid-dep=yes', rows[1]['arguments'])
         self.assertEqual(len(list((directory / 'outbox').iterdir())), 7)
-        self.assertTrue((directory / 'work/model-audit/state/compare.done').exists())
-        self.assertFalse((directory / 'work/model-audit/ARCHIVED').exists())
+        self.assertTrue((directory / 'work/model-audit/rounds/1/state/compare.done').exists())
+        self.assertFalse((directory / 'work/model-audit/rounds/1/ARCHIVED').exists())
 
     def test_failed_second_submission(self):
         result, directory = self.rehearse(True)
         self.assertIn('VERDICT round 1 FAIL', result.stdout)
         self.assertIn('VERDICT rehearsal OK', result.stdout)
-        self.assertFalse((directory / 'work/model-audit/state/project.done').exists())
+        self.assertFalse((directory / 'work/model-audit/rounds/1/state/project.done').exists())
         drops = [path.read_text() for path in (directory / 'outbox').iterdir()]
         self.assertTrue(any('event: failed' in drop for drop in drops))
         self.assertEqual(len(drops), 6)
@@ -179,6 +181,97 @@ hpc_job_fail() { :; }
         self.assertIn('already submitted', result.stdout)
         self.assertEqual(len((directory / 'submissions.jsonl').read_text().splitlines()), 2)
 
+    def fixture(self, name='case'):
+        """Use the rehearsal's fenced setup with this test's small reporting kit."""
+        args = types.SimpleNamespace(login_python=sys.executable, compute_python=sys.executable,
+                                     dry_run=True, base='rehearsal/stub', kit=str(self.kit))
+        return load_module('rehearse').Rehearsal(args, self.directory / name)
+
+    def test_new_build_keeps_earlier_ids_and_legacy_attempt(self):
+        run = self.fixture()
+        run.environment['AUDIT_FAKE_DEFER'] = '1'
+        legacy = run.work / 'model-audit/state/round-1-submissions'
+        legacy.parent.mkdir(parents=True)
+        legacy.write_text('attempted earlier\n' + 'download 3728972\n')
+        self.assertEqual(run.run(), 0, run.log.read_text())
+        first = (run.round / 'BUILD-STAMP.txt').read_text().strip()
+        result = run.call(['./round.sh', '--only', '40-submit.sh'], run.round)
+        self.assertNotEqual(result, 0)
+        self.assertEqual(len(run.rows()), 2)
+        run.changed_sources()
+        self.assertEqual(run.run(), 0, run.log.read_text())
+        second = (run.round / 'BUILD-STAMP.txt').read_text().strip()
+        self.assertNotEqual(first, second)
+        self.assertEqual(len(run.rows()), 4)
+        state = (run.results / 'state/round-1-submissions').read_text()
+        for value in ('download 3728972', 'download 1001', 'download 1003', first, second):
+            self.assertIn(value, state)
+        self.assertEqual(legacy.read_text(), 'attempted earlier\ndownload 3728972\n')
+        tail = (run.bundle / 'model-audit-round.sh').read_bytes().split(b'__PAYLOAD__\n', 1)[1]
+        self.assertEqual(second, hashlib.sha256(tail).hexdigest())
+
+    def test_queued_jobs_read_pinned_copy_after_home_overwrite(self):
+        run = self.fixture()
+        run.environment['AUDIT_FAKE_DEFER'] = '1'
+        self.assertEqual(run.run(), 0)
+        self.assertEqual([row['status'] for row in run.rows()], ['queued', 'queued'])
+        shutil.rmtree(str(run.round))
+        run.round.mkdir(parents=True)
+        (run.round / 'env.sh').write_text('exit 97\n')
+        self.assertEqual(run.call([str(run.binary / 'sbatch'), '--run-pending']), 0, run.log.read_text())
+        rows = run.rows()
+        self.assertEqual([row['status'] for row in rows], ['finished', 'finished'])
+        self.assertNotEqual(rows[0]['cwd'], rows[1]['cwd'])
+        for row in rows:
+            record = row['snapshot']
+            self.assertTrue(record['directory'].startswith(str(run.results / 'submissions')))
+            self.assertEqual(hashlib.sha256(Path(record['archive']).read_bytes()).hexdigest(), record['sha256'])
+            self.assertEqual(row['started_snapshot_sha256'], record['sha256'])
+            card = json.loads((run.home / '.hpc/jobs' / (row['job'] + '.json')).read_text())
+            self.assertEqual(card['snapshot']['sha256'], record['sha256'])
+            self.assertIn(record['sha256'], (run.directory / 'outbox' / (row['job'] + '-drop.txt')).read_text())
+
+    def test_stale_measurement_input_fails_job_and_names_file(self):
+        run = self.fixture()
+        run.environment['AUDIT_FAKE_DEFER'] = '1'
+        self.assertEqual(run.run(), 0)
+        planted = run.results / 'measurements/rehearsal-base/previous-round.json'
+        planted.parent.mkdir(parents=True)
+        planted.write_text('{}')
+        os.utime(str(planted), (1, 1))
+        self.assertNotEqual(run.call([str(run.binary / 'sbatch'), '--run-pending']), 0)
+        row = run.rows()[1]
+        self.assertEqual(row['status'], 'failed')
+        self.assertNotEqual(row['exit'], 0)
+        self.assertIn('stale measurement input refused: ' + str(planted), Path(row['log']).read_text())
+        self.assertFalse((run.results / 'state/compare.done').exists())
+        drop = (run.directory / 'outbox/1002-drop.txt').read_text()
+        self.assertIn('event: failed', drop)
+        self.assertIn(str(planted), drop)
+
+    def test_measurement_failure_fails_job_and_cancels_afterok(self):
+        run = self.fixture()
+        run.environment['AUDIT_FAIL_MEASUREMENT'] = '1'
+        self.assertEqual(run.run(), 0)
+        self.assertEqual(run.rows()[1]['status'], 'failed')
+        self.assertEqual(run.rows()[1]['exit'], 23)
+        self.assertFalse((run.results / 'state/project.done').exists())
+        self.assertFalse((run.results / 'state/compare.done').exists())
+        run.dependent_probe()
+        self.assertEqual(run.rows()[2]['status'], 'cancelled-invalid-dependency')
+        self.assertIn('event: failed', (run.directory / 'outbox/1002-drop.txt').read_text())
+
+    def test_changed_pinned_script_fails_before_download(self):
+        run = self.fixture()
+        run.environment['AUDIT_FAKE_DEFER'] = '1'
+        self.assertEqual(run.run(), 0)
+        pinned = Path(run.rows()[0]['cwd'])
+        (pinned / 'runtime.py').write_text('raise SystemExit(0)\n')
+        self.assertNotEqual(run.call([str(run.binary / 'sbatch'), '--run-pending']), 0)
+        self.assertEqual([row['status'] for row in run.rows()], ['failed', 'cancelled-invalid-dependency'])
+        self.assertIn('pinned file checksum differs', Path(run.rows()[0]['log']).read_text())
+        self.assertFalse((run.results / 'state/download.done').exists())
+
     def test_record_accepts_only_the_matching_success_log(self):
         _, directory = self.rehearse()
         log = directory / 'outbox/round-1-end.log'
@@ -188,6 +281,56 @@ hpc_job_fail() { :; }
         self.assertFalse(json.loads((out / 'fake-round-1.json').read_text())['research_complete'])
         result = self.run_command([sys.executable, str(ROOT / 'hpc/bundle.py'), 'record', 'other', str(log), '--out', str(out)])
         self.assertNotEqual(result.returncode, 0)
+
+
+class MeasurementTests(unittest.TestCase):
+    """Exercise the measurement read itself, after the shell's early checks."""
+
+    def setUp(self):
+        path = ROOT / 'hpc/rounds/1/measure.py'
+        spec = importlib.util.spec_from_file_location('round_measure', path)
+        self.measure = importlib.util.module_from_spec(spec)
+        with patch.object(sys, 'dont_write_bytecode', True):
+            spec.loader.exec_module(self.measure)
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        self.work = Path(temporary.name)
+        self.original = self.work / 'original'
+        env = {'AUDIT_WORK': str(self.work), 'AUDIT_ORIGINAL': str(self.original),
+               'AUDIT_BASE': 'rehearsal/stub', 'AUDIT_JOB_STARTED': str(time.time())}
+        self.environment = patch.dict(os.environ, env)
+        self.environment.start()
+        self.addCleanup(self.environment.stop)
+        self.measure.seed_original()
+
+    def test_stale_saved_stage_and_done_marker_are_refused(self):
+        for relative in ('state/projection/residual.bin', 'state/compare.done', 'derived/base/weights.bin'):
+            with self.subTest(path=relative):
+                path = self.work / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('previous round')
+                os.utime(str(path), (1, 1))
+                with self.assertRaisesRegex(ValueError, str(path)):
+                    self.measure.measurement([], lambda args: 0)
+                path.unlink()
+
+    def test_corrupt_shared_original_is_refused_on_read(self):
+        (self.original / 'stub.txt').write_text('changed checkpoint')
+        with self.assertRaisesRegex(ValueError, 'original checksum differs'):
+            self.measure.measurement([], lambda args: 0)
+
+    def test_comparison_exit_code_is_preserved(self):
+        with self.assertRaises(SystemExit) as error:
+            self.measure.measurement([], lambda args: 23)
+        self.assertEqual(error.exception.code, 23)
+
+    def test_fresh_input_and_old_verified_original_are_allowed(self):
+        original = self.original / 'stub.txt'
+        os.utime(str(original), (1, 1))
+        derived = self.work / 'derived/weights.bin'
+        derived.parent.mkdir()
+        derived.write_text('this job')
+        self.assertEqual(self.measure.measurement([], lambda args: 0), 0)
 
 
 class LoginSyntaxTests(unittest.TestCase):

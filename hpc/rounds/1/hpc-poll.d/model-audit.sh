@@ -1,11 +1,12 @@
 #!/bin/bash
-# version 1 2026-10-13
+# version 1 -- the poll fragment for this project
 # model-audit.sh -- Read the recipe round's cards and saved stage markers.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  read the round's own state and results.
 # Modified: SDE 2026-10-13  read cached sizes without walking checkpoint shards.
 # rounds model-audit/rounds
 set -u
-work=${WORKDIR:-}/model-audit
+work=${WORKDIR:-}/model-audit/rounds/1
 round=$HOME/model-audit/rounds/1
 cache=$HOME/.hpc/model-audit-space.tsv
 if [ -s "$cache" ]; then

@@ -1,25 +1,28 @@
 #!/bin/bash
 # env.sh -- Name the round's work directories and reporting functions.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  keep round results together and record the pinned job copy.
 # Modified: SDE 2026-10-13  find the center's Python module by name pattern; there is no plain python3 module.
 # Modified: SDE 2026-10-13  send bounded card and log drops on exit.
 set -euo pipefail
 export HPC_PROJECT=model-audit ROUND=1 HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 export PATH=$HOME/bin:$PATH
 : "${WORKDIR:?WORKDIR is required}"
-export AUDIT_WORK=$WORKDIR/model-audit
-export AUDIT_ROUND=$HOME/model-audit/rounds/1
-export HF_HOME=$AUDIT_WORK/cache
+export AUDIT_WORK=$WORKDIR/model-audit/rounds/1
+export AUDIT_ROUND=$(pwd -P)
+export HF_HOME=$WORKDIR/model-audit/cache
 export PIP_CACHE_DIR=$AUDIT_WORK/cache/pip PYTHONDONTWRITEBYTECODE=1
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 export AUDIT_BASE=${AUDIT_BASE:-mistralai/Mistral-Small-3.2-24B-Instruct-2506}
 export AUDIT_NAME=${AUDIT_NAME:-mistral-small-3.2-24b}
-export AUDIT_ORIGINAL=$AUDIT_WORK/originals/$AUDIT_NAME
+export AUDIT_ORIGINAL=$WORKDIR/model-audit/originals/$AUDIT_NAME
 export AUDIT_DERIVED=$AUDIT_WORK/derived/$AUDIT_NAME/single-projection
 export AUDIT_MEASUREMENT=$AUDIT_WORK/measurements/$AUDIT_NAME/single-projection.json
 mkdir -p "$AUDIT_WORK/logs" "$AUDIT_WORK/state" "$HOME/.hpc/jobs"
 # The first step can report before the tools have been installed.
-if [ -f "$HOME/bin/hpc-report.sh" ]; then
+if [ -n "${AUDIT_PINNED_ROUND:-}" ]; then
+    . ./kit/hpc-report.sh
+elif [ -f "$HOME/bin/hpc-report.sh" ]; then
     . "$HOME/bin/hpc-report.sh"
 else
     . ./kit/hpc-report.sh
@@ -42,6 +45,9 @@ finish_piece() {
         if [ "$rc" = 0 ]; then echo 'event: finished'; else echo 'event: failed'; fi
         echo "exit: $rc"
         echo "when: $(date -u +%FT%TZ)"
+        echo "build: ${AUDIT_BUILD_STAMP:-unknown}"
+        echo "snapshot: ${AUDIT_SNAPSHOT_SHA256:-none}"
+        echo "pinned: ${AUDIT_PINNED_ROUND:-none}"
         cat "$HOME/.hpc/jobs/$id.json"
         tail -n 200 "$PIECE_LOG" | head -c 800000
     } > "$drop"
@@ -68,6 +74,12 @@ start_piece() {
     trap finish_piece EXIT
     trap 'exit 143' TERM HUP
     trap 'exit 130' INT
+    if [ -n "${SLURM_JOB_ID:-}" ]; then
+        export AUDIT_BUILD_STAMP=$(cat BUILD-STAMP.txt)
+        export AUDIT_SNAPSHOT_SHA256=$(cut -d' ' -f1 ../snapshot.sha256)
+        python3 ./snapshot.py card "$HOME/.hpc/jobs/$HPC_JOB_ID.json"
+        python3 ./snapshot.py verify
+    fi
 }
 
 compute_python() {

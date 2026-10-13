@@ -1,26 +1,36 @@
 #!/bin/bash
-# 40-submit.sh -- Submit the download first and projection after its success.
-# Created by LT Sean Egan, PhD 2026-10-13
-# Modified: SDE 2026-10-13  save each id before another submission can fail.
+# 40-submit.sh -- Submit one pinned download and projection chain per build.
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  allow rebuilt retries and retain the earlier job ids.
 . ./env.sh
 start_piece submit 'Submit the download and projection chain'
 [ -s "$AUDIT_WORK/state/pad-confirmed" ] || { echo 'no drop has reached the desk from this system'; exit 1; }
-# A submitted round is resumed by its saved ids, never duplicated blindly.
+stamp=$(cat BUILD-STAMP.txt)
+[[ "$stamp" =~ ^[a-f0-9]{64}$ ]] || { echo 'round has no valid build stamp'; exit 1; }
+export AUDIT_BUILD_STAMP=$stamp
 state=$AUDIT_WORK/state/round-1-submissions
-if [ -f "$state" ]; then
-    echo 'This round already submitted a job; a retry needs a new request.'
-    cat "$state"
+legacy=$WORKDIR/model-audit/state/round-1-submissions
+# Keep the first attempt, including records made before build stamps existed.
+if [ ! -e "$state" ] && [ -f "$legacy" ]; then cp "$legacy" "$state"; fi
+if [ -f "$state" ] && grep -qF "build $stamp " "$state"; then
+    echo "This build already submitted a job: $stamp"
     exit 1
 fi
-printf 'attempted %s\n' "$(date -u +%FT%TZ)" > "$state"
-first=$(sbatch --parsable jobs/download.sh)
-first=${first%%;*}
-[[ "$first" =~ ^[0-9]+$ ]] || { echo 'download submission returned no job id'; exit 1; }
-printf 'download %s\n' "$first" >> "$state"
+printf 'build %s attempted %s\n' "$stamp" "$(date -u +%FT%TZ)" >> "$state"
+
+submit_job() {
+    local piece=$1 pinned id
+    shift
+    pinned=$(python3 ./snapshot.py create) || return $?
+    id=$(sbatch --parsable --output="$AUDIT_WORK/logs/%x-%j.out" --chdir="$pinned" --export="ALL,AUDIT_PINNED_ROUND=$pinned" "$@" "$pinned/jobs/$piece.sh") || return $?
+    id=${id%%;*}
+    [[ "$id" =~ ^[0-9]+$ ]] || { echo "$piece submission returned no job id" >&2; return 1; }
+    printf '%s %s build %s snapshot %s\n' "$piece" "$id" "$stamp" "$pinned" >> "$state"
+    printf '%s\n' "$id"
+}
+
+first=$(submit_job download)
 echo "download job: $first"
-next=$(sbatch --parsable --dependency=afterok:"$first" --kill-on-invalid-dep=yes jobs/project.sh)
-next=${next%%;*}
-[[ "$next" =~ ^[0-9]+$ ]] || { echo 'projection submission returned no job id'; exit 1; }
-printf 'projection %s\n' "$next" >> "$state"
+next=$(submit_job project --dependency=afterok:"$first" --kill-on-invalid-dep=yes)
 echo "projection job: $next"
 echo 'VERDICT submit OK'

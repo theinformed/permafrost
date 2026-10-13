@@ -10,13 +10,17 @@
 #SBATCH --mem=128G
 #SBATCH --output=logs/%x-%j.out
 # project.sh -- Measure the direction, project the checkpoint and compare it.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  fail the job when a measurement or freshness check fails.
 # Modified: SDE 2026-10-13  save completed stages so another piece can resume.
-cd "$HOME/model-audit/rounds/1"
+set -euo pipefail
+export AUDIT_JOB_STARTED=$(date +%s.%N)
+cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
 . ./env.sh
 start_piece projection 'Project one direction and measure the checkpoint change'
 [ -f "$AUDIT_WORK/state/download.done" ]
 if [ "${AUDIT_STUB:-0}" = 1 ]; then
+    python3 ./measure.py
     echo 'stub projection passed'
     touch "$AUDIT_WORK/state/timing.done" "$AUDIT_WORK/state/project.done" "$AUDIT_WORK/state/compare.done"
     exit 0
@@ -30,4 +34,4 @@ if [ ! -f "$AUDIT_WORK/venv/.ready" ]; then
 fi
 export PYTHONPATH=$AUDIT_ROUND
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
-"$AUDIT_WORK/venv/bin/python" ./project.py
+"$AUDIT_WORK/venv/bin/python" ./measure.py

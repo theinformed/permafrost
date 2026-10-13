@@ -9,12 +9,16 @@
 #SBATCH --mem=8G
 #SBATCH --output=logs/%x-%j.out
 # download.sh -- Stage the pinned original and offline compute wheels.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  run the pinned copy with a recorded start time.
 # Modified: SDE 2026-10-13  finish only after published checksums pass.
-cd "$HOME/model-audit/rounds/1"
+set -euo pipefail
+export AUDIT_JOB_STARTED=$(date +%s.%N)
+cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
 . ./env.sh
 start_piece download 'Download and verify the original checkpoint'
 if [ "${AUDIT_STUB:-0}" = 1 ]; then
+    python3 ./measure.py --seed-original
     echo 'stub download passed'
     touch "$AUDIT_WORK/state/download.done"
     exit 0

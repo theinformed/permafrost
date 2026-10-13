@@ -1,5 +1,6 @@
 # bundle.py -- Assemble the small round files and keep the closing record.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  carry the verified payload hash into the extracted round.
 # Modified: SDE 2026-10-13  hash the payload and quote the desk arguments.
 import argparse
 import datetime
@@ -50,7 +51,7 @@ def build(args):
     output.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix='permafrost-') as temporary:
         stage = Path(temporary)
-        shutil.copytree(str(source), str(stage / 'round'))
+        shutil.copytree(str(source), str(stage / 'round'), ignore=shutil.ignore_patterns('__pycache__'))
         stage = stage / 'round'
         for path in stage.rglob('*'):
             if path.is_symlink() or (path.is_file() and path.suffix not in ('.sh', '.py', '.json', '.txt')):
@@ -83,6 +84,9 @@ def build(args):
         (stage / 'MANIFEST.json').write_text(json.dumps({'round': 1, 'system': args.system, 'needs': fields,
             'kit_version': version, 'steps': STEPS, 'optional_steps': ['90-cleanup.sh'],
             'storage': {'home': 'scripts and cards only', 'work_budget_bytes': 2 * 1024 ** 4,
+                        'submissions': {'copies': 64, 'files_per_copy': 500, 'source_bytes_per_copy': 8 * 1024 ** 2,
+                                        'tar_budget_bytes': 512 * 1024 ** 2, 'total_budget_bytes': 1024 ** 3,
+                                        'retention': 'through round archive read-back; preserve job references'},
                         'cleanup': 'derived weights only after archive read-back and approved paths'},
             'files': [{'path': str(p.relative_to(stage)), 'bytes': p.stat().st_size,
                        'sha256': hashlib.sha256(p.read_bytes()).hexdigest()} for p in files]}, indent=2) + '\n')
@@ -91,7 +95,11 @@ def build(args):
             for path in sorted(stage.iterdir()):
                 archive.add(str(path), arcname=path.name)
         tail = payload.getvalue()
-        head = (ROOT / 'hpc/opener.sh').read_text().replace('__ROUND__', '1').replace('__SHA__', hashlib.sha256(tail).hexdigest())
+        stamp = hashlib.sha256(tail).hexdigest()
+        head = (ROOT / 'hpc/opener.sh').read_text().replace('__ROUND__', '1').replace('__SHA__', stamp)
+        head = head.replace('Created by LT Sean Egan, PhD', 'Created by Sean Egan')
+        head = head.replace('./round.sh "$@"',
+                            "printf '%s\\n' '" + stamp + "' > BUILD-STAMP.txt\n./round.sh \"$@\"")
         bundle = output / 'model-audit-round.sh'
         bundle.write_bytes(head.encode() + tail)
         bundle.chmod(0o755)
@@ -117,7 +125,7 @@ def build(args):
     run_line = command(run).replace("'$copy'", '"$copy"')
     cards = output / 'round-cards.sh'
     cards.write_text('#!/bin/bash\n# round-cards.sh -- Queue the copy, wait, then queue its run.\n'
-        '# Created by LT Sean Egan, PhD 2026-10-13\n'
+        '# Created by Sean Egan 2026-10-13\n'
         '# Modified: SDE 2026-10-13  stop if the copy fails.\nset -euo pipefail\n'
         'copy=$(' + command(copy) + ')\nhpc-send wait "$copy"\nrun=$(' + run_line + ')\nhpc-send wait "$run"\n')
     cards.chmod(0o755)

@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-# sbatch -- Rehearse submissions without contacting a scheduler.
-# Created by LT Sean Egan, PhD 2026-10-13
-# Modified: SDE 2026-10-13  record dependencies and one forced submission failure.
+# sbatch -- Run or queue tiny local jobs without contacting a scheduler.
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  delay starts and record the pinned hash and job exit.
+import hashlib
 import json
 import os
 from pathlib import Path
@@ -9,29 +10,67 @@ import subprocess
 import sys
 
 root = Path(os.environ['AUDIT_FAKE_ROOT'])
+ledger = root / 'submissions.jsonl'
 arguments = sys.argv[1:]
+
+
+def execute(record, earlier):
+    """A failed parent cancels its afterok child; no pretend success here."""
+    args = record['arguments']
+    dependencies = [arg.split(':', 1)[1] for arg in args if arg.startswith('--dependency=afterok:')]
+    if dependencies and not all(any(row['job'] == dep and row['status'] == 'finished' for row in earlier) for dep in dependencies):
+        if '--kill-on-invalid-dep=yes' not in args:
+            raise ValueError('invalid dependency without a kill instruction')
+        record['status'] = 'cancelled-invalid-dependency'
+        return
+    environment = dict(os.environ, **record.get('environment', {}))
+    environment['SLURM_JOB_ID'] = record['job']
+    cwd = record.get('cwd', os.getcwd())
+    metadata_file = Path(cwd).parent / 'snapshot.json'
+    if metadata_file.exists():
+        snapshot = json.loads(metadata_file.read_text())
+        record['snapshot'] = snapshot
+        record['started_snapshot_sha256'] = hashlib.sha256(Path(snapshot['archive']).read_bytes()).hexdigest()
+    log = root / ('job-' + record['job'] + '.log')
+    with log.open('w') as stream:
+        result = subprocess.call(['bash', args[-1]], cwd=cwd, env=environment, stdout=stream, stderr=subprocess.STDOUT)
+    record['log'] = str(log)
+    record['exit'] = result
+    record['status'] = 'finished' if result == 0 else 'failed'
+    print(log.read_text(), end='', file=sys.stderr)
+    print('scheduler job {}: {}; exit {}'.format(record['job'], record['status'], result), file=sys.stderr)
+
+
 if '--test-only' in arguments:
     subprocess.check_call(['bash', '-n', arguments[-1]])
     print('test-only: ' + arguments[-1], file=sys.stderr)
     raise SystemExit(0)
-ledger = root / 'submissions.jsonl'
 rows = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
+if arguments == ['--run-pending']:
+    for index, record in enumerate(rows):
+        if record['status'] == 'queued':
+            execute(record, rows[:index])
+    ledger.write_text(''.join(json.dumps(row) + '\n' for row in rows))
+    raise SystemExit(int(any(row['status'] in ('failed', 'cancelled-invalid-dependency') for row in rows)))
 number = len(rows) + 1
 job = str(1000 + number)
-record = {'job': job, 'arguments': arguments, 'status': 'submitted'}
+record = {'job': job, 'arguments': arguments, 'status': 'queued', 'cwd': os.getcwd()}
+# Only fixture settings go into the queue. Credentials have no part in this rehearsal.
+keys = ('HOME', 'WORKDIR', 'PATH', 'AUDIT_FAKE_ROOT', 'AUDIT_REHEARSAL', 'AUDIT_STUB',
+        'AUDIT_BASE', 'AUDIT_NAME', 'AUDIT_COMPUTE_BIN', 'AUDIT_FAIL_MEASUREMENT', 'HPC_SYSTEM')
+record['environment'] = {key: os.environ[key] for key in keys if key in os.environ}
+for argument in arguments:
+    if argument.startswith('--chdir='):
+        record['cwd'] = argument.split('=', 1)[1]
+    if argument.startswith('--export='):
+        for field in argument.split('=', 1)[1].split(','):
+            if field != 'ALL':
+                key, value = field.split('=', 1)
+                record['environment'][key] = value
 if os.environ.get('AUDIT_FAIL_SECOND') == '1' and number == 2:
     record['status'] = 'rejected'
-else:
-    dependencies = [arg.split(':', 1)[1] for arg in arguments if arg.startswith('--dependency=afterok:')]
-    if dependencies and not all(any(row['job'] == dep and row['status'] == 'finished' for row in rows) for dep in dependencies):
-        if '--kill-on-invalid-dep=yes' not in arguments:
-            raise SystemExit('invalid dependency without a kill instruction')
-        record['status'] = 'cancelled-invalid-dependency'
-    else:
-        environment = dict(os.environ, SLURM_JOB_ID=job)
-        result = subprocess.call(['bash', arguments[-1]], env=environment, stdout=sys.stderr, stderr=sys.stderr)
-        record['exit'] = result
-        record['status'] = 'finished' if result == 0 else 'failed'
+elif os.environ.get('AUDIT_FAKE_DEFER') != '1':
+    execute(record, rows)
 with ledger.open('a') as stream:
     stream.write(json.dumps(record) + '\n')
 if record['status'] == 'rejected':
