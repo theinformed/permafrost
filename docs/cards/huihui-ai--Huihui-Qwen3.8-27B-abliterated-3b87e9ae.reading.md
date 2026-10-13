@@ -19,3 +19,9 @@ Verdict: consistent with the stated change (single-direction projection, layer-s
 template and token side is in the companion card. Pass lines for this hybrid architecture are not yet in the kit, so
 the formal line stays "undecided until the recipe entry exists"; the kit change is filed. The original is pinned at today's
 revision; the rerun under the upload-date pinning rule follows when that rule is in the kit.
+
+
+## Update (2026-10-13, rescored with the architecture-aware classifier)
+
+With the hybrid attention names now carried in the kit, this report matches the single-projection (layer-selected)
+recipe with zero violations. The formal verdict for this copy is consistent with the stated abliteration.

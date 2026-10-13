@@ -1,8 +1,38 @@
 {
+  "tensor_kinds": {
+    "prefixes": ["model.language_model.", "model.", "transformer."],
+    "patterns": [
+      {"pattern": "layers\\.\\d+\\.self_attn\\.o_proj\\.weight", "kind": "attention_output", "residual_writer": true},
+      {"pattern": "layers\\.\\d+\\.linear_attn\\.out_proj\\.weight", "kind": "linear_attention_output", "residual_writer": true},
+      {"pattern": "layers\\.\\d+\\.mlp\\.down_proj\\.weight", "kind": "feed_forward_down", "residual_writer": true},
+      {"pattern": "layers\\.\\d+\\.mlp\\.experts(?:\\.\\d+)?\\.down_proj\\.weight", "kind": "expert_down", "residual_writer": true},
+      {"pattern": "layers\\.\\d+\\.mlp\\.shared_experts?(?:\\.\\d+)?\\.down_proj\\.weight", "kind": "shared_expert_down", "residual_writer": true},
+      {"pattern": "layers\\.\\d+\\.self_attn\\.q_proj\\.weight", "kind": "attention_query"},
+      {"pattern": "layers\\.\\d+\\.self_attn\\.k_proj\\.weight", "kind": "attention_key"},
+      {"pattern": "layers\\.\\d+\\.self_attn\\.v_proj\\.weight", "kind": "attention_value"},
+      {"pattern": "layers\\.\\d+\\.mlp\\.(?:experts(?:\\.\\d+)?\\.|shared_experts?(?:\\.\\d+)?\\.)?gate_proj\\.weight", "kind": "feed_forward_gate"},
+      {"pattern": "layers\\.\\d+\\.mlp\\.(?:experts(?:\\.\\d+)?\\.|shared_experts?(?:\\.\\d+)?\\.)?up_proj\\.weight", "kind": "feed_forward_up"},
+      {"pattern": "embed_tokens\\.weight", "kind": "embedding"},
+      {"pattern": "layers\\.\\d+\\.input_layernorm\\.weight", "kind": "input_normalization"},
+      {"pattern": "layers\\.\\d+\\.post_attention_layernorm\\.weight", "kind": "post_attention_normalization"},
+      {"pattern": "norm\\.weight", "kind": "final_normalization"},
+      {"pattern": "lm_head\\.weight", "kind": "output_head"}
+    ]
+  },
   "single-projection": {
     "status": "analytic",
     "calibration": "Analytic rank-one envelope; empirical recipe library pending.",
-    "changed_kinds": ["attention_output", "feed_forward_down"],
+    "changed_kinds": ["attention_output", "linear_attention_output", "feed_forward_down", "expert_down", "shared_expert_down"],
+    "allow_unchanged_projections": false,
+    "unchanged_relative_max": 0.001,
+    "first_energy_min": 0.99,
+    "direction_cosine_min": 0.95
+  },
+  "single-projection-selected": {
+    "status": "analytic",
+    "calibration": "Analytic rank-one envelope with a selected subset of residual writers; empirical recipe library pending.",
+    "changed_kinds": ["attention_output", "linear_attention_output", "feed_forward_down", "expert_down", "shared_expert_down"],
+    "allow_unchanged_projections": true,
     "unchanged_relative_max": 0.001,
     "first_energy_min": 0.99,
     "direction_cosine_min": 0.95

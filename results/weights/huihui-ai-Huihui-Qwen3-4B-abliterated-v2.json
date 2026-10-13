@@ -13192,9 +13192,17 @@
       {
         "recipe": "single-projection",
         "matched": true,
-        "violations": []
+        "violations": [],
+        "skipped_projections": []
+      },
+      {
+        "recipe": "single-projection-selected",
+        "matched": true,
+        "violations": [],
+        "skipped_projections": []
       }
     ],
+    "skipped_projections": [],
     "unmeasured": [
       "directional-per-layer",
       "arbitrary-rank",
@@ -13205,5 +13213,10 @@
       "quantization-only"
     ]
   },
-  "scope": "Weight differences alone cannot certify the absence of hidden behavior."
+  "scope": "Weight differences alone cannot certify the absence of hidden behavior.",
+  "rescoring": {
+    "previous_assessment": "recipe_match",
+    "previous_nearest_recipe": "single-projection",
+    "direction_measurements": "Retained from the saved comparison; group references and cross-kind coverage have not been recomputed."
+  }
 }

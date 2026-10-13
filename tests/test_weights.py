@@ -1,6 +1,7 @@
 # test_weights.py -- Check tensor measures against small matrices with known answers.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  cover rank, row norms, shard names, and streaming.
+# Modified: SDE 2026-10-13  test hybrid roles, selected layers, and saved reports.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -15,7 +16,7 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-from audit.weights import TensorStore, compare_weights, direction_agreement, measure_tensor, resolve_checkpoint, tensor_kind
+from audit.weights import TensorStore, compare_weights, direction_agreement, measure_tensor, resolve_checkpoint, rescore_weights, tensor_kind
 
 
 class TensorMeasures(unittest.TestCase):
@@ -96,6 +97,17 @@ class TensorMeasures(unittest.TestCase):
         self.assertEqual(tensor_kind("lm_head.weight"), "output_head")
         self.assertEqual(tensor_kind("unrecognized.weight"), "other")
 
+    def test_role_patterns_with_each_wrapper(self):
+        roles = {"self_attn.o_proj": "attention_output", "linear_attn.out_proj": "linear_attention_output",
+                 "mlp.down_proj": "feed_forward_down", "mlp.experts.3.down_proj": "expert_down",
+                 "mlp.shared_expert.down_proj": "shared_expert_down", "mlp.shared_experts.0.down_proj": "shared_expert_down"}
+        for prefix in ("", "model.", "model.language_model.", "transformer."):
+            for projection, kind in roles.items():
+                with self.subTest(prefix=prefix, projection=projection):
+                    self.assertEqual(tensor_kind(f"{prefix}layers.2.{projection}.weight"), kind)
+        self.assertEqual(tensor_kind("model.layers.2.linear_attn.out_proj.bias"), "other")
+        self.assertEqual(tensor_kind("model.layers.2.mlp.experts.3.up_proj.weight"), "feed_forward_up")
+
 
 class CheckpointComparison(unittest.TestCase):
     """Use separate shards and scrambled names to catch positional matching."""
@@ -145,6 +157,101 @@ class CheckpointComparison(unittest.TestCase):
         with safe_open(self.root / report["directions_file"], framework="pt") as directions:
             self.assertEqual(len(list(directions.keys())), 8)
         json.loads((self.root / "report.json").read_text())
+
+    def hybrid_pair(self, selected=False, other_direction=False, extra_changes=False):
+        """Mix attention and expert blocks; only their output matrices get projected."""
+        generator = torch.Generator().manual_seed(9)
+        base, modified = {}, {}
+        for layer, attention in enumerate(("self_attn.o_proj", "linear_attn.out_proj")):
+            for projection in (attention, "mlp.down_proj", "mlp.experts.0.down_proj", "mlp.shared_expert.down_proj"):
+                name = f"model.language_model.layers.{layer}.{projection}.weight"
+                weight = torch.randn(12, 16, generator=generator)
+                direction = torch.eye(12)[int(other_direction and attention == projection and layer == 1)]
+                base[name] = weight
+                modified[name] = weight.clone() if selected and layer == 0 else weight - torch.outer(direction, direction @ weight)
+        for name in ("model.language_model.embed_tokens.weight", "model.language_model.layers.0.self_attn.q_proj.weight", "unknown.weight"):
+            weight = torch.eye(12)
+            base[name] = weight
+            modified[name] = weight + torch.outer(torch.eye(12)[0], torch.eye(12)[0]) if extra_changes else weight
+        self.put(self.base, base)
+        self.put(self.modified, modified)
+
+    def test_hybrid_all_layers_match(self):
+        self.hybrid_pair()
+        report = self.compare()
+        self.assertEqual(report["recipe_matching"]["nearest_recipe"], "single-projection")
+        self.assertTrue(report["recipe_matching"]["matched"])
+        self.assertEqual(len(report["summary"]["changed_set"]), 8)
+        self.assertEqual(report["summary"]["changed_without_svd"], [])
+        self.assertGreater(report["summary"]["direction_agreement"]["cross_kind_min_cosine"], 0.99999)
+
+    def test_selected_layer_matches_only_selected_envelope(self):
+        self.hybrid_pair(selected=True)
+        report = self.compare()
+        matching = report["recipe_matching"]
+        self.assertEqual(matching["nearest_recipe"], "single-projection-selected")
+        self.assertTrue(matching["matched"])
+        strict = next(item for item in matching["candidates"] if item["recipe"] == "single-projection")
+        self.assertFalse(strict["matched"])
+        skipped = matching["skipped_projections"]
+        self.assertEqual(len(skipped), 4)
+        self.assertEqual({item["layer"] for item in skipped}, {0})
+        self.assertEqual({item["kind"] for item in skipped}, {"attention_output", "feed_forward_down", "expert_down", "shared_expert_down"})
+
+    def test_changed_matrices_of_every_role_have_svd(self):
+        self.hybrid_pair(extra_changes=True)
+        report = self.compare()
+        self.assertEqual(report["summary"]["changed_without_svd"], [])
+        for name in report["summary"]["changed_set"]:
+            self.assertIn("first_singular_energy_share", report["tensors"][name])
+        self.assertFalse(report["recipe_matching"]["matched"])
+        unexpected = {v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "unexpected_change"}
+        self.assertEqual(len(unexpected), 3)
+
+    def test_hybrid_cross_kind_direction_failure(self):
+        self.hybrid_pair(other_direction=True)
+        report = self.compare()
+        self.assertFalse(report["recipe_matching"]["matched"])
+        self.assertIn("cross_kind_direction", {v["rule"] for v in report["recipe_matching"]["violations"]})
+
+    def test_selected_projection_still_requires_rank_one(self):
+        self.hybrid_pair(selected=True)
+        name = "model.language_model.layers.1.linear_attn.out_proj.weight"
+        weights = {key: TensorStore(self.modified).get(key) for key in TensorStore(self.modified).names}
+        base = TensorStore(self.base).get(name)
+        delta = torch.zeros_like(base)
+        delta[0, 0] = delta[1, 1] = 1
+        weights[name] = base + delta
+        self.put(self.modified, weights)
+        report = self.compare()
+        self.assertFalse(report["recipe_matching"]["matched"])
+        self.assertIn("first_energy_share", {v["rule"] for v in report["recipe_matching"]["violations"]})
+
+    def test_selected_recipe_does_not_match_no_changes(self):
+        values = {"model.layers.0.self_attn.o_proj.weight": torch.eye(4)}
+        self.put(self.base, values)
+        self.put(self.modified, values)
+        report = self.compare()
+        self.assertEqual(report["summary"]["assessment"], "unchanged")
+        self.assertFalse(any(item["matched"] for item in report["recipe_matching"]["candidates"]))
+
+    def test_rescore_needs_only_tensor_records(self):
+        self.hybrid_pair(selected=True)
+        report = self.compare()
+        for row in report["tensors"].values():
+            if row["kind"] == "linear_attention_output":
+                row["kind"] = "other"
+        report["summary"]["assessment"] = "recipe_violations"
+        path = self.root / "saved.json"
+        path.write_text(json.dumps(report))
+        with patch("audit.weights.resolve_checkpoint", side_effect=AssertionError("checkpoint read")), patch("audit.weights.measure_tensor", side_effect=AssertionError("tensor measured")):
+            rescored = rescore_weights(path)
+        self.assertEqual(rescored["summary"]["assessment"], "recipe_match")
+        self.assertEqual(rescored["recipe_matching"]["nearest_recipe"], "single-projection-selected")
+        self.assertEqual(rescored["rescoring"]["previous_assessment"], "recipe_violations")
+        for name, row in report["tensors"].items():
+            for key in ("first_singular_energy_share", "singular_values", "energy_shares", "direction_cosine"):
+                self.assertEqual(row.get(key), rescored["tensors"][name].get(key))
 
     def test_distinct_projection_directions_violate_recipe(self):
         self.projection_pair(other_direction=True)

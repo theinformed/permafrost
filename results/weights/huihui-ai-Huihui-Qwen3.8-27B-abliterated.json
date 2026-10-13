@@ -361,7 +361,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.0.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -392,7 +392,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.0.mlp.down_proj.weight": {
       "shape_original": [
@@ -751,7 +751,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.1.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -782,7 +782,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.1.mlp.down_proj.weight": {
       "shape_original": [
@@ -1141,7 +1141,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.10.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -1172,7 +1172,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.10.mlp.down_proj.weight": {
       "shape_original": [
@@ -1840,7 +1840,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.12.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -1871,7 +1871,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.12.mlp.down_proj.weight": {
       "shape_original": [
@@ -2230,7 +2230,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.13.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -2261,7 +2261,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.13.mlp.down_proj.weight": {
       "shape_original": [
@@ -2620,7 +2620,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.14.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -2651,7 +2651,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.14.mlp.down_proj.weight": {
       "shape_original": [
@@ -3319,7 +3319,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.16.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -3350,7 +3350,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.16.mlp.down_proj.weight": {
       "shape_original": [
@@ -3709,7 +3709,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.17.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -3761,7 +3761,7 @@
         0.9948297976431543
       ],
       "first_singular_energy_share": 0.9945319103433239,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999986841418769,
       "directions": {
         "left": "model.language_model.layers.17.linear_attn.out_proj.weight.left",
@@ -4151,7 +4151,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.18.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -4203,7 +4203,7 @@
         0.9946502289167243
       ],
       "first_singular_energy_share": 0.9943464623389222,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999987332618596,
       "directions": {
         "left": "model.language_model.layers.18.linear_attn.out_proj.weight.left",
@@ -4954,7 +4954,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.2.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -4985,7 +4985,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.2.mlp.down_proj.weight": {
       "shape_original": [
@@ -5344,7 +5344,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.20.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -5396,7 +5396,7 @@
         0.9939101610138077
       ],
       "first_singular_energy_share": 0.9935467733459958,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999992792092034,
       "directions": {
         "left": "model.language_model.layers.20.linear_attn.out_proj.weight.left",
@@ -5786,7 +5786,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.21.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -5838,7 +5838,7 @@
         0.9935478474350098
       ],
       "first_singular_energy_share": 0.9931617179693821,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999990507251206,
       "directions": {
         "left": "model.language_model.layers.21.linear_attn.out_proj.weight.left",
@@ -6228,7 +6228,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.22.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -6280,7 +6280,7 @@
         0.9932162374910196
       ],
       "first_singular_energy_share": 0.9928092450003227,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999990191004335,
       "directions": {
         "left": "model.language_model.layers.22.linear_attn.out_proj.weight.left",
@@ -7031,7 +7031,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.24.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -7083,7 +7083,7 @@
         0.993410157547231
       ],
       "first_singular_energy_share": 0.9930139878553113,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999992200066319,
       "directions": {
         "left": "model.language_model.layers.24.linear_attn.out_proj.weight.left",
@@ -7473,7 +7473,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.25.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -7525,7 +7525,7 @@
         0.9934743385167623
       ],
       "first_singular_energy_share": 0.9930825534049731,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999993037716737,
       "directions": {
         "left": "model.language_model.layers.25.linear_attn.out_proj.weight.left",
@@ -7915,7 +7915,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.26.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -7967,7 +7967,7 @@
         0.9938667799413443
       ],
       "first_singular_energy_share": 0.993506785016324,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999992915904037,
       "directions": {
         "left": "model.language_model.layers.26.linear_attn.out_proj.weight.left",
@@ -8718,7 +8718,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.28.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -8770,7 +8770,7 @@
         0.9940638827341917
       ],
       "first_singular_energy_share": 0.9937083030339057,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999991382822632,
       "directions": {
         "left": "model.language_model.layers.28.linear_attn.out_proj.weight.left",
@@ -9160,7 +9160,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.29.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -9212,7 +9212,7 @@
         0.9936892536131334
       ],
       "first_singular_energy_share": 0.9933049809933069,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999988718125277,
       "directions": {
         "left": "model.language_model.layers.29.linear_attn.out_proj.weight.left",
@@ -9911,7 +9911,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.30.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -9963,7 +9963,7 @@
         0.9935421393212859
       ],
       "first_singular_energy_share": 0.9931527813569428,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999989154468567,
       "directions": {
         "left": "model.language_model.layers.30.linear_attn.out_proj.weight.left",
@@ -10714,7 +10714,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.32.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -10766,7 +10766,7 @@
         0.9947352563821553
       ],
       "first_singular_energy_share": 0.9944239663512984,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999985846130369,
       "directions": {
         "left": "model.language_model.layers.32.linear_attn.out_proj.weight.left",
@@ -11156,7 +11156,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.33.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -11208,7 +11208,7 @@
         0.9951749791213108
       ],
       "first_singular_energy_share": 0.9948920166911716,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.999998185977589,
       "directions": {
         "left": "model.language_model.layers.33.linear_attn.out_proj.weight.left",
@@ -11598,7 +11598,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.34.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -11650,7 +11650,7 @@
         0.9949283022341137
       ],
       "first_singular_energy_share": 0.9946347657760904,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999984900040604,
       "directions": {
         "left": "model.language_model.layers.34.linear_attn.out_proj.weight.left",
@@ -12401,7 +12401,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.36.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -12453,7 +12453,7 @@
         0.9936641139015615
       ],
       "first_singular_energy_share": 0.9932870852442143,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999993208262652,
       "directions": {
         "left": "model.language_model.layers.36.linear_attn.out_proj.weight.left",
@@ -12843,7 +12843,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.37.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -12895,7 +12895,7 @@
         0.9931059811230111
       ],
       "first_singular_energy_share": 0.9926949347880758,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999989054757464,
       "directions": {
         "left": "model.language_model.layers.37.linear_attn.out_proj.weight.left",
@@ -13285,7 +13285,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.38.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -13337,7 +13337,7 @@
         0.9931170616201143
       ],
       "first_singular_energy_share": 0.9926972920066354,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999989120789969,
       "directions": {
         "left": "model.language_model.layers.38.linear_attn.out_proj.weight.left",
@@ -14088,7 +14088,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.4.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -14119,7 +14119,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.4.mlp.down_proj.weight": {
       "shape_original": [
@@ -14478,7 +14478,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.40.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -14530,7 +14530,7 @@
         0.9927764969005423
       ],
       "first_singular_energy_share": 0.9923344674157007,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999985990729552,
       "directions": {
         "left": "model.language_model.layers.40.linear_attn.out_proj.weight.left",
@@ -14920,7 +14920,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.41.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -14972,7 +14972,7 @@
         0.9929682361140281
       ],
       "first_singular_energy_share": 0.9925415769540028,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999989115945704,
       "directions": {
         "left": "model.language_model.layers.41.linear_attn.out_proj.weight.left",
@@ -15362,7 +15362,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.42.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -15414,7 +15414,7 @@
         0.9932878021651645
       ],
       "first_singular_energy_share": 0.9928887422417475,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999991867762932,
       "directions": {
         "left": "model.language_model.layers.42.linear_attn.out_proj.weight.left",
@@ -16165,7 +16165,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.44.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -16217,7 +16217,7 @@
         0.9934258581475638
       ],
       "first_singular_energy_share": 0.9930315576368299,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999990804653802,
       "directions": {
         "left": "model.language_model.layers.44.linear_attn.out_proj.weight.left",
@@ -16607,7 +16607,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.45.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -16659,7 +16659,7 @@
         0.9935296277060522
       ],
       "first_singular_energy_share": 0.9931360710896499,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999990615345509,
       "directions": {
         "left": "model.language_model.layers.45.linear_attn.out_proj.weight.left",
@@ -17049,7 +17049,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.46.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -17101,7 +17101,7 @@
         0.9936848067421659
       ],
       "first_singular_energy_share": 0.9933083533544844,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999992252788041,
       "directions": {
         "left": "model.language_model.layers.46.linear_attn.out_proj.weight.left",
@@ -17852,7 +17852,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.48.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -17904,7 +17904,7 @@
         0.9940805673777849
       ],
       "first_singular_energy_share": 0.9937285138907856,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999992839860736,
       "directions": {
         "left": "model.language_model.layers.48.linear_attn.out_proj.weight.left",
@@ -18294,7 +18294,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.49.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -18346,7 +18346,7 @@
         0.9938024727207264
       ],
       "first_singular_energy_share": 0.9934316954674742,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.999999350135522,
       "directions": {
         "left": "model.language_model.layers.49.linear_attn.out_proj.weight.left",
@@ -18736,7 +18736,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.5.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -18767,7 +18767,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.5.mlp.down_proj.weight": {
       "shape_original": [
@@ -19126,7 +19126,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.50.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -19178,7 +19178,7 @@
         0.9939664442409283
       ],
       "first_singular_energy_share": 0.9936112920147205,
-      "kind": "other",
+      "kind": "linear_attention_output",
       "direction_cosine": 0.9999991238059589,
       "directions": {
         "left": "model.language_model.layers.50.linear_attn.out_proj.weight.left",
@@ -19929,7 +19929,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.52.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -19960,7 +19960,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.52.mlp.down_proj.weight": {
       "shape_original": [
@@ -20319,7 +20319,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.53.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -20350,7 +20350,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.53.mlp.down_proj.weight": {
       "shape_original": [
@@ -20709,7 +20709,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.54.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -20740,7 +20740,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.54.mlp.down_proj.weight": {
       "shape_original": [
@@ -21408,7 +21408,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.56.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -21439,7 +21439,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.56.mlp.down_proj.weight": {
       "shape_original": [
@@ -21798,7 +21798,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.57.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -21829,7 +21829,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.57.mlp.down_proj.weight": {
       "shape_original": [
@@ -22188,7 +22188,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.58.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -22219,7 +22219,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.58.mlp.down_proj.weight": {
       "shape_original": [
@@ -22887,7 +22887,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.6.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -22918,7 +22918,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.6.mlp.down_proj.weight": {
       "shape_original": [
@@ -23277,7 +23277,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.60.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -23308,7 +23308,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.60.mlp.down_proj.weight": {
       "shape_original": [
@@ -23667,7 +23667,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.61.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -23698,7 +23698,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.61.mlp.down_proj.weight": {
       "shape_original": [
@@ -24057,7 +24057,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.62.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -24088,7 +24088,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.62.mlp.down_proj.weight": {
       "shape_original": [
@@ -25065,7 +25065,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.8.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -25096,7 +25096,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.8.mlp.down_proj.weight": {
       "shape_original": [
@@ -25455,7 +25455,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.language_model.layers.9.linear_attn.out_proj.weight": {
       "shape_original": [
@@ -25486,7 +25486,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "other"
+      "kind": "linear_attention_output"
     },
     "model.language_model.layers.9.mlp.down_proj.weight": {
       "shape_original": [
@@ -34095,7 +34095,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "model.visual.patch_embed.proj.bias": {
       "shape_original": [
@@ -34234,7 +34234,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "input_normalization"
+      "kind": "other"
     },
     "mtp.layers.0.mlp.down_proj.weight": {
       "shape_original": [
@@ -34265,7 +34265,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "feed_forward_down"
+      "kind": "other"
     },
     "mtp.layers.0.mlp.gate_proj.weight": {
       "shape_original": [
@@ -34296,7 +34296,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "feed_forward_gate"
+      "kind": "other"
     },
     "mtp.layers.0.mlp.up_proj.weight": {
       "shape_original": [
@@ -34327,7 +34327,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "feed_forward_up"
+      "kind": "other"
     },
     "mtp.layers.0.post_attention_layernorm.weight": {
       "shape_original": [
@@ -34350,7 +34350,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "post_attention_normalization"
+      "kind": "other"
     },
     "mtp.layers.0.self_attn.k_norm.weight": {
       "shape_original": [
@@ -34404,7 +34404,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "attention_key"
+      "kind": "other"
     },
     "mtp.layers.0.self_attn.o_proj.weight": {
       "shape_original": [
@@ -34435,7 +34435,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "attention_output"
+      "kind": "other"
     },
     "mtp.layers.0.self_attn.q_norm.weight": {
       "shape_original": [
@@ -34489,7 +34489,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "attention_query"
+      "kind": "other"
     },
     "mtp.layers.0.self_attn.v_proj.weight": {
       "shape_original": [
@@ -34520,7 +34520,7 @@
         "atol": 1e-07,
         "max_relative_error": 0.0
       },
-      "kind": "attention_value"
+      "kind": "other"
     },
     "mtp.norm.weight": {
       "shape_original": [
@@ -34543,7 +34543,7 @@
       "positive_fraction": 0.0,
       "negative_fraction": 0.0,
       "difference_sign": "zero",
-      "kind": "final_normalization"
+      "kind": "other"
     },
     "mtp.pre_fc_norm_embedding.weight": {
       "shape_original": [
@@ -34594,7 +34594,7 @@
   },
   "directions_file": "huihui-ai-Huihui-Qwen3.8-27B-abliterated.directions.safetensors",
   "summary": {
-    "assessment": "recipe_violations",
+    "assessment": "recipe_match",
     "matched_tensors": 1199,
     "changed_set": [
       "model.language_model.layers.17.linear_attn.out_proj.weight",
@@ -34671,10 +34671,10 @@
     "changed_kinds": [
       "attention_output",
       "feed_forward_down",
-      "other"
+      "linear_attention_output"
     ],
     "max_relative_difference_outside_changed_set": 0.0,
-    "max_relative_difference_outside_recipe_set": 0.02187085791008494,
+    "max_relative_difference_outside_recipe_set": 0.0,
     "min_first_singular_energy_share": 0.9923344674157007,
     "changed_without_svd": [],
     "direction_agreement": {
@@ -34704,335 +34704,316 @@
     }
   },
   "recipe_matching": {
-    "nearest_recipe": "single-projection",
-    "matched": false,
-    "violations": [
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.0.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.1.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.10.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.11.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.11.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.12.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.13.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.14.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.15.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.15.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.16.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.17.linear_attn.out_proj.weight",
-        "value": 0.021243260236587878
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.18.linear_attn.out_proj.weight",
-        "value": 0.020832287637778873
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.2.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.20.linear_attn.out_proj.weight",
-        "value": 0.019506749499870545
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.21.linear_attn.out_proj.weight",
-        "value": 0.018865791638104538
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.22.linear_attn.out_proj.weight",
-        "value": 0.018493634165035674
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.24.linear_attn.out_proj.weight",
-        "value": 0.018676209106970085
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.25.linear_attn.out_proj.weight",
-        "value": 0.018764580470021396
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.26.linear_attn.out_proj.weight",
-        "value": 0.019437663974728597
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.28.linear_attn.out_proj.weight",
-        "value": 0.019698592609739426
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.29.linear_attn.out_proj.weight",
-        "value": 0.01903282123117011
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.3.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.3.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.30.linear_attn.out_proj.weight",
-        "value": 0.018799176751499228
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.32.linear_attn.out_proj.weight",
-        "value": 0.02094912288918637
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.33.linear_attn.out_proj.weight",
-        "value": 0.02187085791008494
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.34.linear_attn.out_proj.weight",
-        "value": 0.021313109089265266
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.36.linear_attn.out_proj.weight",
-        "value": 0.019079135083826432
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.37.linear_attn.out_proj.weight",
-        "value": 0.01812034060650083
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.38.linear_attn.out_proj.weight",
-        "value": 0.018256124480198255
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.4.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.40.linear_attn.out_proj.weight",
-        "value": 0.017753940636703425
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.41.linear_attn.out_proj.weight",
-        "value": 0.018046407391476636
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.42.linear_attn.out_proj.weight",
-        "value": 0.01856529687435114
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.44.linear_attn.out_proj.weight",
-        "value": 0.018724023653533952
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.45.linear_attn.out_proj.weight",
-        "value": 0.018802823533263183
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.46.linear_attn.out_proj.weight",
-        "value": 0.019019037974415415
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.48.linear_attn.out_proj.weight",
-        "value": 0.019682430090398523
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.49.linear_attn.out_proj.weight",
-        "value": 0.01922248888728147
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.5.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "unexpected_change",
-        "tensor": "model.language_model.layers.50.linear_attn.out_proj.weight",
-        "value": 0.019481051395829625
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.52.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.53.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.54.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.55.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.55.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.56.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.57.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.58.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.59.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.59.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.6.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.60.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.61.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.62.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.63.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.63.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.7.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.7.self_attn.o_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.8.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "model.language_model.layers.9.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "mtp.layers.0.mlp.down_proj.weight",
-        "value": 0.0
-      },
-      {
-        "rule": "expected_tensor_unchanged",
-        "tensor": "mtp.layers.0.self_attn.o_proj.weight",
-        "value": 0.0
-      }
-    ],
+    "nearest_recipe": "single-projection-selected",
+    "matched": true,
+    "violations": [],
     "candidates": [
+      {
+        "recipe": "single-projection-selected",
+        "matched": true,
+        "violations": [],
+        "skipped_projections": [
+          {
+            "tensor": "model.language_model.layers.0.linear_attn.out_proj.weight",
+            "layer": 0,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.0.mlp.down_proj.weight",
+            "layer": 0,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.1.linear_attn.out_proj.weight",
+            "layer": 1,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.1.mlp.down_proj.weight",
+            "layer": 1,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.10.linear_attn.out_proj.weight",
+            "layer": 10,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.10.mlp.down_proj.weight",
+            "layer": 10,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.11.mlp.down_proj.weight",
+            "layer": 11,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.11.self_attn.o_proj.weight",
+            "layer": 11,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.12.linear_attn.out_proj.weight",
+            "layer": 12,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.12.mlp.down_proj.weight",
+            "layer": 12,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.13.linear_attn.out_proj.weight",
+            "layer": 13,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.13.mlp.down_proj.weight",
+            "layer": 13,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.14.linear_attn.out_proj.weight",
+            "layer": 14,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.14.mlp.down_proj.weight",
+            "layer": 14,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.15.mlp.down_proj.weight",
+            "layer": 15,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.15.self_attn.o_proj.weight",
+            "layer": 15,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.16.linear_attn.out_proj.weight",
+            "layer": 16,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.16.mlp.down_proj.weight",
+            "layer": 16,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.2.linear_attn.out_proj.weight",
+            "layer": 2,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.2.mlp.down_proj.weight",
+            "layer": 2,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.3.mlp.down_proj.weight",
+            "layer": 3,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.3.self_attn.o_proj.weight",
+            "layer": 3,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.4.linear_attn.out_proj.weight",
+            "layer": 4,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.4.mlp.down_proj.weight",
+            "layer": 4,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.5.linear_attn.out_proj.weight",
+            "layer": 5,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.5.mlp.down_proj.weight",
+            "layer": 5,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.52.linear_attn.out_proj.weight",
+            "layer": 52,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.52.mlp.down_proj.weight",
+            "layer": 52,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.53.linear_attn.out_proj.weight",
+            "layer": 53,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.53.mlp.down_proj.weight",
+            "layer": 53,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.54.linear_attn.out_proj.weight",
+            "layer": 54,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.54.mlp.down_proj.weight",
+            "layer": 54,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.55.mlp.down_proj.weight",
+            "layer": 55,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.55.self_attn.o_proj.weight",
+            "layer": 55,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.56.linear_attn.out_proj.weight",
+            "layer": 56,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.56.mlp.down_proj.weight",
+            "layer": 56,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.57.linear_attn.out_proj.weight",
+            "layer": 57,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.57.mlp.down_proj.weight",
+            "layer": 57,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.58.linear_attn.out_proj.weight",
+            "layer": 58,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.58.mlp.down_proj.weight",
+            "layer": 58,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.59.mlp.down_proj.weight",
+            "layer": 59,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.59.self_attn.o_proj.weight",
+            "layer": 59,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.6.linear_attn.out_proj.weight",
+            "layer": 6,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.6.mlp.down_proj.weight",
+            "layer": 6,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.60.linear_attn.out_proj.weight",
+            "layer": 60,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.60.mlp.down_proj.weight",
+            "layer": 60,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.61.linear_attn.out_proj.weight",
+            "layer": 61,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.61.mlp.down_proj.weight",
+            "layer": 61,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.62.linear_attn.out_proj.weight",
+            "layer": 62,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.62.mlp.down_proj.weight",
+            "layer": 62,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.63.mlp.down_proj.weight",
+            "layer": 63,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.63.self_attn.o_proj.weight",
+            "layer": 63,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.7.mlp.down_proj.weight",
+            "layer": 7,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.7.self_attn.o_proj.weight",
+            "layer": 7,
+            "kind": "attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.8.linear_attn.out_proj.weight",
+            "layer": 8,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.8.mlp.down_proj.weight",
+            "layer": 8,
+            "kind": "feed_forward_down"
+          },
+          {
+            "tensor": "model.language_model.layers.9.linear_attn.out_proj.weight",
+            "layer": 9,
+            "kind": "linear_attention_output"
+          },
+          {
+            "tensor": "model.language_model.layers.9.mlp.down_proj.weight",
+            "layer": 9,
+            "kind": "feed_forward_down"
+          }
+        ]
+      },
       {
         "recipe": "single-projection",
         "matched": false,
         "violations": [
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.0.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
           {
             "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.0.mlp.down_proj.weight",
@@ -35040,7 +35021,17 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.1.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.1.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.10.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35060,12 +35051,27 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.12.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.12.mlp.down_proj.weight",
             "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.13.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.13.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.14.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35085,63 +35091,23 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.16.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.16.mlp.down_proj.weight",
             "value": 0.0
           },
           {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.17.linear_attn.out_proj.weight",
-            "value": 0.021243260236587878
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.18.linear_attn.out_proj.weight",
-            "value": 0.020832287637778873
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.2.linear_attn.out_proj.weight",
+            "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.2.mlp.down_proj.weight",
             "value": 0.0
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.20.linear_attn.out_proj.weight",
-            "value": 0.019506749499870545
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.21.linear_attn.out_proj.weight",
-            "value": 0.018865791638104538
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.22.linear_attn.out_proj.weight",
-            "value": 0.018493634165035674
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.24.linear_attn.out_proj.weight",
-            "value": 0.018676209106970085
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.25.linear_attn.out_proj.weight",
-            "value": 0.018764580470021396
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.26.linear_attn.out_proj.weight",
-            "value": 0.019437663974728597
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.28.linear_attn.out_proj.weight",
-            "value": 0.019698592609739426
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.29.linear_attn.out_proj.weight",
-            "value": 0.01903282123117011
           },
           {
             "rule": "expected_tensor_unchanged",
@@ -35154,39 +35120,9 @@
             "value": 0.0
           },
           {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.30.linear_attn.out_proj.weight",
-            "value": 0.018799176751499228
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.32.linear_attn.out_proj.weight",
-            "value": 0.02094912288918637
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.33.linear_attn.out_proj.weight",
-            "value": 0.02187085791008494
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.34.linear_attn.out_proj.weight",
-            "value": 0.021313109089265266
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.36.linear_attn.out_proj.weight",
-            "value": 0.019079135083826432
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.37.linear_attn.out_proj.weight",
-            "value": 0.01812034060650083
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.38.linear_attn.out_proj.weight",
-            "value": 0.018256124480198255
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.4.linear_attn.out_proj.weight",
+            "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
@@ -35194,44 +35130,9 @@
             "value": 0.0
           },
           {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.40.linear_attn.out_proj.weight",
-            "value": 0.017753940636703425
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.41.linear_attn.out_proj.weight",
-            "value": 0.018046407391476636
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.42.linear_attn.out_proj.weight",
-            "value": 0.01856529687435114
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.44.linear_attn.out_proj.weight",
-            "value": 0.018724023653533952
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.45.linear_attn.out_proj.weight",
-            "value": 0.018802823533263183
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.46.linear_attn.out_proj.weight",
-            "value": 0.019019037974415415
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.48.linear_attn.out_proj.weight",
-            "value": 0.019682430090398523
-          },
-          {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.49.linear_attn.out_proj.weight",
-            "value": 0.01922248888728147
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.5.linear_attn.out_proj.weight",
+            "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
@@ -35239,9 +35140,9 @@
             "value": 0.0
           },
           {
-            "rule": "unexpected_change",
-            "tensor": "model.language_model.layers.50.linear_attn.out_proj.weight",
-            "value": 0.019481051395829625
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.52.linear_attn.out_proj.weight",
+            "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
@@ -35250,7 +35151,17 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.53.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.53.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.54.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35270,12 +35181,27 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.56.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.56.mlp.down_proj.weight",
             "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.57.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.57.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.58.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35295,7 +35221,17 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.6.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.6.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.60.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35305,7 +35241,17 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.61.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.61.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.62.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
@@ -35335,25 +35281,318 @@
           },
           {
             "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.8.linear_attn.out_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.8.mlp.down_proj.weight",
+            "value": 0.0
+          },
+          {
+            "rule": "expected_tensor_unchanged",
+            "tensor": "model.language_model.layers.9.linear_attn.out_proj.weight",
             "value": 0.0
           },
           {
             "rule": "expected_tensor_unchanged",
             "tensor": "model.language_model.layers.9.mlp.down_proj.weight",
             "value": 0.0
-          },
-          {
-            "rule": "expected_tensor_unchanged",
-            "tensor": "mtp.layers.0.mlp.down_proj.weight",
-            "value": 0.0
-          },
-          {
-            "rule": "expected_tensor_unchanged",
-            "tensor": "mtp.layers.0.self_attn.o_proj.weight",
-            "value": 0.0
           }
-        ]
+        ],
+        "skipped_projections": []
+      }
+    ],
+    "skipped_projections": [
+      {
+        "tensor": "model.language_model.layers.0.linear_attn.out_proj.weight",
+        "layer": 0,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.0.mlp.down_proj.weight",
+        "layer": 0,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.1.linear_attn.out_proj.weight",
+        "layer": 1,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.1.mlp.down_proj.weight",
+        "layer": 1,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.10.linear_attn.out_proj.weight",
+        "layer": 10,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.10.mlp.down_proj.weight",
+        "layer": 10,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.11.mlp.down_proj.weight",
+        "layer": 11,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.11.self_attn.o_proj.weight",
+        "layer": 11,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.12.linear_attn.out_proj.weight",
+        "layer": 12,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.12.mlp.down_proj.weight",
+        "layer": 12,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.13.linear_attn.out_proj.weight",
+        "layer": 13,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.13.mlp.down_proj.weight",
+        "layer": 13,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.14.linear_attn.out_proj.weight",
+        "layer": 14,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.14.mlp.down_proj.weight",
+        "layer": 14,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.15.mlp.down_proj.weight",
+        "layer": 15,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.15.self_attn.o_proj.weight",
+        "layer": 15,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.16.linear_attn.out_proj.weight",
+        "layer": 16,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.16.mlp.down_proj.weight",
+        "layer": 16,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.2.linear_attn.out_proj.weight",
+        "layer": 2,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.2.mlp.down_proj.weight",
+        "layer": 2,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.3.mlp.down_proj.weight",
+        "layer": 3,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.3.self_attn.o_proj.weight",
+        "layer": 3,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.4.linear_attn.out_proj.weight",
+        "layer": 4,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.4.mlp.down_proj.weight",
+        "layer": 4,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.5.linear_attn.out_proj.weight",
+        "layer": 5,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.5.mlp.down_proj.weight",
+        "layer": 5,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.52.linear_attn.out_proj.weight",
+        "layer": 52,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.52.mlp.down_proj.weight",
+        "layer": 52,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.53.linear_attn.out_proj.weight",
+        "layer": 53,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.53.mlp.down_proj.weight",
+        "layer": 53,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.54.linear_attn.out_proj.weight",
+        "layer": 54,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.54.mlp.down_proj.weight",
+        "layer": 54,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.55.mlp.down_proj.weight",
+        "layer": 55,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.55.self_attn.o_proj.weight",
+        "layer": 55,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.56.linear_attn.out_proj.weight",
+        "layer": 56,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.56.mlp.down_proj.weight",
+        "layer": 56,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.57.linear_attn.out_proj.weight",
+        "layer": 57,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.57.mlp.down_proj.weight",
+        "layer": 57,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.58.linear_attn.out_proj.weight",
+        "layer": 58,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.58.mlp.down_proj.weight",
+        "layer": 58,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.59.mlp.down_proj.weight",
+        "layer": 59,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.59.self_attn.o_proj.weight",
+        "layer": 59,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.6.linear_attn.out_proj.weight",
+        "layer": 6,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.6.mlp.down_proj.weight",
+        "layer": 6,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.60.linear_attn.out_proj.weight",
+        "layer": 60,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.60.mlp.down_proj.weight",
+        "layer": 60,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.61.linear_attn.out_proj.weight",
+        "layer": 61,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.61.mlp.down_proj.weight",
+        "layer": 61,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.62.linear_attn.out_proj.weight",
+        "layer": 62,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.62.mlp.down_proj.weight",
+        "layer": 62,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.63.mlp.down_proj.weight",
+        "layer": 63,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.63.self_attn.o_proj.weight",
+        "layer": 63,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.7.mlp.down_proj.weight",
+        "layer": 7,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.7.self_attn.o_proj.weight",
+        "layer": 7,
+        "kind": "attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.8.linear_attn.out_proj.weight",
+        "layer": 8,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.8.mlp.down_proj.weight",
+        "layer": 8,
+        "kind": "feed_forward_down"
+      },
+      {
+        "tensor": "model.language_model.layers.9.linear_attn.out_proj.weight",
+        "layer": 9,
+        "kind": "linear_attention_output"
+      },
+      {
+        "tensor": "model.language_model.layers.9.mlp.down_proj.weight",
+        "layer": 9,
+        "kind": "feed_forward_down"
       }
     ],
     "unmeasured": [
@@ -35366,5 +35605,10 @@
       "quantization-only"
     ]
   },
-  "scope": "Weight differences alone cannot certify the absence of hidden behavior."
+  "scope": "Weight differences alone cannot certify the absence of hidden behavior.",
+  "rescoring": {
+    "previous_assessment": "recipe_violations",
+    "previous_nearest_recipe": "single-projection",
+    "direction_measurements": "Retained from the saved comparison; group references and cross-kind coverage have not been recomputed."
+  }
 }

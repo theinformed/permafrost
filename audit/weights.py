@@ -1,8 +1,9 @@
 # weights.py -- Compare checkpoint tensors without loading a checkpoint at once.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  download limit from the environment; send the hub token.
 # Modified: SDE 2026-10-13  measure differences and test the projection envelope.
 # Modified: SDE 2026-10-13  hash shards on the compute interpreter too.
+# Modified: SDE 2026-10-13  classify residual writers and score selected projections.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -153,18 +154,32 @@ class TensorStore:
         return {str(path.relative_to(self.directory)): digest(path) for path in sorted(set(self.names.values()))}
 
 
-def tensor_kind(name):
-    """Name common tensor kinds while keeping unknown names in the report."""
-    suffixes = {".self_attn.o_proj.weight": "attention_output", ".mlp.down_proj.weight": "feed_forward_down",
-                ".self_attn.q_proj.weight": "attention_query", ".self_attn.k_proj.weight": "attention_key", ".self_attn.v_proj.weight": "attention_value",
-                ".mlp.gate_proj.weight": "feed_forward_gate", ".mlp.up_proj.weight": "feed_forward_up", ".embed_tokens.weight": "embedding",
-                ".input_layernorm.weight": "input_normalization", ".post_attention_layernorm.weight": "post_attention_normalization", ".norm.weight": "final_normalization"}
-    for suffix, kind in suffixes.items():
-        if name.endswith(suffix):
-            return kind
-    if name == "lm_head.weight" or name.endswith(".lm_head.weight"):
-        return "output_head"
+def recipe_table():
+    """Read role patterns and envelopes from the same small table."""
+    return read_json(Path(__file__).with_name("recipes.json"))
+
+
+def strip_prefix(name, recipes):
+    """Remove the longest wrapper first; nested wrappers otherwise lose a piece."""
+    for prefix in sorted(recipes["tensor_kinds"]["prefixes"], key=len, reverse=True):
+        if name.startswith(prefix):
+            return name[len(prefix):]
+    return name
+
+
+def tensor_kind(name, recipes=None):
+    """Match the matrix's role after removing its optional wrapper."""
+    recipes = recipe_table() if recipes is None else recipes
+    name = strip_prefix(name, recipes)
+    for entry in recipes["tensor_kinds"]["patterns"]:
+        if re.fullmatch(entry["pattern"], name):
+            return entry["kind"]
     return "other"
+
+
+def residual_kinds(recipes):
+    """Find roles that write to the residual stream, including expert outputs."""
+    return {entry["kind"] for entry in recipes["tensor_kinds"]["patterns"] if entry.get("residual_writer")}
 
 
 def as_float(tensor):
@@ -224,7 +239,7 @@ def measure_tensor(original, modified, threshold=1e-3, seed=0):
     return result, vectors
 
 
-def direction_agreement(rows, vectors):
+def direction_agreement(rows, vectors, recipes=None):
     """Align SVD signs before taking a coordinate median of unit directions."""
     groups = {}
     for name, pair in vectors.items():
@@ -250,10 +265,11 @@ def direction_agreement(rows, vectors):
         for name, cosine in zip(names, cosines.tolist()):
             rows[name]["direction_cosine"] = cosine
         summaries[f"{kind}:{size}"] = {"count": len(names), "median_direction_defined": True, "median_cosine": float(torch.quantile(cosines, 0.5)), "min_cosine": float(cosines.min())}
-    # One projection direction must also agree between the two projection kinds.
+    # Input widths differ, but every residual writer shares the output coordinates.
+    writers = residual_kinds(recipe_table() if recipes is None else recipes)
     by_size = {}
     for name, pair in vectors.items():
-        if rows[name]["kind"] in {"attention_output", "feed_forward_down"}:
+        if rows[name]["kind"] in writers:
             by_size.setdefault(pair[0].numel(), []).append(pair[0].double())
     cross_kind = []
     for values in by_size.values():
@@ -270,13 +286,19 @@ def match_recipes(rows, structural, agreement, recipes):
     """List each envelope failure; unmeasured recipes stay out of the ranking."""
     candidates = []
     for name, recipe in recipes.items():
-        if recipe["status"] not in ("measured", "analytic"):
+        if recipe.get("status") not in ("measured", "analytic"):
             continue
         violations = list(structural)
         expected = set(recipe["changed_kinds"])
+        present = {row["kind"] for row in rows.values()}
         observed = {row["kind"] for row in rows.values() if row["changed"]}
-        for kind in sorted(expected - observed):
-            violations.append({"rule": "missing_changed_kind", "kind": kind})
+        selected = recipe.get("allow_unchanged_projections", False)
+        skipped = []
+        if not observed & expected:
+            violations.append({"rule": "missing_changed_projection"})
+        if not selected:
+            for kind in sorted((expected & present) - observed):
+                violations.append({"rule": "missing_changed_kind", "kind": kind})
         for tensor, row in rows.items():
             if row["status"] != "ok":
                 violations.append({"rule": row["status"], "tensor": tensor})
@@ -286,7 +308,11 @@ def match_recipes(rows, structural, agreement, recipes):
                 if relative is None or relative > recipe["unchanged_relative_max"]:
                     violations.append({"rule": "unexpected_change", "tensor": tensor, "value": relative})
             elif not row["changed"]:
-                violations.append({"rule": "expected_tensor_unchanged", "tensor": tensor, "value": relative})
+                if selected and relative is not None and relative <= recipe["unchanged_relative_max"]:
+                    layer = re.search(r"(?:^|\.)layers\.(\d+)\.", tensor)
+                    skipped.append({"tensor": tensor, "layer": int(layer[1]) if layer else None, "kind": row["kind"]})
+                else:
+                    violations.append({"rule": "expected_tensor_unchanged", "tensor": tensor, "value": relative})
             else:
                 share = row.get("first_singular_energy_share")
                 if share is None or share < recipe["first_energy_min"]:
@@ -297,11 +323,49 @@ def match_recipes(rows, structural, agreement, recipes):
         cosine = agreement["cross_kind_min_cosine"]
         if cosine is not None and cosine < recipe["direction_cosine_min"]:
             violations.append({"rule": "cross_kind_direction", "value": cosine, "minimum": recipe["direction_cosine_min"]})
-        candidates.append({"recipe": name, "matched": not violations, "violations": violations})
+        candidates.append({"recipe": name, "matched": not violations, "violations": violations, "skipped_projections": skipped})
     candidates.sort(key=lambda item: (len(item["violations"]), item["recipe"]))
     return {"nearest_recipe": candidates[0]["recipe"] if candidates else None, "matched": candidates[0]["matched"] if candidates else False,
             "violations": candidates[0]["violations"] if candidates else [], "candidates": candidates,
-            "unmeasured": [name for name, recipe in recipes.items() if recipe["status"] not in ("measured", "analytic")]}
+            "skipped_projections": candidates[0]["skipped_projections"] if candidates else [],
+            "unmeasured": [name for name, recipe in recipes.items() if "status" in recipe and recipe["status"] not in ("measured", "analytic")]}
+
+
+def score_report(report, recipes=None):
+    """Score recorded tensor measures without fetching weights or changing them."""
+    recipes = recipe_table() if recipes is None else recipes
+    rows = report["tensors"]
+    for name, row in rows.items():
+        row["kind"] = tensor_kind(name, recipes)
+    structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"]]
+    structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"]]
+    agreement = report["summary"]["direction_agreement"]
+    matching = match_recipes(rows, structural, agreement, recipes)
+    changed = [name for name, row in rows.items() if row["changed"]]
+    writers = residual_kinds(recipes)
+    outside = [row["relative_difference"] for row in rows.values() if row["kind"] not in writers and row["status"] == "ok"]
+    shares = [rows[name]["first_singular_energy_share"] for name in changed if "first_singular_energy_share" in rows[name]]
+    report["recipe_matching"] = matching
+    report["summary"].update(
+        assessment="unchanged" if not changed and not structural else "recipe_match" if matching["matched"] else "recipe_violations",
+        matched_tensors=len(rows), changed_set=changed, changed_kinds=sorted({rows[name]["kind"] for name in changed}),
+        max_relative_difference_outside_changed_set=max([row["relative_difference"] for row in rows.values() if not row["changed"]], default=0.0),
+        max_relative_difference_outside_recipe_set=None if None in outside else max(outside, default=0.0),
+        min_first_singular_energy_share=min(shares) if shares else None,
+        changed_without_svd=[name for name in changed if "first_singular_energy_share" not in rows[name]])
+    return report
+
+
+def rescore_weights(path, out=None, recipes_path=None):
+    """Reassess a saved report; its direction measurements keep their references."""
+    report = read_json(path)
+    report["rescoring"] = {
+        "previous_assessment": report["summary"]["assessment"],
+        "previous_nearest_recipe": report["recipe_matching"]["nearest_recipe"],
+        "direction_measurements": "Retained from the saved comparison; group references and cross-kind coverage have not been recomputed."}
+    score_report(report, read_json(recipes_path) if recipes_path else None)
+    write_json(out or path, report)
+    return report
 
 
 @torch.inference_mode()
@@ -309,23 +373,23 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     """Compare one pair and save leading vectors separately from its JSON report."""
     if not math.isfinite(threshold) or threshold < 0:
         raise ValueError("threshold must be finite and nonnegative")
+    recipes = read_json(recipes_path) if recipes_path else recipe_table()
     original_dir, original_info = resolve_checkpoint(original, original_revision)
     modified_dir, modified_info = resolve_checkpoint(modified, modified_revision)
     base, other = TensorStore(original_dir), TensorStore(modified_dir)
     missing = sorted(base.names.keys() - other.names.keys())
     added = sorted(other.names.keys() - base.names.keys())
-    structural = [{"rule": "original_only", "tensor": name} for name in missing] + [{"rule": "modified_only", "tensor": name} for name in added]
     rows, vectors = {}, {}
     for name in sorted(base.names.keys() & other.names.keys()):
         # Nothing in this loop retains the full tensors from the preceding pair.
         first, second = base.get(name), other.get(name)
         row, pair = measure_tensor(first, second, threshold, seed)
         del first, second
-        row["kind"] = tensor_kind(name)
+        row["kind"] = tensor_kind(name, recipes)
         rows[name] = row
         if pair is not None:
             vectors[name] = pair
-    agreement = direction_agreement(rows, vectors)
+    agreement = direction_agreement(rows, vectors, recipes)
     directions_path = Path(out).with_suffix(".directions.safetensors")
     directions_path.parent.mkdir(parents=True, exist_ok=True)
     saved = {}
@@ -333,22 +397,11 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
         saved[name + ".left"], saved[name + ".right"] = pair
         rows[name]["directions"] = {"left": name + ".left", "right": name + ".right"}
     save_file(saved, str(directions_path))
-    recipes = read_json(recipes_path or Path(__file__).with_name("recipes.json"))
-    matching = match_recipes(rows, structural, agreement, recipes)
-    changed = [name for name, row in rows.items() if row["changed"]]
-    kinds = sorted({rows[name]["kind"] for name in changed})
-    outside = [row["relative_difference"] for row in rows.values() if row["kind"] not in {"attention_output", "feed_forward_down"} and row["status"] == "ok"]
-    shares = [rows[name].get("first_singular_energy_share") for name in changed]
-    finite_shares = [value for value in shares if value is not None]
-    assessment = "unchanged" if not changed and not structural else "recipe_match" if matching["matched"] else "recipe_violations"
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
               "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added,
               "tensors": rows, "directions_file": directions_path.name,
-              "summary": {"assessment": assessment, "matched_tensors": len(rows), "changed_set": changed, "changed_kinds": kinds,
-                          "max_relative_difference_outside_changed_set": max([row["relative_difference"] for row in rows.values() if not row["changed"]], default=0.0),
-                          "max_relative_difference_outside_recipe_set": None if None in outside else max(outside, default=0.0),
-                          "min_first_singular_energy_share": min(finite_shares) if finite_shares else None, "changed_without_svd": [name for name in changed if "first_singular_energy_share" not in rows[name]],
-                          "direction_agreement": agreement}, "recipe_matching": matching,
+              "summary": {"direction_agreement": agreement},
               "scope": "Weight differences alone cannot certify the absence of hidden behavior."}
+    score_report(report, recipes)
     write_json(out, report)
     return report

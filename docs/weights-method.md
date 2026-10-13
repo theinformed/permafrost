@@ -17,27 +17,51 @@ report also gives the signed mean, signed extrema, largest absolute difference,
 and fractions of positive and negative entries. These distinguish a small
 distributed change from a concentrated change or a consistent signed shift.
 
-For a changed matrix, randomized SVD estimates its top eight singular values
+For every changed two-dimensional tensor, randomized SVD estimates its top eight singular values
 using twelve sketch columns, four power iterations, and a recorded random seed.
 The squared singular values divided by the squared Frobenius difference give
 the energy shares for the first one through eight directions. Low-rank
 estimates can underestimate energy; they are estimates, not exact ranks.
 The leading left and right vectors go into a separate safetensors file.
+This measurement includes embeddings, query matrices, and unrecognized roles.
+The first singular value's energy share is recorded for each changed matrix.
 
 Across layers, unit left vectors are grouped by tensor kind and output width.
 Their signs are aligned to the most central vector before taking a coordinate
 median and normalizing it. Absolute cosines with that median measure agreement.
 An all-zero coordinate median is reported as undefined. The report also checks
-agreement between attention output and feed-forward
-down projections of equal output width. Right vectors are saved for later work;
+agreement among all residual-writing projections of equal output width.
+Right vectors are saved for later work;
 their input widths and meanings differ between these projections.
 
-The analytic `single-projection` envelope requires every attention `o_proj`
-and feed-forward `down_proj` tensor to change above 0.001, at least 0.99 of each
+Tensor roles are regular-expression patterns in `audit/recipes.json`. The
+optional `model.`, `model.language_model.`, or `transformer.` wrapper is stripped
+before matching. Residual writers include full-attention `self_attn.o_proj`,
+linear-attention `linear_attn.out_proj`, dense `mlp.down_proj`, and expert or
+shared-expert down projections. Each has a separate kind in the report.
+
+The analytic `single-projection` envelope requires every residual-writing
+matrix present in the checkpoint to change above 0.001, at least 0.99 of each
 difference's energy in its first singular value, and direction cosine at least
 0.95. Every other tensor must remain within 0.001. The report lists all envelope
-violations and the nearest measured or analytic recipe. Other recipes remain
+violations and the nearest measured or analytic recipe.
+
+`single-projection-selected` uses the same energy and direction limits but
+allows any subset of residual writers to remain within 0.001. At least one
+residual writer must change; a whole projection kind may be skipped. The report
+lists skipped tensors with their layer and kind. When both envelopes match,
+`single-projection` takes precedence as the more specific all-layers case.
+Other recipes remain
 “not yet measured.” The analytic envelope is not a measured recipe library.
+
+`audit.weights.rescore_weights(path)` updates a saved report from its per-tensor
+measurements without downloading or reading checkpoint weights. It reclassifies
+roles and recalculates recipe matches and summary counts. Saved singular values,
+energy shares, and direction cosines remain unchanged. The direction summary
+keeps its original group references and cross-kind coverage; re-scoring cannot
+extend that coverage without the saved vectors. The report records this in
+`rescoring.direction_measurements`. A fresh comparison measures agreement among
+all residual writers.
 
 Row norms are checked independently with relative tolerance 0.00001 and absolute
 tolerance 0.0000001. A rank-one change can alter row norms. Conversely, unchanged

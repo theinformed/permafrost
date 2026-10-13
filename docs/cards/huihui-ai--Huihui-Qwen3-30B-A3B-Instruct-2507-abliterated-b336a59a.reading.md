@@ -13,3 +13,9 @@ removal applied to every matrix that writes into the residual stream of a mixtur
 Verdict: consistent with the stated change (single-direction projection, every layer) on the weights; the template and
 token side is in the companion card. The kit change that teaches it expert down projections is filed. The original is
 pinned at today's revision; the rerun under the upload-date pinning rule follows when that rule is in the kit.
+
+
+## Update (2026-10-13, rescored with the architecture-aware classifier)
+
+With the mixture-of-experts tensor names now carried in the kit, this report matches the single-projection recipe
+with zero violations. The formal verdict for this copy is consistent with the stated abliteration.
