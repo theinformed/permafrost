@@ -1,0 +1,40 @@
+#!/usr/bin/env python3
+# sbatch -- Rehearse submissions without contacting a scheduler.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  record dependencies and one forced submission failure.
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
+
+root = Path(os.environ['AUDIT_FAKE_ROOT'])
+arguments = sys.argv[1:]
+if '--test-only' in arguments:
+    subprocess.check_call(['bash', '-n', arguments[-1]])
+    print('test-only: ' + arguments[-1], file=sys.stderr)
+    raise SystemExit(0)
+ledger = root / 'submissions.jsonl'
+rows = [json.loads(line) for line in ledger.read_text().splitlines()] if ledger.exists() else []
+number = len(rows) + 1
+job = str(1000 + number)
+record = {'job': job, 'arguments': arguments, 'status': 'submitted'}
+if os.environ.get('AUDIT_FAIL_SECOND') == '1' and number == 2:
+    record['status'] = 'rejected'
+else:
+    dependencies = [arg.split(':', 1)[1] for arg in arguments if arg.startswith('--dependency=afterok:')]
+    if dependencies and not all(any(row['job'] == dep and row['status'] == 'finished' for row in rows) for dep in dependencies):
+        if '--kill-on-invalid-dep=yes' not in arguments:
+            raise SystemExit('invalid dependency without a kill instruction')
+        record['status'] = 'cancelled-invalid-dependency'
+    else:
+        environment = dict(os.environ, SLURM_JOB_ID=job)
+        result = subprocess.call(['bash', arguments[-1]], env=environment, stdout=sys.stderr, stderr=sys.stderr)
+        record['exit'] = result
+        record['status'] = 'finished' if result == 0 else 'failed'
+with ledger.open('a') as stream:
+    stream.write(json.dumps(record) + '\n')
+if record['status'] == 'rejected':
+    print('forced failed submission: second sbatch refused; dependency and kill flag recorded', file=sys.stderr)
+    raise SystemExit(1)
+print(job)

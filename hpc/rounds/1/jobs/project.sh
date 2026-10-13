@@ -1,0 +1,33 @@
+#!/bin/bash
+#SBATCH --job-name=model-audit-project-and-measure
+#SBATCH -p general
+#SBATCH --qos=background
+#SBATCH --constraint=mla
+#SBATCH --gres=gpu:a100:4
+#SBATCH --account=NRLMR57635502
+#SBATCH --time=04:00:00
+#SBATCH --cpus-per-task=1
+#SBATCH --mem=128G
+#SBATCH --output=logs/%x-%j.out
+# project.sh -- Measure the direction, project the checkpoint and compare it.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  save completed stages so another piece can resume.
+cd "$HOME/model-audit/rounds/1"
+. ./env.sh
+start_piece projection 'Project one direction and measure the checkpoint change'
+[ -f "$AUDIT_WORK/state/download.done" ]
+if [ "${AUDIT_STUB:-0}" = 1 ]; then
+    echo 'stub projection passed'
+    touch "$AUDIT_WORK/state/timing.done" "$AUDIT_WORK/state/project.done" "$AUDIT_WORK/state/compare.done"
+    exit 0
+fi
+compute_python
+if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then nvidia-smi; fi
+if [ ! -f "$AUDIT_WORK/venv/.ready" ]; then
+    python3 -m venv "$AUDIT_WORK/venv"
+    "$AUDIT_WORK/venv/bin/python" -m pip install --no-index --find-links "$AUDIT_WORK/wheels" -r compute-requirements.txt
+    touch "$AUDIT_WORK/venv/.ready"
+fi
+export PYTHONPATH=$AUDIT_ROUND
+export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
+"$AUDIT_WORK/venv/bin/python" ./project.py

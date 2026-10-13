@@ -1,0 +1,12 @@
+# compute-requirements.txt -- Reproduce the projection runtime on Python 3.9.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  pin the packages that load and measure checkpoints.
+torch==2.8.0
+transformers==4.56.2
+huggingface_hub==0.35.3
+safetensors==0.6.2
+accelerate==1.10.1
+requests==2.32.5
+jinja2==3.1.6
+sentencepiece==0.2.1
+pillow==11.3.0

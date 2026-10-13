@@ -1,0 +1,79 @@
+#!/bin/bash
+# env.sh -- Name the round's work directories and reporting functions.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  send bounded card and log drops on exit.
+set -euo pipefail
+export HPC_PROJECT=model-audit ROUND=1 HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
+export PATH=$HOME/bin:$PATH
+: "${WORKDIR:?WORKDIR is required}"
+export AUDIT_WORK=$WORKDIR/model-audit
+export AUDIT_ROUND=$HOME/model-audit/rounds/1
+export HF_HOME=$AUDIT_WORK/cache
+export PIP_CACHE_DIR=$AUDIT_WORK/cache/pip PYTHONDONTWRITEBYTECODE=1
+export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
+export AUDIT_BASE=${AUDIT_BASE:-mistralai/Mistral-Small-3.2-24B-Instruct-2506}
+export AUDIT_NAME=${AUDIT_NAME:-mistral-small-3.2-24b}
+export AUDIT_ORIGINAL=$AUDIT_WORK/originals/$AUDIT_NAME
+export AUDIT_DERIVED=$AUDIT_WORK/derived/$AUDIT_NAME/single-projection
+export AUDIT_MEASUREMENT=$AUDIT_WORK/measurements/$AUDIT_NAME/single-projection.json
+mkdir -p "$AUDIT_WORK/logs" "$AUDIT_WORK/state" "$HOME/.hpc/jobs"
+# The first step can report before the tools have been installed.
+if [ -f "$HOME/bin/hpc-report.sh" ]; then
+    . "$HOME/bin/hpc-report.sh"
+else
+    . ./kit/hpc-report.sh
+fi
+export HPC_DROP=0
+
+finish_piece() {
+    local rc=$?
+    trap - EXIT
+    if [ "$rc" = 0 ]; then hpc_job_finish 'piece finished'
+    else hpc_job_fail "piece failed with exit $rc"; fi
+    local id=${SLURM_JOB_ID:-$HPC_JOB_ID}
+    local drop=$AUDIT_WORK/logs/$id-drop.txt
+    {
+        echo "project: $HPC_PROJECT"
+        echo "system: $HPC_SYSTEM"
+        echo "host: $(hostname -s)"
+        echo "round: $ROUND"
+        echo "job: $id"
+        if [ "$rc" = 0 ]; then echo 'event: finished'; else echo 'event: failed'; fi
+        echo "exit: $rc"
+        echo "when: $(date -u +%FT%TZ)"
+        cat "$HOME/.hpc/jobs/$id.json"
+        tail -n 200 "$PIECE_LOG" | head -c 800000
+    } > "$drop"
+    # A delivery fault must leave the scientific exit status alone.
+    local sent
+    if sent=$(hpc send "$drop" "$id-drop.txt" 2>&1) && [[ "$sent" = *'is on the desk'* ]]; then
+        printf '%s\n' "$sent"
+        printf '%s\n' "$id" > "$AUDIT_WORK/state/pad-confirmed"
+    else
+        printf '%s\n' "$sent"
+        mkdir -p "$HOME/.hpc/outbox/$HPC_PROJECT/$HPC_SYSTEM"
+        cp "$drop" "$HOME/.hpc/outbox/$HPC_PROJECT/$HPC_SYSTEM/"
+    fi
+    exit "$rc"
+}
+
+start_piece() {
+    export HPC_JOB_ID=${SLURM_JOB_ID:-round-1-${1}-$$}
+    PIECE_LOG=$AUDIT_WORK/logs/$HPC_JOB_ID.out
+    export PIECE_LOG
+    printf '%s\n' "$HPC_JOB_ID" >> "$AUDIT_WORK/state/round-1-cards"
+    exec > >(tee -a "$PIECE_LOG") 2>&1
+    hpc_job_start "$2" --project model-audit --study 'Recipe fingerprint library' --row MODEL-AUDIT-1 --log "$PIECE_LOG"
+    trap finish_piece EXIT
+    trap 'exit 143' TERM HUP
+    trap 'exit 130' INT
+}
+
+compute_python() {
+    # Modules are loaded in jobs, leaving the login interpreter alone.
+    if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then module load python3; fi
+    if [ -n "${AUDIT_COMPUTE_BIN:-}" ]; then
+        export PATH=$AUDIT_COMPUTE_BIN:$PATH
+    fi
+    python3 ./runtime.py
+}

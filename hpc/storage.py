@@ -1,0 +1,50 @@
+# storage.py -- Check the work quota, filesystem space and project budget.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  use exact bytes for acceptance and GB for the display.
+import json
+import os
+from pathlib import Path
+import subprocess
+
+
+def quota_numbers(text):
+    """Read the block quota columns, including wrapped filesystem names."""
+    for line in text.splitlines():
+        fields = line.split()
+        if fields and fields[0].startswith('/'):
+            fields = fields[1:]
+        if len(fields) >= 3 and all(value.rstrip('*').isdigit() for value in fields[:3]):
+            used, soft, hard = [int(value.rstrip('*')) * 1024 for value in fields[:3]]
+            ceiling = min(value for value in (soft, hard) if value) if soft or hard else None
+            if ceiling is None:
+                raise ValueError('quota has no finite limit')
+            return used, ceiling
+    raise ValueError('cannot read the work quota table')
+
+
+def main():
+    """Fail closed if either shared capacity or our own budget is exhausted."""
+    work = os.environ['WORKDIR']
+    project = Path(work) / 'model-audit'
+    need = json.loads(Path('needs.json').read_text())['bytes']
+    own = int(subprocess.check_output(['du', '-sk', str(project)], universal_newlines=True).split()[0]) * 1024
+    if os.environ.get('AUDIT_REHEARSAL') == '1':
+        used, limit, free = 0, 3 * 1024 ** 4, 3 * 1024 ** 4
+    else:
+        subprocess.check_call(['show_storage', '-h'])
+        text = subprocess.check_output(['lfs', 'quota', '-u', os.environ['USER'], work], universal_newlines=True)
+        print(text)
+        used, limit = quota_numbers(text)
+        info = os.statvfs(work)
+        free = info.f_bavail * info.f_frsize
+    print('Work quota: used {} bytes, limit {} bytes, remaining {} bytes'.format(used, limit, limit - used))
+    print('Filesystem free: {} bytes; project: {} bytes; requested: {} bytes'.format(free, own, need))
+    print('Work quota remaining: {:.1f} GB; filesystem free: {:.1f} GB'.format((limit - used) / 1024 ** 3, free / 1024 ** 3))
+    if own + need > 2 * 1024 ** 4 or min(limit - used, free) < need:
+        raise SystemExit('insufficient work space for the declared round')
+    cache = Path(os.environ['HOME']) / '.hpc/model-audit-space.tsv'
+    cache.write_text('{}\t{}\n'.format(project, own // 1024))
+
+
+if __name__ == '__main__':
+    main()
