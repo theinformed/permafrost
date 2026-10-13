@@ -9,6 +9,7 @@
 # Modified: SDE 2026-10-08  check dated Markdown as prose and skip saved responses.
 # Modified: SDE 2026-10-08  skip Markdown files in the comment check.
 # Modified: SDE 2026-10-12  verify the current author and committer before committing.
+# Modified: SDE 2026-10-13  start an empty repository and keep the index here.
 # ============================================================================
 set -euo pipefail
 if [[ $# -lt 2 ]]; then
@@ -19,11 +20,16 @@ message=$1
 shift
 lint=/root/docs/reference/style/code-lint.py
 python3 "$lint" --message "$message"
-index_file=$(mktemp)
+mkdir -p .tmp
+index_file=$(mktemp "$PWD/.tmp/commit-index.XXXXXX")
 rm "$index_file"
 trap 'rm -f "$index_file"' EXIT
 export GIT_INDEX_FILE=$index_file
-git read-tree HEAD
+if git rev-parse --verify HEAD >/dev/null 2>&1; then
+    git read-tree HEAD
+else
+    git read-tree --empty
+fi
 git add -- "$@"
 while IFS= read -r -d '' file; do
     # JSON records carry forecast dates as data.
