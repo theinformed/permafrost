@@ -1,5 +1,6 @@
 # rehearse.py -- Prepare a fenced local scheduler and run the bundled round.
 # Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  resolve the interpreters to absolute paths before linking them.
 # Modified: SDE 2026-10-13  show the last thirty lines and both chain outcomes.
 import argparse
 import json
@@ -21,6 +22,9 @@ def rehearse(args):
     directory.mkdir(parents=True, exist_ok=True)
     login = shutil.which(args.login_python)
     compute = shutil.which(args.compute_python)
+    # A relative interpreter path would make a dangling link once it sits in the fake bin folder.
+    login = os.path.abspath(login) if login else login
+    compute = os.path.abspath(compute) if compute else compute
     if not login or not compute:
         raise ValueError('both interpreter paths must exist')
     if not args.dry_run:
