@@ -9,6 +9,7 @@
 # Modified: SDE 2026-10-08  check dated Markdown as prose and skip saved responses.
 # Modified: SDE 2026-10-08  skip Markdown files in the comment check.
 # Modified: SDE 2026-10-12  verify the current author and committer before committing.
+# Modified: SDE 2026-10-13  sign Permafrost as Sean Egan; this is personal work, not duty.  verify the current author and committer before committing.
 # Modified: SDE 2026-10-13  start an empty repository and keep the index here.
 # ============================================================================
 set -euo pipefail
@@ -41,9 +42,9 @@ while IFS= read -r -d '' file; do
         *) python3 "$lint" "$file" ;;
     esac
 done < <(git diff --cached --name-only --diff-filter=ACM -z)
-export GIT_AUTHOR_NAME='LT Sean Egan, PhD'
+export GIT_AUTHOR_NAME='Sean Egan'
 export GIT_AUTHOR_EMAIL=sean@theinformed.org
-export GIT_COMMITTER_NAME='LT Sean Egan, PhD'
+export GIT_COMMITTER_NAME='Sean Egan'
 export GIT_COMMITTER_EMAIL=sean@theinformed.org
 author=$(git var GIT_AUTHOR_IDENT)
 committer=$(git var GIT_COMMITTER_IDENT)
