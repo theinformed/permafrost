@@ -8,4 +8,6 @@ tools that check: the hub inventory, the template and token audit, the tensor co
 per-model cards. Governing record: /root/docs/proposals/abliterated-model-audit-20261013.md; plan:
 abliterated-model-audit-plan-20261013.md beside it.
 
+License: code under Apache 2.0 (LICENSE, NOTICE); data, cards and documents under CC BY 4.0 (DATA-LICENSE.md). Cite with CITATION.cff.
+
 Layout: audit/ (the package), tools/ (house helpers), tests/, docs/ (cards and notes), data/ (never committed).
