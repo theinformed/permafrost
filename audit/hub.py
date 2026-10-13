@@ -1,6 +1,7 @@
 # hub.py -- Read small, pinned files and space out catalog calls.
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  add bounded downloads and a shared request clock.
+# Modified: SDE 2026-10-13  send the saved hub token on every call. and a shared request clock.
 import hashlib
 import json
 import time
@@ -11,7 +12,7 @@ try:
 except ImportError:
     import httpx
 import requests
-from huggingface_hub import HfApi, hf_hub_url, set_client_factory
+from huggingface_hub import HfApi, get_token, hf_hub_url, set_client_factory
 
 SMALL_FILES = (
     "tokenizer_config.json", "tokenizer.json", "special_tokens_map.json",
@@ -35,8 +36,11 @@ class Hub:
             timeout=15, follow_redirects=True,
             event_hooks={"request": [lambda request: self.pause()]},
         ))
-        self.api = HfApi(token=False)
+        self.api = HfApi()
         self.session = requests.Session()
+        token = get_token()
+        if token:
+            self.session.headers["Authorization"] = f"Bearer {token}"
 
     def pause(self):
         """Sleep between calls, including catalog pagination."""
