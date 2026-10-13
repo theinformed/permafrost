@@ -30,8 +30,22 @@ outside the search sample contribute their catalog download count when a sampled
 download count contributes zero. Format and term counts can overlap.
 
 The comparison records both values for each changed field. The exception table permits changes to the model type and
-name strings. All other changes are unexplained, including added declarations that repeat existing token IDs. A
-whitespace-normalized template comparison accompanies the exact text diff. Both sides render the same four messages
+name strings. A second class, explained by re-save, covers three content checks:
+
+- A special-token declaration moves between the tokenizer config and the special-token map, or the map repeats a
+  declaration from the config. The ordered token strings, IDs and declared flags must agree. An added-token file must
+  repeat the complete mapping already present in the internal added-token records. Conflicting IDs stay unexplained.
+- A template moves between the tokenizer config and a separate template file. Its source must match after converting
+  line endings and removing trailing whitespace, and the fixed conversation must render identically. Spaces inside
+  text and changes to unused branches still count as content changes.
+- The saved version string changes in the config or generation config. Other fields and non-string values retain
+  their usual comparison.
+
+Each re-save item has its own heading with the original and modified file names. Nothing changed, or only expected
+changes, gives a consistent verdict. Expected changes plus re-save items give consistent with re-save noted. Any
+unexplained item gives unexplained differences; incomplete evidence otherwise leaves the verdict undecided.
+
+A whitespace-normalized template comparison accompanies the exact text diff. Both sides render the same four messages
 (system, user, assistant, user), with the generation prompt enabled, no tools and thinking disabled. Template expressions
 run in a child process capped at 256 MiB and three CPU seconds; rendered output is capped at 1 MiB.
 
@@ -57,7 +71,17 @@ old raw files can be fetched again at the recorded revision. To inspect cleanup 
 python -m audit metadata-diff --repo owner/modified --original owner/original --out data/meta/pair.json --cache-dry-run
 ```
 
-JSON evidence and raw downloads stay under ignored `data/`. Markdown finding cards live under `docs/cards/`.
+To rerun a pair at its recorded revisions, pass its saved report with `--from-evidence`:
+
+```sh
+python -m audit metadata-diff --repo owner/modified --original owner/original --from-evidence data/meta/pair.json --out data/meta/pair.json
+```
+
+This reads the cached small files first and downloads only missing metadata files at the saved revision. Every file
+must match its recorded checksum. The repository pair must match, and the saved evidence must be complete. A pinned
+rerun retains other cached revisions. It makes no catalog request to choose a newer revision.
+
+JSON evidence lives at the requested output path; raw downloads stay under ignored `data/`. Markdown finding cards live under `docs/cards/`.
 Tests use synthetic metadata and mocked catalog calls. The saved real comparisons exercise public metadata reads.
 The request schema follows the [catalog API documentation](https://huggingface.co/docs/huggingface_hub/package_reference/hf_api),
 and the header reader follows the [GGUF specification](https://github.com/ggml-org/ggml/blob/master/docs/gguf.md).

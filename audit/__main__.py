@@ -2,6 +2,7 @@
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  expose the first two audit stages.
 # Modified: SDE 2026-10-13  add streamed weight comparison and CPU null controls.
+# Modified: SDE 2026-10-13  rerun metadata comparisons at saved revisions.
 import argparse
 import json
 import sys
@@ -35,6 +36,7 @@ def main():
     diff.add_argument("--original", required=True)
     diff.add_argument("--out", required=True)
     diff.add_argument("--delay", type=float, default=0.2)
+    diff.add_argument("--from-evidence", help="reuse saved revisions and checksums, reading cached small files first")
     diff.add_argument("--cache-dry-run", action="store_true",
                       help="show which cached revisions would be replaced")
     args = parser.parse_args()

@@ -1,6 +1,7 @@
 # compare.py -- Compare declarations, template text, and rendered conversations.
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  classify metadata changes with a short exception table.
+# Modified: SDE 2026-10-13  check token and template content before noting a re-save.
 import difflib
 import json
 import re
@@ -10,6 +11,7 @@ import sys
 from jinja2.sandbox import ImmutableSandboxedEnvironment
 
 EXPECTED = {"config.model_type", "config._name_or_path", "config.name_or_path"}
+RESAVE = "explained by re-save"
 TOKEN_KEYS = ("bos_token", "eos_token", "pad_token", "unk_token", "additional_special_tokens")
 CONVERSATION = [
     {"role": "system", "content": "You are a careful assistant."},
@@ -27,6 +29,149 @@ def normalize_template(text):
 def classify(path):
     """Allow only the names in the exception table."""
     return "expected" if path in EXPECTED else "unexplained"
+
+
+def resave_template(text):
+    """Ignore line endings and line tails, keeping spaces inside text intact."""
+    text = text.replace("\r\n", "\n").replace("\r", "\n")
+    return "\n".join(line.rstrip(" \t") for line in text.split("\n")).rstrip("\n")
+
+
+def token_records(documents, content):
+    """Read every declaration; merging dictionaries would hide conflicting IDs."""
+    records = []
+    for token in documents.get("tokenizer.json", {}).get("added_tokens", []):
+        if token.get("content") == content:
+            records.append(token)
+    decoder = documents.get("tokenizer_config.json", {}).get("added_tokens_decoder", {})
+    for identifier, token in decoder.items():
+        if token.get("content") == content:
+            records.append({**token, "id": int(identifier)})
+    mapping = documents.get("added_tokens.json", {})
+    if content in mapping:
+        records.append({"content": content, "id": mapping[content]})
+    vocab = documents.get("tokenizer.json", {}).get("model", {}).get("vocab", {})
+    if isinstance(vocab, dict) and content in vocab:
+        records.append({"content": content, "id": vocab[content]})
+    elif isinstance(vocab, list):
+        records.extend({"content": content, "id": i} for i, token in enumerate(vocab)
+                       if token[0] == content)
+    return records
+
+
+def same_declaration(declaration, reference, original, modified):
+    """Match role, ordered strings, IDs and the flags that were written out."""
+    values = declaration["value"]
+    values = values if isinstance(values, list) else [values]
+    other = reference["value"]
+    other = other if isinstance(other, list) else [other]
+    if [token_content(v) for v in values] != [token_content(v) for v in other]:
+        return False
+    if declaration["ids"] != reference["ids"] or len(declaration["ids"]) != len(values):
+        return False
+    for value, old, identifier in zip(values, other, declaration["ids"]):
+        content = token_content(value)
+        if not isinstance(content, str) or type(identifier) is not int:
+            return False
+        records = token_records(original, content) + token_records(modified, content)
+        if not records or any(type(record["id"]) is not int or record["id"] != identifier for record in records):
+            return False
+        flags = value if isinstance(value, dict) else {}
+        old_flags = old if isinstance(old, dict) else {}
+        for key in (flags.keys() | old_flags.keys()) - {"content", "id"}:
+            known = [record[key] for record in records if key in record]
+            known.extend([old_flags[key]] if key in old_flags else [])
+            if key in flags:
+                if not known or any(flag != flags[key] for flag in known):
+                    return False
+            elif key in old_flags and (not known or any(flag != old_flags[key] for flag in known)):
+                return False
+    return True
+
+
+def added_mapping(documents):
+    """Use the internal added-token records as the counterpart of a moved file."""
+    tokenizer = documents.get("tokenizer.json", {}).get("added_tokens", [])
+    decoder = documents.get("tokenizer_config.json", {}).get("added_tokens_decoder", {})
+    maps = [{token["content"]: token["id"] for token in tokenizer}] if tokenizer else []
+    if decoder:
+        maps.append({token["content"]: int(identifier) for identifier, token in decoder.items()})
+    return maps[0] if maps and all(mapping == maps[0] for mapping in maps) else None
+
+
+def explain_resaves(differences, original, modified, rendered):
+    """Mark the three re-save cases only after their counterparts agree."""
+    views = {"original": snapshot(original), "modified": snapshot(modified)}
+    docs = {"original": original, "modified": modified}
+
+    def explain(change, original_files, modified_files, reason):
+        """Keep the compared file names beside the rule in JSON and on the card."""
+        change.update({"class": RESAVE, "files": {"original": original_files,
+                       "modified": modified_files}, "reason": reason})
+
+    relocation = None
+    for source, target in (("original", "modified"), ("modified", "original")):
+        inline = docs[source].get("tokenizer_config.json", {}).get("chat_template")
+        standalone = docs[target].get("chat_template.jinja")
+        retained = docs[target].get("tokenizer_config.json", {}).get("chat_template")
+        values = rendered.get("default", {})
+        if ("chat_template.jinja" not in docs[source] and isinstance(inline, str)
+                and isinstance(standalone, str) and (retained is None or retained == inline)
+                and resave_template(inline) == resave_template(standalone)
+                and set(values) == {"original", "modified"}
+                and values["original"] == values["modified"]):
+            relocation = {source: ["tokenizer_config.json"], target: ["chat_template.jinja"]}
+
+    for change in differences:
+        path = change["path"]
+        if path in ("config.transformers_version", "generation.transformers_version"):
+            if all(isinstance(change[side], str) for side in ("original", "modified")):
+                filename = "config.json" if path.startswith("config.") else "generation_config.json"
+                explain(change, [filename], [filename], "The saved version string changed.")
+        elif path in ("template_source.tokenizer_config", "template.default") and relocation:
+            explain(change, relocation["original"], relocation["modified"],
+                    "The template moved; line endings and trailing whitespace normalize equally, "
+                    "and the fixed conversation renders identically.")
+        elif path.startswith(("special_tokens.special_tokens_map.json:",
+                              "special_tokens.tokenizer_config.json:")):
+            # An existing declaration changing in place needs its own explanation.
+            absent = [side for side in docs if not change.get(side + "_present", True)]
+            if len(absent) != 1:
+                continue
+            source = absent[0]
+            target = "modified" if source == "original" else "original"
+            filename, role = path.removeprefix("special_tokens.").split(":", 1)
+            counterpart = ("tokenizer_config.json" if filename == "special_tokens_map.json"
+                           else "special_tokens_map.json")
+            reference = views[source]["special_tokens"].get(counterpart + ":" + role)
+            source_files = [counterpart, "tokenizer.json"]
+            if reference is None and filename == "special_tokens_map.json" and role != "additional_special_tokens":
+                identifier = docs[source].get("config.json", {}).get(role + "_id")
+                tokens = [token for token, number in token_ids(docs[source]).items() if number == identifier]
+                if type(identifier) is int and len(tokens) == 1:
+                    reference = {"value": tokens[0], "ids": [identifier]}
+                    source_files = ["config.json", "tokenizer.json"]
+            declaration = change[target]
+            if reference and same_declaration(declaration, reference, original, modified):
+                files = {source: source_files, target: [filename]}
+                explain(change, files["original"], files["modified"],
+                        "The same token strings and IDs were declared in a separate file.")
+        elif path == "added_tokens.file":
+            absent = [side for side in docs if "added_tokens.json" not in docs[side]]
+            if len(absent) != 1:
+                continue
+            source = absent[0]
+            target = "modified" if source == "original" else "original"
+            mapping = change[target]
+            if (not isinstance(mapping, dict) or not mapping
+                    or mapping != added_mapping(docs[source]) or mapping != added_mapping(docs[target])):
+                continue
+            if all(type(identifier) is int and all(type(record["id"]) is int and record["id"] == identifier
+                   for record in token_records(original, token) + token_records(modified, token))
+                   for token, identifier in mapping.items()):
+                files = {source: ["tokenizer.json", "tokenizer_config.json"], target: ["added_tokens.json"]}
+                explain(change, files["original"], files["modified"],
+                        "The added-token file repeats the existing strings and IDs.")
 
 
 def token_content(value):
@@ -113,7 +258,8 @@ def render_inline(template, documents):
 
     environment.globals.update(raise_exception=raise_exception, strftime_now=lambda fmt: "2000-01-01")
     environment.filters["tojson"] = lambda value, **kwargs: json.dumps(value, ensure_ascii=False, **kwargs)
-    config = documents.get("tokenizer_config.json", {})
+    config = {**documents.get("special_tokens_map.json", {}),
+              **documents.get("tokenizer_config.json", {})}
     context = {key: token_content(config.get(key)) or "" for key in TOKEN_KEYS[:-1]}
     context.update(messages=CONVERSATION, add_generation_prompt=True, tools=None,
                    documents=None, enable_thinking=False)
@@ -140,7 +286,8 @@ def render_inline(template, documents):
 
 def render(template, documents):
     """Keep arbitrary template expressions inside a small, short-lived process."""
-    config = documents.get("tokenizer_config.json", {})
+    config = {**documents.get("special_tokens_map.json", {}),
+              **documents.get("tokenizer_config.json", {})}
     tokens = {key: config.get(key) for key in TOKEN_KEYS[:-1]}
     result = subprocess.run([sys.executable, "-m", "audit.template_worker"],
                             input=json.dumps({"template": template, "tokens": tokens}),
@@ -196,6 +343,7 @@ def compare_documents(modified, original):
             add(f"template.{name}", a, b)
             continue
         add(f"template.{name}", a, b, normalized_equal=normalize_template(a) == normalize_template(b),
+            resave_normalized_equal=resave_template(a) == resave_template(b),
             exact_diff=exact_diff(a, b))
         values = {}
         for side, text, docs in (("original", a, original), ("modified", b, modified)):
@@ -221,4 +369,5 @@ def compare_documents(modified, original):
             if "ids" in declaration and any(identifier is None and token_content(value) is not None
                                              for value, identifier in zip(values, declaration["ids"])):
                 missing.append(f"{side}: token ID unresolved for {name}")
+    explain_resaves(differences, original, modified, rendered)
     return differences, missing, rendered

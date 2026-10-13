@@ -8,11 +8,27 @@ Revisions: modified `d5bfc0d99e308beb9805440806161ad0233df357`; original `842da3
 
 Changed fields:
 
-- `generation.transformers_version` (unexplained)
 - `config.text_config.moe_intermediate_size` (unexplained)
-- `config.transformers_version` (unexplained)
 - `template.default` (unexplained)
 - `rendered_template.default` (unexplained)
+
+## Explained by re-save: `generation.transformers_version`
+
+Original file: `generation_config.json`.
+
+Modified file: `generation_config.json`.
+
+The saved version string changed.
+
+## Explained by re-save: `config.transformers_version`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The saved version string changed.
+
+The `default` template source differs beyond line endings and trailing whitespace.
 
 The fixed conversation renders differently with the `default` template.
 
