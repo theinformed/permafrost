@@ -1,0 +1,17 @@
+{
+  "single-projection": {
+    "status": "analytic",
+    "calibration": "Analytic rank-one envelope; empirical recipe library pending.",
+    "changed_kinds": ["attention_output", "feed_forward_down"],
+    "unchanged_relative_max": 0.001,
+    "first_energy_min": 0.99,
+    "direction_cosine_min": 0.95
+  },
+  "directional-per-layer": {"status": "not yet measured"},
+  "arbitrary-rank": {"status": "not yet measured"},
+  "norm-preserving-biprojection": {"status": "not yet measured"},
+  "projection-with-healing": {"status": "not yet measured"},
+  "low-rank-fine-tune": {"status": "not yet measured"},
+  "two-checkpoint-merge": {"status": "not yet measured"},
+  "quantization-only": {"status": "not yet measured"}
+}

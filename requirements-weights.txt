@@ -1,0 +1,7 @@
+# requirements-weights.txt -- Packages for tensor comparisons and the CPU null.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  keep the tensor tools separate from catalog reads.
+-r requirements.txt
+torch>=2.9
+safetensors>=0.5
+tokenizers>=0.21

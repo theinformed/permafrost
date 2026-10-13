@@ -1,0 +1,9 @@
+#!/bin/sh
+# audit -- Run the checkpoint commands with this checkout's Python environment.
+# Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  keep package and environment paths together.
+set -eu
+script=$(readlink -f "$0")
+directory=$(dirname "$script")
+cd "$directory/.."
+exec .venv/bin/python -m audit "$@"
