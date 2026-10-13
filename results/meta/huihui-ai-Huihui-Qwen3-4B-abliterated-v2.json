@@ -1,0 +1,1905 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "huihui-ai/Huihui-Qwen3-4B-abliterated-v2",
+    "sha": "a494c65b10bf8fdc56c0ff11d36987c1d018f162",
+    "manifest": {
+      "tokenizer_config.json": {
+        "bytes": 5643,
+        "sha256": "b2a0d89cf5c89d5d844c56d82e9c3731f862d720a6ce221c31955b628960cde7"
+      },
+      "tokenizer.json": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "special_tokens_map.json": {
+        "bytes": 644,
+        "sha256": "57255613bbe23c9497211ca68561ff429a51e871dbaf5a59998fa4c8f7fe168a"
+      },
+      "generation_config.json": {
+        "bytes": 227,
+        "sha256": "50a126529f5afe9dbc3701d30ef53759eee2b53d0285f7d42293cc1e54c645e7"
+      },
+      "config.json": {
+        "bytes": 757,
+        "sha256": "01ae0792875cb4fa3f5d481235254d36ee74493e09b87e50f681667ff6db8bfa"
+      },
+      "chat_template.jinja": {
+        "bytes": 4200,
+        "sha256": "bfbcd7bf3f08041bdcff4afb09f83677fe4f7e5b8b9c07e6be43651d88696aab"
+      },
+      "added_tokens.json": {
+        "bytes": 735,
+        "sha256": "79f6ec6fcc423d3a82bfac8b9033b1daac7b7bce06a5f5f441637b480cc605de"
+      }
+    },
+    "missing": [],
+    "gguf_header": null,
+    "gguf_only": false,
+    "snapshot": {
+      "templates": {
+        "default": "{%- if tools %}\r\n    {{- '<|im_start|>system\\n' }}\r\n    {%- if messages[0].role == 'system' %}\r\n        {{- messages[0].content + '\\n\\n' }}\r\n    {%- endif %}\r\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\r\n    {%- for tool in tools %}\r\n        {{- \"\\n\" }}\r\n        {{- tool | tojson }}\r\n    {%- endfor %}\r\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\r\n{%- else %}\r\n    {%- if messages[0].role == 'system' %}\r\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\r\n    {%- endif %}\r\n{%- endif %}\r\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\r\n{%- for message in messages[::-1] %}\r\n    {%- set index = (messages|length - 1) - loop.index0 %}\r\n    {%- if ns.multi_step_tool and message.role == \"user\" and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\r\n        {%- set ns.multi_step_tool = false %}\r\n        {%- set ns.last_query_index = index %}\r\n    {%- endif %}\r\n{%- endfor %}\r\n{%- for message in messages %}\r\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\r\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\r\n    {%- elif message.role == \"assistant\" %}\r\n        {%- set content = message.content %}\r\n        {%- set reasoning_content = '' %}\r\n        {%- if message.reasoning_content is defined and message.reasoning_content is not none %}\r\n            {%- set reasoning_content = message.reasoning_content %}\r\n        {%- else %}\r\n            {%- if '</think>' in message.content %}\r\n                {%- set content = message.content.split('</think>')[-1].lstrip('\\n') %}\r\n                {%- set reasoning_content = message.content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\r\n            {%- endif %}\r\n        {%- endif %}\r\n        {%- if loop.index0 > ns.last_query_index %}\r\n            {%- if loop.last or (not loop.last and reasoning_content) %}\r\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\r\n            {%- else %}\r\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n            {%- endif %}\r\n        {%- else %}\r\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n        {%- endif %}\r\n        {%- if message.tool_calls %}\r\n            {%- for tool_call in message.tool_calls %}\r\n                {%- if (loop.first and content) or (not loop.first) %}\r\n                    {{- '\\n' }}\r\n                {%- endif %}\r\n                {%- if tool_call.function %}\r\n                    {%- set tool_call = tool_call.function %}\r\n                {%- endif %}\r\n                {{- '<tool_call>\\n{\"name\": \"' }}\r\n                {{- tool_call.name }}\r\n                {{- '\", \"arguments\": ' }}\r\n                {%- if tool_call.arguments is string %}\r\n                    {{- tool_call.arguments }}\r\n                {%- else %}\r\n                    {{- tool_call.arguments | tojson }}\r\n                {%- endif %}\r\n                {{- '}\\n</tool_call>' }}\r\n            {%- endfor %}\r\n        {%- endif %}\r\n        {{- '<|im_end|>\\n' }}\r\n    {%- elif message.role == \"tool\" %}\r\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\r\n            {{- '<|im_start|>user' }}\r\n        {%- endif %}\r\n        {{- '\\n<tool_response>\\n' }}\r\n        {{- message.content }}\r\n        {{- '\\n</tool_response>' }}\r\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\r\n            {{- '<|im_end|>\\n' }}\r\n        {%- endif %}\r\n    {%- endif %}\r\n{%- endfor %}\r\n{%- if add_generation_prompt %}\r\n    {{- '<|im_start|>assistant\\n' }}\r\n    {%- if enable_thinking is defined and enable_thinking is false %}\r\n        {{- '<think>\\n\\n</think>\\n\\n' }}\r\n    {%- endif %}\r\n{%- endif %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": null,
+          "ids": [
+            null
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<|im_end|>",
+          "ids": [
+            151645
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<|endoftext|>",
+          "ids": [
+            151643
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": null,
+          "ids": [
+            null
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|object_ref_start|>",
+            "<|object_ref_end|>",
+            "<|box_start|>",
+            "<|box_end|>",
+            "<|quad_start|>",
+            "<|quad_end|>",
+            "<|vision_start|>",
+            "<|vision_end|>",
+            "<|vision_pad|>",
+            "<|image_pad|>",
+            "<|video_pad|>"
+          ],
+          "ids": [
+            151644,
+            151645,
+            151646,
+            151647,
+            151648,
+            151649,
+            151650,
+            151651,
+            151652,
+            151653,
+            151654,
+            151655,
+            151656
+          ]
+        },
+        "special_tokens_map.json:eos_token": {
+          "value": {
+            "content": "<|im_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            151645
+          ]
+        },
+        "special_tokens_map.json:pad_token": {
+          "value": {
+            "content": "<|endoftext|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            151643
+          ]
+        },
+        "special_tokens_map.json:additional_special_tokens": {
+          "value": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|object_ref_start|>",
+            "<|object_ref_end|>",
+            "<|box_start|>",
+            "<|box_end|>",
+            "<|quad_start|>",
+            "<|quad_end|>",
+            "<|vision_start|>",
+            "<|vision_end|>",
+            "<|vision_pad|>",
+            "<|image_pad|>",
+            "<|video_pad|>"
+          ],
+          "ids": [
+            151644,
+            151645,
+            151646,
+            151647,
+            151648,
+            151649,
+            151650,
+            151651,
+            151652,
+            151653,
+            151654,
+            151655,
+            151656
+          ]
+        },
+        "tokenizer.json:151643": {
+          "id": 151643,
+          "content": "<|endoftext|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151644": {
+          "id": 151644,
+          "content": "<|im_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151645": {
+          "id": 151645,
+          "content": "<|im_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151646": {
+          "id": 151646,
+          "content": "<|object_ref_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151647": {
+          "id": 151647,
+          "content": "<|object_ref_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151648": {
+          "id": 151648,
+          "content": "<|box_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151649": {
+          "id": 151649,
+          "content": "<|box_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151650": {
+          "id": 151650,
+          "content": "<|quad_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151651": {
+          "id": 151651,
+          "content": "<|quad_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151652": {
+          "id": 151652,
+          "content": "<|vision_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151653": {
+          "id": 151653,
+          "content": "<|vision_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151654": {
+          "id": 151654,
+          "content": "<|vision_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151655": {
+          "id": 151655,
+          "content": "<|image_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151656": {
+          "id": 151656,
+          "content": "<|video_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:151643": {
+          "content": "<|endoftext|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151644": {
+          "content": "<|im_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151645": {
+          "content": "<|im_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151646": {
+          "content": "<|object_ref_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151647": {
+          "content": "<|object_ref_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151648": {
+          "content": "<|box_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151649": {
+          "content": "<|box_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151650": {
+          "content": "<|quad_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151651": {
+          "content": "<|quad_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151652": {
+          "content": "<|vision_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151653": {
+          "content": "<|vision_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151654": {
+          "content": "<|vision_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151655": {
+          "content": "<|image_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151656": {
+          "content": "<|video_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 151643,
+        "eos_token_id": 151645
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 151643,
+            "content": "<|endoftext|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151644,
+            "content": "<|im_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151645,
+            "content": "<|im_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151646,
+            "content": "<|object_ref_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151647,
+            "content": "<|object_ref_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151648,
+            "content": "<|box_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151649,
+            "content": "<|box_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151650,
+            "content": "<|quad_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151651,
+            "content": "<|quad_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151652,
+            "content": "<|vision_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151653,
+            "content": "<|vision_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151654,
+            "content": "<|vision_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151655,
+            "content": "<|image_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151656,
+            "content": "<|video_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151657,
+            "content": "<tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151658,
+            "content": "</tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151659,
+            "content": "<|fim_prefix|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151660,
+            "content": "<|fim_middle|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151661,
+            "content": "<|fim_suffix|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151662,
+            "content": "<|fim_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151663,
+            "content": "<|repo_name|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151664,
+            "content": "<|file_sep|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151665,
+            "content": "<tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151666,
+            "content": "</tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151667,
+            "content": "<think>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151668,
+            "content": "</think>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          }
+        ],
+        "decoder": {
+          "151643": {
+            "content": "<|endoftext|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151644": {
+            "content": "<|im_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151645": {
+            "content": "<|im_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151646": {
+            "content": "<|object_ref_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151647": {
+            "content": "<|object_ref_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151648": {
+            "content": "<|box_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151649": {
+            "content": "<|box_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151650": {
+            "content": "<|quad_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151651": {
+            "content": "<|quad_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151652": {
+            "content": "<|vision_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151653": {
+            "content": "<|vision_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151654": {
+            "content": "<|vision_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151655": {
+            "content": "<|image_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151656": {
+            "content": "<|video_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151657": {
+            "content": "<tool_call>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151658": {
+            "content": "</tool_call>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151659": {
+            "content": "<|fim_prefix|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151660": {
+            "content": "<|fim_middle|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151661": {
+            "content": "<|fim_suffix|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151662": {
+            "content": "<|fim_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151663": {
+            "content": "<|repo_name|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151664": {
+            "content": "<|file_sep|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151665": {
+            "content": "<tool_response>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151666": {
+            "content": "</tool_response>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151667": {
+            "content": "<think>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151668": {
+            "content": "</think>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          }
+        },
+        "file": {
+          "</think>": 151668,
+          "</tool_call>": 151658,
+          "</tool_response>": 151666,
+          "<think>": 151667,
+          "<tool_call>": 151657,
+          "<tool_response>": 151665,
+          "<|box_end|>": 151649,
+          "<|box_start|>": 151648,
+          "<|endoftext|>": 151643,
+          "<|file_sep|>": 151664,
+          "<|fim_middle|>": 151660,
+          "<|fim_pad|>": 151662,
+          "<|fim_prefix|>": 151659,
+          "<|fim_suffix|>": 151661,
+          "<|im_end|>": 151645,
+          "<|im_start|>": 151644,
+          "<|image_pad|>": 151655,
+          "<|object_ref_end|>": 151647,
+          "<|object_ref_start|>": 151646,
+          "<|quad_end|>": 151651,
+          "<|quad_start|>": 151650,
+          "<|repo_name|>": 151663,
+          "<|video_pad|>": 151656,
+          "<|vision_end|>": 151653,
+          "<|vision_pad|>": 151654,
+          "<|vision_start|>": 151652
+        }
+      },
+      "vocabulary_size": {
+        "base": 151643,
+        "with_added": 151669,
+        "config": 151936
+      },
+      "generation": {
+        "bos_token_id": 151643,
+        "do_sample": true,
+        "eos_token_id": [
+          151645,
+          151643
+        ],
+        "pad_token_id": 151643,
+        "temperature": 0.6,
+        "top_k": 20,
+        "top_p": 0.95,
+        "transformers_version": "4.52.4"
+      },
+      "config": {
+        "architectures": [
+          "Qwen3ForCausalLM"
+        ],
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "bos_token_id": 151643,
+        "eos_token_id": 151645,
+        "head_dim": 128,
+        "hidden_act": "silu",
+        "hidden_size": 2560,
+        "initializer_range": 0.02,
+        "intermediate_size": 9728,
+        "max_position_embeddings": 40960,
+        "max_window_layers": 36,
+        "model_type": "qwen3",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 36,
+        "num_key_value_heads": 8,
+        "rms_norm_eps": 1e-06,
+        "rope_scaling": null,
+        "rope_theta": 1000000,
+        "sliding_window": null,
+        "tie_word_embeddings": true,
+        "torch_dtype": "bfloat16",
+        "transformers_version": "4.52.4",
+        "use_cache": true,
+        "use_sliding_window": false,
+        "vocab_size": 151936
+      }
+    }
+  },
+  "original": {
+    "repo": "Qwen/Qwen3-4B",
+    "sha": "1cfa9a7208912126459214e8b04321603b3df60c",
+    "manifest": {
+      "tokenizer_config.json": {
+        "bytes": 9732,
+        "sha256": "d5d09f07b48c3086c508b30d1c9114bd1189145b74e982a265350c923acd8101"
+      },
+      "tokenizer.json": {
+        "bytes": 11422654,
+        "sha256": "aeb13307a71acd8fe81861d94ad54ab689df773318809eed3cbe794b4492dae4"
+      },
+      "generation_config.json": {
+        "bytes": 239,
+        "sha256": "2325da0f15bb848e018c5ae071b7943332e9f871d6b60e2ed22ca97d4cb993d2"
+      },
+      "config.json": {
+        "bytes": 726,
+        "sha256": "8ba006f74fecfaaeb392872a60f4a480e7ec9860153d2e1b769ec81f9a147f8a"
+      }
+    },
+    "missing": [],
+    "gguf_header": null,
+    "gguf_only": false,
+    "snapshot": {
+      "templates": {
+        "default": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0].role == 'system' %}\n        {{- messages[0].content + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" and message.content is string and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\n        {%- set ns.multi_step_tool = false %}\n        {%- set ns.last_query_index = index %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if message.content is string %}\n        {%- set content = message.content %}\n    {%- else %}\n        {%- set content = '' %}\n    {%- endif %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {%- if loop.last or (not loop.last and reasoning_content) %}\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n            {%- else %}\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\n            {%- endif %}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": null,
+          "ids": [
+            null
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<|im_end|>",
+          "ids": [
+            151645
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<|endoftext|>",
+          "ids": [
+            151643
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": null,
+          "ids": [
+            null
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [
+            "<|im_start|>",
+            "<|im_end|>",
+            "<|object_ref_start|>",
+            "<|object_ref_end|>",
+            "<|box_start|>",
+            "<|box_end|>",
+            "<|quad_start|>",
+            "<|quad_end|>",
+            "<|vision_start|>",
+            "<|vision_end|>",
+            "<|vision_pad|>",
+            "<|image_pad|>",
+            "<|video_pad|>"
+          ],
+          "ids": [
+            151644,
+            151645,
+            151646,
+            151647,
+            151648,
+            151649,
+            151650,
+            151651,
+            151652,
+            151653,
+            151654,
+            151655,
+            151656
+          ]
+        },
+        "tokenizer.json:151643": {
+          "id": 151643,
+          "content": "<|endoftext|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151644": {
+          "id": 151644,
+          "content": "<|im_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151645": {
+          "id": 151645,
+          "content": "<|im_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151646": {
+          "id": 151646,
+          "content": "<|object_ref_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151647": {
+          "id": 151647,
+          "content": "<|object_ref_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151648": {
+          "id": 151648,
+          "content": "<|box_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151649": {
+          "id": 151649,
+          "content": "<|box_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151650": {
+          "id": 151650,
+          "content": "<|quad_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151651": {
+          "id": 151651,
+          "content": "<|quad_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151652": {
+          "id": 151652,
+          "content": "<|vision_start|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151653": {
+          "id": 151653,
+          "content": "<|vision_end|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151654": {
+          "id": 151654,
+          "content": "<|vision_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151655": {
+          "id": 151655,
+          "content": "<|image_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:151656": {
+          "id": 151656,
+          "content": "<|video_pad|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:151643": {
+          "content": "<|endoftext|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151644": {
+          "content": "<|im_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151645": {
+          "content": "<|im_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151646": {
+          "content": "<|object_ref_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151647": {
+          "content": "<|object_ref_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151648": {
+          "content": "<|box_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151649": {
+          "content": "<|box_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151650": {
+          "content": "<|quad_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151651": {
+          "content": "<|quad_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151652": {
+          "content": "<|vision_start|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151653": {
+          "content": "<|vision_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151654": {
+          "content": "<|vision_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151655": {
+          "content": "<|image_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:151656": {
+          "content": "<|video_pad|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 151643,
+        "eos_token_id": 151645
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 151643,
+            "content": "<|endoftext|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151644,
+            "content": "<|im_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151645,
+            "content": "<|im_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151646,
+            "content": "<|object_ref_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151647,
+            "content": "<|object_ref_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151648,
+            "content": "<|box_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151649,
+            "content": "<|box_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151650,
+            "content": "<|quad_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151651,
+            "content": "<|quad_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151652,
+            "content": "<|vision_start|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151653,
+            "content": "<|vision_end|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151654,
+            "content": "<|vision_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151655,
+            "content": "<|image_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151656,
+            "content": "<|video_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 151657,
+            "content": "<tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151658,
+            "content": "</tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151659,
+            "content": "<|fim_prefix|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151660,
+            "content": "<|fim_middle|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151661,
+            "content": "<|fim_suffix|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151662,
+            "content": "<|fim_pad|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151663,
+            "content": "<|repo_name|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151664,
+            "content": "<|file_sep|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151665,
+            "content": "<tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151666,
+            "content": "</tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151667,
+            "content": "<think>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          },
+          {
+            "id": 151668,
+            "content": "</think>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": false
+          }
+        ],
+        "decoder": {
+          "151643": {
+            "content": "<|endoftext|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151644": {
+            "content": "<|im_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151645": {
+            "content": "<|im_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151646": {
+            "content": "<|object_ref_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151647": {
+            "content": "<|object_ref_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151648": {
+            "content": "<|box_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151649": {
+            "content": "<|box_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151650": {
+            "content": "<|quad_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151651": {
+            "content": "<|quad_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151652": {
+            "content": "<|vision_start|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151653": {
+            "content": "<|vision_end|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151654": {
+            "content": "<|vision_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151655": {
+            "content": "<|image_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151656": {
+            "content": "<|video_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "151657": {
+            "content": "<tool_call>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151658": {
+            "content": "</tool_call>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151659": {
+            "content": "<|fim_prefix|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151660": {
+            "content": "<|fim_middle|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151661": {
+            "content": "<|fim_suffix|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151662": {
+            "content": "<|fim_pad|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151663": {
+            "content": "<|repo_name|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151664": {
+            "content": "<|file_sep|>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151665": {
+            "content": "<tool_response>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151666": {
+            "content": "</tool_response>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151667": {
+            "content": "<think>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          },
+          "151668": {
+            "content": "</think>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": false
+          }
+        },
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 151643,
+        "with_added": 151669,
+        "config": 151936
+      },
+      "generation": {
+        "bos_token_id": 151643,
+        "do_sample": true,
+        "eos_token_id": [
+          151645,
+          151643
+        ],
+        "pad_token_id": 151643,
+        "temperature": 0.6,
+        "top_k": 20,
+        "top_p": 0.95,
+        "transformers_version": "4.51.0"
+      },
+      "config": {
+        "architectures": [
+          "Qwen3ForCausalLM"
+        ],
+        "attention_bias": false,
+        "attention_dropout": 0.0,
+        "bos_token_id": 151643,
+        "eos_token_id": 151645,
+        "head_dim": 128,
+        "hidden_act": "silu",
+        "hidden_size": 2560,
+        "initializer_range": 0.02,
+        "intermediate_size": 9728,
+        "max_position_embeddings": 40960,
+        "max_window_layers": 36,
+        "model_type": "qwen3",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 36,
+        "num_key_value_heads": 8,
+        "rms_norm_eps": 1e-06,
+        "rope_scaling": null,
+        "rope_theta": 1000000,
+        "sliding_window": null,
+        "tie_word_embeddings": true,
+        "torch_dtype": "bfloat16",
+        "transformers_version": "4.51.0",
+        "use_cache": true,
+        "use_sliding_window": false,
+        "vocab_size": 151936
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "special_tokens.special_tokens_map.json:additional_special_tokens",
+      "original": null,
+      "modified": {
+        "value": [
+          "<|im_start|>",
+          "<|im_end|>",
+          "<|object_ref_start|>",
+          "<|object_ref_end|>",
+          "<|box_start|>",
+          "<|box_end|>",
+          "<|quad_start|>",
+          "<|quad_end|>",
+          "<|vision_start|>",
+          "<|vision_end|>",
+          "<|vision_pad|>",
+          "<|image_pad|>",
+          "<|video_pad|>"
+        ],
+        "ids": [
+          151644,
+          151645,
+          151646,
+          151647,
+          151648,
+          151649,
+          151650,
+          151651,
+          151652,
+          151653,
+          151654,
+          151655,
+          151656
+        ]
+      },
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.special_tokens_map.json:eos_token",
+      "original": null,
+      "modified": {
+        "value": {
+          "content": "<|im_end|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          151645
+        ]
+      },
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.special_tokens_map.json:pad_token",
+      "original": null,
+      "modified": {
+        "value": {
+          "content": "<|endoftext|>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          151643
+        ]
+      },
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "added_tokens.file",
+      "original": null,
+      "modified": {
+        "</think>": 151668,
+        "</tool_call>": 151658,
+        "</tool_response>": 151666,
+        "<think>": 151667,
+        "<tool_call>": 151657,
+        "<tool_response>": 151665,
+        "<|box_end|>": 151649,
+        "<|box_start|>": 151648,
+        "<|endoftext|>": 151643,
+        "<|file_sep|>": 151664,
+        "<|fim_middle|>": 151660,
+        "<|fim_pad|>": 151662,
+        "<|fim_prefix|>": 151659,
+        "<|fim_suffix|>": 151661,
+        "<|im_end|>": 151645,
+        "<|im_start|>": 151644,
+        "<|image_pad|>": 151655,
+        "<|object_ref_end|>": 151647,
+        "<|object_ref_start|>": 151646,
+        "<|quad_end|>": 151651,
+        "<|quad_start|>": 151650,
+        "<|repo_name|>": 151663,
+        "<|video_pad|>": 151656,
+        "<|vision_end|>": 151653,
+        "<|vision_pad|>": 151654,
+        "<|vision_start|>": 151652
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "generation.transformers_version",
+      "original": "4.51.0",
+      "modified": "4.52.4",
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "4.51.0",
+      "modified": "4.52.4",
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "template_source.tokenizer_config",
+      "original": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0].role == 'system' %}\n        {{- messages[0].content + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" and message.content is string and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\n        {%- set ns.multi_step_tool = false %}\n        {%- set ns.last_query_index = index %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if message.content is string %}\n        {%- set content = message.content %}\n    {%- else %}\n        {%- set content = '' %}\n    {%- endif %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {%- if loop.last or (not loop.last and reasoning_content) %}\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n            {%- else %}\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\n            {%- endif %}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+      "modified": null,
+      "class": "unexplained"
+    },
+    {
+      "path": "template.default",
+      "original": "{%- if tools %}\n    {{- '<|im_start|>system\\n' }}\n    {%- if messages[0].role == 'system' %}\n        {{- messages[0].content + '\\n\\n' }}\n    {%- endif %}\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n    {%- for tool in tools %}\n        {{- \"\\n\" }}\n        {{- tool | tojson }}\n    {%- endfor %}\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n{%- else %}\n    {%- if messages[0].role == 'system' %}\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n    {%- endif %}\n{%- endif %}\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n{%- for message in messages[::-1] %}\n    {%- set index = (messages|length - 1) - loop.index0 %}\n    {%- if ns.multi_step_tool and message.role == \"user\" and message.content is string and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\n        {%- set ns.multi_step_tool = false %}\n        {%- set ns.last_query_index = index %}\n    {%- endif %}\n{%- endfor %}\n{%- for message in messages %}\n    {%- if message.content is string %}\n        {%- set content = message.content %}\n    {%- else %}\n        {%- set content = '' %}\n    {%- endif %}\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n    {%- elif message.role == \"assistant\" %}\n        {%- set reasoning_content = '' %}\n        {%- if message.reasoning_content is string %}\n            {%- set reasoning_content = message.reasoning_content %}\n        {%- else %}\n            {%- if '</think>' in content %}\n                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n            {%- endif %}\n        {%- endif %}\n        {%- if loop.index0 > ns.last_query_index %}\n            {%- if loop.last or (not loop.last and reasoning_content) %}\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n            {%- else %}\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\n            {%- endif %}\n        {%- else %}\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\n        {%- endif %}\n        {%- if message.tool_calls %}\n            {%- for tool_call in message.tool_calls %}\n                {%- if (loop.first and content) or (not loop.first) %}\n                    {{- '\\n' }}\n                {%- endif %}\n                {%- if tool_call.function %}\n                    {%- set tool_call = tool_call.function %}\n                {%- endif %}\n                {{- '<tool_call>\\n{\"name\": \"' }}\n                {{- tool_call.name }}\n                {{- '\", \"arguments\": ' }}\n                {%- if tool_call.arguments is string %}\n                    {{- tool_call.arguments }}\n                {%- else %}\n                    {{- tool_call.arguments | tojson }}\n                {%- endif %}\n                {{- '}\\n</tool_call>' }}\n            {%- endfor %}\n        {%- endif %}\n        {{- '<|im_end|>\\n' }}\n    {%- elif message.role == \"tool\" %}\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n            {{- '<|im_start|>user' }}\n        {%- endif %}\n        {{- '\\n<tool_response>\\n' }}\n        {{- content }}\n        {{- '\\n</tool_response>' }}\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n            {{- '<|im_end|>\\n' }}\n        {%- endif %}\n    {%- endif %}\n{%- endfor %}\n{%- if add_generation_prompt %}\n    {{- '<|im_start|>assistant\\n' }}\n    {%- if enable_thinking is defined and enable_thinking is false %}\n        {{- '<think>\\n\\n</think>\\n\\n' }}\n    {%- endif %}\n{%- endif %}",
+      "modified": "{%- if tools %}\r\n    {{- '<|im_start|>system\\n' }}\r\n    {%- if messages[0].role == 'system' %}\r\n        {{- messages[0].content + '\\n\\n' }}\r\n    {%- endif %}\r\n    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\r\n    {%- for tool in tools %}\r\n        {{- \"\\n\" }}\r\n        {{- tool | tojson }}\r\n    {%- endfor %}\r\n    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\r\n{%- else %}\r\n    {%- if messages[0].role == 'system' %}\r\n        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\r\n    {%- endif %}\r\n{%- endif %}\r\n{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\r\n{%- for message in messages[::-1] %}\r\n    {%- set index = (messages|length - 1) - loop.index0 %}\r\n    {%- if ns.multi_step_tool and message.role == \"user\" and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\r\n        {%- set ns.multi_step_tool = false %}\r\n        {%- set ns.last_query_index = index %}\r\n    {%- endif %}\r\n{%- endfor %}\r\n{%- for message in messages %}\r\n    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\r\n        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\r\n    {%- elif message.role == \"assistant\" %}\r\n        {%- set content = message.content %}\r\n        {%- set reasoning_content = '' %}\r\n        {%- if message.reasoning_content is defined and message.reasoning_content is not none %}\r\n            {%- set reasoning_content = message.reasoning_content %}\r\n        {%- else %}\r\n            {%- if '</think>' in message.content %}\r\n                {%- set content = message.content.split('</think>')[-1].lstrip('\\n') %}\r\n                {%- set reasoning_content = message.content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\r\n            {%- endif %}\r\n        {%- endif %}\r\n        {%- if loop.index0 > ns.last_query_index %}\r\n            {%- if loop.last or (not loop.last and reasoning_content) %}\r\n                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\r\n            {%- else %}\r\n                {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n            {%- endif %}\r\n        {%- else %}\r\n            {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n        {%- endif %}\r\n        {%- if message.tool_calls %}\r\n            {%- for tool_call in message.tool_calls %}\r\n                {%- if (loop.first and content) or (not loop.first) %}\r\n                    {{- '\\n' }}\r\n                {%- endif %}\r\n                {%- if tool_call.function %}\r\n                    {%- set tool_call = tool_call.function %}\r\n                {%- endif %}\r\n                {{- '<tool_call>\\n{\"name\": \"' }}\r\n                {{- tool_call.name }}\r\n                {{- '\", \"arguments\": ' }}\r\n                {%- if tool_call.arguments is string %}\r\n                    {{- tool_call.arguments }}\r\n                {%- else %}\r\n                    {{- tool_call.arguments | tojson }}\r\n                {%- endif %}\r\n                {{- '}\\n</tool_call>' }}\r\n            {%- endfor %}\r\n        {%- endif %}\r\n        {{- '<|im_end|>\\n' }}\r\n    {%- elif message.role == \"tool\" %}\r\n        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\r\n            {{- '<|im_start|>user' }}\r\n        {%- endif %}\r\n        {{- '\\n<tool_response>\\n' }}\r\n        {{- message.content }}\r\n        {{- '\\n</tool_response>' }}\r\n        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\r\n            {{- '<|im_end|>\\n' }}\r\n        {%- endif %}\r\n    {%- endif %}\r\n{%- endfor %}\r\n{%- if add_generation_prompt %}\r\n    {{- '<|im_start|>assistant\\n' }}\r\n    {%- if enable_thinking is defined and enable_thinking is false %}\r\n        {{- '<think>\\n\\n</think>\\n\\n' }}\r\n    {%- endif %}\r\n{%- endif %}",
+      "class": "unexplained",
+      "normalized_equal": false,
+      "exact_diff": "--- original\n+++ modified\n@@ -1,89 +1,85 @@\n-{%- if tools %}\n-    {{- '<|im_start|>system\\n' }}\n-    {%- if messages[0].role == 'system' %}\n-        {{- messages[0].content + '\\n\\n' }}\n-    {%- endif %}\n-    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\n-    {%- for tool in tools %}\n-        {{- \"\\n\" }}\n-        {{- tool | tojson }}\n-    {%- endfor %}\n-    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\n-{%- else %}\n-    {%- if messages[0].role == 'system' %}\n-        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\n-    {%- endif %}\n-{%- endif %}\n-{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\n-{%- for message in messages[::-1] %}\n-    {%- set index = (messages|length - 1) - loop.index0 %}\n-    {%- if ns.multi_step_tool and message.role == \"user\" and message.content is string and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\n-        {%- set ns.multi_step_tool = false %}\n-        {%- set ns.last_query_index = index %}\n-    {%- endif %}\n-{%- endfor %}\n-{%- for message in messages %}\n-    {%- if message.content is string %}\n-        {%- set content = message.content %}\n-    {%- else %}\n-        {%- set content = '' %}\n-    {%- endif %}\n-    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\n-        {{- '<|im_start|>' + message.role + '\\n' + content + '<|im_end|>' + '\\n' }}\n-    {%- elif message.role == \"assistant\" %}\n-        {%- set reasoning_content = '' %}\n-        {%- if message.reasoning_content is string %}\n-            {%- set reasoning_content = message.reasoning_content %}\n-        {%- else %}\n-            {%- if '</think>' in content %}\n-                {%- set reasoning_content = content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\n-                {%- set content = content.split('</think>')[-1].lstrip('\\n') %}\n-            {%- endif %}\n-        {%- endif %}\n-        {%- if loop.index0 > ns.last_query_index %}\n-            {%- if loop.last or (not loop.last and reasoning_content) %}\n-                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\n-            {%- else %}\n-                {{- '<|im_start|>' + message.role + '\\n' + content }}\n-            {%- endif %}\n-        {%- else %}\n-            {{- '<|im_start|>' + message.role + '\\n' + content }}\n-        {%- endif %}\n-        {%- if message.tool_calls %}\n-            {%- for tool_call in message.tool_calls %}\n-                {%- if (loop.first and content) or (not loop.first) %}\n-                    {{- '\\n' }}\n-                {%- endif %}\n-                {%- if tool_call.function %}\n-                    {%- set tool_call = tool_call.function %}\n-                {%- endif %}\n-                {{- '<tool_call>\\n{\"name\": \"' }}\n-                {{- tool_call.name }}\n-                {{- '\", \"arguments\": ' }}\n-                {%- if tool_call.arguments is string %}\n-                    {{- tool_call.arguments }}\n-                {%- else %}\n-                    {{- tool_call.arguments | tojson }}\n-                {%- endif %}\n-                {{- '}\\n</tool_call>' }}\n-            {%- endfor %}\n-        {%- endif %}\n-        {{- '<|im_end|>\\n' }}\n-    {%- elif message.role == \"tool\" %}\n-        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\n-            {{- '<|im_start|>user' }}\n-        {%- endif %}\n-        {{- '\\n<tool_response>\\n' }}\n-        {{- content }}\n-        {{- '\\n</tool_response>' }}\n-        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\n-            {{- '<|im_end|>\\n' }}\n-        {%- endif %}\n-    {%- endif %}\n-{%- endfor %}\n-{%- if add_generation_prompt %}\n-    {{- '<|im_start|>assistant\\n' }}\n-    {%- if enable_thinking is defined and enable_thinking is false %}\n-        {{- '<think>\\n\\n</think>\\n\\n' }}\n-    {%- endif %}\n+{%- if tools %}\r\n+    {{- '<|im_start|>system\\n' }}\r\n+    {%- if messages[0].role == 'system' %}\r\n+        {{- messages[0].content + '\\n\\n' }}\r\n+    {%- endif %}\r\n+    {{- \"# Tools\\n\\nYou may call one or more functions to assist with the user query.\\n\\nYou are provided with function signatures within <tools></tools> XML tags:\\n<tools>\" }}\r\n+    {%- for tool in tools %}\r\n+        {{- \"\\n\" }}\r\n+        {{- tool | tojson }}\r\n+    {%- endfor %}\r\n+    {{- \"\\n</tools>\\n\\nFor each function call, return a json object with function name and arguments within <tool_call></tool_call> XML tags:\\n<tool_call>\\n{\\\"name\\\": <function-name>, \\\"arguments\\\": <args-json-object>}\\n</tool_call><|im_end|>\\n\" }}\r\n+{%- else %}\r\n+    {%- if messages[0].role == 'system' %}\r\n+        {{- '<|im_start|>system\\n' + messages[0].content + '<|im_end|>\\n' }}\r\n+    {%- endif %}\r\n+{%- endif %}\r\n+{%- set ns = namespace(multi_step_tool=true, last_query_index=messages|length - 1) %}\r\n+{%- for message in messages[::-1] %}\r\n+    {%- set index = (messages|length - 1) - loop.index0 %}\r\n+    {%- if ns.multi_step_tool and message.role == \"user\" and not(message.content.startswith('<tool_response>') and message.content.endswith('</tool_response>')) %}\r\n+        {%- set ns.multi_step_tool = false %}\r\n+        {%- set ns.last_query_index = index %}\r\n+    {%- endif %}\r\n+{%- endfor %}\r\n+{%- for message in messages %}\r\n+    {%- if (message.role == \"user\") or (message.role == \"system\" and not loop.first) %}\r\n+        {{- '<|im_start|>' + message.role + '\\n' + message.content + '<|im_end|>' + '\\n' }}\r\n+    {%- elif message.role == \"assistant\" %}\r\n+        {%- set content = message.content %}\r\n+        {%- set reasoning_content = '' %}\r\n+        {%- if message.reasoning_content is defined and message.reasoning_content is not none %}\r\n+            {%- set reasoning_content = message.reasoning_content %}\r\n+        {%- else %}\r\n+            {%- if '</think>' in message.content %}\r\n+                {%- set content = message.content.split('</think>')[-1].lstrip('\\n') %}\r\n+                {%- set reasoning_content = message.content.split('</think>')[0].rstrip('\\n').split('<think>')[-1].lstrip('\\n') %}\r\n+            {%- endif %}\r\n+        {%- endif %}\r\n+        {%- if loop.index0 > ns.last_query_index %}\r\n+            {%- if loop.last or (not loop.last and reasoning_content) %}\r\n+                {{- '<|im_start|>' + message.role + '\\n<think>\\n' + reasoning_content.strip('\\n') + '\\n</think>\\n\\n' + content.lstrip('\\n') }}\r\n+            {%- else %}\r\n+                {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n+            {%- endif %}\r\n+        {%- else %}\r\n+            {{- '<|im_start|>' + message.role + '\\n' + content }}\r\n+        {%- endif %}\r\n+        {%- if message.tool_calls %}\r\n+            {%- for tool_call in message.tool_calls %}\r\n+                {%- if (loop.first and content) or (not loop.first) %}\r\n+                    {{- '\\n' }}\r\n+                {%- endif %}\r\n+                {%- if tool_call.function %}\r\n+                    {%- set tool_call = tool_call.function %}\r\n+                {%- endif %}\r\n+                {{- '<tool_call>\\n{\"name\": \"' }}\r\n+                {{- tool_call.name }}\r\n+                {{- '\", \"arguments\": ' }}\r\n+                {%- if tool_call.arguments is string %}\r\n+                    {{- tool_call.arguments }}\r\n+                {%- else %}\r\n+                    {{- tool_call.arguments | tojson }}\r\n+                {%- endif %}\r\n+                {{- '}\\n</tool_call>' }}\r\n+            {%- endfor %}\r\n+        {%- endif %}\r\n+        {{- '<|im_end|>\\n' }}\r\n+    {%- elif message.role == \"tool\" %}\r\n+        {%- if loop.first or (messages[loop.index0 - 1].role != \"tool\") %}\r\n+            {{- '<|im_start|>user' }}\r\n+        {%- endif %}\r\n+        {{- '\\n<tool_response>\\n' }}\r\n+        {{- message.content }}\r\n+        {{- '\\n</tool_response>' }}\r\n+        {%- if loop.last or (messages[loop.index0 + 1].role != \"tool\") %}\r\n+            {{- '<|im_end|>\\n' }}\r\n+        {%- endif %}\r\n+    {%- endif %}\r\n+{%- endfor %}\r\n+{%- if add_generation_prompt %}\r\n+    {{- '<|im_start|>assistant\\n' }}\r\n+    {%- if enable_thinking is defined and enable_thinking is false %}\r\n+        {{- '<think>\\n\\n</think>\\n\\n' }}\r\n+    {%- endif %}\r\n {%- endif %}"
+    }
+  ],
+  "missing": [],
+  "rendered": {
+    "default": {
+      "original": "<|im_start|>system\nYou are a careful assistant.<|im_end|>\n<|im_start|>user\nWhat is two plus two?<|im_end|>\n<|im_start|>assistant\nFour.<|im_end|>\n<|im_start|>user\nWrite that as a word.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n",
+      "modified": "<|im_start|>system\nYou are a careful assistant.<|im_end|>\n<|im_start|>user\nWhat is two plus two?<|im_end|>\n<|im_start|>assistant\nFour.<|im_end|>\n<|im_start|>user\nWrite that as a word.<|im_end|>\n<|im_start|>assistant\n<think>\n\n</think>\n\n"
+    }
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "unexplained differences"
+}
