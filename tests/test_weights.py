@@ -200,7 +200,7 @@ class CheckpointComparison(unittest.TestCase):
         response = unittest.mock.Mock()
         response.json.return_value = {"sha": "abc", "siblings": [{"rfilename": "model.safetensors", "size": 1_000_000_001}]}
         with patch("audit.weights.requests.get", return_value=response) as get:
-            with self.assertRaisesRegex(ValueError, "above 1 GB"):
+            with self.assertRaisesRegex(ValueError, "above the download limit"):
                 resolve_checkpoint("owner/checkpoint", cache=self.root / "cache")
         self.assertEqual(get.call_count, 1)
 
