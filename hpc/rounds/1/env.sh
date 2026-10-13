@@ -1,6 +1,7 @@
 #!/bin/bash
 # env.sh -- Name the round's work directories and reporting functions.
 # Created by LT Sean Egan, PhD 2026-10-13
+# Modified: SDE 2026-10-13  find the center's Python module by name pattern; there is no plain python3 module.
 # Modified: SDE 2026-10-13  send bounded card and log drops on exit.
 set -euo pipefail
 export HPC_PROJECT=model-audit ROUND=1 HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
@@ -71,7 +72,16 @@ start_piece() {
 
 compute_python() {
     # Modules are loaded in jobs, leaving the login interpreter alone.
-    if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then module load python3; fi
+    # Nautilus has no module called python3; its Python modules are python/3.11/3.11 and kin.
+    if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
+        if ! type module >/dev/null 2>&1 && [ -r /etc/profile.d/modules.sh ]; then . /etc/profile.d/modules.sh; fi
+        loaded=""
+        for candidate in python/3.11/3.11 $(module -t avail python/3.1 2>&1 | grep '^python/3\.1' | sed 's/(.*//'); do
+            if module load "$candidate" >/dev/null 2>&1; then loaded=$candidate; break; fi
+        done
+        if [ -z "$loaded" ]; then echo "no Python 3.11 module found (tried python/3.11/3.11 and python/3.1*)"; module -t avail python 2>&1 | head -20; return 1; fi
+        echo "Python module: $loaded ($(python3 --version 2>&1))"
+    fi
     if [ -n "${AUDIT_COMPUTE_BIN:-}" ]; then
         export PATH=$AUDIT_COMPUTE_BIN:$PATH
     fi
