@@ -54,6 +54,12 @@ lists skipped tensors with their layer and kind. When both envelopes match,
 Other recipes remain
 “not yet measured.” The analytic envelope is not a measured recipe library.
 
+The [reference recipe runners](recipe-library.md) produce a separate measured
+`envelopes.json`, accepted by `compare-weights --recipes`. Each measured recipe
+requires matching base shard checksums. A measured row-norm preservation rule is
+checked for every matrix with row-norm measurements. Skipped and unchanged
+reference runs supply no measured matching candidate.
+
 `audit.weights.rescore_weights(path)` updates a saved report from its per-tensor
 measurements without downloading or reading checkpoint weights. It reclassifies
 roles and recalculates recipe matches and summary counts. Saved singular values,

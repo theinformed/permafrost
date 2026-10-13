@@ -1,6 +1,7 @@
 # nulls.py -- Make rounding and projection controls on a small CPU checkpoint.
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  split activation work into short, repeatable batches.
+# Modified: SDE 2026-10-13  share the output-space projection with recipe runners.
 """Build two null checkpoints, using a streamed forward pass for the direction."""
 
 import hashlib
@@ -113,6 +114,14 @@ def middle_residual(store, config, ids, lengths):
     return residual[torch.arange(count), lengths - 1].double()
 
 
+def project_tensor(tensor, direction):
+    """Remove a unit direction from a matrix that writes to the residual stream."""
+    weight = tensor.float()
+    if weight.ndim != 2 or weight.shape[0] != len(direction):
+        raise ValueError("projection output width differs")
+    return weight - direction[:, None] * (direction @ weight)[None, :]
+
+
 def copy_checkpoint(store, destination, transform):
     """Write one tensor per shard, avoiding a second checkpoint in memory."""
     destination = Path(destination)
@@ -200,7 +209,7 @@ def make_null(model, directory=None, step="all", batch_index=None, prompt_direct
             if tensor_kind(name) in {"attention_output", "feed_forward_down"}:
                 if weight.ndim != 2 or weight.shape[0] != len(direction):
                     raise ValueError(f"projection output width differs: {name}")
-                weight = weight - direction[:, None] * (direction @ weight)[None, :]
+                weight = project_tensor(tensor, direction)
             return weight
 
         copy_checkpoint(store, work / "single-projection", project)

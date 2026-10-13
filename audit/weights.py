@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-13  measure differences and test the projection envelope.
 # Modified: SDE 2026-10-13  hash shards on the compute interpreter too.
 # Modified: SDE 2026-10-13  classify residual writers and score selected projections.
+# Modified: SDE 2026-10-13  apply measured row-norm limits only to their recorded base.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -303,6 +304,8 @@ def match_recipes(rows, structural, agreement, recipes):
             if row["status"] != "ok":
                 violations.append({"rule": row["status"], "tensor": tensor})
                 continue
+            if recipe.get("row_norms_preserved") is True and "row_norms" in row and not row["row_norms"]["preserved_equal"]:
+                violations.append({"rule": "row_norms_not_preserved", "tensor": tensor})
             relative = row["relative_difference"]
             if row["kind"] not in expected:
                 if relative is None or relative > recipe["unchanged_relative_max"]:
@@ -334,13 +337,21 @@ def match_recipes(rows, structural, agreement, recipes):
 def score_report(report, recipes=None):
     """Score recorded tensor measures without fetching weights or changing them."""
     recipes = recipe_table() if recipes is None else recipes
+    out_of_scope = []
+    applicable = dict(recipes)
+    for name, recipe in recipes.items():
+        hashes = recipe.get("base_shards_sha256")
+        if hashes is not None and hashes != report["original"]["shards_sha256"]:
+            out_of_scope.append(name)
+            applicable[name] = {**recipe, "status": "outside calibrated base"}
     rows = report["tensors"]
     for name, row in rows.items():
         row["kind"] = tensor_kind(name, recipes)
     structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"]]
     structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"]]
     agreement = report["summary"]["direction_agreement"]
-    matching = match_recipes(rows, structural, agreement, recipes)
+    matching = match_recipes(rows, structural, agreement, applicable)
+    matching["outside_calibrated_base"] = out_of_scope
     changed = [name for name, row in rows.items() if row["changed"]]
     writers = residual_kinds(recipes)
     outside = [row["relative_difference"] for row in rows.values() if row["kind"] not in writers and row["status"] == "ok"]

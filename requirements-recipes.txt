@@ -1,0 +1,15 @@
+# requirements-recipes.txt -- Pin the recipe runtime without replacing device wheels.
+# Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-13  pin the public optimizer and adapter training packages.
+# Install the device's matching tensor runtime separately.
+heretic-llm==1.3.0
+transformers==5.6.2
+peft==0.19.1
+trl==0.29.0
+datasets==4.7.0
+accelerate==1.13.0
+safetensors==0.8.0
+jinja2==3.1.6
+requests==2.32.5
+# Later kernel loaders require metadata that this runtime does not supply.
+kernels==0.13.0
