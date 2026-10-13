@@ -1,0 +1,30 @@
+activation: harmless 20/32
+activation: harmless 21/32
+activation: harmless 22/32
+activation: harmless 23/32
+activation: harmless 24/32
+activation: harmless 25/32
+activation: harmless 26/32
+activation: harmless 27/32
+activation: harmless 28/32
+activation: harmless 29/32
+activation: harmless 30/32
+activation: harmless 31/32
+activation: harmless 32/32
+recipe_match: 60/272 tensors changed
+Nearest recipe: single-projection; 0 violations
+Minimum first-value energy share: 0.998333321
+Minimum direction cosine: 0.999997568
+Report: /tmp/permafrost-r1-success/work/model-audit/measurements/rehearsal-base/single-projection.json
+Measurements complete: /tmp/permafrost-r1-success/work/model-audit/measurements/rehearsal-base/single-projection.json
+hpc send: 1002-drop.txt is on the desk (local rehearsal)
+projection job: 1002
+VERDICT submit OK
+hpc send: round-1-submit-2164435-drop.txt is on the desk (local rehearsal)
+exit: 0
+VERDICT round 1 OK
+hpc send: round-1-end.log is on the desk (local rehearsal)
+Rehearsal: both jobs completed
+Dependency: afterok:1001; kill-on-invalid-dep=yes
+Drops: 7
+VERDICT rehearsal OK

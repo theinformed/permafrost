@@ -1,0 +1,31 @@
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/sympy-1.14.0-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/tokenizers-0.22.2-cp39-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/tqdm-4.70.1-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/typing_extensions-4.16.0-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/urllib3-2.8.0-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/filelock-4.1.1-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/networkx-3.7-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/psutil-7.2.2-cp36-abi3-manylinux2014_aarch64.manylinux_2_17_aarch64.manylinux_2_28_aarch64.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/setuptools-84.0.0-py3-none-any.whl
+Saved /tmp/permafrost-r1-failure/work/model-audit/wheels/mpmath-1.3.0-py3-none-any.whl
+Successfully downloaded torch transformers huggingface_hub safetensors accelerate requests jinja2 sentencepiece pillow certifi charset_normalizer fsspec hf-xet idna MarkupSafe numpy packaging pyyaml regex sympy tokenizers tqdm typing-extensions urllib3 filelock networkx psutil setuptools mpmath
+
+Fetching 11 files:   0%|          | 0/11 [00:00<?, ?it/s]
+Fetching 11 files:  18%|█▊        | 2/11 [00:00<00:00, 17.95it/s]
+Fetching 11 files:  45%|████▌     | 5/11 [00:02<00:03,  1.67it/s]
+Fetching 11 files:  73%|███████▎  | 8/11 [00:03<00:01,  2.54it/s]
+Fetching 11 files: 100%|██████████| 11/11 [00:03<00:00,  3.35it/s]
+Fetching 11 files: 100%|██████████| 11/11 [00:03<00:00,  3.34it/s]
+Published checksums passed for 11 files at 12fd25f77366fa6b3b4b768ec3050bf629380bac
+hpc send: 1001-drop.txt is on the desk (local rehearsal)
+download job: 1001
+forced failed submission: second sbatch refused; dependency and kill flag recorded
+hpc send: round-1-submit-2165086-drop.txt is on the desk (local rehearsal)
+exit: 1
+VERDICT round 1 FAIL
+hpc send: round-1-end.log is on the desk (local rehearsal)
+Rehearsal: forced second submission failed as expected
+Dependency: afterok:1001; kill-on-invalid-dep=yes
+Drops: 6
+VERDICT rehearsal OK
+REHEARSALS-DONE
