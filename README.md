@@ -1,7 +1,7 @@
 # Permafrost
 
 What is frozen beneath the surface of a modified model. Public home: github.com/theinformed/permafrost (The Informed is the lab, Permafrost the project); package
-`permafrost-audit`, command `permafrost`; datasets under the Hugging Face organization `theinformed`.
+`permafrost-audit`, command `permafrost`; datasets under the Hugging Face organization `informed-org`.
 
 Does a community-modified open model differ from its original only in the way its card says? This repo holds the
 tools that check: the hub inventory, the template and token audit, the tensor comparison, the recipe library and the
