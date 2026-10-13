@@ -27,3 +27,12 @@ down projections) on the weights; the template and token side is in the companio
 architecture are not yet in the kit, so the formal line stays "undecided until the recipe entry exists"; the kit
 change is filed (brief 7). The original is pinned at today's revision; the rerun under the upload-date pinning rule
 follows when that rule is in the kit.
+
+
+## Update (2026-10-13, rescored with the architecture-aware classifier)
+
+The hybrid attention names are now recognized, so the spurious naming flags are gone. Seventy flags remain. Sixty
+eight are feed-forward down projections and attention outputs whose first-value energy share sits between 0.987 and
+0.990, a touch under the recipe's 0.99 purity gate. Two are the multi-token-prediction head, whose names the kit
+does not yet carry. The down-projection energy floor is a recipe-library question that the calibration pass will
+settle; the verdict stays undecided until that floor is set.

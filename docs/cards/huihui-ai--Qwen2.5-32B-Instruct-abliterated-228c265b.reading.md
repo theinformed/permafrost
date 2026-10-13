@@ -40,3 +40,11 @@ Weight side: consistent with a stated abliteration (single-direction projection 
 feed-forward down projections). Token side: one real divergence, the padding token, logged as undisclosed drift with
 an internal inconsistency a downstream user would not expect. The original is pinned at today's revision; the rerun
 under the upload-date pinning rule follows when that rule is in the kit.
+
+
+## Update (2026-10-13, rescored with the architecture-aware classifier)
+
+The attention and feed-forward names are now recognized. Seventy-six flags remain. Seventy-five are down projections
+and attention outputs with first-value energy between 0.988 and 0.990, just under the 0.99 gate. One is the
+embedding matrix, which the token-side finding above already explains. The verdict stays undecided until the
+down-projection energy floor is set in the recipe library.
