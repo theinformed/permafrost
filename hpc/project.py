@@ -2,6 +2,8 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  save activation and tensor stages between short jobs.
 # Modified: SDE 2026-10-14  resolve tokenizers from the text configuration.
+# Modified: SDE 2026-10-14  load tekken-only tokenizers and skip their generation flag.
+# Modified: SDE 2026-10-14  name the projection filter so tests can run it on real names.
 import hashlib
 import json
 import os
@@ -33,12 +35,36 @@ def text_layers(model):
 
 def load_tokenizer(original, config=None):
     """Use the text configuration; the vision wrapper has no tokenizer."""
+    import importlib.util
     from transformers import AutoConfig, AutoTokenizer
+    original = Path(original)
+    # A tekken.json-only checkpoint needs mistral-common; without it the
+    # sentencepiece fallback dies on a missing file ("not a string").
+    if (original / 'tekken.json').exists() and not (original / 'tokenizer.json').exists() \
+            and importlib.util.find_spec('mistral_common') is None:
+        raise RuntimeError('tokenizer: {} has only tekken.json; install mistral-common'.format(original))
     if config is None:
         config = AutoConfig.from_pretrained(str(original), local_files_only=True, trust_remote_code=False)
     text_config = getattr(config, 'get_text_config', lambda: config)()
-    return AutoTokenizer.from_pretrained(str(original), config=text_config,
-                                        local_files_only=True, trust_remote_code=False)
+    try:
+        return AutoTokenizer.from_pretrained(str(original), config=text_config,
+                                            local_files_only=True, trust_remote_code=False)
+    except (ImportError, OSError, TypeError, ValueError) as error:
+        raise RuntimeError('tokenizer: cannot load one from {}: {}: {}'.format(
+            original, type(error).__name__, error)) from error
+
+
+def chat_ids(tokenizer, instruction):
+    """Render one user turn up to the assistant prefix as a 1 x n tensor."""
+    messages = [{'role': 'user', 'content': instruction}]
+    if type(tokenizer).__name__ == 'MistralCommonTokenizer':
+        # mistral-common refuses the flag; a user turn already ends at [/INST].
+        ids = tokenizer.apply_chat_template(messages, return_tensors='pt')
+    else:
+        ids = tokenizer.apply_chat_template(messages, add_generation_prompt=True, return_tensors='pt')
+    if hasattr(ids, 'keys'):
+        ids = ids['input_ids']
+    return ids if ids.dim() == 2 else ids.unsqueeze(0)
 
 
 def activations(original, groups, stage, fingerprint, cpu):
@@ -76,8 +102,7 @@ def activations(original, groups, stage, fingerprint, cpu):
 
     def residual(instruction):
         """Render the native assistant prefix and read exactly one residual."""
-        ids = tokenizer.apply_chat_template([{'role': 'user', 'content': instruction}],
-                    add_generation_prompt=True, return_tensors='pt')
+        ids = chat_ids(tokenizer, instruction)
         if ids.shape[-1] > 512:
             raise ValueError('prompt exceeds the 512-token timing budget')
         captured[:] = []
@@ -117,19 +142,25 @@ def activations(original, groups, stage, fingerprint, cpu):
     return middle
 
 
+def projected(name):
+    """Change text residual writers only; vision and its projector stay put."""
+    from audit.weights import tensor_kind
+    is_text = 'vision' not in name and 'multi_modal_projector' not in name
+    return is_text and tensor_kind(name) in ('attention_output', 'feed_forward_down')
+
+
 def projection(store, direction, destination, fingerprint):
     """Write one tensor shard at a time, preserving every untouched dtype."""
     import torch
     from safetensors import safe_open
     from safetensors.torch import save_file
-    from audit.weights import tensor_kind, write_json
+    from audit.weights import write_json
     destination.mkdir(parents=True, exist_ok=True)
     index, touched, total = {}, [], 0
     for number, name in enumerate(sorted(store.names)):
         shard = 'tensor-{:05d}.safetensors'.format(number)
         path = destination / shard
-        is_text = 'vision' not in name and 'multi_modal_projector' not in name
-        change = is_text and tensor_kind(name) in ('attention_output', 'feed_forward_down')
+        change = projected(name)
         if change:
             touched.append(name)
         if path.exists():

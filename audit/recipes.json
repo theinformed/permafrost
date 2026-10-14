@@ -1,6 +1,6 @@
 {
   "tensor_kinds": {
-    "prefixes": ["model.language_model.", "model.", "transformer."],
+    "prefixes": ["model.language_model.", "language_model.model.", "language_model.", "model.", "transformer."],
     "patterns": [
       {"pattern": "layers\\.\\d+\\.self_attn\\.o_proj\\.weight", "kind": "attention_output", "residual_writer": true},
       {"pattern": "layers\\.\\d+\\.linear_attn\\.out_proj\\.weight", "kind": "linear_attention_output", "residual_writer": true},

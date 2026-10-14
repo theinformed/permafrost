@@ -14,6 +14,7 @@
 # Modified: SDE 2026-10-13  fail the job when a measurement or freshness check fails.
 # Modified: SDE 2026-10-13  save completed stages so another piece can resume.
 # Modified: SDE 2026-10-14  clear prior-try state before projection starts.
+# Modified: SDE 2026-10-14  rebuild the compute venv when its pins change.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -38,10 +39,16 @@ if [ "${AUDIT_STUB:-0}" = 1 ]; then
 fi
 compute_python
 if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then nvidia-smi; fi
-if [ ! -f "$AUDIT_WORK/venv/.ready" ]; then
+# The venv is good only for the pins it was built from; new pins rebuild it.
+pins=$(sha256sum compute-requirements.txt | cut -d' ' -f1)
+if [ "$(cat "$AUDIT_WORK/venv/.ready" 2>/dev/null)" != "$pins" ]; then
+    echo "compute venv: building for pins $pins"
+    rm -rf -- "$AUDIT_WORK/venv"
     python3 -m venv "$AUDIT_WORK/venv"
     "$AUDIT_WORK/venv/bin/python" -m pip install --no-index --find-links "$AUDIT_WORK/wheels" -r compute-requirements.txt
-    touch "$AUDIT_WORK/venv/.ready"
+    echo "$pins" > "$AUDIT_WORK/venv/.ready"
+else
+    echo "compute venv: reusing pins $pins"
 fi
 export PYTHONPATH=$AUDIT_ROUND
 export HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1

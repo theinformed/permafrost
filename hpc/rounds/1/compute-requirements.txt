@@ -1,6 +1,7 @@
-# compute-requirements.txt -- Reproduce the projection runtime on Python 3.9.
-# Created by LT Sean Egan, PhD 2026-10-13
+# compute-requirements.txt -- Reproduce the projection runtime on Python 3.11.
+# Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  pin the packages that load and measure checkpoints.
+# Modified: SDE 2026-10-14  read tekken.json through mistral-common; pin what it pulls in.
 torch==2.8.0
 transformers==4.56.2
 huggingface_hub==0.35.3
@@ -10,3 +11,19 @@ requests==2.32.5
 jinja2==3.1.6
 sentencepiece==0.2.1
 pillow==11.3.0
+# The checkpoint ships only tekken.json; transformers reads it with mistral-common.
+mistral-common==1.8.5
+pydantic==2.14.1
+pydantic-core==2.50.1
+pydantic-extra-types==2.11.1
+pycountry==26.2.16
+annotated-types==0.8.0
+typing-inspection==0.4.4
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+referencing==0.37.0
+rpds-py==2026.9.1
+attrs==26.1.0
+tiktoken==0.14.0
+# Without protobuf a tokenizer failure is reported as a missing protobuf.
+protobuf==6.32.1

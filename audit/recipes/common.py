@@ -2,11 +2,13 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  bound memory use and record completed reference copies.
 # Modified: SDE 2026-10-14  resolve tokenizers from the text configuration.
+# Modified: SDE 2026-10-14  name the missing piece when a tokenizer will not load.
 """Small helpers for the recipe runners and their provenance cards."""
 
 import argparse
 import gc
 import importlib.metadata
+import importlib.util
 import os
 import re
 import threading
@@ -209,10 +211,18 @@ def load_runtime(directory, resources):
     from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
     resources.check()
+    folder = Path(directory)
+    # A tekken.json-only checkpoint needs mistral-common; say so up front.
+    if (folder / "tekken.json").exists() and not (folder / "tokenizer.json").exists() \
+            and importlib.util.find_spec("mistral_common") is None:
+        raise RuntimeError(f"tokenizer: {directory} has only tekken.json; install mistral-common")
     config = AutoConfig.from_pretrained(directory, local_files_only=True, trust_remote_code=False)
     text_config = getattr(config, "get_text_config", lambda: config)()
-    tokenizer = AutoTokenizer.from_pretrained(directory, config=text_config,
-                                            local_files_only=True, trust_remote_code=False)
+    try:
+        tokenizer = AutoTokenizer.from_pretrained(directory, config=text_config,
+                                                local_files_only=True, trust_remote_code=False)
+    except (ImportError, OSError, TypeError, ValueError) as error:
+        raise RuntimeError(f"tokenizer: cannot load one from {directory}: {type(error).__name__}: {error}") from error
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     dtype = torch.float32 if resources.device.type == "cpu" else torch.bfloat16
