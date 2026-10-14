@@ -2,6 +2,7 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  carry the verified payload hash into the extracted round.
 # Modified: SDE 2026-10-13  hash the payload and quote the desk arguments.
+# Modified: SDE 2026-10-14  build an image round or a Jean round on request; default unchanged.
 import argparse
 import datetime
 import hashlib
@@ -17,6 +18,7 @@ import tarfile
 import tempfile
 
 from needs import parse_needs
+import variant
 
 ROOT = Path(__file__).resolve().parent.parent
 KIT_FILES = ('hpc', 'hpc-poll.sh', 'hpc-report.sh', 'hpc_report.py', 'lib.sh',
@@ -34,10 +36,19 @@ def command(arguments):
 def build(args):
     """Pack only named sources; tokens and checkpoint files stay outside."""
     fields, size = parse_needs(args.needs)
-    if args.round != 1 or args.system != 'nautilus':
-        raise ValueError('the first kit builds round 1 for nautilus only')
-    if fields['subproject'] != 'NRLMR57635502' or size < 160 * 1024 ** 3:
+    jean = args.system == 'jean'
+    if args.round != 1 or args.system not in ('nautilus', 'jean'):
+        raise ValueError('the first kit builds round 1 for nautilus or jean only')
+    account = variant.JEAN_ACCOUNT if jean else 'NRLMR57635502'
+    if fields['subproject'] != account or size < 160 * 1024 ** 3:
         raise ValueError('round 1 needs at least 160G and its approved subproject')
+    if bool(args.image) != bool(args.image_sha256):
+        raise ValueError('--image and --image-sha256 go together')
+    if jean and (not args.image or bool(args.pad_proof) == bool(args.kit_and_verify)):
+        raise ValueError('a Jean round needs --image and one of --pad-proof or --kit-and-verify')
+    if not jean and (args.pad_proof or args.kit_and_verify):
+        raise ValueError('pad proofs and kit-and-verify rounds are for Jean')
+    steps = STEPS[:3] if args.kit_and_verify else STEPS
     if fields['for'] != '4h':
         raise ValueError('the declared duration must match the 4h batch requests')
     source = Path(args.rounds) / str(args.round)
@@ -71,6 +82,10 @@ def build(args):
         poll.write_text(re.sub(r'^KIT_VERSION=.*$', 'KIT_VERSION=' + version, poll.read_text(), flags=re.M))
         (kit / 'KIT_VERSION').write_text(version + '\n')
         (stage / 'needs.json').write_text(json.dumps({'fields': fields, 'bytes': size}) + '\n')
+        if args.image:
+            variant.add_image(stage, args.image, args.image_sha256)
+        if jean:
+            variant.jean(stage, args.pad_proof)
         files = sorted(path for path in stage.rglob('*') if path.is_file())
         if len(files) > 500 or sum(path.stat().st_size for path in files) > 8 * 1024 ** 2:
             raise ValueError('script bundle exceeds its 500-file, 8 MB budget')
@@ -82,7 +97,7 @@ def build(args):
             rows.append('{}  {}'.format(hashlib.sha256(path.read_bytes()).hexdigest(), path.relative_to(stage)))
         (stage / 'SHA256SUMS').write_text('\n'.join(rows) + '\n')
         (stage / 'MANIFEST.json').write_text(json.dumps({'round': 1, 'system': args.system, 'needs': fields,
-            'kit_version': version, 'steps': STEPS, 'optional_steps': ['90-cleanup.sh'],
+            'kit_version': version, 'steps': steps, 'optional_steps': ['90-cleanup.sh'],
             'storage': {'home': 'scripts and cards only', 'work_budget_bytes': 2 * 1024 ** 4,
                         'submissions': {'copies': 64, 'files_per_copy': 500, 'source_bytes_per_copy': 8 * 1024 ** 2,
                                         'tar_budget_bytes': 512 * 1024 ** 2, 'total_budget_bytes': 1024 ** 3,
@@ -104,18 +119,24 @@ def build(args):
         bundle.write_bytes(head.encode() + tail)
         bundle.chmod(0o755)
     destination = '/p/work1/sdegan/model-audit-round.sh'
+    host = 'jean.arl.hpc.mil' if jean else 'nautilus.navydsrc.hpc.mil'
+    why = ('Install the first projection round', 'Verify and submit the first projection chain')
+    if jean:
+        why = (('Install the Jean kit-and-verify round', 'Install the kit and check the image on Jean')
+               if args.kit_and_verify else
+               ('Install the Jean projection round', 'Verify and submit the Jean projection'))
     copy = ['hpc-send', 'push', '--no-wait', '--project', 'model-audit', '--system', args.system,
-            '--round', '1', '--why', 'Install the first projection round', '--needs', args.needs,
+            '--round', '1', '--why', why[0], '--needs', args.needs,
             '--output', 'none', '--watch', '', '--by-hand',
-            'scp {} nautilus.navydsrc.hpc.mil:{}'.format(bundle, destination), str(bundle), destination]
+            'scp {} {}:{}'.format(bundle, host, destination), str(bundle), destination]
     run_needs = 'hours=0 subproject={} queue=background for={}'.format(fields['subproject'], fields['for'])
     run = ['hpc-send', 'run', '--no-wait', '--after', '$copy', '--project', 'model-audit', '--system', args.system,
-           '--round', '1', '--why', 'Verify and submit the first projection chain', '--needs', run_needs,
+           '--round', '1', '--why', why[1], '--needs', run_needs,
            '--time-limit', '1800', '--output', 'verdict',
            '--by-hand', 'cd /p/work1/sdegan', '--by-hand', './model-audit-round.sh 1',
            '--watch', 'cd /p/work1/sdegan', '--watch', './model-audit-round.sh 1 > round-1.log 2>&1 &',
            '--watch', 'disown', '--watch', 'tail -f round-1.log']
-    for step in STEPS:
+    for step in steps:
         run.extend(['--steps', './' + step])
     if args.takes:
         if not re.fullmatch(r'[1-9][0-9]*[smh]', args.takes):
@@ -151,6 +172,15 @@ def record(args):
     print('Round 1 submission recorded; job measurements close the research work.')
 
 
+def proof(args):
+    """Write the pad proof for a Jean drop that landed on the vps pad."""
+    receipt = variant.pad_proof(args.drop, args.pad)
+    output = Path(args.out)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    output.write_text(json.dumps(receipt, indent=2) + '\n')
+    print('Pad proof: {} from {}'.format(output, receipt['drop']))
+
+
 def main():
     """Keep build and record as separate, read-only-to-the-desk commands."""
     parser = argparse.ArgumentParser()
@@ -163,7 +193,16 @@ def main():
     pack.add_argument('--rounds', default=str(ROOT / 'hpc/rounds'))
     pack.add_argument('--out', default=str(ROOT / '.tmp/hpc/round-1'))
     pack.add_argument('--takes', help='measured login-round duration')
+    pack.add_argument('--image', help='the round image path on the cluster')
+    pack.add_argument('--image-sha256', help='that image file\'s sha256')
+    pack.add_argument('--pad-proof', help='Jean: receipt from bundle.py pad-proof')
+    pack.add_argument('--kit-and-verify', action='store_true', help='Jean: steps 10 to 30 only, no job')
     pack.set_defaults(handler=build)
+    receipt = commands.add_parser('pad-proof')
+    receipt.add_argument('drop')
+    receipt.add_argument('--pad', default='/srv/hpcpad/in/model-audit/jean')
+    receipt.add_argument('--out', default=str(ROOT / '.tmp/hpc/jean-pad-proof.json'))
+    receipt.set_defaults(handler=proof)
     close = commands.add_parser('record')
     close.add_argument('system')
     close.add_argument('log')
@@ -171,7 +210,7 @@ def main():
     close.set_defaults(handler=record)
     args = parser.parse_args()
     if not hasattr(args, 'handler'):
-        parser.error('choose build or record')
+        parser.error('choose build, record or pad-proof')
     try:
         args.handler(args)
     except (ValueError, OSError, subprocess.CalledProcessError) as error:
