@@ -11,3 +11,8 @@ data/prompts/*
 __pycache__/
 .venv/
 .tmp/
+
+# Modified: SDE 2026-10-14  keep the pinned batch records.
+!data/batches/
+data/batches/*
+!data/batches/round-2-batch-1.json

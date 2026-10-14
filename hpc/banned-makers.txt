@@ -1,0 +1,28 @@
+# HPCMP CSSP lineage list. Created by Sean Egan 2026-10-14.
+# Modified: SDE 2026-10-14  screen every declared parent before staging weights.
+# A fine-tune or merge of any listed maker counts as that maker and goes to
+# the Sparks, never a cluster.
+deepseek
+qwen
+tongyi
+qianwen
+chatglm
+zhipu
+bigmodel
+moonshot
+kimi
+baichuan
+sensenova
+hunyuan
+yi
+yi-lightning
+yi-coder
+sider
+ernie
+qianfan
+minimax
+360
+zhinao
+tulongfeng
+yitianzhen
+highflyer
