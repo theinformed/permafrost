@@ -1,0 +1,60 @@
+#!/bin/bash
+# round.sh -- Run this round's numbered steps and send the end log.
+# Created by Sean Egan 2026-10-14
+# Modified: SDE 2026-10-14  run the three calibration steps.
+set -uo pipefail
+cd "$(dirname "$0")" || exit 1
+export ROUND=4 HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
+export PATH=$HOME/bin:$PATH
+steps=(10-install-kit.sh 20-verify.sh 40-submit.sh)
+all=("${steps[@]}")
+mode=all
+at=
+case ${1:-} in
+    '') [ $# = 0 ] || exit 2 ;;
+    --list) [ $# = 1 ] || exit 2; printf '%s\n' "${all[@]}"; exit 0 ;;
+    --only|--from) [ $# = 2 ] || exit 2; mode=${1#--}; at=${2#./} ;;
+    *) echo 'usage: ./round.sh [--list | --only STEP | --from STEP]'; exit 2 ;;
+esac
+todo=()
+if [ "$mode" = all ]; then todo=("${steps[@]}")
+else
+    found=0
+    for step in "${all[@]}"; do
+        if [ "$step" = "$at" ]; then found=1; fi
+        [ "$found" = 1 ] || continue
+        todo+=("$step")
+        [ "$mode" != only ] || break
+    done
+    [ ${#todo[@]} -gt 0 ] || { echo 'unknown step'; exit 2; }
+fi
+log=round-4-end.log
+[ "$mode" = all ] || log=round-4-$mode-${at%.sh}-end.log
+{
+    echo 'project: model-audit'
+    echo "system: $HPC_SYSTEM"
+    echo "host: $(hostname -s)"
+    echo 'round: 4'
+    echo 'job: round'
+    echo 'event: round-end'
+    echo "when: $(date -u +%FT%TZ)"
+} > "$log"
+rc=0
+for step in "${todo[@]}"; do
+    echo "step: $step" | tee -a "$log"
+    "./$step" 2>&1 | tee -a "$log"
+    rc=${PIPESTATUS[0]}
+    [ "$rc" = 0 ] || break
+done
+if [ "$rc" = 0 ]; then verdict=OK; else verdict=FAIL; fi
+echo "exit: $rc" | tee -a "$log"
+echo "VERDICT round 4 $verdict" | tee -a "$log"
+if sent=$(hpc send "$log" "$log" 2>&1) && [[ "$sent" = *'is on the desk'* ]]; then
+    echo "$sent"
+    rm -f "$log" # scratch: the end log is already on the desk
+else
+    echo "$sent"
+    mkdir -p "$HOME/.hpc/outbox/model-audit/$HPC_SYSTEM"
+    cp "$log" "$HOME/.hpc/outbox/model-audit/$HPC_SYSTEM/"
+fi
+exit "$rc"
