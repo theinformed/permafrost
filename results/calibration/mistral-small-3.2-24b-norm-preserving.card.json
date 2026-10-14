@@ -1,0 +1,353 @@
+{
+  "schema_version": 1,
+  "recipe": "norm-preserving",
+  "recipe_version": "projection-then-row-rescale-v1",
+  "base": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "base_revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+  "measured_at": "2026-10-14T20:50:38Z",
+  "report_sha256": "f02859dd14a1600f653ae04d6403536e263e97e38b4aedf18e70eb820c43aab4",
+  "directions_sha256": "ef686245d85f32ae7c012dafb9f107e357a7650d499145eaaf58127e4cb40a3d",
+  "summary": {
+    "assessment": "recipe_violations",
+    "nearest_recipe": "single-projection",
+    "violation_count": 76,
+    "violations": [
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.0.mlp.down_proj.weight",
+        "value": 0.9874995832668796,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.0.self_attn.o_proj.weight",
+        "value": 0.9866682079861684,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.1.mlp.down_proj.weight",
+        "value": 0.9872854341711214,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.1.self_attn.o_proj.weight",
+        "value": 0.9882995865994789,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.10.mlp.down_proj.weight",
+        "value": 0.9885726973068872,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.10.self_attn.o_proj.weight",
+        "value": 0.9884351775923651,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.11.mlp.down_proj.weight",
+        "value": 0.9887657336303319,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.11.self_attn.o_proj.weight",
+        "value": 0.9882039598173606,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.12.mlp.down_proj.weight",
+        "value": 0.9890280037528197,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.12.self_attn.o_proj.weight",
+        "value": 0.9881803900978949,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.13.mlp.down_proj.weight",
+        "value": 0.9890815682563037,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.13.self_attn.o_proj.weight",
+        "value": 0.9883527740335876,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.14.mlp.down_proj.weight",
+        "value": 0.9892629981926128,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.14.self_attn.o_proj.weight",
+        "value": 0.9886636495058153,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.15.self_attn.o_proj.weight",
+        "value": 0.9894174407126018,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.16.mlp.down_proj.weight",
+        "value": 0.9893756204121904,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.16.self_attn.o_proj.weight",
+        "value": 0.9892262956273674,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.18.self_attn.o_proj.weight",
+        "value": 0.9892734401118932,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.19.mlp.down_proj.weight",
+        "value": 0.9899488586816501,
+        "minimum": 0.99
+      },
+      {
+        "rule": "first_energy_share",
+        "tensor": "language_model.model.layers.19.self_attn.o_proj.weight",
+        "value": 0.9893543816820409,
+        "minimum": 0.99
+      }
+    ],
+    "changed_tensors": 80,
+    "matched_tensors": 585,
+    "min_first_singular_energy_share": 0.985125136226226,
+    "direction_min_cosine": 0.999989164195036
+  },
+  "per_kind": {
+    "attention_key": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 40,
+      "row_norm_max_relative_error": 0.0
+    },
+    "attention_output": {
+      "count": 40,
+      "changed": 40,
+      "first_singular_energy_share": {
+        "min": 0.985125136226226,
+        "median": 0.9878870992482548,
+        "max": 0.9908218601924257
+      },
+      "relative_difference": {
+        "min": 0.01277923443004146,
+        "median": 0.014666404446781094,
+        "max": 0.01754019616908894
+      },
+      "row_norms_preserved": 0,
+      "row_norm_max_relative_error": 0.00026518612867221236
+    },
+    "attention_query": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 40,
+      "row_norm_max_relative_error": 0.0
+    },
+    "attention_value": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 40,
+      "row_norm_max_relative_error": 0.0
+    },
+    "embedding": {
+      "count": 1,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 1,
+      "row_norm_max_relative_error": 0.0
+    },
+    "feed_forward_down": {
+      "count": 40,
+      "changed": 40,
+      "first_singular_energy_share": {
+        "min": 0.9867286901336328,
+        "median": 0.9877300479564286,
+        "max": 0.9906586897786405
+      },
+      "relative_difference": {
+        "min": 0.013464391387979682,
+        "median": 0.014055569411130717,
+        "max": 0.01640022125563396
+      },
+      "row_norms_preserved": 0,
+      "row_norm_max_relative_error": 0.00016342113667633384
+    },
+    "feed_forward_gate": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 40,
+      "row_norm_max_relative_error": 0.0
+    },
+    "feed_forward_up": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 40,
+      "row_norm_max_relative_error": 0.0
+    },
+    "final_normalization": {
+      "count": 1,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 0,
+      "row_norm_max_relative_error": null
+    },
+    "input_normalization": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 0,
+      "row_norm_max_relative_error": null
+    },
+    "other": {
+      "count": 222,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 171,
+      "row_norm_max_relative_error": 0.0
+    },
+    "output_head": {
+      "count": 1,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 1,
+      "row_norm_max_relative_error": 0.0
+    },
+    "post_attention_normalization": {
+      "count": 40,
+      "changed": 0,
+      "first_singular_energy_share": {
+        "min": null,
+        "median": null,
+        "max": null
+      },
+      "relative_difference": {
+        "min": 0.0,
+        "median": 0.0,
+        "max": 0.0
+      },
+      "row_norms_preserved": 0,
+      "row_norm_max_relative_error": null
+    }
+  },
+  "changed_outside_recipe": [],
+  "note": "one base, one run; a calibration point for the recipe-aware pass line, not a pass line"
+}

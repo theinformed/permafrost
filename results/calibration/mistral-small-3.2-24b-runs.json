@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "created_by": "Sean Egan",
+  "created": "2026-10-14",
+  "purpose": "calibration",
+  "census_row": false,
+  "note": "The modified side of both comparisons is a copy we derived ourselves from the verified base. It was never published.",
+  "base": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "base_revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+  "runs": {
+    "single-projection": {
+      "round": 1,
+      "system": "nautilus",
+      "job": "3760681",
+      "minutes": 39,
+      "exit": 0,
+      "finished": "2026-10-14",
+      "recipe_version": "single-projection v1",
+      "library_functions": [
+        "audit.nulls.project_tensor"
+      ],
+      "report": "results/weights/calibration-mistralai-Mistral-Small-3.2-24B-Instruct-2506-single-projection.json",
+      "report_sha256": "da75ab7f3d0a5207a5debc0f856ea785198bb2d78d5daf0348f0509e64fd4522",
+      "recipe_card": null,
+      "missing": "The recipe card and timing record for this run were not pulled; the report alone is tracked."
+    },
+    "norm-preserving": {
+      "round": 4,
+      "system": "nautilus",
+      "job": "3760794",
+      "minutes": 23,
+      "exit": 0,
+      "finished": "2026-10-14",
+      "recipe_version": "projection-then-row-rescale-v1",
+      "library_functions": [
+        "audit.nulls.project_tensor",
+        "audit.recipes.projection.restore_norms"
+      ],
+      "report": "results/weights/calibration-mistralai-Mistral-Small-3.2-24B-Instruct-2506-norm-preserving.json",
+      "report_sha256": "f02859dd14a1600f653ae04d6403536e263e97e38b4aedf18e70eb820c43aab4",
+      "recipe_card": "results/calibration/mistral-small-3.2-24b-norm-preserving.recipe-card.json",
+      "recipe_card_sha256": "df4c97e90af3af6fd78328837a8fc17973b40fbdabe820fcccdd9a83b2780231",
+      "direction_fingerprint": "8cf9c1bb9cd171bf59407897b18a953216e97c0ca6699b36e28e069156335cae",
+      "middle_layer": 20
+    }
+  },
+  "calibration_data": "audit/calibration/mistral-small-3.2-24b.json",
+  "cards": [
+    "docs/cards/mistral-small-3.2-24b-single-projection.md",
+    "docs/cards/mistral-small-3.2-24b-norm-preserving.md"
+  ]
+}

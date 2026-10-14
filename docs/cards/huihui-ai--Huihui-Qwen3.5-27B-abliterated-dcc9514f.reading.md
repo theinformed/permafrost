@@ -36,3 +36,13 @@ eight are feed-forward down projections and attention outputs whose first-value 
 0.990, a touch under the recipe's 0.99 purity gate. Two are the multi-token-prediction head, whose names the kit
 does not yet carry. The down-projection energy floor is a recipe-library question that the calibration pass will
 settle; the verdict stays undecided until that floor is set.
+
+
+## Update (2026-10-14, calibration on our own edit)
+
+A single projection I applied myself to Mistral Small 3.2 24B drew 68 flags of this same kind, so the 0.99 floor
+looks like the cause of these. bfloat16 rounding leaves 0.00152 to 0.00156 of each matrix's norm outside the first
+direction on this copy, the same as on mine, and the shortfall follows the size of the edit in every kind. The earlier
+line about down projections being less rank-pure does not hold. Scored in a scratch copy with the floor at 0.98, all
+68 clear and the two prediction-head flags remain. This stays a hypothesis until a line calibrated for this base, or
+the leftover rule, is in the scorer. Details: `docs/calibration-mistral-small-3.2.md`.

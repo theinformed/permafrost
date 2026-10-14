@@ -1,0 +1,332 @@
+{
+  "schema_version": 1,
+  "created_by": "Sean Egan",
+  "created": "2026-10-14",
+  "purpose": "calibration",
+  "note": "Both copies are our own known-clean edits of the base. Neither is a published upload or a census row.",
+  "base": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+  "base_revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+  "base_shards_sha256": {
+    "model-00001-of-00010.safetensors": "91831c2ce219df0ce63bc33c6249e5cb01db8d93816bcebf975f1c406286520e",
+    "model-00002-of-00010.safetensors": "8ffe80706a66b2f5ef1fb058806ccf09f124ec4ad38af7a377e44ab1ee2fd664",
+    "model-00003-of-00010.safetensors": "99ec66e891f9563f568734eadfc5b7701e04620e8e163d4d5755277a3b50cf2f",
+    "model-00004-of-00010.safetensors": "e1df1527b12b1eb5cbd9a50914f9e6eb24e885ec830a3c16b5eed6ad0b53a396",
+    "model-00005-of-00010.safetensors": "3556ac03f47c24eb8ad27c237e25baad639c651d9596fd72cb1523137bf56163",
+    "model-00006-of-00010.safetensors": "2c41e6f80f2b5ca384ce703eac048a13daf2aff689c3acca66a8943f45338aae",
+    "model-00007-of-00010.safetensors": "62a725f154f6ba942a36b5cc450db2b2df32f434e3224558c789bc04fa05fd36",
+    "model-00008-of-00010.safetensors": "3a1a6ac77e6434418bb7273b68a7b3534fed5217c990061c92a8f990dd6ab20e",
+    "model-00009-of-00010.safetensors": "e1fffc9bb2b77d4d2382c1bd9053e9d017741d67ca00cc6f77034a294f2f5cfd",
+    "model-00010-of-00010.safetensors": "116ef7ae6fa0fd46b478324e4aa6a49f448afed900ca9f71d4fbd3d02289bbd4"
+  },
+  "storage_dtype": "bfloat16",
+  "measures": {
+    "first_energy_share": "share of the difference energy in its first singular value",
+    "second_to_first_singular_value": "second singular value over the first",
+    "direction_cosine": "absolute cosine of the leading left vector with its kind median",
+    "relative_difference": "difference norm over original norm",
+    "residual_relative": "difference energy outside the first direction, as a norm, over the original norm",
+    "row_norm_max_relative_error": "largest relative change in any row norm",
+    "entries_unchanged_fraction": "fraction of entries with zero difference"
+  },
+  "runs": {
+    "single-projection": {
+      "round": 1,
+      "system": "nautilus",
+      "job": "3760681",
+      "minutes": 39,
+      "exit": 0,
+      "finished": "2026-10-14",
+      "recipe_version": "single-projection v1",
+      "library_functions": [
+        "audit.nulls.project_tensor"
+      ],
+      "report": "results/weights/calibration-mistralai-Mistral-Small-3.2-24B-Instruct-2506-single-projection.json",
+      "report_sha256": "da75ab7f3d0a5207a5debc0f856ea785198bb2d78d5daf0348f0509e64fd4522",
+      "recipe_card": null,
+      "missing": "The recipe card and timing record for this run were not pulled; the report alone is tracked."
+    },
+    "norm-preserving": {
+      "round": 4,
+      "system": "nautilus",
+      "job": "3760794",
+      "minutes": 23,
+      "exit": 0,
+      "finished": "2026-10-14",
+      "recipe_version": "projection-then-row-rescale-v1",
+      "library_functions": [
+        "audit.nulls.project_tensor",
+        "audit.recipes.projection.restore_norms"
+      ],
+      "report": "results/weights/calibration-mistralai-Mistral-Small-3.2-24B-Instruct-2506-norm-preserving.json",
+      "report_sha256": "f02859dd14a1600f653ae04d6403536e263e97e38b4aedf18e70eb820c43aab4",
+      "recipe_card": "results/calibration/mistral-small-3.2-24b-norm-preserving.recipe-card.json",
+      "recipe_card_sha256": "df4c97e90af3af6fd78328837a8fc17973b40fbdabe820fcccdd9a83b2780231",
+      "direction_fingerprint": "8cf9c1bb9cd171bf59407897b18a953216e97c0ca6699b36e28e069156335cae",
+      "middle_layer": 20
+    }
+  },
+  "flags_under_analytic_line": {
+    "single-projection": {
+      "recipe_line": "single-projection (analytic)",
+      "rule": "first_energy_share",
+      "minimum": 0.99,
+      "count": 68,
+      "rules": {
+        "first_energy_share": 68
+      },
+      "by_kind": {
+        "attention_output": 32,
+        "feed_forward_down": 36
+      }
+    },
+    "norm-preserving": {
+      "recipe_line": "single-projection (analytic)",
+      "rule": "first_energy_share",
+      "minimum": 0.99,
+      "count": 76,
+      "rules": {
+        "first_energy_share": 76
+      },
+      "by_kind": {
+        "attention_output": 39,
+        "feed_forward_down": 37
+      }
+    }
+  },
+  "envelopes": {
+    "single-projection": {
+      "attention_output": {
+        "first_energy_share": {
+          "n": 40,
+          "min": 0.9859227052674839,
+          "median": 0.9890575862530162,
+          "max": 0.9921397254062334
+        },
+        "second_to_first_singular_value": {
+          "n": 40,
+          "min": 0.01245968645030528,
+          "median": 0.015284268795221458,
+          "max": 0.018060830057419985
+        },
+        "direction_cosine": {
+          "n": 40,
+          "min": 0.9999936323736378,
+          "median": 0.9999973002503483,
+          "max": 0.9999983158321721
+        },
+        "relative_difference": {
+          "n": 40,
+          "min": 0.012782307423596335,
+          "median": 0.01467117176783973,
+          "max": 0.017544653448717865
+        },
+        "residual_relative": {
+          "n": 40,
+          "min": 0.0015136895794776767,
+          "median": 0.001534074882156386,
+          "max": 0.0015554772129732308
+        },
+        "row_norm_max_relative_error": {
+          "n": 40,
+          "min": 0.004952171817421913,
+          "median": 0.009244491346180439,
+          "max": 0.014936254359781742
+        },
+        "entries_unchanged_fraction": {
+          "n": 40,
+          "min": 0.24723830819129944,
+          "median": 0.26940232515335083,
+          "max": 0.29357457160949707
+        }
+      },
+      "feed_forward_down": {
+        "first_energy_share": {
+          "n": 40,
+          "min": 0.9870913424597746,
+          "median": 0.9881289326996405,
+          "max": 0.991202231042771
+        },
+        "second_to_first_singular_value": {
+          "n": 40,
+          "min": 0.013891051483990639,
+          "median": 0.01617815350751075,
+          "max": 0.017002355590744003
+        },
+        "direction_cosine": {
+          "n": 40,
+          "min": 0.9999949875758887,
+          "median": 0.9999993302595073,
+          "max": 0.9999997865445751
+        },
+        "relative_difference": {
+          "n": 40,
+          "min": 0.013464173963389336,
+          "median": 0.014054824208734329,
+          "max": 0.016399213925304405
+        },
+        "residual_relative": {
+          "n": 40,
+          "min": 0.0015242960964150327,
+          "median": 0.0015304069087268175,
+          "max": 0.00153904863290979
+        },
+        "row_norm_max_relative_error": {
+          "n": 40,
+          "min": 0.0024866333696991205,
+          "median": 0.007304564351215959,
+          "max": 0.012308837845921516
+        },
+        "entries_unchanged_fraction": {
+          "n": 40,
+          "min": 0.26376137137413025,
+          "median": 0.27664603292942047,
+          "max": 0.2844206988811493
+        }
+      }
+    },
+    "norm-preserving": {
+      "attention_output": {
+        "first_energy_share": {
+          "n": 40,
+          "min": 0.985125136226226,
+          "median": 0.9878870992482548,
+          "max": 0.9908218601924257
+        },
+        "second_to_first_singular_value": {
+          "n": 40,
+          "min": 0.012376895749685816,
+          "median": 0.015416467707358567,
+          "max": 0.019000335315276038
+        },
+        "direction_cosine": {
+          "n": 40,
+          "min": 0.999989164195036,
+          "median": 0.9999962191024669,
+          "max": 0.9999976824710893
+        },
+        "relative_difference": {
+          "n": 40,
+          "min": 0.01277923443004146,
+          "median": 0.014666404446781094,
+          "max": 0.01754019616908894
+        },
+        "residual_relative": {
+          "n": 40,
+          "min": 0.001552091956332628,
+          "median": 0.0016107356717615443,
+          "max": 0.001680396547714515
+        },
+        "row_norm_max_relative_error": {
+          "n": 40,
+          "min": 0.00014846419799141586,
+          "median": 0.000181093520950526,
+          "max": 0.00026518612867221236
+        },
+        "entries_unchanged_fraction": {
+          "n": 40,
+          "min": 0.2473202645778656,
+          "median": 0.2693987786769867,
+          "max": 0.2936253547668457
+        }
+      },
+      "feed_forward_down": {
+        "first_energy_share": {
+          "n": 40,
+          "min": 0.9867286901336328,
+          "median": 0.9877300479564286,
+          "max": 0.9906586897786405
+        },
+        "second_to_first_singular_value": {
+          "n": 40,
+          "min": 0.013838242687192843,
+          "median": 0.016169534711668078,
+          "max": 0.016975322281421533
+        },
+        "direction_cosine": {
+          "n": 40,
+          "min": 0.9999949058153818,
+          "median": 0.9999992120253205,
+          "max": 0.9999997564255538
+        },
+        "relative_difference": {
+          "n": 40,
+          "min": 0.013464391387979682,
+          "median": 0.014055569411130717,
+          "max": 0.01640022125563396
+        },
+        "residual_relative": {
+          "n": 40,
+          "min": 0.0015446531688000531,
+          "median": 0.0015531373958329792,
+          "max": 0.0015989717716571876
+        },
+        "row_norm_max_relative_error": {
+          "n": 40,
+          "min": 5.418193541117944e-05,
+          "median": 8.891785546438769e-05,
+          "max": 0.00016342113667633384
+        },
+        "entries_unchanged_fraction": {
+          "n": 40,
+          "min": 0.2637805938720703,
+          "median": 0.2766680270433426,
+          "max": 0.28444069623947144
+        }
+      }
+    }
+  },
+  "pass_lines": {
+    "single-projection/mistral-small-3.2-24b": {
+      "status": "measured",
+      "changed_kinds": [
+        "attention_output",
+        "feed_forward_down"
+      ],
+      "allow_unchanged_projections": false,
+      "unchanged_relative_max": 0.001,
+      "first_energy_min": 0.98,
+      "direction_cosine_min": 0.999,
+      "residual_relative_max": 0.0025,
+      "base_shards_sha256": {
+        "model-00001-of-00010.safetensors": "91831c2ce219df0ce63bc33c6249e5cb01db8d93816bcebf975f1c406286520e",
+        "model-00002-of-00010.safetensors": "8ffe80706a66b2f5ef1fb058806ccf09f124ec4ad38af7a377e44ab1ee2fd664",
+        "model-00003-of-00010.safetensors": "99ec66e891f9563f568734eadfc5b7701e04620e8e163d4d5755277a3b50cf2f",
+        "model-00004-of-00010.safetensors": "e1df1527b12b1eb5cbd9a50914f9e6eb24e885ec830a3c16b5eed6ad0b53a396",
+        "model-00005-of-00010.safetensors": "3556ac03f47c24eb8ad27c237e25baad639c651d9596fd72cb1523137bf56163",
+        "model-00006-of-00010.safetensors": "2c41e6f80f2b5ca384ce703eac048a13daf2aff689c3acca66a8943f45338aae",
+        "model-00007-of-00010.safetensors": "62a725f154f6ba942a36b5cc450db2b2df32f434e3224558c789bc04fa05fd36",
+        "model-00008-of-00010.safetensors": "3a1a6ac77e6434418bb7273b68a7b3534fed5217c990061c92a8f990dd6ab20e",
+        "model-00009-of-00010.safetensors": "e1fffc9bb2b77d4d2382c1bd9053e9d017741d67ca00cc6f77034a294f2f5cfd",
+        "model-00010-of-00010.safetensors": "116ef7ae6fa0fd46b478324e4aa6a49f448afed900ca9f71d4fbd3d02289bbd4"
+      },
+      "calibration": "Measured on our own single projection of this base (job 3760681). The scorer reads every field except residual_relative_max."
+    },
+    "norm-preserving/mistral-small-3.2-24b": {
+      "status": "measured; waits for the row-norm rule in the scorer",
+      "changed_kinds": [
+        "attention_output",
+        "feed_forward_down"
+      ],
+      "allow_unchanged_projections": false,
+      "unchanged_relative_max": 0.001,
+      "first_energy_min": 0.98,
+      "direction_cosine_min": 0.999,
+      "residual_relative_max": 0.0025,
+      "base_shards_sha256": {
+        "model-00001-of-00010.safetensors": "91831c2ce219df0ce63bc33c6249e5cb01db8d93816bcebf975f1c406286520e",
+        "model-00002-of-00010.safetensors": "8ffe80706a66b2f5ef1fb058806ccf09f124ec4ad38af7a377e44ab1ee2fd664",
+        "model-00003-of-00010.safetensors": "99ec66e891f9563f568734eadfc5b7701e04620e8e163d4d5755277a3b50cf2f",
+        "model-00004-of-00010.safetensors": "e1df1527b12b1eb5cbd9a50914f9e6eb24e885ec830a3c16b5eed6ad0b53a396",
+        "model-00005-of-00010.safetensors": "3556ac03f47c24eb8ad27c237e25baad639c651d9596fd72cb1523137bf56163",
+        "model-00006-of-00010.safetensors": "2c41e6f80f2b5ca384ce703eac048a13daf2aff689c3acca66a8943f45338aae",
+        "model-00007-of-00010.safetensors": "62a725f154f6ba942a36b5cc450db2b2df32f434e3224558c789bc04fa05fd36",
+        "model-00008-of-00010.safetensors": "3a1a6ac77e6434418bb7273b68a7b3534fed5217c990061c92a8f990dd6ab20e",
+        "model-00009-of-00010.safetensors": "e1fffc9bb2b77d4d2382c1bd9053e9d017741d67ca00cc6f77034a294f2f5cfd",
+        "model-00010-of-00010.safetensors": "116ef7ae6fa0fd46b478324e4aa6a49f448afed900ca9f71d4fbd3d02289bbd4"
+      },
+      "row_norm_max_relative_error_max": 0.001,
+      "calibration": "Measured on our own projection-then-row-rescale of this base (job 3760794). It stays inert until the scorer reads row_norm_max_relative_error_max; without that rule it would tie with the single-projection line."
+    }
+  },
+  "scope": "One base revision and one run per recipe. Repeated runs and other bases are needed before these become family limits."
+}

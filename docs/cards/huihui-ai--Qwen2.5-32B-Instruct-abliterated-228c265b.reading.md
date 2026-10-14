@@ -48,3 +48,19 @@ The attention and feed-forward names are now recognized. Seventy-six flags remai
 and attention outputs with first-value energy between 0.988 and 0.990, just under the 0.99 gate. One is the
 embedding matrix, which the token-side finding above already explains. The verdict stays undecided until the
 down-projection energy floor is set in the recipe library.
+
+
+## Update (2026-10-14, calibration on our own edit)
+
+A single projection I applied myself to Mistral Small 3.2 24B drew 68 flags of this same kind, so the 0.99 floor
+looks like the cause of these 75. bfloat16 rounding leaves 0.00151 to 0.00158 of each matrix's norm outside the first
+direction on this copy, the same as on mine, and the shortfall follows the size of the edit in both kinds. Scored in
+a scratch copy with the floor at 0.98, all 75 clear.
+
+The embedding flag reads differently on a closer look. The change moved 71 percent of the embedding's entries, where
+a padding-token remap would move one row, and its direction agrees with all 128 attention and down-projection
+directions at cosine 0.99993 or better. The best guess is that the refusal direction was projected out of the token
+embedding too. The padding-token change on the token side stands on its own.
+
+Both points stay hypotheses until a line calibrated for this base, or the leftover rule, is in the scorer. Details:
+`docs/calibration-mistral-small-3.2.md`.
