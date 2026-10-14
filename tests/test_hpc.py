@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-13  exercise pinned copies, build history and measurement failures.
 # Modified: SDE 2026-10-13  check login syntax and the protected submission chain.
 # Modified: SDE 2026-10-14  reproduce retry-state refusal and check projection-only submission.
+# Modified: SDE 2026-10-14  check the projection argument and child step environment.
 import ast
 import hashlib
 import importlib.util
@@ -53,6 +54,63 @@ class NeedsTests(unittest.TestCase):
         self.assertEqual(parse('/work\n 123* 1000 2000 - 1 0 0 -'), (123 * 1024, 1000 * 1024))
         with self.assertRaises(ValueError):
             parse('/work 123 0 0 - 1 0 0 -')
+
+
+class RoundArgumentTests(unittest.TestCase):
+    """Check argument handling with local steps and a fake reporting command."""
+
+    steps = ('10-install-kit.sh', '20-verify.sh', '30-install-reporting.sh', '40-submit.sh')
+
+    def setUp(self):
+        scratch = ROOT / '.tmp'
+        scratch.mkdir(exist_ok=True)
+        temporary = tempfile.TemporaryDirectory(prefix='round-args-', dir=scratch)
+        self.addCleanup(temporary.cleanup)
+        self.directory = Path(temporary.name)
+        shutil.copy2(ROOT / 'hpc/rounds/1/round.sh', self.directory / 'round.sh')
+        for name in self.steps:
+            step = self.directory / name
+            step.write_text('#!/bin/bash\n'
+                            'printf "%s:%s\\n" "${0##*/}" "${AUDIT_PROJECTION_ONLY:-}" >> "$ROUND_RECORD"\n'
+                            'echo "${AUDIT_PROJECTION_ONLY:-}"\n')
+            step.chmod(0o755)
+        binary = self.directory / 'bin'
+        binary.mkdir()
+        for name in ('dirname', 'hostname', 'date', 'tee', 'rm'):
+            (binary / name).symlink_to(shutil.which(name))
+        reporter = binary / 'hpc'
+        reporter.write_text('#!/bin/bash\necho "is on the desk"\n')
+        reporter.chmod(0o755)
+        self.record = self.directory / 'steps.txt'
+        self.environment = dict(os.environ, HOME=str(self.directory / 'home'), PATH=str(binary),
+                                ROUND_RECORD=str(self.record), HPC_SYSTEM='fake')
+        self.environment.pop('AUDIT_PROJECTION_ONLY', None)
+
+    def run_round(self, *arguments):
+        return subprocess.run(['./round.sh'] + list(arguments), cwd=self.directory, env=self.environment,
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True)
+
+    def test_default_runs_all_steps_without_projection(self):
+        result = self.run_round()
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(self.record.read_text().splitlines(), [name + ':' for name in self.steps])
+
+    def test_projection_exports_to_all_steps(self):
+        result = self.run_round('projection')
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(self.record.read_text().splitlines(), [name + ':1' for name in self.steps])
+
+    def test_projection_only_submit(self):
+        result = self.run_round('projection', '--only', '40-submit.sh')
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(self.record.read_text().splitlines(), ['40-submit.sh:1'])
+
+    def test_projection_requires_exact_leading_token(self):
+        for arguments in (('Projection',), ('projection-only',), ('--only', '40-submit.sh', 'projection')):
+            with self.subTest(arguments=arguments):
+                result = self.run_round(*arguments)
+                self.assertEqual(result.returncode, 2, result.stdout)
+                self.assertFalse(self.record.exists())
 
 
 class RoundTests(unittest.TestCase):
