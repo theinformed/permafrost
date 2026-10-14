@@ -1,6 +1,7 @@
 # common.py -- Share resource checks and checkpoint bookkeeping across recipes.
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  bound memory use and record completed reference copies.
+# Modified: SDE 2026-10-14  resolve tokenizers from the text configuration.
 """Small helpers for the recipe runners and their provenance cards."""
 
 import argparse
@@ -205,10 +206,13 @@ def finish(out, card, base=None):
 
 def load_runtime(directory, resources):
     """Load one checkpoint; avoid remote code and automatic device placement."""
-    from transformers import AutoModelForCausalLM, AutoTokenizer
+    from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer
 
     resources.check()
-    tokenizer = AutoTokenizer.from_pretrained(directory, local_files_only=True, trust_remote_code=False)
+    config = AutoConfig.from_pretrained(directory, local_files_only=True, trust_remote_code=False)
+    text_config = getattr(config, "get_text_config", lambda: config)()
+    tokenizer = AutoTokenizer.from_pretrained(directory, config=text_config,
+                                            local_files_only=True, trust_remote_code=False)
     if tokenizer.pad_token_id is None:
         tokenizer.pad_token = tokenizer.eos_token
     dtype = torch.float32 if resources.device.type == "cpu" else torch.bfloat16

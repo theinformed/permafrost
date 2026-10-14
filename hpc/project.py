@@ -1,6 +1,7 @@
 # project.py -- Measure a middle-layer direction and project residual writers.
-# Created by LT Sean Egan, PhD 2026-10-13
+# Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  save activation and tensor stages between short jobs.
+# Modified: SDE 2026-10-14  resolve tokenizers from the text configuration.
 import hashlib
 import json
 import os
@@ -30,11 +31,21 @@ def text_layers(model):
     return candidates[0]
 
 
+def load_tokenizer(original, config=None):
+    """Use the text configuration; the vision wrapper has no tokenizer."""
+    from transformers import AutoConfig, AutoTokenizer
+    if config is None:
+        config = AutoConfig.from_pretrained(str(original), local_files_only=True, trust_remote_code=False)
+    text_config = getattr(config, 'get_text_config', lambda: config)()
+    return AutoTokenizer.from_pretrained(str(original), config=text_config,
+                                        local_files_only=True, trust_remote_code=False)
+
+
 def activations(original, groups, stage, fingerprint, cpu):
     """Stop each forward at the middle layer; logits would only spend time."""
     import torch
     from safetensors.torch import save_file
-    from transformers import AutoConfig, AutoModelForCausalLM, AutoTokenizer, Mistral3ForConditionalGeneration
+    from transformers import AutoConfig, AutoModelForCausalLM, Mistral3ForConditionalGeneration
     config = AutoConfig.from_pretrained(str(original), local_files_only=True, trust_remote_code=False)
     loader = Mistral3ForConditionalGeneration if config.model_type == 'mistral3' else AutoModelForCausalLM
     options = {'local_files_only': True, 'trust_remote_code': False, 'use_safetensors': True,
@@ -47,7 +58,7 @@ def activations(original, groups, stage, fingerprint, cpu):
         options['max_memory'] = {index: torch.cuda.get_device_properties(index).total_memory - 4 * 1024 ** 3 for index in range(4)}
         options['max_memory']['cpu'] = '16GiB'
     model = loader.from_pretrained(str(original), **options).eval()
-    tokenizer = AutoTokenizer.from_pretrained(str(original), local_files_only=True, trust_remote_code=False)
+    tokenizer = load_tokenizer(original, config)
     layers = text_layers(model)
     middle = len(layers) // 2
     captured = []
