@@ -1,11 +1,13 @@
 # rehearse.py -- Run the bundled round against a small local scheduler.
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  exercise build retries, queued copies and failed measurements.
+# Modified: SDE 2026-10-14  check clean projection retries and stale declared inputs.
 import argparse
 import hashlib
 import json
 import os
 from pathlib import Path
+import shlex
 import shutil
 import resource
 import subprocess
@@ -45,7 +47,7 @@ class Rehearsal:
         self.environment = dict(os.environ, HOME=str(self.home), WORKDIR=str(self.work),
             AUDIT_FAKE_ROOT=str(self.directory), PATH=str(self.binary) + ':' + os.environ['PATH'],
             AUDIT_REHEARSAL='1', AUDIT_STUB='1', AUDIT_FAIL_SECOND='0', AUDIT_FAIL_MEASUREMENT='0',
-            AUDIT_FAKE_DEFER='0', AUDIT_BASE=args.base, AUDIT_NAME='rehearsal-base',
+            AUDIT_FAKE_DEFER='0', AUDIT_PROJECTION_ONLY='0', AUDIT_BASE=args.base, AUDIT_NAME='rehearsal-base',
             AUDIT_COMPUTE_BIN=str(compute_bin), HPC_SYSTEM='fake', CUDA_VISIBLE_DEVICES='',
             OMP_NUM_THREADS='1', MKL_NUM_THREADS='1', OPENBLAS_NUM_THREADS='1', PYTHONDONTWRITEBYTECODE='1')
         self.round = self.home / 'model-audit/rounds/1'
@@ -129,6 +131,66 @@ class Rehearsal:
                     'failed measurement allowed an afterok child to start')
         self.append('afterok child: ' + self.rows()[-1]['status'])
 
+    def seed_prior_try(self):
+        """Leave the scratch, outputs and markers from an earlier projection try."""
+        names = ('state/projection/context.json', 'state/projection/activations.done',
+                 'state/projection/harmful.safetensors', 'state/projection/harmless.safetensors',
+                 'state/projection/refusal-direction.safetensors', 'state/activations.done',
+                 'state/timing.done', 'state/project.done', 'state/compare.done',
+                 'derived/rehearsal-base/single-projection/stub.txt',
+                 'measurements/rehearsal-base/single-projection.json')
+        paths = [self.results / name for name in names]
+        for path in paths:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text('{}\n')
+            os.utime(str(path), (1, 1))
+        return paths
+
+    def prior_try(self):
+        """Reuse one verified download and check that projection clears its own state."""
+        self.clean()
+        original = self.work / 'model-audit/originals/rehearsal-base'
+        receipt = (original / 'download-manifest.json').read_bytes()
+        checkpoint = (original / 'stub.txt').read_bytes()
+        download = self.results / 'state/download.done'
+        download_time = download.stat().st_mtime_ns
+        paths = self.seed_prior_try()
+        self.changed_sources()
+        self.environment.update(AUDIT_PROJECTION_ONLY='1', AUDIT_FAKE_DEFER='1')
+        self.expect(self.run() == 0, 'projection-only retry submission failed')
+        rows = self.rows()
+        self.expect(len(rows) == 3 and rows[-1]['arguments'][-1].endswith('/jobs/project.sh'),
+                    'projection-only retry did not submit exactly one projection job')
+        self.expect(not any(arg.startswith('--dependency') for arg in rows[-1]['arguments']),
+                    'projection-only retry has a dependency')
+        self.expect(self.call([str(self.binary / 'sbatch'), '--run-pending']) == 0,
+                    'prior-try state blocked the retry')
+        row = self.rows()[-1]
+        self.expect(row['status'] == 'finished' and row['exit'] == 0, 'retry job failed')
+        self.expect(not (self.results / 'state/projection').exists(), 'prior-try scratch survived')
+        self.expect(not (self.results / 'state/activations.done').exists(), 'old activation marker survived')
+        self.expect(all(not path.exists() or path.stat().st_mtime > 1 for path in paths),
+                    'prior-try output or marker survived')
+        self.expect((original / 'download-manifest.json').read_bytes() == receipt and
+                    (original / 'stub.txt').read_bytes() == checkpoint and
+                    download.stat().st_mtime_ns == download_time, 'verified download changed')
+        self.append('prior-try-state-cleared: projection job {}; {}; exit {}; verified download preserved'.format(
+            row['job'], row['status'], row['exit']))
+
+    def stale_input(self, relative):
+        """Plant contamination at the measurement read, after job-start cleanup."""
+        planted = self.results / relative
+        python = self.binary / 'python3'
+        python.unlink()
+        python.write_text('#!/bin/bash\nset -euo pipefail\n'
+            'if [ "${1:-}" = ./measure.py ] && [ $# = 1 ]; then\n'
+            '    mkdir -p ' + shlex.quote(str(planted.parent)) + '\n'
+            '    printf "previous round\\n" > ' + shlex.quote(str(planted)) + '\n'
+            '    touch -d @1 ' + shlex.quote(str(planted)) + '\nfi\n'
+            'exec ' + shlex.quote(self.login) + ' "$@"\n')
+        python.chmod(0o755)
+        return planted
+
 
 def suite(args):
     """Run every requested counterexample and check its recorded outcome."""
@@ -176,13 +238,14 @@ def suite(args):
         pinned.append('job {} pinned hash matches: {}'.format(row['job'], sha))
     pinned.tail('overwrite-pinned')
 
+    retry = Rehearsal(args, directory / 'retry')
+    retry.prior_try()
+    retry.tail('prior-try-state-cleared')
+
     stale = Rehearsal(args, directory / 'stale')
     stale.environment['AUDIT_FAKE_DEFER'] = '1'
     stale.expect(stale.run() == 0, 'stale case submission failed')
-    planted = stale.results / 'derived/rehearsal-base/single-projection/previous-round.txt'
-    planted.parent.mkdir(parents=True)
-    planted.write_text('left over from a previous round\n')
-    os.utime(str(planted), (1, 1))
+    planted = stale.stale_input('derived/rehearsal-base/single-projection/previous-round.txt')
     stale.call([str(stale.binary / 'sbatch'), '--run-pending'])
     rows = stale.rows()
     stale.expect(rows[1]['status'] == 'failed' and rows[1]['exit'] != 0, 'stale file did not fail the job')
@@ -216,7 +279,7 @@ def suite(args):
     else:
         raise ValueError('self-test accepted a deliberately broken round')
     broken.tail('self-test FAIL')
-    print('All seven observed outcomes matched the requested cases.')
+    print('All eight observed outcomes matched the requested cases.')
 
 
 def rehearse(args):

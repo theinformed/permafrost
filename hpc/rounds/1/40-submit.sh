@@ -2,9 +2,14 @@
 # 40-submit.sh -- Submit one pinned download and projection chain per build.
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  allow rebuilt retries and retain the earlier job ids.
+# Modified: SDE 2026-10-14  allow projection alone with a completed download receipt.
 . ./env.sh
 start_piece submit 'Submit the download and projection chain'
 [ -s "$AUDIT_WORK/state/pad-confirmed" ] || { echo 'no drop has reached the desk from this system'; exit 1; }
+if [ "${AUDIT_PROJECTION_ONLY:-0}" = 1 ]; then
+    [ -f "$AUDIT_WORK/state/download.done" ] || { echo "projection-only submit missing: $AUDIT_WORK/state/download.done"; exit 1; }
+    [ -f "$AUDIT_ORIGINAL/download-manifest.json" ] || { echo "projection-only submit missing: $AUDIT_ORIGINAL/download-manifest.json"; exit 1; }
+fi
 stamp=$(cat BUILD-STAMP.txt)
 [[ "$stamp" =~ ^[a-f0-9]{64}$ ]] || { echo 'round has no valid build stamp'; exit 1; }
 export AUDIT_BUILD_STAMP=$stamp
@@ -29,8 +34,12 @@ submit_job() {
     printf '%s\n' "$id"
 }
 
-first=$(submit_job download)
-echo "download job: $first"
-next=$(submit_job project --dependency=afterok:"$first" --kill-on-invalid-dep=yes)
+if [ "${AUDIT_PROJECTION_ONLY:-0}" = 1 ]; then
+    next=$(submit_job project)
+else
+    first=$(submit_job download)
+    echo "download job: $first"
+    next=$(submit_job project --dependency=afterok:"$first" --kill-on-invalid-dep=yes)
+fi
 echo "projection job: $next"
 echo 'VERDICT submit OK'

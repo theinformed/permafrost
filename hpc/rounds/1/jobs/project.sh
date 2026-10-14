@@ -13,10 +13,21 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  fail the job when a measurement or freshness check fails.
 # Modified: SDE 2026-10-13  save completed stages so another piece can resume.
+# Modified: SDE 2026-10-14  clear prior-try state before projection starts.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
 . ./env.sh
+
+clear_projection_state() {
+    # Each try starts clean. Keep the verified download and its receipt.
+    rm -rf -- "$AUDIT_WORK/state/projection" "$AUDIT_DERIVED"
+    rm -f -- "$AUDIT_MEASUREMENT" "$AUDIT_WORK/state/activations.done" \
+        "$AUDIT_WORK/state/timing.done" "$AUDIT_WORK/state/project.done" \
+        "$AUDIT_WORK/state/compare.done"
+}
+
+clear_projection_state
 start_piece projection 'Project one direction and measure the checkpoint change'
 [ -f "$AUDIT_WORK/state/download.done" ]
 if [ "${AUDIT_STUB:-0}" = 1 ]; then

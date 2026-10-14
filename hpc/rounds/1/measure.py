@@ -1,6 +1,7 @@
 # measure.py -- Reject old round inputs before the checkpoint comparison reads them.
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  check file ages and shared originals on every measurement read.
+# Modified: SDE 2026-10-14  date declared comparison inputs, not retry scratch.
 import hashlib
 import json
 import os
@@ -26,11 +27,12 @@ def fresh(paths, started):
 
 
 def round_inputs():
-    """Include saved stage markers; an old done marker can skip the whole experiment."""
-    work = Path(os.environ['AUDIT_WORK'])
-    roots = (work / 'state/projection', work / 'derived', work / 'measurements')
-    paths = [path for root in roots for path in sorted(root.rglob('*')) if path.is_file()]
-    paths += [path for path in sorted((work / 'state').glob('*.done')) if path.name != 'download.done']
+    """Date only the derived checkpoint and report this comparison consumes."""
+    derived = Path(os.environ['AUDIT_DERIVED'])
+    report = Path(os.environ['AUDIT_MEASUREMENT'])
+    paths = [path for path in sorted(derived.rglob('*')) if path.is_file()]
+    if report.is_file():
+        paths.append(report)
     return paths
 
 

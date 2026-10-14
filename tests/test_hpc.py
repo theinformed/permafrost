@@ -2,6 +2,7 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  exercise pinned copies, build history and measurement failures.
 # Modified: SDE 2026-10-13  check login syntax and the protected submission chain.
+# Modified: SDE 2026-10-14  reproduce retry-state refusal and check projection-only submission.
 import ast
 import hashlib
 import importlib.util
@@ -235,10 +236,7 @@ hpc_job_fail() { :; }
         run = self.fixture()
         run.environment['AUDIT_FAKE_DEFER'] = '1'
         self.assertEqual(run.run(), 0)
-        planted = run.results / 'measurements/rehearsal-base/previous-round.json'
-        planted.parent.mkdir(parents=True)
-        planted.write_text('{}')
-        os.utime(str(planted), (1, 1))
+        planted = run.stale_input('measurements/rehearsal-base/single-projection.json')
         self.assertNotEqual(run.call([str(run.binary / 'sbatch'), '--run-pending']), 0)
         row = run.rows()[1]
         self.assertEqual(row['status'], 'failed')
@@ -248,6 +246,47 @@ hpc_job_fail() { :; }
         drop = (run.directory / 'outbox/1002-drop.txt').read_text()
         self.assertIn('event: failed', drop)
         self.assertIn(str(planted), drop)
+
+    def test_prior_try_state_is_cleared_by_projection_only_job(self):
+        run = self.fixture()
+        run.prior_try()
+        row = run.rows()[-1]
+        self.assertIn('prior-try-state-cleared:', run.log.read_text())
+        card = json.loads((run.home / '.hpc/jobs' / (row['job'] + '.json')).read_text())
+        self.assertEqual(card['snapshot']['sha256'], row['started_snapshot_sha256'])
+        stamp = (run.round / 'BUILD-STAMP.txt').read_text().strip()
+        self.assertEqual(card['build_stamp'], stamp)
+        state = (run.results / 'state/round-1-submissions').read_text()
+        self.assertIn('project {} build {}'.format(row['job'], stamp), state)
+        self.assertIn('VERDICT submit OK', run.log.read_text())
+
+    def test_projection_only_requires_download_marker_and_receipt(self):
+        run = self.fixture()
+        run.environment['AUDIT_PROJECTION_ONLY'] = '1'
+        self.assertNotEqual(run.run(), 0)
+        marker = run.results / 'state/download.done'
+        self.assertIn('projection-only submit missing: ' + str(marker), run.log.read_text())
+        self.assertEqual(run.rows(), [])
+        marker.touch()
+        self.assertNotEqual(run.call(['./round.sh', '--only', '40-submit.sh'], run.round), 0)
+        receipt = run.work / 'model-audit/originals/rehearsal-base/download-manifest.json'
+        self.assertIn('projection-only submit missing: ' + str(receipt), run.log.read_text())
+        self.assertEqual(run.rows(), [])
+        self.assertFalse((run.results / 'state/round-1-submissions').exists())
+
+    def test_projection_only_still_checks_original_checksum(self):
+        run = self.fixture()
+        run.clean()
+        original = run.work / 'model-audit/originals/rehearsal-base/stub.txt'
+        original.write_text('changed checkpoint')
+        run.changed_sources()
+        run.environment['AUDIT_PROJECTION_ONLY'] = '1'
+        self.assertEqual(run.run(), 0)
+        rows = run.rows()
+        self.assertEqual(len(rows), 3)
+        self.assertEqual(rows[-1]['status'], 'failed')
+        self.assertIn('original checksum differs: ' + str(original), Path(rows[-1]['log']).read_text())
+        self.assertFalse((run.results / 'state/compare.done').exists())
 
     def test_measurement_failure_fails_job_and_cancels_afterok(self):
         run = self.fixture()
@@ -297,14 +336,35 @@ class MeasurementTests(unittest.TestCase):
         self.work = Path(temporary.name)
         self.original = self.work / 'original'
         env = {'AUDIT_WORK': str(self.work), 'AUDIT_ORIGINAL': str(self.original),
-               'AUDIT_BASE': 'rehearsal/stub', 'AUDIT_JOB_STARTED': str(time.time())}
+               'AUDIT_BASE': 'rehearsal/stub', 'AUDIT_JOB_STARTED': str(time.time()),
+               'AUDIT_DERIVED': str(self.work / 'derived/base'),
+               'AUDIT_MEASUREMENT': str(self.work / 'measurements/base/report.json')}
         self.environment = patch.dict(os.environ, env)
         self.environment.start()
         self.addCleanup(self.environment.stop)
         self.measure.seed_original()
 
-    def test_stale_saved_stage_and_done_marker_are_refused(self):
-        for relative in ('state/projection/residual.bin', 'state/compare.done', 'derived/base/weights.bin'):
+    def test_old_gate_refuses_prior_try_state_but_new_gate_allows_it(self):
+        for relative in ('state/projection/context.json', 'state/projection/activations.done',
+                         'state/compare.done'):
+            with self.subTest(path=relative):
+                path = self.work / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text('{}')
+                os.utime(str(path), (1, 1))
+                # This is the old scan, including retry scratch and stage markers.
+                roots = (self.work / 'state/projection', self.work / 'derived', self.work / 'measurements')
+                old_inputs = [item for root in roots for item in sorted(root.rglob('*')) if item.is_file()]
+                old_inputs += [item for item in sorted((self.work / 'state').glob('*.done'))
+                               if item.name != 'download.done']
+                with self.assertRaisesRegex(ValueError, 'stale measurement input refused: ' + str(path)):
+                    self.measure.fresh(old_inputs, float(os.environ['AUDIT_JOB_STARTED']))
+                self.assertEqual(self.measure.round_inputs(), [])
+                self.assertEqual(self.measure.measurement([], lambda args: 0), 0)
+                path.unlink()
+
+    def test_stale_declared_inputs_are_refused(self):
+        for relative in ('derived/base/weights.bin', 'measurements/base/report.json'):
             with self.subTest(path=relative):
                 path = self.work / relative
                 path.parent.mkdir(parents=True, exist_ok=True)
@@ -327,8 +387,8 @@ class MeasurementTests(unittest.TestCase):
     def test_fresh_input_and_old_verified_original_are_allowed(self):
         original = self.original / 'stub.txt'
         os.utime(str(original), (1, 1))
-        derived = self.work / 'derived/weights.bin'
-        derived.parent.mkdir()
+        derived = self.work / 'derived/base/weights.bin'
+        derived.parent.mkdir(parents=True)
         derived.write_text('this job')
         self.assertEqual(self.measure.measurement([], lambda args: 0), 0)
 
