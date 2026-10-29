@@ -3,8 +3,16 @@
     "scheduler": "slurm",
     "work": "/p/work1/sdegan",
     "subproject": "NRLMR57635502",
-    "transfer": ["--partition=general", "--qos=transfer", "--constraint=xfer"],
-    "background": ["--partition=general", "--qos=background", "--constraint=standard"],
+    "transfer": [
+      "--partition=general",
+      "--qos=transfer",
+      "--constraint=xfer"
+    ],
+    "background": [
+      "--partition=general",
+      "--qos=background",
+      "--constraint=standard"
+    ],
     "time_limit": "03:55:00",
     "purge_days": 21,
     "quota": "lfs",
@@ -15,8 +23,15 @@
     "scheduler": "slurm",
     "work": "/p/work1/sdegan",
     "subproject": "NRLMR57635502",
-    "transfer": ["--qos=transfer", "--partition=transfer", "--constraint=xfer"],
-    "background": ["--qos=background", "--constraint=standard"],
+    "transfer": [
+      "--qos=transfer",
+      "--partition=transfer",
+      "--constraint=xfer"
+    ],
+    "background": [
+      "--qos=background",
+      "--constraint=standard"
+    ],
     "time_limit": "03:55:00",
     "purge_days": 30,
     "quota": "show_storage",
@@ -27,8 +42,14 @@
     "scheduler": "slurm",
     "work": "/p/work1/sdegan",
     "subproject": "NRLMR5762B403",
-    "transfer": ["--partition=transfer", "--qos=normal"],
-    "background": ["--partition=background", "--qos=normal"],
+    "transfer": [
+      "--partition=transfer",
+      "--qos=normal"
+    ],
+    "background": [
+      "--partition=background",
+      "--qos=normal"
+    ],
     "time_limit": "03:55:00",
     "transfer_time_limit": "23:55:00",
     "purge_days": 30,
@@ -40,11 +61,17 @@
     "scheduler": "pbs",
     "work": "/p/work/sdegan",
     "subproject": "NRLMR5762B403",
-    "transfer": ["-q", "transfer"],
-    "background": ["-q", "background"],
+    "transfer": [
+      "-q",
+      "transfer"
+    ],
+    "background": [
+      "-q",
+      "background"
+    ],
     "time_limit": "03:55:00",
-    "ncpus": 1,
-    "mem": {"download": "8gb", "project": "64gb", "sweep": "2gb"},
+    "ncpus": 92,
+    "mpiprocs": 1,
     "purge_days": 30,
     "quota": "statvfs",
     "token_file": "/p/work/sdegan/hf-token",

@@ -30,12 +30,23 @@ piece_time() {
     esac
 }
 
+# piece_memory PIECE: the PBS memory word, or nothing on a system that hands out whole nodes.
 piece_memory() {
     case $1 in
-        download) printf '%s\n' "${AUDIT_PBS_MEM_DOWNLOAD:?no download memory for this system}" ;;
-        sweep|timing) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:?no sweep memory for this system}" ;;
-        *) printf '%s\n' "${AUDIT_PBS_MEM_PROJECT:?no compare memory for this system}" ;;
+        download) printf '%s\n' "${AUDIT_PBS_MEM_DOWNLOAD:-}" ;;
+        sweep|timing) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:-}" ;;
+        *) printf '%s\n' "${AUDIT_PBS_MEM_PROJECT:-}" ;;
     esac
+}
+
+# pbs_select PIECE: select=1:ncpus=N, then mpiprocs and memory only where the system names them.
+pbs_select() {
+    local memory select
+    memory=$(piece_memory "$1")
+    select="select=1:ncpus=${AUDIT_PBS_NCPUS:-1}"
+    [ -z "${AUDIT_PBS_MPIPROCS:-}" ] || select="$select:mpiprocs=$AUDIT_PBS_MPIPROCS"
+    [ -z "$memory" ] || select="$select:mem=$memory"
+    printf '%s\n' "$select"
 }
 
 piece_name() {
@@ -66,13 +77,12 @@ scheduler_words() {
             case $pinned$WORKDIR in
                 *,*) echo 'PBS variables cannot carry a comma in a path' >&2; return 1 ;;
             esac
-            local memory stamp
-            memory=$(piece_memory "$piece") || return 1
+            local stamp
             stamp=$(date -u +%Y%m%dT%H%M%S)
             # The owner tag goes first in this list, on the qsub line itself.
             SCHEDULER_VARS="WORKDIR=$WORKDIR,AUDIT_PINNED_ROUND=$pinned,AUDIT_PAIR=$AUDIT_PAIR"
             SCHEDULER_WORDS+=(-A "$AUDIT_SUBPROJECT"
-                -l "select=1:ncpus=${AUDIT_PBS_NCPUS:-1}:mem=$memory"
+                -l "$(pbs_select "$piece")"
                 -l "walltime=$(piece_time "$piece")" -N "$name" -S /bin/bash -j oe
                 -o "$AUDIT_WORK/logs/$name-$stamp-$$-$AUDIT_PAIR.out")
             [ -z "$dependency" ] || SCHEDULER_WORDS+=(-W "depend=$dependency")
@@ -109,7 +119,7 @@ pbs_word_check() {
             -A) [[ "$word" =~ ^[A-Za-z0-9_-]+$ ]] || { echo "PBS account refused: $word"; return 1; } ;;
             -q) [[ "$word" =~ ^[A-Za-z0-9_]+$ ]] || { echo "PBS queue refused: $word"; return 1; } ;;
             -l)
-                [[ "$word" =~ ^select=1:ncpus=[1-9][0-9]*:mem=[1-9][0-9]*[kmgt]?b$ ||
+                [[ "$word" =~ ^select=1:ncpus=[1-9][0-9]*(:mpiprocs=[1-9][0-9]*)?(:mem=[1-9][0-9]*[kmgt]?b)?$ ||
                    "$word" =~ ^walltime=[0-9]{2}:[0-5][0-9]:[0-5][0-9]$ ]] ||
                     { echo "PBS resource refused: $word"; return 1; }
                 ;;

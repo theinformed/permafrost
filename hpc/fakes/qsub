@@ -5,6 +5,7 @@
 import importlib.machinery
 import importlib.util
 import os
+import re
 from pathlib import Path
 import sys
 
@@ -25,6 +26,13 @@ def main():
         index += 2
     if index != len(arguments) - 1 or not Path(arguments[-1]).is_file():
         raise SystemExit('qsub: the last argument must be the job script')
+    # Wheat hands out whole nodes: every select line names ncpus=92 and mpiprocs, and no memory.
+    selects = [arguments[position + 1] for position, argument in enumerate(arguments[:-1])
+               if argument == '-l' and arguments[position + 1].startswith('select=')]
+    if len(selects) != 1 or not re.fullmatch(
+            r'select=[1-9][0-9]*:ncpus=92:mpiprocs=[1-9][0-9]*(:(ngpus=1|nmlas=[46]|bigmem=1))*', selects[0]):
+        raise SystemExit('qsub: Error: Please include number of nodes with -l select:\n'
+                         'Standard computes:    select=<number of nodes>:ncpus=92:mpiprocs=<MPI processes per node>')
     rows = fake.load()
     job = '{}.fake-pbs'.format(1000 + len(rows) + 1)
     home = os.environ['HOME']

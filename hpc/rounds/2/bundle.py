@@ -79,10 +79,14 @@ def system_entry(table, name):
     if not re.fullmatch(r'[A-Za-z0-9_-]+', entry['subproject']):
         raise ValueError('invalid subproject for ' + name)
     if entry['scheduler'] == 'pbs':
+        # A system that shares nodes names memory per piece; one that hands out whole nodes names mpiprocs.
         memory = entry.get('mem', {})
-        if not isinstance(entry.get('ncpus'), int) or entry['ncpus'] < 1 or set(memory) != {'download', 'project', 'sweep'} \
-                or not all(re.fullmatch(r'[1-9][0-9]*[kmgt]?b', value) for value in memory.values()):
-            raise ValueError('a PBS system needs ncpus and mem for download, project and sweep')
+        whole_node = isinstance(entry.get('mpiprocs'), int) and entry['mpiprocs'] >= 1
+        if not isinstance(entry.get('ncpus'), int) or entry['ncpus'] < 1:
+            raise ValueError('a PBS system needs ncpus')
+        if not whole_node and (set(memory) != {'download', 'project', 'sweep'}
+                               or not all(re.fullmatch(r'[1-9][0-9]*[kmgt]?b', value) for value in memory.values())):
+            raise ValueError('a PBS system needs mpiprocs for whole nodes, or mem for download, project and sweep')
     return entry
 
 
@@ -108,9 +112,12 @@ def system_script(name, entry, image=None, image_sha256=None):
              'AUDIT_BACKGROUND_ARGS=' + value('\n'.join(entry['background'])),
              'export AUDIT_TRANSFER_ARGS AUDIT_BACKGROUND_ARGS']
     if entry['scheduler'] == 'pbs':
-        lines.append('export AUDIT_PBS_NCPUS={} AUDIT_PBS_MEM_DOWNLOAD={} AUDIT_PBS_MEM_PROJECT={} '
-                     'AUDIT_PBS_MEM_SWEEP={}'.format(entry['ncpus'], *(value(entry['mem'][piece])
-                                                    for piece in ('download', 'project', 'sweep'))))
+        # A system that hands out whole nodes names ncpus and mpiprocs and no memory word.
+        memory = entry.get('mem', {})
+        lines.append('export AUDIT_PBS_NCPUS={} AUDIT_PBS_MPIPROCS={} AUDIT_PBS_MEM_DOWNLOAD={} '
+                     'AUDIT_PBS_MEM_PROJECT={} AUDIT_PBS_MEM_SWEEP={}'.format(
+                         entry['ncpus'], value(entry.get('mpiprocs', '')),
+                         *(value(memory.get(piece, '')) for piece in ('download', 'project', 'sweep'))))
     if image:
         lines.append('export AUDIT_IMAGE={} AUDIT_IMAGE_SHA256={}'.format(value(image), value(image_sha256)))
     return '\n'.join(lines) + '\n'
