@@ -803,7 +803,7 @@ class SystemsTableTests(unittest.TestCase):
         sys.path.insert(0, str(ROUND))
         import bundle
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
-        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat'})
+        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat', 'fran'})
         for name in table:
             entry = bundle.system_entry(table, name)
             self.assertLess(len(entry['work'] + '/model-audit-census.sh 24'), 50, name)
