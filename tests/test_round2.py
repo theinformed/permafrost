@@ -244,6 +244,15 @@ class BundleTests(unittest.TestCase):
         self.assertFalse(stale.exists())
         self.assertFalse((run.round / 'maker-guard.sha256').read_text().count('deepseek'))
 
+    def test_the_timing_step_queues_one_small_job_by_name(self):
+        run = self.fixture()
+        self.assertEqual(run.run(), 0)
+        self.assertEqual(run.call(['./round.sh', '--only', 'timing'], run.round), 0)
+        log = (run.directory / 'outbox/round-2-only-15-timing-end.log').read_text()
+        self.assertIn('timing job: ', log)
+        self.assertIn('VERDICT timing OK', log)
+        self.assertNotIn('15-timing', (run.directory / 'outbox/round-2-end.log').read_text())
+
     def test_a_step_may_be_named_by_its_number(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)
@@ -643,7 +652,7 @@ class SyntaxTests(unittest.TestCase):
             self.assertNotIn('#SBATCH --time', text)
         self.assertIn('--mem=60G', (ROUND / 'jobs/project.sh').read_text())
         self.assertEqual(sorted(path.name for path in (ROUND / 'jobs').glob('*.sh')),
-                         ['download.sh', 'project.sh', 'sweep.sh'])
+                         ['download.sh', 'project.sh', 'sweep.sh', 'timing.sh'])
 
 
 class BatchCountTests(unittest.TestCase):

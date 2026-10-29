@@ -131,7 +131,7 @@ finish_piece() {
         if [ -f "${AUDIT_MEASUREMENT%/*}/receipt.json" ]; then
             cat "${AUDIT_MEASUREMENT%/*}/receipt.json"
             head -c 80000 "${AUDIT_MEASUREMENT%/*}/card.md"
-        elif [ "${AUDIT_MEASUREMENT##*/}" = sweep.json ] && [ -f "$AUDIT_MEASUREMENT" ]; then
+        elif [[ "${AUDIT_MEASUREMENT##*/}" = @(sweep|timing).json ]] && [ -f "$AUDIT_MEASUREMENT" ]; then
             head -c 80000 "$AUDIT_MEASUREMENT"
         fi
         tail -n 200 "$PIECE_LOG" | head -c 800000

@@ -5,6 +5,7 @@
 # time limits; every value that differs between systems goes on the command line from here.
 
 SWEEP_TIME_LIMIT=00:30:00
+TIMING_TIME_LIMIT=00:05:00
 
 # job_id_env: this job's scheduler id without a server suffix; nothing outside a job.
 job_id_env() {
@@ -24,6 +25,7 @@ piece_time() {
     case $1 in
         download) printf '%s\n' "${AUDIT_TRANSFER_TIME_LIMIT:-$AUDIT_TIME_LIMIT}" ;;
         sweep) printf '%s\n' "$SWEEP_TIME_LIMIT" ;;
+        timing) printf '%s\n' "$TIMING_TIME_LIMIT" ;;
         *) printf '%s\n' "$AUDIT_TIME_LIMIT" ;;
     esac
 }
@@ -31,7 +33,7 @@ piece_time() {
 piece_memory() {
     case $1 in
         download) printf '%s\n' "${AUDIT_PBS_MEM_DOWNLOAD:?no download memory for this system}" ;;
-        sweep) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:?no sweep memory for this system}" ;;
+        sweep|timing) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:?no sweep memory for this system}" ;;
         *) printf '%s\n' "${AUDIT_PBS_MEM_PROJECT:?no compare memory for this system}" ;;
     esac
 }

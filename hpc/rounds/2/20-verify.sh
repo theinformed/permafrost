@@ -11,7 +11,7 @@ start_piece verify 'Check the transfer and CPU comparison requests'
 python3 ./lineage.py batch.json maker-guard.sha256
 python3 ./login.py
 python3 ./storage.py
-for piece in download project sweep; do
+for piece in download project sweep timing; do
     test_submission "$piece" "jobs/$piece.sh"
 done
 # Prove the image runs here, without a GPU, before anything is queued.
