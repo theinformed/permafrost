@@ -1,0 +1,36 @@
+# Stage 1: wangzhang/gemma-4-31B-it-abliterated
+
+Original: `google/gemma-4-31B-it`
+
+Verdict: **unexplained differences**
+
+Revisions: modified `d7431183c443443024debb08b222cbcf2e424da7`; original `419b2efe421994fdfd3394e621983d4cc511cd4f`.
+
+Changed fields:
+
+- `config.text_config.moe_intermediate_size` (unexplained)
+- `template.default` (unexplained)
+
+## Explained by re-save: `generation.transformers_version`
+
+Original file: `generation_config.json`.
+
+Modified file: `generation_config.json`.
+
+The saved version string changed.
+
+## Explained by re-save: `config.transformers_version`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The saved version string changed.
+
+The `default` template source differs beyond line endings and trailing whitespace.
+
+The fixed conversation renders identically with the `default` template.
+
+This metadata audit does not certify the absence of hidden behavior.
+
+Weights: recipe_violations. Nearest recipe: single-projection-selected.
