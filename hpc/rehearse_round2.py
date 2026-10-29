@@ -44,6 +44,8 @@ hpc_job_start() {
     printf '{"v":1,"job":"%s","description":"%s","project":"model-audit"}\\n' "$HPC_JOB_ID" "$1" > "$HOME/.hpc/jobs/$HPC_JOB_ID.json"
 }
 hpc_job_finish() { echo "card event: finished; $*"; }
+hpc_report_on_exit() { :; }
+hpc_exit_report() { return "${1:-$?}"; }
 hpc_job_fail() { echo "card event: failed; $*"; }
 """)
     return directory

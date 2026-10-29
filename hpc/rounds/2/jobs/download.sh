@@ -10,12 +10,15 @@
 # Modified: SDE 2026-10-14  publish completion only after all ten snapshots pass.
 # Modified: SDE 2026-10-15  the hub client round 1 tested; no progress bars in the log.
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard, node facts, image.
+# Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
 . ./env.sh
 count=$(python3 ./census.py count)
 start_piece download "Download and verify $count checkpoint pairs"
+# The desk's reporting kit records how this job ends, even when it dies without a word.
+hpc_report_on_exit
 fips_guard
 python3 ./lineage.py batch.json banned-makers.txt
 stub=0

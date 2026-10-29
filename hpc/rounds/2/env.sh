@@ -109,7 +109,9 @@ export HPC_DROP=0
 finish_piece() {
     local rc=$?
     trap - EXIT
-    if [ "$rc" = 0 ]; then hpc_job_finish 'piece finished'
+    # hpc_report_on_exit may have recorded the ending already; one record per job.
+    if [ -n "${_HPC_DONE:-}" ]; then :
+    elif [ "$rc" = 0 ]; then hpc_job_finish 'piece finished'
     else hpc_job_fail "piece failed with exit $rc"; fi
     local id=$HPC_JOB_ID
     local drop=$AUDIT_WORK/logs/$id-drop.txt

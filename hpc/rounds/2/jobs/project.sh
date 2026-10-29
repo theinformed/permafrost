@@ -10,6 +10,7 @@
 # Modified: SDE 2026-10-14  clear only this piece's prior try before reading inputs.
 # Modified: SDE 2026-10-15  rebuild the compute venv when its pins change; no address-space cap.
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard; the image path.
+# Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -27,6 +28,8 @@ clear_projection_state() {
 clear_projection_state
 mkdir -p "$AUDIT_PIECE_WORK/state"
 start_piece compare "Compare checkpoint pair $AUDIT_PAIR on CPU"
+# The desk's reporting kit records how this job ends, even when it dies without a word.
+hpc_report_on_exit
 fips_guard
 if [ ! -f "$AUDIT_WORK/state/download.done" ]; then
     say 'compare refused: no finished download' "$AUDIT_WORK/state/download.done"

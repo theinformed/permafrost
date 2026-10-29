@@ -7,6 +7,7 @@
 #SBATCH --output=logs/%x-%j.out
 # sweep.sh -- Delete each original once every pair that reads it has saved its reports.
 # Created by Sean Egan 2026-10-29
+# Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -14,5 +15,7 @@ cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
 # The drop carries the sweep's record instead of a pair's reports.
 export AUDIT_MEASUREMENT=$AUDIT_WORK/measurements/sweep.json
 start_piece sweep 'Delete the originals whose pairs all have reports'
+# The desk's reporting kit records how this job ends, even when it dies without a word.
+hpc_report_on_exit
 python3 ./census.py sweep
 echo 'VERDICT sweep OK'
