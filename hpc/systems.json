@@ -34,7 +34,7 @@
     ],
     "time_limit": "03:55:00",
     "purge_days": 30,
-    "quota": "show_storage",
+    "quota": "show_usage",
     "token_file": "/p/home/sdegan/.hpc/hf-token",
     "image": "optional"
   },
@@ -69,9 +69,12 @@
       "-q",
       "background"
     ],
+    "select": {
+      "transfer": "select=1:ncpus=1",
+      "background": "select=1:ncpus=92:mpiprocs=1"
+    },
     "time_limit": "03:55:00",
-    "ncpus": 92,
-    "mpiprocs": 1,
+    "ncpus": 1,
     "purge_days": 30,
     "quota": "statvfs",
     "token_file": "/p/work/sdegan/hf-token",

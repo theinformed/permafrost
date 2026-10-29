@@ -64,7 +64,7 @@ def system_entry(table, name):
         raise ValueError('systems table entry for {} lacks: {}'.format(name, ', '.join(missing)))
     if entry['scheduler'] not in ('slurm', 'pbs'):
         raise ValueError('scheduler must be slurm or pbs, not ' + str(entry['scheduler']))
-    if entry['quota'] not in ('lfs', 'show_storage', 'statvfs') or entry['image'] not in ('optional', 'required'):
+    if entry['quota'] not in ('lfs', 'show_storage', 'show_usage', 'statvfs') or entry['image'] not in ('optional', 'required'):
         raise ValueError('quota or image setting not understood for ' + name)
     for field in ('transfer', 'background'):
         words = entry[field]
@@ -81,12 +81,16 @@ def system_entry(table, name):
     if entry['scheduler'] == 'pbs':
         # A system that shares nodes names memory per piece; one that hands out whole nodes names mpiprocs.
         memory = entry.get('mem', {})
+        select = entry.get('select', {})
         whole_node = isinstance(entry.get('mpiprocs'), int) and entry['mpiprocs'] >= 1
         if not isinstance(entry.get('ncpus'), int) or entry['ncpus'] < 1:
             raise ValueError('a PBS system needs ncpus')
-        if not whole_node and (set(memory) != {'download', 'project', 'sweep'}
+        if select and (set(select) != {'transfer', 'background'} or not all(
+                re.fullmatch(r'select=1:ncpus=[1-9][0-9]*(:mpiprocs=[1-9][0-9]*)?', value) for value in select.values())):
+            raise ValueError('a PBS select form is select=1:ncpus=N[:mpiprocs=M], one for transfer and one for background')
+        if not select and not whole_node and (set(memory) != {'download', 'project', 'sweep'}
                                or not all(re.fullmatch(r'[1-9][0-9]*[kmgt]?b', value) for value in memory.values())):
-            raise ValueError('a PBS system needs mpiprocs for whole nodes, or mem for download, project and sweep')
+            raise ValueError('a PBS system names select per queue, or mpiprocs for whole nodes, or mem per piece')
     return entry
 
 
@@ -114,6 +118,9 @@ def system_script(name, entry, image=None, image_sha256=None):
     if entry['scheduler'] == 'pbs':
         # A system that hands out whole nodes names ncpus and mpiprocs and no memory word.
         memory = entry.get('mem', {})
+        select = entry.get('select', {})
+        lines.append('export AUDIT_PBS_SELECT_TRANSFER={} AUDIT_PBS_SELECT_BACKGROUND={}'.format(
+            value(select.get('transfer', '')), value(select.get('background', ''))))
         lines.append('export AUDIT_PBS_NCPUS={} AUDIT_PBS_MPIPROCS={} AUDIT_PBS_MEM_DOWNLOAD={} '
                      'AUDIT_PBS_MEM_PROJECT={} AUDIT_PBS_MEM_SWEEP={}'.format(
                          entry['ncpus'], value(entry.get('mpiprocs', '')),

@@ -26,10 +26,16 @@ def main():
         index += 2
     if index != len(arguments) - 1 or not Path(arguments[-1]).is_file():
         raise SystemExit('qsub: the last argument must be the job script')
-    # Wheat hands out whole nodes: every select line names ncpus=92 and mpiprocs, and no memory.
+    # Wheat's forms: the transfer queue takes select=1:ncpus=1 and nothing else; the compute queues
+    # hand out whole nodes and take select=<nodes>:ncpus=92:mpiprocs=<per node>, no memory word.
     selects = [arguments[position + 1] for position, argument in enumerate(arguments[:-1])
                if argument == '-l' and arguments[position + 1].startswith('select=')]
-    if len(selects) != 1 or not re.fullmatch(
+    queues = [arguments[position + 1] for position, argument in enumerate(arguments[:-1]) if argument == '-q']
+    queue = queues[0] if queues else ''
+    if queue == 'transfer':
+        if len(selects) != 1 or selects[0] != 'select=1:ncpus=1':
+            raise SystemExit('qsub: Error: Please use proper transfer queue select format: select=1:ncpus=1')
+    elif len(selects) != 1 or not re.fullmatch(
             r'select=[1-9][0-9]*:ncpus=92:mpiprocs=[1-9][0-9]*(:(ngpus=1|nmlas=[46]|bigmem=1))*', selects[0]):
         raise SystemExit('qsub: Error: Please include number of nodes with -l select:\n'
                          'Standard computes:    select=<number of nodes>:ncpus=92:mpiprocs=<MPI processes per node>')

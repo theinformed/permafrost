@@ -41,10 +41,19 @@ piece_memory() {
 
 # pbs_select PIECE: select=1:ncpus=N, then mpiprocs and memory only where the system names them.
 pbs_select() {
-    local memory select
+    local memory select queue
     memory=$(piece_memory "$1")
-    select="select=1:ncpus=${AUDIT_PBS_NCPUS:-1}"
-    [ -z "${AUDIT_PBS_MPIPROCS:-}" ] || select="$select:mpiprocs=$AUDIT_PBS_MPIPROCS"
+    queue=$(piece_queue "$1")
+    # A system whose queues want different forms names each one (Wheat: transfer select=1:ncpus=1,
+    # background select=1:ncpus=92:mpiprocs=1); otherwise the form is built from ncpus and mpiprocs.
+    if [ "$queue" = transfer ] && [ -n "${AUDIT_PBS_SELECT_TRANSFER:-}" ]; then
+        select=$AUDIT_PBS_SELECT_TRANSFER
+    elif [ "$queue" = background ] && [ -n "${AUDIT_PBS_SELECT_BACKGROUND:-}" ]; then
+        select=$AUDIT_PBS_SELECT_BACKGROUND
+    else
+        select="select=1:ncpus=${AUDIT_PBS_NCPUS:-1}"
+        [ -z "${AUDIT_PBS_MPIPROCS:-}" ] || select="$select:mpiprocs=$AUDIT_PBS_MPIPROCS"
+    fi
     [ -z "$memory" ] || select="$select:mem=$memory"
     printf '%s\n' "$select"
 }
