@@ -26,6 +26,23 @@ The leading left and right vectors go into a separate safetensors file.
 This measurement includes embeddings, query matrices, and unrecognized roles.
 The first singular value's energy share is recorded for each changed matrix.
 
+Along each of the eight leading directions the report also records how much of
+the original's action the modified matrix keeps: on the left, the projection of
+the modified row-combination u'W' onto the original u'W as a fraction of
+|u'W|^2, and on the right the same for W v. A projection of weight a along a
+direction leaves 1 - a there: 0 for a plain ablation, -0.5 at weight 1.5, -1
+for a reflection, and 1 where the direction was not touched. The products go
+a block of rows at a time, so no float32 copy of a whole matrix is needed.
+
+A three-dimensional tensor, the packed expert layout, is measured one expert
+at a time: each expert's relative change, first-value energy share and
+remaining fraction along its leading direction, summarised as minimum, median
+and maximum, with the agreement of the experts' leading left and right vectors
+among themselves. The worst expert's energy share stands for the tensor, and
+the experts' median directions are saved as its vectors, so the layer
+agreement groups the packed output projection with the dense matrices of the
+same width. Row norms are read per expert row.
+
 Across layers, unit left vectors are grouped by tensor kind and output width.
 Their signs are aligned to the most central vector before taking a coordinate
 median and normalizing it. Absolute cosines with that median measure agreement.

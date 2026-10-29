@@ -460,7 +460,7 @@ class LeanMeasureTests(unittest.TestCase):
                     for left, right in zip(value, lean[key]):
                         self.assertAlmostEqual(left, right, delta=1e-6 * max(1.0, abs(left)), msg=key)
                 elif isinstance(value, dict):
-                    self.assertEqual(value['preserved_equal'], lean[key]['preserved_equal'])
+                    self.assertEqual(json.dumps(value, sort_keys=True), json.dumps(lean[key], sort_keys=True), key)
                 else:
                     self.assertEqual(value, lean[key], key)
             if full_vectors is not None:

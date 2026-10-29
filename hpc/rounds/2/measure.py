@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-14  date declared comparison inputs, not retry scratch.
 # Modified: SDE 2026-10-15  hash each download once, keep huge tensors under 64 GB, fold messages.
 # Modified: SDE 2026-10-15  name packed expert outputs, and seed stubs on the real tensor names.
+# Modified: SDE 2026-10-29  share the direction helpers: remaining fractions and per-expert measures.
 import hashlib
 import json
 import os
@@ -175,9 +176,9 @@ def lean_measure(original, modified, threshold=1e-3, seed=0, chunk=CHUNK):
         difference_square += float(torch.linalg.vector_norm(piece, dtype=torch.float64)) ** 2
         positive += int((piece > 0).sum())
         negative += int((piece < 0).sum())
-        if delta.ndim == 2:
-            rows_base.append(torch.linalg.vector_norm(base, dim=1))
-            rows_other.append(torch.linalg.vector_norm(other, dim=1))
+        if delta.ndim in (2, 3):
+            rows_base.append(torch.linalg.vector_norm(base, dim=-1))
+            rows_other.append(torch.linalg.vector_norm(other, dim=-1))
         del base, other
     if bad_difference:
         return dict(result, status='nonfinite_difference', changed=True), None
@@ -195,28 +196,24 @@ def lean_measure(original, modified, threshold=1e-3, seed=0, chunk=CHUNK):
                                  'positive' if result['positive_fraction'] else
                                  'negative' if result['negative_fraction'] else 'zero')
     vectors = None
-    if delta.ndim == 2:
+    if delta.ndim in (2, 3):
         rows_base, rows_other = torch.cat(rows_base), torch.cat(rows_other)
         row_error = (rows_other - rows_base).abs()
         result['row_norms'] = {
             'preserved_equal': bool(torch.isclose(rows_base, rows_other, rtol=1e-5, atol=1e-7).all()),
             'rtol': 1e-5, 'atol': 1e-7,
             'max_relative_error': float((row_error / rows_base.clamp_min(1e-30)).max()) if row_error.numel() else 0.0}
-        if changed and diff_norm and min(delta.shape):
-            # The same sketch, seed and sign rule as the shared measure.
-            q = min(12, min(delta.shape))
-            with torch.random.fork_rng(devices=[]):
-                torch.manual_seed(seed)
-                left, singular, right = torch.svd_lowrank(delta, q=q, niter=4)
-            values = singular[:8].double()
-            energy = values.square().cumsum(0) / (diff_norm ** 2)
-            result['singular_values'] = values.tolist() + [0.0] * (8 - len(values))
-            shares = energy.clamp(0, 1).tolist()
-            result['energy_shares'] = shares + [shares[-1]] * (8 - len(shares))
-            result['first_singular_energy_share'] = shares[0]
-            pivot = int(left[:, 0].abs().argmax())
-            sign = 1.0 if left[pivot, 0] >= 0 else -1.0
-            vectors = (left[:, 0].mul(sign).contiguous(), right[:, 0].mul(sign).contiguous())
+    if delta.ndim == 2 and changed and diff_norm and min(delta.shape):
+        # The shared sketch, seed and sign rule; the remaining fractions already go a block of rows at a time.
+        from audit.weights import leading_directions, remaining_fractions
+        fields, left, right = leading_directions(delta, diff_norm, seed)
+        result.update(fields)
+        result['remaining_along_direction'] = remaining_fractions(original, modified, left, right)
+        vectors = (left[:, 0].contiguous(), right[:, 0].contiguous())
+    elif delta.ndim == 3 and changed and diff_norm and delta.shape[0] and min(delta.shape[1:]):
+        from audit.weights import expert_measures
+        fields, vectors = expert_measures(delta, original, modified, seed)
+        result.update(fields)
     result['lean'] = True
     return result, vectors
 

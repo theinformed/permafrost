@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  the packed expert names of Gemma 4 have their own kinds.
 # Modified: SDE 2026-10-29  leftover, row-norm, precedence, optional-kind and MTP-head checks.
 # Modified: SDE 2026-10-29  per-layer directions, reader kinds, and rescoring from the saved vectors.
+# Modified: SDE 2026-10-29  remaining fractions along the leading directions and packed-expert measures.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -21,7 +22,7 @@ from safetensors import safe_open
 from safetensors.torch import save_file
 
 from audit.weights import (TensorStore, compare_weights, direction_agreement, layer_of, match_recipes, measure_tensor,
-                           reader_kinds, recipe_table, resolve_checkpoint, rescore_weights, tensor_kind)
+                           reader_kinds, recipe_table, remaining_fractions, resolve_checkpoint, rescore_weights, tensor_kind)
 
 
 class TensorMeasures(unittest.TestCase):
@@ -95,6 +96,56 @@ class TensorMeasures(unittest.TestCase):
         self.assertIsNone(agreement["min_cosine"])
         self.assertFalse(agreement["groups"]["attention_output:3"]["median_direction_defined"])
         json.dumps(agreement, allow_nan=False)
+
+    def test_remaining_fraction_reads_the_projection_weight(self):
+        generator = torch.Generator().manual_seed(5)
+        weight = torch.randn(30, 20, generator=generator)
+        direction = torch.zeros(30)
+        direction[2] = 1
+        for amount, expected in ((1.0, 0.0), (1.5, -0.5), (2.0, -1.0), (0.5, 0.5)):
+            modified = weight - amount * torch.outer(direction, direction @ weight)
+            row, vectors = measure_tensor(weight, modified)
+            kept = row["remaining_along_direction"]
+            self.assertEqual(len(kept["left"]), 8)
+            self.assertAlmostEqual(kept["left"][0], expected, places=5, msg=str(amount))
+            self.assertAlmostEqual(abs(float(vectors[0] @ direction)), 1.0, places=5)
+        # A reader projected on its input side keeps the fraction on the right.
+        reader = torch.randn(20, 30, generator=generator)
+        modified = reader - 1.5 * torch.outer(reader @ direction, direction)
+        row, _ = measure_tensor(reader, modified)
+        self.assertAlmostEqual(row["remaining_along_direction"]["right"][0], -0.5, places=5)
+        # Blocks of rows give the same products as one pass.
+        fields = remaining_fractions(weight, weight - torch.outer(direction, direction @ weight), direction[:, None], torch.ones(20, 1) / math.sqrt(20), block=7)
+        self.assertAlmostEqual(fields["left"][0], 0.0, places=6)
+
+    def test_packed_experts_are_measured_one_expert_at_a_time(self):
+        generator = torch.Generator().manual_seed(6)
+        base = torch.randn(4, 12, 9, generator=generator)
+        direction = torch.zeros(12)
+        direction[3] = 1
+        modified = base.clone()
+        for expert in range(4):
+            modified[expert] = base[expert] - torch.outer(direction, direction @ base[expert])
+        row, vectors = measure_tensor(base, modified)
+        experts = row["experts"]
+        self.assertEqual((experts["count"], experts["measured"]), (4, 4))
+        self.assertGreater(experts["first_singular_energy_share"]["min"], 0.9999)
+        self.assertGreater(row["first_singular_energy_share"], 0.9999)
+        self.assertGreater(experts["direction_agreement"]["left"]["min_cosine"], 0.9999)
+        self.assertLess(experts["direction_agreement"]["right"]["median_cosine"], 0.9)
+        self.assertAlmostEqual(experts["remaining_first_direction"]["left"]["max"], 0.0, places=5)
+        self.assertAlmostEqual(abs(float(vectors[0] @ direction)), 1.0, places=5)
+        self.assertEqual(vectors[1].shape, (9,))
+        self.assertIn("row_norms", row)
+        self.assertFalse(row["row_norms"]["preserved_equal"])
+        # One expert left alone lowers nothing but the measured count; an untouched tensor has no expert block.
+        modified[1] = base[1]
+        row, _ = measure_tensor(base, modified)
+        self.assertEqual(row["experts"]["measured"], 3)
+        self.assertAlmostEqual(row["experts"]["relative_difference"]["min"], 0.0)
+        row, vectors = measure_tensor(base, base.clone())
+        self.assertNotIn("experts", row)
+        self.assertIsNone(vectors)
 
     def test_tensor_kinds_include_nonprojection_changes(self):
         self.assertEqual(tensor_kind("model.layers.0.self_attn.q_proj.weight"), "attention_query")

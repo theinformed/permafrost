@@ -7,6 +7,7 @@
 # Modified: SDE 2026-10-13  apply measured row-norm limits only to their recorded base.
 # Modified: SDE 2026-10-29  read leftover and row-norm limits, optional kinds, row-norm precedence.
 # Modified: SDE 2026-10-29  measure direction agreement within each layer for the per-layer recipes.
+# Modified: SDE 2026-10-29  remaining fraction along each leading direction; per-expert measures on packed tensors.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -223,6 +224,100 @@ def as_float(tensor):
     return tensor.float()
 
 
+ROW_BLOCK = 4096
+
+
+def leading_directions(delta, diff_norm, seed, top=8):
+    """Sketch the top singular directions of a difference; signs follow each left vector's largest entry."""
+    # A few extra columns keep the eighth value away from the sketch's edge.
+    q = min(12, min(delta.shape))
+    with torch.random.fork_rng(devices=[]):
+        torch.manual_seed(seed)
+        left, singular, right = torch.svd_lowrank(delta, q=q, niter=4)
+    values = singular[:top].double()
+    energy = values.square().cumsum(0) / (diff_norm ** 2)
+    shares = energy.clamp(0, 1).tolist()
+    fields = {"singular_values": values.tolist() + [0.0] * (top - len(values)),
+              "energy_shares": shares + [shares[-1]] * (top - len(shares)), "first_singular_energy_share": shares[0]}
+    kept = min(top, left.shape[1])
+    left, right = left[:, :kept], right[:, :kept]
+    signs = torch.where(left.gather(0, left.abs().argmax(0, keepdim=True))[0] >= 0, 1.0, -1.0)
+    return fields, (left * signs).contiguous(), (right * signs).contiguous()
+
+
+def remaining_fractions(original, modified, left, right, block=ROW_BLOCK):
+    """How much of the original's action along each leading direction the modified matrix keeps.
+
+    Along a left vector u the fraction is (u'W') . (u'W) / |u'W|^2, so a projection of weight a leaves 1 - a:
+    0 for a plain ablation, -0.5 at weight 1.5, -1 for a reflection. The right side reads W v the same way.
+    The products go a block of rows at a time, so the float32 copies never hold the whole matrix.
+    """
+    rows = original.shape[0]
+    along_left_base = torch.zeros(left.shape[1], original.shape[1], dtype=torch.float64)
+    along_left_other = torch.zeros_like(along_left_base)
+    along_right_base, along_right_other = [], []
+    for start in range(0, rows, block):
+        part = slice(start, start + block)
+        base, other = as_float(original[part]).double(), as_float(modified[part]).double()
+        along_left_base += left[part].double().T @ base
+        along_left_other += left[part].double().T @ other
+        along_right_base.append(base @ right.double())
+        along_right_other.append(other @ right.double())
+    along_right_base, along_right_other = torch.cat(along_right_base), torch.cat(along_right_other)
+
+    def fraction(base, other):
+        squares = base.square().sum(0)
+        return [float((o * b).sum() / s) if s else None for o, b, s in zip(other.T, base.T, squares)]
+
+    return {"left": fraction(along_left_base.T, along_left_other.T), "right": fraction(along_right_base, along_right_other)}
+
+
+def spread(values):
+    """Three numbers for a list measured once per expert."""
+    tensor = torch.tensor(values, dtype=torch.float64)
+    return {"min": float(tensor.min()), "median": float(tensor.quantile(0.5)), "max": float(tensor.max())}
+
+
+def expert_measures(delta, original, modified, seed):
+    """Measure a packed three-dimensional tensor one expert at a time and report the experts' agreement."""
+    count = delta.shape[0]
+    relative, shares, remaining_left, remaining_right, lefts, rights = [], [], [], [], [], []
+    for expert in range(count):
+        base_norm = float(torch.linalg.vector_norm(as_float(original[expert]), dtype=torch.float64))
+        diff_norm = float(torch.linalg.vector_norm(delta[expert], dtype=torch.float64))
+        relative.append(diff_norm / base_norm if base_norm else (0.0 if not diff_norm else math.inf))
+        if not diff_norm or not min(delta[expert].shape):
+            continue
+        fields, left, right = leading_directions(delta[expert], diff_norm, seed, top=1)
+        shares.append(fields["first_singular_energy_share"])
+        kept = remaining_fractions(original[expert], modified[expert], left, right)
+        remaining_left.append(kept["left"][0])
+        remaining_right.append(kept["right"][0])
+        lefts.append(left[:, 0])
+        rights.append(right[:, 0])
+    result = {"experts": {"count": count, "measured": len(shares), "relative_difference": spread([v for v in relative if math.isfinite(v)]) if relative else None}}
+    if not shares:
+        return result, None
+    summary = result["experts"]
+    summary["first_singular_energy_share"] = spread(shares)
+    summary["remaining_first_direction"] = {"left": spread(remaining_left), "right": spread(remaining_right)}
+    vectors = []
+    for side, stack in (("left", lefts), ("right", rights)):
+        matrix = torch.stack(stack).double()
+        if len(stack) == 1:
+            summary.setdefault("direction_agreement", {})[side] = {"median_cosine": 1.0, "min_cosine": 1.0}
+            vectors.append(matrix[0].float().contiguous())
+            continue
+        median, cosines = median_direction(matrix)
+        summary.setdefault("direction_agreement", {})[side] = ({"median_cosine": float(cosines.quantile(0.5)), "min_cosine": float(cosines.min())}
+                                                              if median is not None else {"median_cosine": None, "min_cosine": None})
+        vectors.append((median if median is not None else matrix[0]).float().contiguous())
+    # The worst expert sets the energy share; the experts' median directions stand for the layer's edit.
+    result["first_singular_energy_share"] = summary["first_singular_energy_share"]["min"]
+    result["remaining_along_direction"] = {"left": [summary["remaining_first_direction"]["left"]["median"]], "right": [summary["remaining_first_direction"]["right"]["median"]]}
+    return result, tuple(vectors)
+
+
 def measure_tensor(original, modified, threshold=1e-3, seed=0):
     """Measure a pair in float32; SVD work is limited to changed matrices."""
     result = {"shape_original": list(original.shape), "shape_modified": list(modified.shape), "dtype_original": str(original.dtype), "dtype_modified": str(modified.dtype)}
@@ -247,27 +342,22 @@ def measure_tensor(original, modified, threshold=1e-3, seed=0):
                   negative_fraction=float((delta < 0).float().mean()) if delta.numel() else 0.0)
     result["difference_sign"] = "mixed" if result["positive_fraction"] and result["negative_fraction"] else "positive" if result["positive_fraction"] else "negative" if result["negative_fraction"] else "zero"
     vectors = None
-    if delta.ndim == 2:
-        rows_base = torch.linalg.vector_norm(base, dim=1)
-        rows_other = torch.linalg.vector_norm(other, dim=1)
+    if delta.ndim in (2, 3):
+        # A packed expert tensor keeps one row norm per expert row; the rule reads the largest change among them.
+        rows_base = torch.linalg.vector_norm(base, dim=-1)
+        rows_other = torch.linalg.vector_norm(other, dim=-1)
         row_error = (rows_other - rows_base).abs()
         result["row_norms"] = {"preserved_equal": bool(torch.isclose(rows_base, rows_other, rtol=1e-5, atol=1e-7).all()), "rtol": 1e-5, "atol": 1e-7,
                                "max_relative_error": float((row_error / rows_base.clamp_min(1e-30)).max()) if row_error.numel() else 0.0}
-        if changed and diff_norm and min(delta.shape):
-            # A few extra columns keep the eighth value away from the sketch's edge.
-            q = min(12, min(delta.shape))
-            with torch.random.fork_rng(devices=[]):
-                torch.manual_seed(seed)
-                left, singular, right = torch.svd_lowrank(delta, q=q, niter=4)
-            values = singular[:8].double()
-            energy = values.square().cumsum(0) / (diff_norm ** 2)
-            result["singular_values"] = values.tolist() + [0.0] * (8 - len(values))
-            shares = energy.clamp(0, 1).tolist()
-            result["energy_shares"] = shares + [shares[-1]] * (8 - len(shares))
-            result["first_singular_energy_share"] = shares[0]
-            pivot = int(left[:, 0].abs().argmax())
-            sign = 1.0 if left[pivot, 0] >= 0 else -1.0
-            vectors = (left[:, 0].mul(sign).contiguous(), right[:, 0].mul(sign).contiguous())
+    del base, other
+    if delta.ndim == 2 and changed and diff_norm and min(delta.shape):
+        fields, left, right = leading_directions(delta, diff_norm, seed)
+        result.update(fields)
+        result["remaining_along_direction"] = remaining_fractions(original, modified, left, right)
+        vectors = (left[:, 0].contiguous(), right[:, 0].contiguous())
+    elif delta.ndim == 3 and changed and diff_norm and delta.shape[0] and min(delta.shape[1:]):
+        fields, vectors = expert_measures(delta, original, modified, seed)
+        result.update(fields)
     return result, vectors
 
 
