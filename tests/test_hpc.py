@@ -394,7 +394,8 @@ class MeasurementTests(unittest.TestCase):
         self.work = Path(temporary.name)
         self.original = self.work / 'original'
         env = {'AUDIT_WORK': str(self.work), 'AUDIT_ORIGINAL': str(self.original),
-               'AUDIT_BASE': 'rehearsal/stub', 'AUDIT_JOB_STARTED': str(time.time()),
+               # File clocks run a few milliseconds behind time.time(); start the job a second ago.
+               'AUDIT_BASE': 'rehearsal/stub', 'AUDIT_JOB_STARTED': str(time.time() - 1),
                'AUDIT_DERIVED': str(self.work / 'derived/base'),
                'AUDIT_MEASUREMENT': str(self.work / 'measurements/base/report.json')}
         self.environment = patch.dict(os.environ, env)

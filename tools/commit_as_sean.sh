@@ -12,6 +12,7 @@
 # Modified: SDE 2026-10-13  sign Permafrost as Sean Egan; this is personal work, not duty.  verify the current author and committer before committing.
 # Modified: SDE 2026-10-13  start an empty repository and keep the index here.
 # Modified: SDE 2026-10-13  use the full author and committer name.
+# Modified: SDE 2026-10-29  find the style checks beside this user's docs when the vps copy is absent.
 # ============================================================================
 set -euo pipefail
 if [[ $# -lt 2 ]]; then
@@ -20,7 +21,9 @@ if [[ $# -lt 2 ]]; then
 fi
 message=$1
 shift
-lint=/root/docs/reference/style/code-lint.py
+style=/root/docs/reference/style
+[[ -f $style/code-lint.py ]] || style=$HOME/docs/reference/style
+lint=$style/code-lint.py
 python3 "$lint" --message "$message"
 mkdir -p .tmp
 index_file=$(mktemp "$PWD/.tmp/commit-index.XXXXXX")
@@ -39,7 +42,7 @@ while IFS= read -r -d '' file; do
     # Source dates are part of a README; provider replies are test data.
     case "$file" in
         *.json|*.jsonl|*/tests/fixtures/*) continue ;;
-        *.md) bash /root/docs/reference/style/ship-check.sh "$file" ;;
+        *.md) bash "$style/ship-check.sh" "$file" ;;
         *) python3 "$lint" "$file" ;;
     esac
 done < <(git diff --cached --name-only --diff-filter=ACM -z)

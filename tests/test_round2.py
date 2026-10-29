@@ -2,6 +2,7 @@
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  test failures before they can become scheduler successes.
 # Modified: SDE 2026-10-15  real tensor names, round 1's pins, the lean measure, the census bundle name.
+# Modified: SDE 2026-10-29  the shared table names packed experts and audit.hub loads under the pins.
 import ast
 from datetime import datetime, timezone
 import hashlib
@@ -408,9 +409,9 @@ class RealNamesTests(unittest.TestCase):
         for name in packed:
             self.assertEqual(self.tensor_kind(name, self.table), 'expert_down')
             self.assertEqual(len(record['tensors'][name]['shape']), 3)
-        # The shared table at HEAD alone leaves them unnamed; the census adds the on-disk form.
+        # The shared table carries the on-disk form too, since the round 2 read-out.
         from audit.weights import recipe_table
-        self.assertEqual(self.tensor_kind(packed[0], recipe_table()), 'other')
+        self.assertEqual(self.tensor_kind(packed[0], recipe_table()), 'expert_down')
 
     def test_each_copy_has_the_same_names_and_shapes_as_its_original(self):
         for pair in manifest()['pairs']:
@@ -509,7 +510,11 @@ class PinTests2(unittest.TestCase):
     def test_card_tools_load_under_the_pinned_hub_library(self):
         # audit.hub wants a newer hub client than the pins carry; the census loads metadata without it.
         python = ROOT / '.venv-cluster/bin/python'
-        if not python.exists():
+        try:
+            present = python.exists() and os.access(python, os.X_OK)
+        except PermissionError:
+            present = False
+        if not present:
             self.skipTest('no venv built from the cluster pins on this machine')
         code = ("import sys; sys.path.insert(0, 'hpc/rounds/2'); import huggingface_hub, measure; "
                 "tools = measure.card_tools(); from audit.hub import SMALL_FILES; "
@@ -520,8 +525,8 @@ class PinTests2(unittest.TestCase):
         self.assertEqual(result.stdout.split()[-3:], ['0.35.3', 'True', 'True'])
         plain = subprocess.run([str(python), '-c', 'import audit.metadata'], cwd=str(ROOT),
                                stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
-        # The plain import is what fails under the pins; this shows the stand-in is needed.
-        self.assertNotEqual(plain.returncode, 0)
+        # The plain import loads under the pins now that audit.hub defers its httpx import.
+        self.assertEqual(plain.returncode, 0, plain.stdout)
 
     def test_download_skips_the_consolidated_copy(self):
         download = module('download')

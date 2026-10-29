@@ -2,6 +2,7 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  cover rank, row norms, shard names, and streaming.
 # Modified: SDE 2026-10-13  test hybrid roles, selected layers, and saved reports.
+# Modified: SDE 2026-10-29  the packed expert names of Gemma 4 have their own kinds.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -106,6 +107,10 @@ class TensorMeasures(unittest.TestCase):
                 with self.subTest(prefix=prefix, projection=projection):
                     self.assertEqual(tensor_kind(f"{prefix}layers.2.{projection}.weight"), kind)
         self.assertEqual(tensor_kind("model.layers.2.linear_attn.out_proj.bias"), "other")
+        # Gemma 4 packs its experts into one tensor per layer, named without a weight suffix.
+        for prefix in ("", "model.", "model.language_model.", "transformer."):
+            self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.down_proj"), "expert_down")
+            self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.gate_up_proj"), "expert_gate_up")
         self.assertEqual(tensor_kind("model.layers.2.mlp.experts.3.up_proj.weight"), "feed_forward_up")
 
 

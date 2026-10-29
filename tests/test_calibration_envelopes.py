@@ -1,5 +1,6 @@
 # test_calibration_envelopes.py -- Check the measured pass lines for Mistral Small 3.2.
 # Created by Sean Egan 2026-10-14
+# Modified: SDE 2026-10-29  the recipe table carries both pass lines unchanged.
 """The calibration file must match its tracked reports and admit both of our own edits."""
 
 import copy
@@ -105,6 +106,13 @@ class CalibrationEnvelopeTest(unittest.TestCase):
             candidate = next(item for item in report['recipe_matching']['candidates'] if item['recipe'] == name)
             self.assertEqual(candidate['violations'], [], run)
             self.assertNotIn(name, report['recipe_matching']['outside_calibrated_base'])
+
+    def test_recipe_table_carries_both_pass_lines(self):
+        table = recipe_table()
+        for name, line in self.data['pass_lines'].items():
+            self.assertEqual(table[name], line, name)
+        self.assertEqual(table['single-projection/mistral-small-3.2-24b']['status'], 'measured')
+        self.assertNotEqual(table['norm-preserving/mistral-small-3.2-24b']['status'], 'measured')
 
 
 if __name__ == '__main__':

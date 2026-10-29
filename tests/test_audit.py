@@ -1,6 +1,7 @@
 # test_audit.py -- Check ancestry, template comparisons, and bounded header reads.
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  cover the first two stages without network calls.
+# Modified: SDE 2026-10-29  the hub module binds the client factory when a Hub is made.
 import io
 import json
 import struct
@@ -299,7 +300,7 @@ class DownloadTests(unittest.TestCase):
     """The allowlist rejects weight filenames before opening a connection."""
 
     def test_reject_weight(self):
-        with patch("audit.hub.set_client_factory"):
+        with patch("huggingface_hub.set_client_factory"):
             hub = Hub(0)
         with self.assertRaises(ValueError):
             hub.small_file("a/repo", "sha", "model.safetensors", "unused")

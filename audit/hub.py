@@ -2,17 +2,14 @@
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  add bounded downloads and a shared request clock.
 # Modified: SDE 2026-10-13  send the saved hub token on every call. and a shared request clock.
+# Modified: SDE 2026-10-29  import httpx and the client factory only when a Hub is made.
 import hashlib
 import json
 import time
 from pathlib import Path
 
-try:
-    import httpx2 as httpx
-except ImportError:
-    import httpx
 import requests
-from huggingface_hub import HfApi, get_token, hf_hub_url, set_client_factory
+from huggingface_hub import HfApi, get_token, hf_hub_url
 
 SMALL_FILES = (
     "tokenizer_config.json", "tokenizer.json", "special_tokens_map.json",
@@ -32,6 +29,12 @@ class Hub:
         self.delay = delay
         self.last_call = 0.0
         self.deadline = time.monotonic() + max_seconds if max_seconds else None
+        # httpx arrives with the hub client at home; the cluster pins load this module without it.
+        try:
+            import httpx2 as httpx
+        except ImportError:
+            import httpx
+        from huggingface_hub import set_client_factory
         set_client_factory(lambda: httpx.Client(
             timeout=15, follow_redirects=True,
             event_hooks={"request": [lambda request: self.pause()]},

@@ -9,13 +9,22 @@ and the error text on their own lines. Parsed lines (VERDICT, job ids) are short
 import ast
 from pathlib import Path
 import re
+import os
 import subprocess
 import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
 ROUND = ROOT / 'hpc/rounds/2'
-KIT = Path('/root/work/hpc-kit-wt/hpc-report.sh')
+KITS = (Path('/root/work/hpc-kit-wt/hpc-report.sh'), Path('/opt/ai/hpc-packages/tools/hpc/hpc-report.sh'))
+
+
+def readable(path):
+    """A file under another account's home reads as absent, not as an error."""
+    try:
+        return path.is_file() and os.access(path, os.R_OK)
+    except PermissionError:
+        return False
 WIDTH = 100
 WHAT = 'hpc send: no way out from here'
 WHERE = 'round-2-kit-20261015T031500-4113-drop.txt waits in /p/home/sdegan/.hpc/outbox/model-audit/nautilus'
@@ -95,9 +104,10 @@ class PrintWidthTests(unittest.TestCase):
         self.assertEqual(self.bash('narrow', 'printf "%s\\n" {} | narrow\n'.format(repr(exact))), exact + '\n')
 
     def test_bundled_kit_folds_its_fallback_line(self):
-        if not KIT.exists():
+        kit = next((path for path in KITS if readable(path)), None)
+        if kit is None:
             self.skipTest('the shared kit is not on this machine')
-        source = KIT.read_text()
+        source = kit.read_text()
         match = re.search(r'^_hpc_say\(\) \{.*?^\}\n', source, re.S | re.M)
         if not match:
             self.fail('the bundled kit has no fold helper; its fallback line can run past 100 columns')

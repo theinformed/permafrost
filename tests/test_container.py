@@ -1,5 +1,6 @@
 # test_container.py -- Check the round image's pins, its run check and the image builds.
 # Created by Sean Egan 2026-10-14
+# Modified: SDE 2026-10-29  run the check with this interpreter, not the one its symlink resolves to.
 """The image must carry exactly the round's pins, and a bundle built without
 --image must come out the same as it did before images existed."""
 import json
@@ -91,7 +92,9 @@ class RunCheckTests(unittest.TestCase):
         self.directory = Path(temporary.name)
         binary = self.directory / 'bin'
         binary.mkdir()
-        (binary / 'python3').symlink_to(sys.executable)
+        # A symlink would resolve past the venv to its base interpreter; a wrapper keeps the venv.
+        (binary / 'python3').write_text('#!/bin/sh\nexec {} "$@"\n'.format(sys.executable))
+        (binary / 'python3').chmod(0o755)
         self.record = self.directory / 'permafrost-image.txt'
         self.record.write_text('image: permafrost\nversion: test\nbuilt: now\nrequirements sha256: none\n')
         self.environment = dict(os.environ, PATH=str(binary) + ':' + os.environ['PATH'],
