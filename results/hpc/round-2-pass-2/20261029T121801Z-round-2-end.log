@@ -1,0 +1,83 @@
+project: model-audit
+system: nautilus
+host: nautilus11
+round: 2
+job: round
+event: round-end
+when: 2026-10-29T12:13:38Z
+step: 10-install-kit.sh
+kit version: 20261029.120955
+VERDICT kit OK
+hpc send: round-2-kit-3178983-drop.txt is on the desk
+  (model-audit, nautilus)
+step: 20-verify.sh
+Lineage passed: 5 pairs
+login Python: 3.6.8
+
+                          Navy DSRC User Disk Quota Information
+                          As of 12:17 hours UTC on 29 Oct 2026
+
+System     Location                  Disk Usage (TB)  Disk Quota (TB)  File Usage  File Quota
+=========  ========================  ===============  ===============  ==========  ==========
+nautilus   /p/home                            99.97G             250G      199666           0
+nautilus   /p/work1                           10.36T             100T     3909948           0
+nautilus   /p/work2                               4k             100T           1           0
+
+Project: 319.0 GB; requested: 1024.0 GB
+Work quota remaining: 91789.0 GB; filesystem free: 4464676.1 GB
+sbatch: Job 4080807 to start at 2026-10-29T13:01:48 a using 1 processors on nodes nautilus-xfer03 in
+ partition general
+sbatch: Job 4080808 to start at 2026-10-30T13:47:48 a using 128 processors on nodes n0432 in partiti
+on general
+Hub token file: mode 600
+VERDICT verify OK
+hpc send: round-2-verify-3179188-drop.txt is on the desk
+  (model-audit, nautilus)
+step: 30-install-reporting.sh
+reporting script: round 2
+VERDICT reporting OK
+hpc send: round-2-reporting-3272734-drop.txt is on the desk
+  (model-audit, nautilus)
+step: 40-submit.sh
+Lineage passed: 5 pairs
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+download job: 4080809
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+compare piece 1 job: 4080810
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+compare piece 2 job: 4080811
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+compare piece 3 job: 4080812
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+compare piece 4 job: 4080814
+/usr/lib64/python3.6/tarfile.py:2271: RuntimeWarning: The default behavior of tarfile extraction has
+ been changed to disallow common exploits (including CVE-2007-4559). By default, absolute/parent pat
+hs are disallowed and some mode bits are cleared. See https://access.redhat.com/articles/7004769 for
+ more details.
+  RuntimeWarning)
+compare piece 5 job: 4080815
+VERDICT submit OK
+hpc send: round-2-submit-3274507-drop.txt is on the desk
+  (model-audit, nautilus)
+exit: 0
+VERDICT round 2 OK

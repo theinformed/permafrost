@@ -64,4 +64,13 @@ across two decades of edit size; its other 24 flags are the per-matrix direction
 norm-preserving edits (pairs 1 and 4, under 0.0011) from plain projections (pair 2, 0.069) and from
 over-projection (pair 5, up to 0.45).
 
+## Second pass
+
+A second pass of the same five pairs was submitted to Nautilus on 2026-10-29 (card 5055; transfer job 4080809, then
+comparisons 4080810, 4080811, 4080812, 4080814 and 4080815) with the comparison as of commit d0f48bb: it records how
+much of the original's action the copy keeps along each leading direction, which reads a projection's weight off the
+weights, and measures the packed expert tensors one expert at a time. Its results close the two measurements this
+round could not make, the arbitrary-rank entry for pair 3 and the thirty packed expert tensors of pair 4. The end log
+and submission record are in `results/hpc/round-2-pass-2/`.
+
 Weight differences alone cannot certify the absence of hidden behavior.
