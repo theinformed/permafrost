@@ -5,19 +5,17 @@
 # Modified: SDE 2026-10-13  the hub token is optional; only gated originals need it.
 # Modified: SDE 2026-10-13  keep device inspection inside the GPU job.
 # Modified: SDE 2026-10-15  test the requests with the owner tag the desk reads.
+# Modified: SDE 2026-10-29  test all three requests through the scheduler adapter; check the image.
 . ./env.sh
 start_piece verify 'Check the transfer and CPU comparison requests'
 python3 ./lineage.py batch.json banned-makers.txt
 python3 ./login.py
 python3 ./storage.py
-for piece in download project; do
-    job=jobs/$piece.sh
-    queue=background
-    [ "$piece" != download ] || queue=transfer
-    mapfile -t request < <(queue_args "$queue")
-    bash -n "$job"
-    sbatch --test-only --comment=project=model-audit "${request[@]}" "$job"
+for piece in download project sweep; do
+    test_submission "$piece" "jobs/$piece.sh"
 done
+# Prove the image runs here, without a GPU, before anything is queued.
+[ -z "${AUDIT_IMAGE:-}" ] || image_ready 0
 if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
     # The gated originals use the read-only token staged by its own card.
     python3 ./census.py token-check

@@ -2,11 +2,13 @@
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  separate download inputs from each try's scratch.
 # Modified: SDE 2026-10-15  a login-side check of the download records that reads sizes, not weights.
+# Modified: SDE 2026-10-29  any batch of 1 to 24 pairs; shared originals and the sweep that clears them.
 import hashlib
 import json
 import os
 from pathlib import Path
 import shlex
+import shutil
 import stat
 import sys
 
@@ -17,11 +19,29 @@ def batch():
     return json.loads(Path('batch.json').read_text())
 
 
-def pair(number):
+LIMIT = 24
+
+
+def count():
+    """The batch's pair count, which every piece number and job list follows."""
     pairs = batch()['pairs']
-    if len(pairs) != 5 or not 1 <= number <= 5:
-        raise ValueError('census requires five pairs and a piece from 1 through 5')
-    return pairs[number - 1]
+    if not 1 <= len(pairs) <= LIMIT:
+        raise ValueError('a census batch holds 1 to {} pairs, not {}'.format(LIMIT, len(pairs)))
+    return len(pairs)
+
+
+def round_number():
+    value = batch()['round']
+    if not isinstance(value, int) or isinstance(value, bool) or value < 1:
+        raise ValueError('batch.json names no round number')
+    return value
+
+
+def pair(number):
+    total = count()
+    if not 1 <= number <= total:
+        raise ValueError('census piece must be 1 through {}, not {}'.format(total, number))
+    return batch()['pairs'][number - 1]
 
 
 def paths(number):
@@ -33,9 +53,65 @@ def paths(number):
     return original, modified
 
 
+def originals():
+    """Each original folder with its pinned identity and the pairs that read it, in pair order."""
+    groups = {}
+    for number in range(1, count() + 1):
+        model = pair(number)['original']
+        folder = str(paths(number)[0])
+        group = groups.setdefault(folder, {'path': folder, 'hub_id': model['hub_id'],
+                                           'revision': model['revision'], 'pairs': []})
+        group['pairs'].append(number)
+    return list(groups.values())
+
+
+def shares_original(number):
+    """True when another pair in the batch reads the same original folder."""
+    return any(number in group['pairs'] and len(group['pairs']) > 1 for group in originals())
+
+
+def reported(number):
+    """A pair counts as done once its compare job wrote the record naming it."""
+    path = Path(os.environ['AUDIT_WORK']) / 'measurements' / ('pair-' + str(number)) / 'receipt.json'
+    try:
+        return json.loads(path.read_text()).get('pair') == number
+    except (OSError, ValueError):
+        return False
+
+
+def sweep():
+    """Delete an original only when every pair that reads it has its reports; list the rest."""
+    work = Path(os.environ['AUDIT_WORK'])
+    root = Path(os.environ['WORKDIR']).resolve()
+    record = {'deleted': [], 'kept': [], 'absent': []}
+    for group in originals():
+        path = Path(group['path'])
+        missing = [number for number in group['pairs'] if not reported(number)]
+        numbers = ' '.join(str(number) for number in group['pairs'])
+        if missing:
+            record['kept'].append(dict(group, missing=missing))
+            print(fold('original kept: ' + group['hub_id'],
+                       'pairs without a receipt: ' + ' '.join(str(number) for number in missing)))
+        elif not path.exists():
+            record['absent'].append(group)
+            print(fold('original already gone: ' + group['hub_id'], 'pairs ' + numbers))
+        else:
+            if path.is_symlink() or not str(path.resolve()).startswith(str(root) + '/'):
+                raise ValueError(fold('original path outside work:', str(path)))
+            shutil.rmtree(str(path))
+            record['deleted'].append(group)
+            print(fold('original deleted: ' + group['hub_id'], 'pairs ' + numbers))
+    target = work / 'measurements/sweep.json'
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(json.dumps(record, indent=2) + '\n')
+    print('sweep: {} deleted, {} kept, {} already gone'.format(
+        len(record['deleted']), len(record['kept']), len(record['absent'])))
+    return record
+
+
 def token():
     """Only this regular file supplies credentials; ambient tokens are ignored."""
-    path = Path(os.environ['HOME']) / '.hpc/hf-token'
+    path = Path(os.environ.get('AUDIT_TOKEN_FILE') or Path(os.environ['HOME']) / '.hpc/hf-token')
     if path.is_symlink() or not path.is_file() or stat.S_IMODE(path.stat().st_mode) != 0o600:
         raise ValueError(fold('hub token must be a regular mode-600 file:', str(path)))
     value = path.read_text().strip()
@@ -87,11 +163,12 @@ def receipts(numbers):
 
 
 def verify_batch():
-    for number in range(1, 6):
+    total = count()
+    for number in range(1, total + 1):
         row = pair(number)
         for side, directory in zip(('original', 'modified'), paths(number)):
             verify(directory, row[side])
-    print('Verified download receipts: five pairs')
+    print('Verified download receipts: {} pairs'.format(total))
 
 
 def main():
@@ -113,9 +190,15 @@ def main():
             verify(directory, row[side])
         print('Verified download receipts: pair ' + str(number))
     elif sys.argv[1] == 'receipts':
-        receipts([int(value) for value in sys.argv[2:]] or [1, 2, 3, 4, 5])
+        receipts([int(value) for value in sys.argv[2:]] or list(range(1, count() + 1)))
     elif sys.argv[1] == 'verify-batch':
         verify_batch()
+    elif sys.argv[1] == 'round':
+        print(round_number())
+    elif sys.argv[1] == 'count':
+        print(count())
+    elif sys.argv[1] == 'sweep':
+        sweep()
     else:
         raise ValueError('unknown census operation')
 

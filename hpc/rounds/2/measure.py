@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-15  hash each download once, keep huge tensors under 64 GB, fold messages.
 # Modified: SDE 2026-10-15  name packed expert outputs, and seed stubs on the real tensor names.
 # Modified: SDE 2026-10-29  share the direction helpers: remaining fractions and per-expert measures.
+# Modified: SDE 2026-10-29  seed every pair of the batch; leave the original for the sweep.
 import hashlib
 import json
 import os
@@ -96,17 +97,23 @@ def stub_names(model):
 
 
 def seed_original():
-    """Five small artificial pairs on the real names exercise the actual tensor comparison."""
+    """Small artificial pairs on the real names exercise the actual tensor comparison."""
     import torch
     from safetensors.torch import save_file
     from audit.weights import recipe_table, residual_kinds, tensor_kind
-    from census import pair, paths
+    from census import count, pair, paths
     torch.set_num_threads(1)
     table = census_kinds(recipe_table())
     writers = residual_kinds(table)
-    for number in range(1, 6):
+    seeded = set()
+    total = count()
+    for number in range(1, total + 1):
         row = pair(number)
         for side, directory in zip(('original', 'modified'), paths(number)):
+            # Pairs that share an original share its folder; it is written once.
+            if str(directory) in seeded:
+                continue
+            seeded.add(str(directory))
             directory.mkdir(parents=True, exist_ok=True)
             shards, indexed = stub_names(row[side])
             weight_map = {}
@@ -135,7 +142,7 @@ def seed_original():
                      for path in sorted(directory.iterdir()) if path.is_file()]
             (directory / 'download-manifest.json').write_text(json.dumps({
                 'base': row[side]['hub_id'], 'revision': row[side]['revision'], 'files': files}) + '\n')
-    print('Synthetic download passed: five tensor pairs; no network', flush=True)
+    print('Synthetic download passed: {} tensor pairs; no network'.format(total), flush=True)
 
 
 def lean_elements():
@@ -335,11 +342,15 @@ def card_tools():
 
 
 def compare(arguments):
-    """Run both audits, then retain their small records before deleting weights."""
+    """Run both audits, keep their small records, then delete the modified weights.
+
+    The original stays: another pair may read it, and the sweep job deletes it once every
+    pair that reads it has its reports.
+    """
     from audit import weights, weights_cli
     from audit.compare import compare_documents, RESAVE
     from audit.weights import read_json, write_json, TensorStore
-    from census import pair, paths
+    from census import pair, paths, shares_original
     tools = card_tools()
     number = int(os.environ['AUDIT_PAIR'])
     row = pair(number)
@@ -375,16 +386,16 @@ def compare(arguments):
     fresh([report, card, report.parent / 'metadata.json'], float(os.environ['AUDIT_JOB_STARTED']))
     receipt = {'pair': number, 'measurement_sha256': checksum(report), 'card_sha256': checksum(card),
                'metadata_sha256': checksum(report.parent / 'metadata.json'),
-               'deleted_checkpoints': [str(original), str(incoming), str(derived)]}
-    # Each original path includes its revision; none aliases round 1's cache.
-    for directory in (original, incoming, derived):
+               'deleted_checkpoints': [str(incoming), str(derived)],
+               'shared_original': shares_original(number)}
+    for directory in (incoming, derived):
         if directory.is_symlink() or not str(directory.resolve()).startswith(str(Path(os.environ['WORKDIR']).resolve()) + '/'):
             raise ValueError(fold('checkpoint cleanup path outside work:', str(directory)))
         shutil.rmtree(str(directory))
     write_json(report.parent / 'receipt.json', receipt)
     resaves = sum(change['class'] == RESAVE for change in differences)
     print('measurement passed: pair {}; metadata {}; re-save fields {}'.format(number, meta['verdict'], resaves))
-    print('both weight sets deleted', flush=True)
+    print('modified weights deleted; the original waits for the sweep', flush=True)
     return 0
 
 

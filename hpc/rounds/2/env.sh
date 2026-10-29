@@ -6,16 +6,24 @@
 # Modified: SDE 2026-10-13  find the center's Python module by name pattern; there is no plain python3 module.
 # Modified: SDE 2026-10-13  send bounded card and log drops on exit.
 # Modified: SDE 2026-10-15  keep every printed line within 100 columns.
+# Modified: SDE 2026-10-29  round from batch.json; queues, scheduler and image from the systems table.
 set -euo pipefail
-export HPC_PROJECT=model-audit ROUND=2 HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
+export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
+ROUND=$(python3 ./census.py round)
+export ROUND
 export PATH=$HOME/bin:$PATH
 : "${WORKDIR:?WORKDIR is required}"
-export AUDIT_WORK=$WORKDIR/model-audit/rounds/2
+export AUDIT_WORK=$WORKDIR/model-audit/rounds/$ROUND
 export AUDIT_ROUND=$(pwd -P)
 export HF_HOME=$WORKDIR/model-audit/cache
 export PIP_CACHE_DIR=$AUDIT_WORK/cache/pip PYTHONDONTWRITEBYTECODE=1
+# Home on some systems is over quota; tool caches stay in work.
+export XDG_CACHE_HOME=$AUDIT_WORK/cache/xdg
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 [ ! -f system.sh ] || . ./system.sh
+. ./scheduler.sh
+# An image build runs its compute Python inside the pinned image.
+[ -z "${AUDIT_IMAGE:-}" ] || . ./image.sh
 export CUDA_VISIBLE_DEVICES=''
 export AUDIT_PAIR=${AUDIT_PAIR:-1}
 export AUDIT_NAME=pair-$AUDIT_PAIR
@@ -40,16 +48,51 @@ say() {
     done
 }
 
+# queue_args QUEUE: the bundled system's words for the transfer or background queue.
 queue_args() {
-    if [ "$HPC_SYSTEM" = raider ]; then
-        printf '%s\n' "--qos=$1"
-        if [ "$1" = transfer ]; then echo --partition=transfer; echo --constraint=xfer; else echo --constraint=standard; fi
-    elif [ "$HPC_SYSTEM" = nautilus ] || [ "$HPC_SYSTEM" = fake ]; then
-        echo --partition=general
-        printf '%s\n' "--qos=$1"
-        if [ "$1" = transfer ]; then echo --constraint=xfer; else echo --constraint=standard; fi
-    else echo 'unsupported system' >&2; return 1; fi
+    local words
+    case $1 in
+        transfer) words=${AUDIT_TRANSFER_ARGS:-} ;;
+        background) words=${AUDIT_BACKGROUND_ARGS:-} ;;
+        *) echo "unknown queue: $1" >&2; return 1 ;;
+    esac
+    [ -n "$words" ] || { echo "no $1 queue words for $HPC_SYSTEM" >&2; return 1; }
+    printf '%s\n' "$words"
 }
+
+# fips_guard: where the node runs FIPS, OpenSSL loads only its default provider.
+# A failed FIPS self-test otherwise kills Python with "cannot create SSL context".
+fips_guard() {
+    local flag=0 conf
+    if [ -r "${FIPS_PROC_FILE:-/proc/sys/crypto/fips_enabled}" ]; then
+        read -r flag < "${FIPS_PROC_FILE:-/proc/sys/crypto/fips_enabled}" || true
+    fi
+    if [ "$flag" != 1 ]; then
+        echo 'fips: off, nothing applied'
+        return 0
+    fi
+    conf=$AUDIT_WORK/fips/openssl-${HPC_JOB_ID:-$$}.cnf
+    mkdir -p "${conf%/*}"
+    printf '%s\n' 'openssl_conf = openssl_init' '[openssl_init]' 'providers = provider_sect' \
+        '[provider_sect]' 'default = default_sect' '[default_sect]' 'activate = 1' > "$conf"
+    unset OPENSSL_MODULES APPTAINERENV_OPENSSL_MODULES SINGULARITYENV_OPENSSL_MODULES
+    # Work is bound into the image, so the same file serves the host and the image.
+    export OPENSSL_CONF=$conf OPENSSL_FORCE_FIPS_MODE=0
+    export APPTAINERENV_OPENSSL_CONF=$conf APPTAINERENV_OPENSSL_FORCE_FIPS_MODE=0
+    export SINGULARITYENV_OPENSSL_CONF=$conf SINGULARITYENV_OPENSSL_FORCE_FIPS_MODE=0
+    echo 'fips: on; OpenSSL set to its default provider'
+}
+
+# node_facts PYTHON: one line each for the node, its cores, memory and Python.
+node_facts() {
+    echo "node: $(hostname -s)"
+    echo "cores: $(nproc)"
+    awk '/^MemTotal:/ {t = $2} /^MemFree:/ {f = $2} /^MemAvailable:/ {a = $2}
+         END {printf "memory: %d MB total, %d MB free, %d MB available\n", t / 1024, f / 1024, a / 1024}' \
+        /proc/meminfo
+    echo "python: $("$@" --version 2>&1 | head -n 1)"
+}
+
 mkdir -p "$AUDIT_WORK/logs" "$AUDIT_WORK/state" "$HOME/.hpc/jobs"
 # The first step can report before the tools have been installed.
 if [ -n "${AUDIT_PINNED_ROUND:-}" ]; then
@@ -66,7 +109,7 @@ finish_piece() {
     trap - EXIT
     if [ "$rc" = 0 ]; then hpc_job_finish 'piece finished'
     else hpc_job_fail "piece failed with exit $rc"; fi
-    local id=${SLURM_JOB_ID:-$HPC_JOB_ID}
+    local id=$HPC_JOB_ID
     local drop=$AUDIT_WORK/logs/$id-drop.txt
     {
         echo "project: $HPC_PROJECT"
@@ -84,6 +127,8 @@ finish_piece() {
         if [ -f "${AUDIT_MEASUREMENT%/*}/receipt.json" ]; then
             cat "${AUDIT_MEASUREMENT%/*}/receipt.json"
             head -c 80000 "${AUDIT_MEASUREMENT%/*}/card.md"
+        elif [ "${AUDIT_MEASUREMENT##*/}" = sweep.json ] && [ -f "$AUDIT_MEASUREMENT" ]; then
+            head -c 80000 "$AUDIT_MEASUREMENT"
         fi
         tail -n 200 "$PIECE_LOG" | head -c 800000
     } > "$drop"
@@ -101,16 +146,18 @@ finish_piece() {
 }
 
 start_piece() {
-    export HPC_JOB_ID=${SLURM_JOB_ID:-round-2-${1}-$$}
+    local scheduled
+    scheduled=$(job_id_env)
+    export HPC_JOB_ID=${scheduled:-round-$ROUND-${1}-$$}
     PIECE_LOG=$AUDIT_WORK/logs/$HPC_JOB_ID.out
     export PIECE_LOG
-    printf '%s\n' "$HPC_JOB_ID" >> "$AUDIT_WORK/state/round-2-cards"
+    printf '%s\n' "$HPC_JOB_ID" >> "$AUDIT_WORK/state/round-$ROUND-cards"
     exec > >(narrow | tee -a "$PIECE_LOG") 2>&1
     hpc_job_start "$2" --project model-audit --study 'Checkpoint census' --row MODEL-AUDIT-1 --log "$PIECE_LOG"
     trap finish_piece EXIT
     trap 'exit 143' TERM HUP
     trap 'exit 130' INT
-    if [ -n "${SLURM_JOB_ID:-}" ]; then
+    if [ -n "$scheduled" ]; then
         export AUDIT_BUILD_STAMP=$(cat BUILD-STAMP.txt)
         export AUDIT_SNAPSHOT_SHA256=$(cut -d' ' -f1 ../snapshot.sha256)
         python3 ./snapshot.py card "$HOME/.hpc/jobs/$HPC_JOB_ID.json"
@@ -119,6 +166,11 @@ start_piece() {
 }
 
 compute_python() {
+    # An image build checks the image and its pins; the jobs then run Python inside it.
+    if [ -n "${AUDIT_IMAGE:-}" ]; then
+        image_ready 0
+        return
+    fi
     # Modules are loaded in jobs, leaving the login interpreter alone.
     # Nautilus has no module called python3; its Python modules are python/3.11/3.11 and kin.
     if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then

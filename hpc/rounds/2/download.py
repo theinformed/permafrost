@@ -1,13 +1,15 @@
-# download.py -- Stage ten pinned snapshots in one transfer job.
+# download.py -- Stage every pinned snapshot of the batch in one transfer job.
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  verify published objects before saving the batch receipt.
 # Modified: SDE 2026-10-15  leave the duplicate consolidated shards behind; fold messages.
+# Modified: SDE 2026-10-29  any pair count, shared originals once, and a probe before any shard.
 import hashlib
 import json
 import os
 from pathlib import Path
+import shutil
 from huggingface_hub import HfApi, snapshot_download
-from census import batch, checksum, pair, paths, token, verify
+from census import batch, checksum, count, pair, paths, token, verify
 from lineage import screen
 from say import fold
 
@@ -51,6 +53,38 @@ def check_file(path, row):
     return sha
 
 
+def probe(api, credential):
+    """Fetch one small published file through the same client before any shard.
+
+    The desk reads the PROBE line from the drop: it says whether this node reaches the hub.
+    """
+    model = pair(1)['original']
+    row = None
+    try:
+        info = api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True)
+        listed = [item for item in info.siblings if '/' not in item.rfilename
+                  and item.rfilename.endswith('.json') and item.size is not None]
+        if not listed:
+            raise ValueError('no top-level .json file is listed')
+        item = min(listed, key=lambda entry: (entry.size, entry.rfilename))
+        row = {'path': item.rfilename, 'size': item.size, 'git_blob_id': item.blob_id,
+               'lfs_sha256': item.lfs.sha256 if item.lfs else None}
+        folder = Path(os.environ['AUDIT_WORK']) / 'probe'
+        if folder.exists():
+            shutil.rmtree(str(folder))
+        snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
+                          local_dir=str(folder), allow_patterns=[row['path']], max_workers=1)
+        check_file(folder / row['path'], row)
+        shutil.rmtree(str(folder))
+    except Exception as error:
+        lines = str(error).splitlines() or ['']
+        print('PROBE FAIL {}: {}'.format(type(error).__name__, lines[0])[:100], flush=True)
+        if len(lines) > 1 or len(lines[0]) > 80:
+            print(fold('probe error text:', None, None, str(error)), flush=True)
+        raise SystemExit(1)
+    print('PROBE OK {} {}'.format(row['size'], model['hub_id'])[:100], flush=True)
+
+
 def main():
     screen(batch(), 'banned-makers.txt')
     marker = Path(os.environ['AUDIT_WORK']) / 'state/download.done'
@@ -58,9 +92,15 @@ def main():
         marker.unlink()
     credential = token()
     api = HfApi(token=credential)
+    probe(api, credential)
     plans = []
-    for number in range(1, 6):
+    seen = set()
+    for number in range(1, count() + 1):
         for side, directory in zip(('original', 'modified'), paths(number)):
+            # Pairs that share an original share its folder: one plan, one download.
+            if str(directory) in seen:
+                continue
+            seen.add(str(directory))
             model = pair(number)[side]
             info = api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True)
             if info.sha != model['revision']:

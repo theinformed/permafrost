@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-14  test failures before they can become scheduler successes.
 # Modified: SDE 2026-10-15  real tensor names, round 1's pins, the lean measure, the census bundle name.
 # Modified: SDE 2026-10-29  the shared table names packed experts and audit.hub loads under the pins.
+# Modified: SDE 2026-10-29  batches of any size, parallel compares and the sweep, systems table, PBS.
 import ast
 from datetime import datetime, timezone
 import hashlib
@@ -25,7 +26,7 @@ sys.path.insert(0, str(ROOT / 'hpc'))
 sys.path.append(str(ROUND))
 from lineage import screen
 from pin_census import pin
-from rehearse_round2 import BUNDLE, CensusRehearsal, fixture_kit, NAMES, NEEDS
+from rehearse_round2 import BUNDLE, CensusRehearsal, CLUSTER_PYTHON, dependency, fixture_kit, NAMES, NEEDS
 
 
 def module(name):
@@ -37,6 +38,30 @@ def module(name):
 
 def manifest():
     return json.loads((ROOT / 'data/batches/round-2-batch-1.json').read_text())
+
+
+def bigger_manifest(count, number=7):
+    """A batch of COUNT pairs on round 2's pinned rows: later copies reuse an earlier original.
+
+    Each extra copy keeps its row's revisions, so the real-name fixtures still apply, and its
+    original is the same folder as the row it came from.
+    """
+    record = manifest()
+    rows = record['pairs']
+    pairs = [json.loads(json.dumps(rows[index % len(rows)])) for index in range(count)]
+    for index, row in enumerate(pairs[len(rows):], len(rows) + 1):
+        row['modified']['hub_id'] += '-copy-' + str(index)
+    record.update(round=number, pairs=pairs)
+    return record
+
+
+def opened(bundle, folder):
+    """Unpack a built bundle's payload the way the opener does, for reading its files."""
+    folder.mkdir(parents=True)
+    payload = bundle.read_bytes().split(b'__PAYLOAD__\n', 1)[1]
+    (folder / 'payload.tar').write_bytes(payload)
+    subprocess.check_call(['tar', '-xf', 'payload.tar'], cwd=str(folder))
+    return folder
 
 
 class LineageTests(unittest.TestCase):
@@ -117,32 +142,39 @@ class BundleTests(unittest.TestCase):
         run.environment['AUDIT_FAKE_DEFER'] = '1'
         return run
 
-    def test_queued_chain_has_six_pinned_cpu_jobs_and_duplicate_guard(self):
+    def test_queued_round_has_parallel_pinned_cpu_jobs_a_sweep_and_duplicate_guard(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0, run.log.read_text())
-        rows = run.rows()
-        self.assertEqual(len(rows), 6)
-        self.assertFalse(any(arg.startswith('--dependency') for arg in rows[0]['arguments']))
-        for previous, row in zip(rows, rows[1:]):
-            self.assertIn('--dependency=afterok:' + previous['job'], row['arguments'])
+        rows = run.shape(run.rows())
+        self.assertEqual(len(rows), 7)
+        for row in rows[1:-1]:
+            self.assertEqual(dependency(row), 'afterok:1001')
             self.assertIn('--kill-on-invalid-dep=yes', row['arguments'])
             self.assertIn('--qos=background', row['arguments'])
             self.assertIn('--constraint=standard', row['arguments'])
+            self.assertIn('--account=NRLMR57635502', row['arguments'])
+            self.assertIn('--time=03:55:00', row['arguments'])
+        self.assertIn('--qos=transfer', rows[0]['arguments'])
+        self.assertEqual(dependency(rows[-1]), 'afterany:1002:1003:1004:1005:1006')
+        self.assertIn('--time=00:30:00', rows[-1]['arguments'])
         for row in rows:
             self.assertIn('--comment=project=model-audit', row['arguments'])
             self.assertTrue(row['cwd'].startswith(str(run.results / 'submissions')))
             self.assertEqual(row['environment']['AUDIT_PINNED_ROUND'], row['cwd'])
+        # One pinned copy serves the whole submission.
+        self.assertEqual(len({row['cwd'] for row in rows}), 1)
         self.assertNotEqual(run.call(['./round.sh', '--only', '40-submit.sh'], run.round), 0)
-        self.assertEqual(len(run.rows()), 6)
+        self.assertEqual(len(run.rows()), 7)
         self.assertIn('already submitted', run.log.read_text())
-        self.assertEqual([row['environment']['AUDIT_PAIR'] for row in rows[1:]], ['1', '2', '3', '4', '5'])
+        self.assertEqual([row['environment']['AUDIT_PAIR'] for row in rows[1:-1]], ['1', '2', '3', '4', '5'])
 
     def test_bundle_excludes_credentials_and_prints_plain_short_run(self):
         run = self.fixture()
         self.assertFalse((run.bundle / 'model-audit-round.sh').exists())
         head, payload = (run.bundle / BUNDLE).read_bytes().split(b'__PAYLOAD__\n', 1)
         self.assertIn(b"[ \"${1:-}\" = '2' ]", head)
-        self.assertIn(b'folder=$HOME/model-audit/rounds/2', head)
+        self.assertIn(b'folder=$WORKDIR/model-audit/rounds/2/scripts', head)
+        self.assertNotIn(b'$HOME', head)
         self.assertNotIn(b'hf-secret-fixture', payload)
         # Open only the locally built script; all scheduler work stays deferred.
         self.assertEqual(run.run(), 0)
@@ -161,15 +193,20 @@ class BundleTests(unittest.TestCase):
         self.assertNotIn(' && ', script)
 
     def test_raider_bundle_uses_transfer_partition_and_background_qos(self):
-        result = subprocess.run([sys.executable, str(ROUND / 'bundle.py'), 'build', '--system', 'raider',
+        result = subprocess.run([sys.executable, str(ROUND / 'bundle.py'), 'build', '--round', '2', '--system', 'raider',
                                  '--kit', str(self.kit), '--out', str(self.directory / 'raider'), '--needs', NEEDS],
                                 stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         self.assertEqual(result.returncode, 0, result.stdout.decode())
         self.assertIn('--system raider', result.stdout.decode())
-        env = (ROUND / 'env.sh').read_text().split('queue_args() {', 1)[1].split('mkdir -p', 1)[0]
-        self.assertIn('--partition=transfer', env)
-        self.assertIn('--qos=$1', env)
-        self.assertNotIn('--partition=background', env)
+        self.assertIn('Preference: raider background CPU', result.stdout.decode())
+        folder = opened(self.directory / 'raider' / BUNDLE, self.directory / 'raider-open')
+        words = subprocess.run(['bash', '-c', '. ./system.sh; printf "%s|%s" "$AUDIT_TRANSFER_ARGS" '
+                                '"$AUDIT_BACKGROUND_ARGS"'], cwd=str(folder), stdout=subprocess.PIPE,
+                               universal_newlines=True, check=True).stdout
+        transfer, background = (part.splitlines() for part in words.split('|'))
+        self.assertEqual(transfer, ['--qos=transfer', '--partition=transfer', '--constraint=xfer'])
+        self.assertEqual(background, ['--qos=background', '--constraint=standard'])
+        self.assertTrue((folder / 'systems.json').is_file())
 
     def test_round_end_uses_the_bundled_system(self):
         run = self.fixture()
@@ -215,10 +252,23 @@ class BundleTests(unittest.TestCase):
         run.build(rounds)
         self.assertEqual(run.call([str(run.bundle / BUNDLE), '2', 'projection', '3']), 0, run.log.read_text())
         rows = run.rows()
-        self.assertEqual(len(rows), 7)
-        self.assertEqual(rows[-1]['environment']['AUDIT_PAIR'], '3')
-        self.assertTrue(rows[-1]['arguments'][-1].endswith('/jobs/project.sh'))
-        self.assertFalse(any(arg.startswith('--dependency') for arg in rows[-1]['arguments']))
+        self.assertEqual(len(rows), 9)
+        self.assertEqual(rows[-2]['environment']['AUDIT_PAIR'], '3')
+        self.assertTrue(rows[-2]['arguments'][-1].endswith('/jobs/project.sh'))
+        self.assertIsNone(dependency(rows[-2]))
+        self.assertTrue(rows[-1]['arguments'][-1].endswith('/jobs/sweep.sh'))
+        self.assertEqual(dependency(rows[-1]), 'afterany:' + rows[-2]['job'])
+
+    def test_piece_past_the_batch_is_refused(self):
+        run = self.fixture()
+        self.assertEqual(run.call([str(run.bundle / BUNDLE), '2', 'projection', '6']), 2)
+        self.assertEqual(run.rows(), [])
+        result = subprocess.run([sys.executable, str(ROUND / 'bundle.py'), 'build', '--round', '2', '--projection-only',
+                                 '--piece', '6', '--kit', str(self.kit), '--out', str(self.directory / 'six'),
+                                 '--needs', NEEDS], stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                universal_newlines=True)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('--piece must be 1 through 5', result.stdout)
 
     def test_rebuilt_stamp_keeps_earlier_ids(self):
         run = self.fixture()
@@ -235,7 +285,7 @@ class BundleTests(unittest.TestCase):
         state = (run.results / 'state/round-2-submissions').read_text()
         self.assertIn(first, state)
         self.assertIn(second, state)
-        self.assertEqual(len(run.rows()), 12)
+        self.assertEqual(len(run.rows()), 14)
 
 
 class ReadTests(unittest.TestCase):
@@ -328,7 +378,8 @@ class TensorPieceTests(unittest.TestCase):
             env = {'WORKDIR': str(work), 'AUDIT_WORK': str(audit_work), 'AUDIT_PAIR': '1',
                    'AUDIT_PIECE_WORK': str(audit_work / 'pieces/pair-1'),
                    'AUDIT_DERIVED': str(audit_work / 'derived/pair-1'), 'AUDIT_MEASUREMENT': str(report),
-                   'AUDIT_JOB_STARTED': str(time.time()), 'AUDIT_REHEARSAL': '1', 'AUDIT_STUB': '1'}
+                   # File times come from the kernel's coarse clock, a few ms behind time.time().
+                   'AUDIT_JOB_STARTED': str(time.time() - 1), 'AUDIT_REHEARSAL': '1', 'AUDIT_STUB': '1'}
             cwd = Path.cwd()
             try:
                 os.chdir(directory)
@@ -348,9 +399,13 @@ class TensorPieceTests(unittest.TestCase):
                     metadata = json.loads((report.parent / 'metadata.json').read_text())
                     self.assertTrue(any(change['class'] == 'explained by re-save' for change in metadata['differences']))
                     self.assertTrue((report.parent / 'card.md').is_file())
-                    self.assertFalse(original.exists())
+                    # The original waits for the sweep; the modified copy and its links are gone.
+                    self.assertTrue(original.exists())
                     self.assertFalse(incoming.exists())
                     self.assertFalse(Path(env['AUDIT_DERIVED']).exists())
+                    receipt = json.loads((report.parent / 'receipt.json').read_text())
+                    self.assertEqual(receipt['deleted_checkpoints'], [str(incoming), env['AUDIT_DERIVED']])
+                    self.assertFalse(receipt['shared_original'])
                     self.assertTrue(census.paths(2)[0].exists())
                     self.assertTrue(census.paths(2)[1].exists())
             finally:
@@ -548,9 +603,363 @@ class SyntaxTests(unittest.TestCase):
             self.assertIn('set -euo pipefail', text)
             self.assertNotIn('--gres', text)
             self.assertNotIn('nvidia-smi', text)
-            self.assertIn('--time=03:55:00', text)
+            # Account and time differ by system; the submit line carries them.
+            self.assertNotIn('#SBATCH --account', text)
+            self.assertNotIn('#SBATCH --time', text)
         self.assertIn('--mem=60G', (ROUND / 'jobs/project.sh').read_text())
+        self.assertEqual(sorted(path.name for path in (ROUND / 'jobs').glob('*.sh')),
+                         ['download.sh', 'project.sh', 'sweep.sh'])
 
+
+class BatchCountTests(unittest.TestCase):
+    """The round and the piece count come from batch.json, never from the kit."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(dir=ROOT / '.tmp')
+        self.addCleanup(self.temporary.cleanup)
+        self.directory = Path(self.temporary.name)
+        self.cwd = Path.cwd()
+        self.addCleanup(os.chdir, str(self.cwd))
+        os.chdir(str(self.directory))
+
+    def write(self, record):
+        (self.directory / 'batch.json').write_text(json.dumps(record))
+
+    def test_count_and_round_follow_the_manifest(self):
+        census = module('census')
+        self.write(bigger_manifest(9))
+        self.assertEqual(census.count(), 9)
+        self.assertEqual(census.round_number(), 7)
+        self.assertEqual(census.pair(9)['modified']['hub_id'], manifest()['pairs'][3]['modified']['hub_id'] + '-copy-9')
+        with self.assertRaisesRegex(ValueError, '1 through 9'):
+            census.pair(10)
+        for line, wanted in (('round', '7'), ('count', '9')):
+            result = subprocess.run([sys.executable, str(ROUND / 'census.py'), line], stdout=subprocess.PIPE,
+                                    universal_newlines=True, check=True)
+            self.assertEqual(result.stdout.strip(), wanted)
+
+    def test_more_than_twenty_four_pairs_are_refused(self):
+        census = module('census')
+        self.write(bigger_manifest(25))
+        with self.assertRaisesRegex(ValueError, '1 to 24 pairs'):
+            census.count()
+        self.assertEqual(screen(bigger_manifest(25), ROOT / 'hpc/banned-makers.txt'), 25)
+
+    def test_shared_originals_group_their_pairs(self):
+        census = module('census')
+        self.write(bigger_manifest(9))
+        with patch.dict(os.environ, {'WORKDIR': str(self.directory), 'AUDIT_WORK': str(self.directory / 'r')}):
+            groups = census.originals()
+            self.assertEqual([group['pairs'] for group in groups], [[1, 6], [2, 7], [3, 8], [4, 9], [5]])
+            self.assertTrue(census.shares_original(6))
+            self.assertFalse(census.shares_original(5))
+
+
+class SweepTests(unittest.TestCase):
+    """An original goes only when every pair that reads it has its reports."""
+
+    def test_sweep_keeps_an_original_until_every_reader_reports(self):
+        census = module('census')
+        with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
+            directory = Path(temporary)
+            (directory / 'batch.json').write_text(json.dumps(bigger_manifest(7)))
+            work = directory / 'work'
+            audit_work = work / 'model-audit/rounds/7'
+            cwd = Path.cwd()
+            try:
+                os.chdir(str(directory))
+                with patch.dict(os.environ, {'WORKDIR': str(work), 'AUDIT_WORK': str(audit_work)}):
+                    for number in range(1, 8):
+                        census.paths(number)[0].mkdir(parents=True, exist_ok=True)
+                    def report(number):
+                        folder = audit_work / 'measurements' / ('pair-' + str(number))
+                        folder.mkdir(parents=True, exist_ok=True)
+                        (folder / 'receipt.json').write_text(json.dumps({'pair': number}))
+                    for number in (1, 2, 3, 4, 5):
+                        report(number)
+                    first = census.sweep()
+                    kept = {tuple(group['pairs']): group['missing'] for group in first['kept']}
+                    self.assertEqual(kept, {(1, 6): [6], (2, 7): [7]})
+                    self.assertEqual(sorted(tuple(group['pairs']) for group in first['deleted']), [(3,), (4,), (5,)])
+                    self.assertTrue(census.paths(6)[0].is_dir())
+                    self.assertFalse(census.paths(3)[0].exists())
+                    saved = json.loads((audit_work / 'measurements/sweep.json').read_text())
+                    self.assertEqual(saved, json.loads(json.dumps(first)))
+                    report(6)
+                    report(7)
+                    second = census.sweep()
+                    self.assertEqual(len(second['deleted']), 2)
+                    self.assertEqual(len(second['absent']), 3)
+                    self.assertFalse(second['kept'])
+                    self.assertFalse(census.paths(6)[0].exists())
+            finally:
+                os.chdir(str(cwd))
+
+    def test_compare_of_a_shared_original_leaves_it_for_the_sweep(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
+            directory = Path(temporary)
+            work = directory / 'work'
+            work.mkdir()
+            record = manifest()
+            copy = json.loads(json.dumps(record['pairs'][0]))
+            copy['modified']['hub_id'] += '-copy'
+            record['pairs'] = [record['pairs'][0], copy]
+            (directory / 'batch.json').write_text(json.dumps(record))
+            (directory / 'audit').symlink_to(ROOT / 'audit', target_is_directory=True)
+            audit_work = work / 'model-audit/rounds/2'
+            report = audit_work / 'measurements/pair-1/weights.json'
+            env = {'WORKDIR': str(work), 'AUDIT_WORK': str(audit_work), 'AUDIT_PAIR': '1',
+                   'AUDIT_PIECE_WORK': str(audit_work / 'pieces/pair-1'),
+                   'AUDIT_DERIVED': str(audit_work / 'derived/pair-1'), 'AUDIT_MEASUREMENT': str(report),
+                   # File times come from the kernel's coarse clock, a few ms behind time.time().
+                   'AUDIT_JOB_STARTED': str(time.time() - 1), 'AUDIT_REHEARSAL': '1', 'AUDIT_STUB': '1'}
+            cwd = Path.cwd()
+            try:
+                os.chdir(str(directory))
+                with patch.dict(os.environ, env):
+                    measure = module('measure')
+                    measure.seed_original()
+                    census = module('census')
+                    original = census.paths(1)[0]
+                    self.assertEqual(original, census.paths(2)[0])
+                    with patch.object(sys, 'argv', ['measure.py']):
+                        measure.main()
+                    receipt = json.loads((report.parent / 'receipt.json').read_text())
+                    self.assertTrue(receipt['shared_original'])
+                    self.assertNotIn(str(original), receipt['deleted_checkpoints'])
+                    self.assertTrue(original.is_dir())
+                    self.assertTrue(census.paths(2)[1].is_dir())
+                    record = census.sweep()
+                    self.assertEqual(record['kept'][0]['missing'], [2])
+                    self.assertTrue(original.is_dir())
+            finally:
+                os.chdir(str(cwd))
+
+
+class SystemsTableTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(dir=ROOT / '.tmp')
+        self.addCleanup(self.temporary.cleanup)
+        self.directory = Path(self.temporary.name)
+        self.kit = fixture_kit(self.directory / 'kit')
+
+    def build(self, *extra, round_number='2'):
+        return subprocess.run([sys.executable, str(ROUND / 'bundle.py'), 'build', '--round', round_number,
+                               '--kit', str(self.kit), '--out', str(self.directory / 'out'), '--needs', NEEDS]
+                              + list(extra), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                              universal_newlines=True)
+
+    def test_every_entry_is_complete_and_the_builder_reads_it(self):
+        sys.path.insert(0, str(ROUND))
+        import bundle
+        table = json.loads((ROOT / 'hpc/systems.json').read_text())
+        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat'})
+        for name in table:
+            entry = bundle.system_entry(table, name)
+            self.assertLess(len(entry['work'] + '/model-audit-census.sh 24'), 50, name)
+        self.assertEqual(table['wheat']['scheduler'], 'pbs')
+        self.assertEqual(table['jean']['transfer_time_limit'], '23:55:00')
+
+    def test_a_system_with_tbd_values_is_refused(self):
+        table = json.loads((ROOT / 'hpc/systems.json').read_text())
+        table['wheat']['subproject'] = 'TBD'
+        table['wheat']['transfer'] = ['TBD']
+        path = self.directory / 'systems.json'
+        path.write_text(json.dumps(table))
+        result = self.build('--system', 'wheat', '--systems', str(path), '--image', '/p/work/sdegan/x.sif',
+                            '--image-sha256', 'a' * 64)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertIn('wheat still has TBD values: subproject, transfer', result.stdout)
+        self.assertFalse((self.directory / 'out' / BUNDLE).exists())
+        # The other systems still build from the same table.
+        self.assertEqual(self.build('--systems', str(path)).returncode, 0)
+
+    def test_round_mismatch_unknown_system_and_missing_image_are_refused(self):
+        result = self.build('--manifest', str(ROOT / 'data/batches/round-2-batch-1.json'), round_number='5')
+        self.assertIn('the batch is round 2, not round 5', result.stdout)
+        self.assertIn('unknown system blueback', self.build('--system', 'blueback').stdout)
+        self.assertIn('jean runs the census inside the image', self.build('--system', 'jean').stdout)
+
+    def test_round_five_builds_from_its_own_manifest(self):
+        result = self.build('--system', 'wheat', '--image', '/p/work/sdegan/permafrost-1.sif',
+                            '--image-sha256', 'b' * 64, round_number='5')
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertIn("--by-hand '/p/work/sdegan/model-audit-census.sh 5'", result.stdout)
+        self.assertIn("'Verify and submit 8 CPU comparisons'", result.stdout)
+        self.assertIn('/p/work/sdegan/.hpc/hf-token', result.stdout)
+        folder = opened(self.directory / 'out' / BUNDLE, self.directory / 'open')
+        self.assertEqual(json.loads((folder / 'batch.json').read_text())['round'], 5)
+        self.assertIn('export AUDIT_SCHEDULER=pbs', (folder / 'system.sh').read_text())
+        self.assertTrue((folder / 'image.sh').is_file() and (folder / 'IMAGE.txt').is_file())
+
+    def test_record_reads_the_round_from_the_log(self):
+        sys.path.insert(0, str(ROUND))
+        import bundle
+        log = self.directory / 'end.log'
+        log.write_text('project: model-audit\nsystem: wheat\nround: 5\nVERDICT round 5 OK\n')
+        bundle.record(SimpleNamespace(log=str(log), system='wheat', out=str(self.directory / 'records')))
+        self.assertEqual(json.loads((self.directory / 'records/wheat-round-5.json').read_text())['round'], 5)
+
+
+class BiggerBatchTests(unittest.TestCase):
+    """Nine pairs on Nautilus and the round 2 shape on Wheat's PBS, through the fake schedulers."""
+
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(dir=ROOT / '.tmp')
+        self.addCleanup(self.temporary.cleanup)
+        self.directory = Path(self.temporary.name)
+        self.kit = fixture_kit(self.directory / 'kit')
+
+    def args(self, **extra):
+        compute = str(CLUSTER_PYTHON) if CLUSTER_PYTHON.exists() else sys.executable
+        return SimpleNamespace(login_python=sys.executable, compute_python=compute, dry_run=True,
+                               base='synthetic/stub', kit=str(self.kit), **extra)
+
+    def test_nine_pairs_submit_in_parallel_with_a_sweep(self):
+        path = self.directory / 'round-7-batch-1.json'
+        path.write_text(json.dumps(bigger_manifest(9)))
+        run = CensusRehearsal(self.args(manifest=str(path)), self.directory / 'nine')
+        rows = run.queued()
+        self.assertEqual(len(rows), 11)
+        self.assertEqual(dependency(rows[-1]), 'afterany:' + ':'.join(str(job) for job in range(1002, 1011)))
+        self.assertIn("'Verify and submit 9 CPU comparisons'", (run.directory / 'builder.log').read_text())
+        cards = [path.read_text() for path in (run.home / '.hpc/jobs').glob('round-7-submit-*.json')]
+        self.assertTrue(any('Submit the transfer, 9 CPU comparisons and the sweep' in card for card in cards))
+        self.assertTrue((run.work / 'model-audit/rounds/7/scripts/batch.json').is_file())
+
+    def test_wheat_queues_the_same_shape_through_pbs_and_the_image(self):
+        if not CLUSTER_PYTHON.exists():
+            self.skipTest('the image check needs the venv built from the cluster pins')
+        run = CensusRehearsal(self.args(system='wheat'), self.directory / 'wheat')
+        rows = run.queued()
+        text = run.log.read_text()
+        self.assertIn('PBS request: qsub -v HPC_PROJECT=model-audit,', text)
+        self.assertIn('VERDICT image OK', text)
+        for row in rows:
+            self.assertEqual(row['scheduler'], 'pbs')
+            arguments = row['arguments']
+            self.assertEqual(arguments[arguments.index('-A') + 1], 'NRLMR57635502')
+            self.assertTrue(arguments[arguments.index('-v') + 1].startswith('HPC_PROJECT=model-audit,'))
+        self.assertEqual(rows[0]['arguments'][rows[0]['arguments'].index('-q') + 1], 'transfer')
+        self.assertIn('select=1:ncpus=1:mem=64gb', rows[1]['arguments'])
+        self.assertIn('walltime=00:30:00', rows[-1]['arguments'])
+        self.assertTrue(rows[0]['job'].endswith('.fake-pbs'))
+        self.assertEqual(run.call([str(run.binary / 'sbatch'), '--run-pending']), 0, run.log.read_text())
+        rows = run.rows()
+        self.assertTrue(all(row['status'] == 'finished' for row in rows), run.log.read_text())
+        self.assertIn('image: permafrost-rehearsal.sif', Path(rows[1]['log']).read_text())
+        self.assertFalse(run.sweep()['kept'])
+
+
+class ProbeTests(unittest.TestCase):
+    def setUp(self):
+        self.temporary = tempfile.TemporaryDirectory(dir=ROOT / '.tmp')
+        self.addCleanup(self.temporary.cleanup)
+        self.directory = Path(self.temporary.name)
+        (self.directory / 'batch.json').write_text(json.dumps(manifest()))
+        self.cwd = Path.cwd()
+        self.addCleanup(os.chdir, str(self.cwd))
+        os.chdir(str(self.directory))
+        self.body = b'{"bos_token_id": 2}\n'
+        blob = hashlib.sha1(('blob ' + str(len(self.body)) + '\0').encode() + self.body).hexdigest()
+        item = lambda name, size: SimpleNamespace(rfilename=name, size=size, blob_id=blob, lfs=None)
+        self.info = SimpleNamespace(siblings=[item('config.json', 900), item('generation_config.json', len(self.body)),
+                                              item('model.safetensors', 10 ** 9), item('sub/x.json', 1)])
+
+    def api(self, error=None):
+        info = self.info
+
+        class API:
+            def model_info(self, *args, **kwargs):
+                if error:
+                    raise error
+                return info
+        return API()
+
+    def test_probe_prints_ok_with_the_bytes_and_the_original(self):
+        download = module('download')
+        fetched = []
+
+        def fetch(repo, revision=None, token=None, local_dir=None, allow_patterns=None, max_workers=None):
+            fetched.append(allow_patterns)
+            Path(local_dir).mkdir(parents=True, exist_ok=True)
+            (Path(local_dir) / allow_patterns[0]).write_bytes(self.body)
+        with patch.dict(os.environ, {'AUDIT_WORK': str(self.directory)}), patch.object(download, 'snapshot_download', fetch), \
+                patch('builtins.print') as printed:
+            download.probe(self.api(), 'token')
+        self.assertEqual(fetched, [['generation_config.json']])
+        lines = [call.args[0] for call in printed.call_args_list]
+        self.assertEqual(lines[-1], 'PROBE OK {} google/gemma-4-31B-it'.format(len(self.body)))
+        self.assertFalse((self.directory / 'probe').exists())
+
+    def test_probe_failure_prints_one_parsed_line_and_exits(self):
+        download = module('download')
+        with patch.dict(os.environ, {'AUDIT_WORK': str(self.directory)}), patch('builtins.print') as printed:
+            with self.assertRaises(SystemExit) as stopped:
+                download.probe(self.api(OSError('cannot create SSL context')), 'token')
+        self.assertNotEqual(stopped.exception.code, 0)
+        first = printed.call_args_list[0].args[0]
+        self.assertEqual(first, 'PROBE FAIL OSError: cannot create SSL context')
+
+
+class GuardTests(unittest.TestCase):
+    def shell(self, function, call, env):
+        source = (ROUND / 'env.sh').read_text()
+        import re
+        body = re.search(r'^' + function + r'\(\) \{\n.*?^\}\n', source, re.S | re.M).group(0)
+        return subprocess.run(['bash', '-c', 'set -euo pipefail\n' + body + call], env=dict(os.environ, **env),
+                              stdout=subprocess.PIPE, universal_newlines=True, check=True).stdout
+
+    def test_fips_guard_is_a_no_op_when_fips_is_off_and_sets_the_default_provider_when_on(self):
+        with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
+            flag = Path(temporary) / 'fips_enabled'
+            flag.write_text('0\n')
+            env = {'FIPS_PROC_FILE': str(flag), 'AUDIT_WORK': temporary, 'HPC_JOB_ID': '77'}
+            out = self.shell('fips_guard', 'fips_guard; echo "conf=${OPENSSL_CONF:-none}"\n', env)
+            self.assertEqual(out, 'fips: off, nothing applied\nconf=none\n')
+            flag.write_text('1\n')
+            out = self.shell('fips_guard', 'fips_guard; echo "$OPENSSL_CONF $APPTAINERENV_OPENSSL_CONF"\n', env)
+            conf = Path(temporary) / 'fips/openssl-77.cnf'
+            self.assertIn('fips: on', out)
+            self.assertIn('{0} {0}'.format(conf), out)
+            self.assertIn('activate = 1', conf.read_text())
+
+    def test_node_facts_are_single_lines(self):
+        out = self.shell('node_facts', 'node_facts {}\n'.format(sys.executable), {})
+        lines = out.splitlines()
+        self.assertEqual([line.split(':', 1)[0] for line in lines], ['node', 'cores', 'memory', 'python'])
+        self.assertTrue(all(len(line) <= 100 for line in lines))
+
+
+class NamesFixtureTests(unittest.TestCase):
+    def test_fixture_matches_the_stored_format_and_skips_existing_files(self):
+        import pin_census
+        stored = json.loads((NAMES / '419b2efe4219.json').read_text())
+        weight_map = {name: row['file'] for name, row in stored['tensors'].items()}
+        headers = {}
+        for name, row in stored['tensors'].items():
+            headers.setdefault(row['file'], {})[name] = {'dtype': row['dtype'], 'shape': row['shape'],
+                                                          'data_offsets': [0, 0]}
+
+        def get(hub, repo, revision, filename, limit=None):
+            if filename == pin_census.INDEX:
+                return json.dumps({'metadata': {}, 'weight_map': weight_map}).encode()
+            return json.dumps(stored['config']).encode()
+        model = {'hub_id': stored['hub_id'], 'revision': stored['revision']}
+        with patch.object(pin_census, 'bounded_get', get), \
+                patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[shard])):
+            self.assertEqual(pin_census.fixture(object(), model), stored)
+            with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
+                path = Path(temporary) / 'batch.json'
+                record = manifest()
+                record['pairs'] = [{'original': model, 'modified': model}]
+                path.write_text(json.dumps(record))
+                with patch('builtins.print'):
+                    written = pin_census.names(path, temporary, hub=object())
+                self.assertEqual([item.name for item in written], ['419b2efe4219.json'])
+                self.assertEqual(written[0].read_text(), (NAMES / '419b2efe4219.json').read_text())
+                with patch('builtins.print'):
+                    self.assertEqual(pin_census.names(path, temporary, hub=object()), [])
 
 if __name__ == '__main__':
     unittest.main()

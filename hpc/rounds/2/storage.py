@@ -2,6 +2,7 @@
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-13  use exact bytes for acceptance and GB for the display.
 # Modified: SDE 2026-10-14  check the census budget and display GB.
+# Modified: SDE 2026-10-29  the quota method comes from the systems table; the size line lives in work.
 import json
 import os
 from pathlib import Path
@@ -29,9 +30,18 @@ def main():
     project = Path(work) / 'model-audit'
     need = json.loads(Path('needs.json').read_text())['bytes']
     own = int(subprocess.check_output(['du', '-sk', str(project)], universal_newlines=True).split()[0]) * 1024
+    # lfs: show_storage and the Lustre quota; show_storage: then free space;
+    # statvfs: free space alone, for systems with neither tool.
+    method = os.environ.get('AUDIT_QUOTA')
+    if not method:
+        method = 'show_storage' if os.environ.get('HPC_SYSTEM') == 'raider' else 'lfs'
     if os.environ.get('AUDIT_REHEARSAL') == '1':
         used, limit, free = 0, 3 * 1024 ** 4, 3 * 1024 ** 4
-    elif os.environ.get('HPC_SYSTEM') == 'raider':
+    elif method == 'statvfs':
+        info = os.statvfs(work)
+        free = info.f_bavail * info.f_frsize
+        used, limit = 0, free
+    elif method == 'show_storage':
         subprocess.check_call(['show_storage', '-h'])
         info = os.statvfs(work)
         free = info.f_bavail * info.f_frsize
@@ -46,7 +56,8 @@ def main():
     print('Work quota remaining: {:.1f} GB; filesystem free: {:.1f} GB'.format((limit - used) / 1024 ** 3, free / 1024 ** 3))
     if own + need > 8 * 1024 ** 4 or min(limit - used, free) < need:
         raise SystemExit('insufficient work space for the declared round')
-    cache = Path(os.environ['HOME']) / '.hpc/model-audit-space.tsv'
+    # Home can be over quota; the poll fragment reads this line from work.
+    cache = project / 'space.tsv'
     cache.write_text('{}\t{}\n'.format(project, own // 1024))
 
 

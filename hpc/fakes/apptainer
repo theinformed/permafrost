@@ -1,0 +1,47 @@
+#!/usr/bin/env python3
+# apptainer -- Stand in for the image runtime: run the command on this machine.
+# Created by Sean Egan 2026-10-29
+# Keeps the image call's shape: a clean environment, the APPTAINERENV_ settings, the working
+# folder and the image file. Inside, the rehearsal's compute interpreter plays the image's Python.
+import os
+from pathlib import Path
+import sys
+
+VALUED = ('--bind', '-B', '--home', '-H', '--pwd', '--env')
+
+
+def main():
+    arguments = sys.argv[1:]
+    if arguments == ['--version']:
+        print('apptainer version 1.3.6 (rehearsal stand-in)')
+        return
+    if not arguments or arguments[0] != 'exec':
+        raise SystemExit('the rehearsal supports apptainer exec only')
+    index, options = 1, {}
+    while index < len(arguments) and arguments[index].startswith('-'):
+        name = arguments[index]
+        if name in VALUED:
+            options[name] = arguments[index + 1]
+            index += 2
+        else:
+            options[name] = True
+            index += 1
+    image, command = arguments[index], arguments[index + 1:]
+    if not image.endswith('.sif') or not Path(image).is_file() or not command:
+        raise SystemExit('apptainer: no image file or no command: ' + image)
+    outer = dict(os.environ)
+    inner = {} if options.get('--cleanenv') else dict(outer)
+    for key, value in outer.items():
+        if key.startswith('APPTAINERENV_'):
+            inner[key[len('APPTAINERENV_'):]] = value
+    inner['HOME'] = options.get('--home', outer.get('HOME', '/'))
+    inner['PATH'] = ':'.join(part for part in (inner.get('AUDIT_COMPUTE_BIN', ''), '/usr/bin', '/bin') if part)
+    if outer.get('FAKE_IMAGE_RECORD'):
+        inner['PERMAFROST_IMAGE'] = outer['FAKE_IMAGE_RECORD']
+    if '--pwd' in options:
+        os.chdir(options['--pwd'])
+    os.execvpe(command[0], command, inner)
+
+
+if __name__ == '__main__':
+    main()

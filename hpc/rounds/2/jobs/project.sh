@@ -1,16 +1,15 @@
 #!/bin/bash
 #SBATCH --job-name=model-audit-census-compare
-#SBATCH --account=NRLMR57635502
-#SBATCH --time=03:55:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --cpus-per-task=1
 #SBATCH --mem=60G
 #SBATCH --output=logs/%x-%j.out
-# project.sh -- Compare one pair on CPU, save its card and discard its weights.
+# project.sh -- Compare one pair on CPU, save its card and discard the modified weights.
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  clear only this piece's prior try before reading inputs.
 # Modified: SDE 2026-10-15  rebuild the compute venv when its pins change; no address-space cap.
+# Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard; the image path.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -28,6 +27,7 @@ clear_projection_state() {
 clear_projection_state
 mkdir -p "$AUDIT_PIECE_WORK/state"
 start_piece compare "Compare checkpoint pair $AUDIT_PAIR on CPU"
+fips_guard
 if [ ! -f "$AUDIT_WORK/state/download.done" ]; then
     say 'compare refused: no finished download' "$AUDIT_WORK/state/download.done"
     exit 1
@@ -35,7 +35,10 @@ fi
 python3 ./lineage.py batch.json banned-makers.txt
 compute_python
 export PYTHONPATH=$AUDIT_ROUND HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
-if [ "${AUDIT_STUB:-0}" = 1 ] && [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then
+if [ -n "${AUDIT_IMAGE:-}" ]; then
+    # The image carries the compare pins; compute_python has checked them one by one.
+    image_python ./measure.py
+elif [ "${AUDIT_STUB:-0}" = 1 ] && [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then
     # The rehearsal's compute interpreter carries the same pins the venv below installs.
     python3 ./measure.py
 else
