@@ -235,6 +235,15 @@ class BundleTests(unittest.TestCase):
         self.assertNotIn('qwen', str(held.exception).lower())
         self.assertNotIn('gemma', str(held.exception).lower())
 
+    def test_the_install_step_clears_a_stale_list_beside_the_scripts(self):
+        run = self.fixture()
+        self.assertEqual(run.run(), 0)
+        stale = run.round / 'banned-makers.txt'
+        stale.write_text('# left by an earlier round\n')
+        self.assertEqual(run.call(['./round.sh', '--only', '10'], run.round), 0)
+        self.assertFalse(stale.exists())
+        self.assertFalse((run.round / 'maker-guard.sha256').read_text().count('deepseek'))
+
     def test_a_step_may_be_named_by_its_number(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)

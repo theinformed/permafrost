@@ -23,10 +23,16 @@ if [[ "$wanted" > "$current" ]]; then
 fi
 # No maker name sits on a cluster: a plain list left by an earlier round becomes the hashed
 # guard in place, with the screen that reads it, so a queued job that names the file still runs.
-for list in $(find "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name banned-makers.txt 2>/dev/null | sort -u); do
-    cp maker-guard.sha256 "$list"
-    cp lineage.py "$(dirname "$list")/lineage.py"
-    echo "guard rewritten: $list"
+for list in $(find . "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name banned-makers.txt 2>/dev/null | sort -u); do
+    if [ "$(dirname "$list")" -ef . ]; then
+        rm -f "$list"
+        echo "stale list removed: $list"
+    else
+        cp maker-guard.sha256 "$list"
+        cp lineage.py "$(dirname "$list")/lineage.py"
+        echo "guard rewritten: $list"
+    fi
 done
 echo "kit version: $(cat "$HOME/metoc/jobs/hpc/KIT_VERSION")"
+echo "ipv4 report: $(grep -c 'curl -4' "$HOME/bin/hpc-report.sh" 2>/dev/null || echo 0)"
 echo 'VERDICT kit OK'
