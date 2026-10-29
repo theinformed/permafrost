@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-13  find the center's Python module by name pattern; there is no plain python3 module.
 # Modified: SDE 2026-10-13  send bounded card and log drops on exit.
 # Modified: SDE 2026-10-15  keep every printed line within 100 columns.
+# Modified: SDE 2026-10-29  a drop queued for the desk's poll counts as sent; three send tries; a pad probe.
 # Modified: SDE 2026-10-29  round from batch.json; queues, scheduler and image from the systems table.
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
@@ -21,6 +22,7 @@ export PIP_CACHE_DIR=$AUDIT_WORK/cache/pip PYTHONDONTWRITEBYTECODE=1
 export XDG_CACHE_HOME=$AUDIT_WORK/cache/xdg
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
 [ ! -f system.sh ] || . ./system.sh
+. ./drops.sh
 . ./scheduler.sh
 # An image build runs its compute Python inside the pinned image.
 [ -z "${AUDIT_IMAGE:-}" ] || . ./image.sh
@@ -134,9 +136,13 @@ finish_piece() {
     } > "$drop"
     # A delivery fault must leave the scientific exit status alone.
     local sent
-    if sent=$(hpc send "$drop" "$id-drop.txt" 2>&1) && [[ "$sent" = *'is on the desk'* ]]; then
+    if sent=$(send_drop "$drop" "$id-drop.txt") && [[ "$sent" = *'is on the desk'* ]]; then
         printf '%s\n' "$sent"
         printf '%s\n' "$id" > "$AUDIT_WORK/state/pad-confirmed"
+    elif [[ "$sent" = *'waits for the next poll'* ]]; then
+        # Some login nodes have no path to the pad; the sender's outbox is read by the desk's poll.
+        printf '%s\n' "$sent"
+        printf '%s\n' "$id" > "$AUDIT_WORK/state/pad-queued"
     else
         printf '%s\n' "$sent"
         mkdir -p "$HOME/.hpc/outbox/$HPC_PROJECT/$HPC_SYSTEM"

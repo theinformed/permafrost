@@ -790,9 +790,9 @@ class SystemsTableTests(unittest.TestCase):
         result = self.build('--system', 'wheat', '--image', '/p/work/sdegan/permafrost-1.sif',
                             '--image-sha256', 'b' * 64, round_number='5')
         self.assertEqual(result.returncode, 0, result.stdout)
-        self.assertIn("--by-hand '/p/work/sdegan/model-audit-census.sh 5'", result.stdout)
+        self.assertIn("--by-hand 'cd /p/work/sdegan' --by-hand './model-audit-census.sh 5'", result.stdout)
         self.assertIn("'Verify and submit 8 CPU comparisons'", result.stdout)
-        self.assertIn('/p/work/sdegan/.hpc/hf-token', result.stdout)
+        self.assertIn('/p/work/sdegan/hf-token', result.stdout)
         folder = opened(self.directory / 'out' / BUNDLE, self.directory / 'open')
         self.assertEqual(json.loads((folder / 'batch.json').read_text())['round'], 5)
         self.assertIn('export AUDIT_SCHEDULER=pbs', (folder / 'system.sh').read_text())

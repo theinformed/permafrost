@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-13  keep cleanup available only by its own name.
 # Modified: SDE 2026-10-14  accept a projection retry as a plain argument.
 # Modified: SDE 2026-10-15  wrap step output at 100 columns; parsed lines are shorter.
+# Modified: SDE 2026-10-29  probe the pad path first and send the end log with retries.
 # Modified: SDE 2026-10-29  take the round and its piece count from batch.json.
 set -euo pipefail
 cd "$(dirname "$0")" || exit 1
@@ -13,6 +14,7 @@ ROUND=$(python3 ./census.py round)
 count=$(python3 ./census.py count)
 export ROUND
 [ ! -f system.sh ] || . ./system.sh
+. ./drops.sh
 export PATH=$HOME/bin:$PATH
 narrow() {
     if command -v stdbuf >/dev/null 2>&1; then stdbuf -oL fold -w 100; else fold -w 100; fi
@@ -64,6 +66,7 @@ log=round-$ROUND-end.log
     echo 'event: round-end'
     echo "when: $(date -u +%FT%TZ)"
 } > "$log"
+pad_probe | tee -a "$log"
 rc=0
 for step in "${todo[@]}"; do
     echo "step: $step" | tee -a "$log"
@@ -76,7 +79,7 @@ done
 if [ "$rc" = 0 ]; then verdict=OK; else verdict=FAIL; fi
 echo "exit: $rc" | tee -a "$log"
 echo "VERDICT round $ROUND $verdict" | tee -a "$log"
-if sent=$(hpc send "$log" "$log" 2>&1) && [[ "$sent" = *'is on the desk'* ]]; then
+if sent=$(send_drop "$log" "$log") && [[ "$sent" = *'is on the desk'* ]]; then
     printf '%s\n' "$sent" | narrow
     rm -f "$log" # scratch: the end log is already on the desk
 else

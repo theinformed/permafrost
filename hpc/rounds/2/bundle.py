@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-14  package the CPU census and keep its token on a separate card.
 # Modified: SDE 2026-10-13  hash the payload and quote the desk arguments.
 # Modified: SDE 2026-10-15  its own bundle name and cluster path, apart from round 1's.
+# Modified: SDE 2026-10-29  the by-hand form is a cd and the script, as the desk reads it.
 # Modified: SDE 2026-10-29  any census round and system: the batch sets the round and pair count,
 #                           hpc/systems.json the scheduler, queues and work root; optional image.
 import argparse
@@ -253,7 +254,8 @@ def build(args):
         raise ValueError('desk script call must be under 50 characters')
     run = ['hpc-send', 'run', '--after', '$copy'] + common + [
            '--why', 'Verify and submit {} CPU comparisons'.format(count), '--needs', run_needs,
-           '--time-limit', '1800', '--output', 'verdict', '--by-hand', script]
+           '--time-limit', '1800', '--output', 'verdict', '--by-hand', 'cd ' + entry['work'],
+           '--by-hand', './' + NAME + script[len(destination):]]
     for step in STEPS:
         run.extend(['--steps', './' + step])
     if args.takes:

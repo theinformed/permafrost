@@ -47,7 +47,7 @@
     "mem": {"download": "8gb", "project": "64gb", "sweep": "2gb"},
     "purge_days": 30,
     "quota": "statvfs",
-    "token_file": "/p/work/sdegan/.hpc/hf-token",
+    "token_file": "/p/work/sdegan/hf-token",
     "image": "required"
   }
 }
