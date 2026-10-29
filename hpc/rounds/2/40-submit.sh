@@ -11,7 +11,7 @@
 . ./env.sh
 count=$(python3 ./census.py count)
 start_piece submit "Submit the transfer, $count CPU comparisons and the sweep"
-python3 ./lineage.py batch.json banned-makers.txt
+python3 ./lineage.py batch.json maker-guard.sha256
 if [ "${AUDIT_PROJECTION_ONLY:-0}" = 1 ]; then
     if [ ! -f "$AUDIT_WORK/state/download.done" ]; then
         say 'projection-only submit missing:' "$AUDIT_WORK/state/download.done"

@@ -174,8 +174,10 @@ def build(args):
         for name in ('__init__.py', 'common.py'):
             shutil.copyfile(str(ROOT / 'audit/recipes' / name), str(stage / 'audit/recipes' / name))
         shutil.copyfile(str(ROOT / 'hpc/project.py'), str(stage / 'project.py'))
-        for name in ('lineage.py', 'banned-makers.txt'):
-            shutil.copyfile(str(ROOT / 'hpc' / name), str(stage / name))
+        shutil.copyfile(str(ROOT / 'hpc/lineage.py'), str(stage / 'lineage.py'))
+        # The names stay at home; the node screens with their hashes.
+        from lineage import guard_text
+        (stage / 'maker-guard.sha256').write_text(guard_text(ROOT / 'hpc/banned-makers.txt'))
         (stage / 'batch.json').write_text(json.dumps(manifest, indent=2) + '\n')
         (stage / 'systems.json').write_text(json.dumps(table, indent=2) + '\n')
         (stage / 'system.sh').write_text(system_script(args.system, entry, args.image, args.image_sha256))

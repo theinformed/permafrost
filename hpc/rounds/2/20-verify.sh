@@ -8,7 +8,7 @@
 # Modified: SDE 2026-10-29  test all three requests through the scheduler adapter; check the image.
 . ./env.sh
 start_piece verify 'Check the transfer and CPU comparison requests'
-python3 ./lineage.py batch.json banned-makers.txt
+python3 ./lineage.py batch.json maker-guard.sha256
 python3 ./login.py
 python3 ./storage.py
 for piece in download project sweep; do

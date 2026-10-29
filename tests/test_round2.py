@@ -218,6 +218,23 @@ class BundleTests(unittest.TestCase):
         self.assertIn('system: raider\n', drop)
         self.assertIn('VERDICT round 2 OK', drop)
 
+    def test_the_hashed_guard_screens_like_the_names(self):
+        from lineage import guard_text
+        folder = tempfile.TemporaryDirectory()
+        self.addCleanup(folder.cleanup)
+        guard = Path(folder.name) / 'maker-guard.sha256'
+        guard.write_text(guard_text(ROOT / 'hpc/banned-makers.txt'))
+        self.assertNotIn('deepseek', guard.read_text())
+        record = manifest()
+        self.assertEqual(screen(record, guard), 5)
+        planted = json.loads(json.dumps(record))
+        planted['pairs'][0]['modified']['declared_base_model'] = ['Qwen/Qwen2.5-7B']
+        with self.assertRaises(ValueError) as held:
+            screen(planted, guard)
+        self.assertIn('pair 1 (guard ', str(held.exception))
+        self.assertNotIn('qwen', str(held.exception).lower())
+        self.assertNotIn('gemma', str(held.exception).lower())
+
     def test_a_step_may_be_named_by_its_number(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)

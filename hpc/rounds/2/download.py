@@ -86,7 +86,7 @@ def probe(api, credential):
 
 
 def main():
-    screen(batch(), 'banned-makers.txt')
+    screen(batch(), 'maker-guard.sha256')
     marker = Path(os.environ['AUDIT_WORK']) / 'state/download.done'
     if marker.exists():
         marker.unlink()

@@ -20,7 +20,7 @@ start_piece download "Download and verify $count checkpoint pairs"
 # The desk's reporting kit records how this job ends, even when it dies without a word.
 hpc_report_on_exit
 fips_guard
-python3 ./lineage.py batch.json banned-makers.txt
+python3 ./lineage.py batch.json maker-guard.sha256
 stub=0
 if [ "${AUDIT_STUB:-0}" = 1 ] && [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then stub=1; fi
 if [ "$stub" = 1 ] && [ -z "${AUDIT_IMAGE:-}" ]; then

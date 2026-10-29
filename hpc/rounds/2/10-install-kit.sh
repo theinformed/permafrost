@@ -2,6 +2,7 @@
 # 10-install-kit.sh -- Refresh the managed tools when this kit is newer.
 # Created by Sean Egan 2026-10-13
 # Modified: SDE 2026-10-14  reuse the managed reporting kit for the census.
+# Modified: SDE 2026-10-29  rewrite a plain maker list left on the cluster as the hashed guard.
 # Modified: SDE 2026-10-13  compare the installed version before copying.
 . ./env.sh
 start_piece kit 'Install the shared job reporting tools'
@@ -20,5 +21,12 @@ if [[ "$wanted" > "$current" ]]; then
         ln -sfn "$HOME/metoc/jobs/hpc/hpc" "$HOME/bin/hpc"
     fi
 fi
+# No maker name sits on a cluster: a plain list left by an earlier round becomes the hashed
+# guard in place, with the screen that reads it, so a queued job that names the file still runs.
+for list in $(find "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name banned-makers.txt 2>/dev/null | sort -u); do
+    cp maker-guard.sha256 "$list"
+    cp lineage.py "$(dirname "$list")/lineage.py"
+    echo "guard rewritten: $list"
+done
 echo "kit version: $(cat "$HOME/metoc/jobs/hpc/KIT_VERSION")"
 echo 'VERDICT kit OK'

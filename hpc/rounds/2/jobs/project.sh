@@ -35,7 +35,7 @@ if [ ! -f "$AUDIT_WORK/state/download.done" ]; then
     say 'compare refused: no finished download' "$AUDIT_WORK/state/download.done"
     exit 1
 fi
-python3 ./lineage.py batch.json banned-makers.txt
+python3 ./lineage.py batch.json maker-guard.sha256
 compute_python
 export PYTHONPATH=$AUDIT_ROUND HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1
 if [ -n "${AUDIT_IMAGE:-}" ]; then
