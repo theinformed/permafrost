@@ -1,6 +1,7 @@
 # test_calibration_envelopes.py -- Check the measured pass lines for Mistral Small 3.2.
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-29  the recipe table carries both pass lines unchanged.
+# Modified: SDE 2026-10-29  both lines are live; each calibration copy matches its own line.
 """The calibration file must match its tracked reports and admit both of our own edits."""
 
 import copy
@@ -112,7 +113,19 @@ class CalibrationEnvelopeTest(unittest.TestCase):
         for name, line in self.data['pass_lines'].items():
             self.assertEqual(table[name], line, name)
         self.assertEqual(table['single-projection/mistral-small-3.2-24b']['status'], 'measured')
-        self.assertNotEqual(table['norm-preserving/mistral-small-3.2-24b']['status'], 'measured')
+        self.assertEqual(table['norm-preserving/mistral-small-3.2-24b']['status'], 'measured')
+
+    def test_each_edit_matches_its_own_line(self):
+        for run in RUNS:
+            report = score_report(copy.deepcopy(self.reports[run]))
+            matching = report['recipe_matching']
+            self.assertEqual(report['summary']['assessment'], 'recipe_match', run)
+            self.assertEqual(matching['nearest_recipe'], run + '/mistral-small-3.2-24b')
+        # The single projection moves row norms by 0.0025 or more, so the norm-preserving line flags all 80 matrices.
+        report = score_report(copy.deepcopy(self.reports['single-projection']))
+        line = next(item for item in report['recipe_matching']['candidates'] if item['recipe'] == 'norm-preserving/mistral-small-3.2-24b')
+        self.assertEqual({item['rule'] for item in line['violations']}, {'row_norm_change'})
+        self.assertEqual(len(line['violations']), 80)
 
 
 if __name__ == '__main__':

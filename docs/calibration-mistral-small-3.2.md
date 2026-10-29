@@ -1,6 +1,7 @@
 # Calibrating the weight pass lines on Mistral Small 3.2 24B
 
 Created by Sean Egan, 2026-10-14.
+Modified: SDE 2026-10-29  the scorer reads the leftover and row-norm limits.
 
 I edited the verified `mistralai/Mistral-Small-3.2-24B-Instruct-2506` base (revision `95a6d26c`) twice on the
 cluster: a single projection of one refusal direction (round 1, job 3760681) and the same projection followed by a
@@ -40,19 +41,20 @@ edit moved it by more than about 1.55 percent of its norm. The 12 that cleared w
 | First-value energy share at least | 0.98 | 0.98 | lowest 0.9859 and 0.9851 |
 | Direction cosine at least | 0.999 | 0.999 | lowest 0.999994 and 0.999989 |
 | Relative change outside the changed set at most | 0.001 | 0.001 | 0 |
-| Leftover outside the first direction, over the weight norm, at most (proposed) | 0.0025 | 0.0025 | highest 0.00156 and 0.00168 |
-| Largest row-norm change at most (proposed) | none | 0.001 | 0.0025 to 0.0149 and 0.00005 to 0.00027 |
+| Leftover outside the first direction, over the weight norm, at most | 0.0025 | 0.0025 | highest 0.00156 and 0.00168 |
+| Largest row-norm change at most | none | 0.001 | 0.0025 to 0.0149 and 0.00005 to 0.00027 |
 
-The first three rules are ones the scorer reads today, scoped to this base by its shard checksums. With the
-single-projection entry added, both copies match with zero flags. The two proposed rules need a scorer change:
+The scorer reads all five rules, scoped to this base by its shard checksums. Each copy matches its own line with zero
+flags:
 
 - The leftover rule is the one I expect to carry to other bases, because it depends on the storage type alone. A fixed
   energy floor is really a floor on how hard the edit pushed: the same bfloat16 rounding on a 0.5 percent edit gives a
   share near 0.93. Under either line, a second change hiding beside the projection would have to stay below about
   0.0014 to 0.002 of the weight norm.
-- The row-norm limit is what separates the two recipes. The scorer's present check is a yes or no at a tolerance of
-  0.00001, which bfloat16 rounding alone fails on every matrix, so the norm-preserving entry stays inert until the
-  scorer reads the 0.001 limit.
+- The row-norm limit is what separates the two recipes. The older yes-or-no check, at a tolerance of 0.00001, fails
+  on every matrix from bfloat16 rounding alone, so the line uses the 0.001 limit. The single projection breaks it on
+  all 80 matrices. The norm-preserving copy meets every single-projection rule as well, so when both lines match, the
+  one with a row-norm limit ranks first.
 
 ## What it suggests for the census (to re-score)
 
@@ -62,9 +64,11 @@ other bases have their own checksums, so this is a hypothesis to re-score; the c
 
 - `huihui-ai/Huihui-Qwen3.5-27B-abliterated`: 68 energy-share flags (39 down projections, 23 linear-attention outputs,
   6 attention outputs), lowest share 0.9873. Scored in a scratch copy with the analytic floor lowered to 0.98, all 68
-  clear. The 2 flags left are the multi-token-prediction head, whose names the recipe table does not yet carry.
+  clear. The recipe table now reads the multi-token-prediction head (`mtp.`) as an ordinary attention output and down
+  projection, so its 2 unexpected-change flags are now energy-share flags (0.9888 and 0.9892).
 - `huihui-ai/Qwen2.5-32B-Instruct-abliterated`: 75 energy-share flags (48 down projections, 27 attention outputs),
-  lowest share 0.9877. In the same scratch scoring all 75 clear, leaving the embedding flag.
+  lowest share 0.9877. In the same scratch scoring all 75 clear. The analytic lines now take a changed embedding as an
+  optional writer, so its unexpected-change flag is now an energy-share flag (0.9883), which clears at 0.98 too.
 - The embedding flag reads differently from its census note. Its change moved 71 percent of entries, far more than
   a padding-token remap would, and its direction agrees with all 128 residual writers at cosine 0.99993 or better.
   The refusal direction looks to have been projected out of the token embedding as well.
@@ -74,7 +78,6 @@ other bases have their own checksums, so this is a hypothesis to re-score; the c
 
 ## Still open
 
-- The scorer reading the leftover and row-norm limits, then an explicit precedence for the norm-preserving entry.
 - Each recipe has one run on one base. Repeated runs, and a second base, would show how much these envelopes move.
 - Neither run's direction file came back with its report, so the agreement between the two runs' directions is
   unmeasured. Round 1's recipe card and timing record were not pulled either.

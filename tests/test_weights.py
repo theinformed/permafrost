@@ -3,10 +3,12 @@
 # Modified: SDE 2026-10-13  cover rank, row norms, shard names, and streaming.
 # Modified: SDE 2026-10-13  test hybrid roles, selected layers, and saved reports.
 # Modified: SDE 2026-10-29  the packed expert names of Gemma 4 have their own kinds.
+# Modified: SDE 2026-10-29  leftover, row-norm, precedence, optional-kind and MTP-head checks.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
 import json
+import math
 import tempfile
 import unittest
 import weakref
@@ -17,7 +19,8 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-from audit.weights import TensorStore, compare_weights, direction_agreement, measure_tensor, resolve_checkpoint, rescore_weights, tensor_kind
+from audit.weights import (TensorStore, compare_weights, direction_agreement, match_recipes, measure_tensor, recipe_table,
+                           resolve_checkpoint, rescore_weights, tensor_kind)
 
 
 class TensorMeasures(unittest.TestCase):
@@ -112,6 +115,13 @@ class TensorMeasures(unittest.TestCase):
             self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.down_proj"), "expert_down")
             self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.gate_up_proj"), "expert_gate_up")
         self.assertEqual(tensor_kind("model.layers.2.mlp.experts.3.up_proj.weight"), "feed_forward_up")
+
+    def test_multi_token_prediction_head_takes_ordinary_kinds(self):
+        # Qwen3.5 names its multi-token-prediction head under mtp., beside the language model.
+        self.assertEqual(tensor_kind("mtp.layers.0.self_attn.o_proj.weight"), "attention_output")
+        self.assertEqual(tensor_kind("mtp.layers.0.mlp.down_proj.weight"), "feed_forward_down")
+        self.assertEqual(tensor_kind("mtp.layers.0.self_attn.q_proj.weight"), "attention_query")
+        self.assertEqual(tensor_kind("mtp.fc.weight"), "other")
 
 
 class CheckpointComparison(unittest.TestCase):
@@ -211,7 +221,8 @@ class CheckpointComparison(unittest.TestCase):
             self.assertIn("first_singular_energy_share", report["tensors"][name])
         self.assertFalse(report["recipe_matching"]["matched"])
         unexpected = {v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "unexpected_change"}
-        self.assertEqual(len(unexpected), 3)
+        # The analytic lines take a changed embedding as an optional writer, so only two changes are unexpected.
+        self.assertEqual(unexpected, {"model.language_model.layers.0.self_attn.q_proj.weight", "unknown.weight"})
 
     def test_hybrid_cross_kind_direction_failure(self):
         self.hybrid_pair(other_direction=True)
@@ -315,6 +326,74 @@ class CheckpointComparison(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, "above the download limit"):
                 resolve_checkpoint("owner/checkpoint", cache=self.root / "cache")
         self.assertEqual(get.call_count, 1)
+
+
+def scored_row(kind, changed=True, relative=0.02, share=0.999, cosine=1.0, row_error=0.0):
+    """Build one saved tensor record with only the fields the scorer reads."""
+    row = {"kind": kind, "status": "ok", "changed": changed, "relative_difference": relative,
+           "row_norms": {"preserved_equal": row_error == 0.0, "max_relative_error": row_error}}
+    if changed:
+        row.update(first_singular_energy_share=share, direction_cosine=cosine)
+    return row
+
+
+class RecipeRules(unittest.TestCase):
+    """Score hand-built records, so each rule is seen apart from the measurement code."""
+
+    line = {"status": "measured", "changed_kinds": ["attention_output"], "allow_unchanged_projections": False,
+            "unchanged_relative_max": 0.001, "first_energy_min": 0.98, "direction_cosine_min": 0.999}
+    agreement = {"cross_kind_min_cosine": None}
+
+    def score(self, rows, recipes):
+        return match_recipes(rows, [], self.agreement, recipes)
+
+    def rules(self, rows, recipe):
+        return [item["rule"] for item in self.score(rows, {"line": recipe})["violations"]]
+
+    def test_leftover_rule(self):
+        recipe = {**self.line, "residual_relative_max": 0.0025}
+        # A 2 percent change with 98.5 percent in its first direction leaves 0.00245; 98.2 percent leaves 0.00268.
+        self.assertEqual(self.rules({"a": scored_row("attention_output", share=0.985)}, recipe), [])
+        violations = self.score({"a": scored_row("attention_output", share=0.982)}, {"line": recipe})["violations"]
+        self.assertEqual([item["rule"] for item in violations], ["residual_relative"])
+        self.assertAlmostEqual(violations[0]["value"], 0.02 * math.sqrt(0.018))
+        self.assertEqual(violations[0]["maximum"], 0.0025)
+        # A row with no energy share gets the energy flag but no leftover flag.
+        self.assertEqual(self.rules({"a": scored_row("attention_output", share=None)}, recipe), ["first_energy_share"])
+        self.assertEqual(self.rules({"a": scored_row("attention_output", share=0.982)}, self.line), [])
+
+    def test_row_norm_rule(self):
+        recipe = {**self.line, "row_norm_max_relative_error_max": 0.001}
+        self.assertEqual(self.rules({"a": scored_row("attention_output", row_error=0.0005)}, recipe), [])
+        violations = self.score({"a": scored_row("attention_output", row_error=0.005)}, {"line": recipe})["violations"]
+        self.assertEqual(violations, [{"rule": "row_norm_change", "tensor": "a", "value": 0.005, "maximum": 0.001}])
+        # The older yes-or-no check still applies to a table that asks for it.
+        self.assertEqual(self.rules({"a": scored_row("attention_output", row_error=0.0005)}, {**self.line, "row_norms_preserved": True}),
+                         ["row_norms_not_preserved"])
+
+    def test_row_norm_line_ranks_first_at_equal_counts(self):
+        rows = {"a": scored_row("attention_output", row_error=0.0005)}
+        recipes = {"a-plain": self.line, "z-norm": {**self.line, "row_norm_max_relative_error_max": 0.001}}
+        self.assertEqual(self.score(rows, recipes)["nearest_recipe"], "z-norm")
+        rows["a"]["row_norms"]["max_relative_error"] = 0.005
+        self.assertEqual(self.score(rows, recipes)["nearest_recipe"], "a-plain")
+
+    def test_optional_kind_is_scored_only_when_changed(self):
+        recipe = {**self.line, "optional_kinds": ["embedding"], "residual_relative_max": 0.0025}
+        writer = scored_row("attention_output")
+        self.assertEqual(self.rules({"a": writer, "e": scored_row("embedding", changed=False, relative=0.0)}, recipe), [])
+        self.assertEqual(self.rules({"a": writer, "e": scored_row("embedding")}, recipe), [])
+        self.assertEqual(self.rules({"a": writer, "e": scored_row("embedding", share=0.9)}, recipe), ["first_energy_share", "residual_relative"])
+        self.assertEqual(self.rules({"a": writer, "e": scored_row("embedding")}, self.line), ["unexpected_change"])
+        # An embedding change alone does not stand in for the projection.
+        self.assertIn("missing_changed_projection", self.rules({"e": scored_row("embedding")}, recipe))
+
+    def test_analytic_lines_carry_the_optional_embedding(self):
+        table = recipe_table()
+        for name in ("single-projection", "single-projection-selected"):
+            self.assertEqual(table[name]["optional_kinds"], ["embedding"])
+        for name in ("single-projection/mistral-small-3.2-24b", "norm-preserving/mistral-small-3.2-24b"):
+            self.assertNotIn("optional_kinds", table[name])
 
 
 if __name__ == "__main__":

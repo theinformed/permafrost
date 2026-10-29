@@ -1,6 +1,6 @@
 {
   "tensor_kinds": {
-    "prefixes": ["model.language_model.", "language_model.model.", "language_model.", "model.", "transformer."],
+    "prefixes": ["model.language_model.", "language_model.model.", "language_model.", "model.", "transformer.", "mtp."],
     "patterns": [
       {"pattern": "layers\\.\\d+\\.self_attn\\.o_proj\\.weight", "kind": "attention_output", "residual_writer": true},
       {"pattern": "layers\\.\\d+\\.linear_attn\\.out_proj\\.weight", "kind": "linear_attention_output", "residual_writer": true},
@@ -25,6 +25,7 @@
     "status": "analytic",
     "calibration": "Analytic rank-one envelope; empirical recipe library pending.",
     "changed_kinds": ["attention_output", "linear_attention_output", "feed_forward_down", "expert_down", "shared_expert_down"],
+    "optional_kinds": ["embedding"],
     "allow_unchanged_projections": false,
     "unchanged_relative_max": 0.001,
     "first_energy_min": 0.99,
@@ -34,6 +35,7 @@
     "status": "analytic",
     "calibration": "Analytic rank-one envelope with a selected subset of residual writers; empirical recipe library pending.",
     "changed_kinds": ["attention_output", "linear_attention_output", "feed_forward_down", "expert_down", "shared_expert_down"],
+    "optional_kinds": ["embedding"],
     "allow_unchanged_projections": true,
     "unchanged_relative_max": 0.001,
     "first_energy_min": 0.99,
@@ -59,10 +61,10 @@
       "model-00009-of-00010.safetensors": "e1fffc9bb2b77d4d2382c1bd9053e9d017741d67ca00cc6f77034a294f2f5cfd",
       "model-00010-of-00010.safetensors": "116ef7ae6fa0fd46b478324e4aa6a49f448afed900ca9f71d4fbd3d02289bbd4"
     },
-    "calibration": "Measured on our own single projection of this base (job 3760681). The scorer reads every field except residual_relative_max."
+    "calibration": "Measured on our own single projection of this base (job 3760681). The scorer reads every field."
   },
   "norm-preserving/mistral-small-3.2-24b": {
-    "status": "measured; waits for the row-norm rule in the scorer",
+    "status": "measured",
     "changed_kinds": ["attention_output", "feed_forward_down"],
     "allow_unchanged_projections": false,
     "unchanged_relative_max": 0.001,
@@ -82,7 +84,7 @@
       "model-00010-of-00010.safetensors": "116ef7ae6fa0fd46b478324e4aa6a49f448afed900ca9f71d4fbd3d02289bbd4"
     },
     "row_norm_max_relative_error_max": 0.001,
-    "calibration": "Measured on our own projection-then-row-rescale of this base (job 3760794). It stays inert until the scorer reads row_norm_max_relative_error_max; without that rule it would tie with the single-projection line."
+    "calibration": "Measured on our own projection-then-row-rescale of this base (job 3760794). Its row-norm limit is what separates it from the single-projection line, and it ranks first when both match."
   },
   "directional-per-layer": {"status": "not yet measured"},
   "arbitrary-rank": {"status": "not yet measured"},

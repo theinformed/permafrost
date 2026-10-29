@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-13  hash shards on the compute interpreter too.
 # Modified: SDE 2026-10-13  classify residual writers and score selected projections.
 # Modified: SDE 2026-10-13  apply measured row-norm limits only to their recorded base.
+# Modified: SDE 2026-10-29  read leftover and row-norm limits, optional kinds, row-norm precedence.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -283,6 +284,24 @@ def direction_agreement(rows, vectors, recipes=None):
             "min_cosine": min(all_cosines) if all_cosines else None, "cross_kind_min_cosine": min(cross_kind) if cross_kind else None}
 
 
+def limit_violations(tensor, row, recipe):
+    """Apply the measured leftover and row-norm limits to one changed tensor."""
+    violations = []
+    limit = recipe.get("residual_relative_max")
+    share = row.get("first_singular_energy_share")
+    if limit is not None and share is not None and row["relative_difference"] is not None:
+        # The leftover is the change outside the first direction, as a norm over the weight's norm.
+        leftover = row["relative_difference"] * math.sqrt(max(0.0, 1 - share))
+        if leftover > limit:
+            violations.append({"rule": "residual_relative", "tensor": tensor, "value": leftover, "maximum": limit})
+    limit = recipe.get("row_norm_max_relative_error_max")
+    if limit is not None and "row_norms" in row:
+        error = row["row_norms"]["max_relative_error"]
+        if error > limit:
+            violations.append({"rule": "row_norm_change", "tensor": tensor, "value": error, "maximum": limit})
+    return violations
+
+
 def match_recipes(rows, structural, agreement, recipes):
     """List each envelope failure; unmeasured recipes stay out of the ranking."""
     candidates = []
@@ -291,6 +310,8 @@ def match_recipes(rows, structural, agreement, recipes):
             continue
         violations = list(structural)
         expected = set(recipe["changed_kinds"])
+        # An optional kind is scored like an expected one when it changed and may stay unchanged.
+        optional = set(recipe.get("optional_kinds", [])) - expected
         present = {row["kind"] for row in rows.values()}
         observed = {row["kind"] for row in rows.values() if row["changed"]}
         selected = recipe.get("allow_unchanged_projections", False)
@@ -307,7 +328,7 @@ def match_recipes(rows, structural, agreement, recipes):
             if recipe.get("row_norms_preserved") is True and "row_norms" in row and not row["row_norms"]["preserved_equal"]:
                 violations.append({"rule": "row_norms_not_preserved", "tensor": tensor})
             relative = row["relative_difference"]
-            if row["kind"] not in expected:
+            if row["kind"] not in expected and not (row["kind"] in optional and row["changed"]):
                 if relative is None or relative > recipe["unchanged_relative_max"]:
                     violations.append({"rule": "unexpected_change", "tensor": tensor, "value": relative})
             elif not row["changed"]:
@@ -323,11 +344,13 @@ def match_recipes(rows, structural, agreement, recipes):
                 cosine = row.get("direction_cosine")
                 if cosine is None or cosine < recipe["direction_cosine_min"]:
                     violations.append({"rule": "direction_cosine", "tensor": tensor, "value": cosine, "minimum": recipe["direction_cosine_min"]})
+                violations += limit_violations(tensor, row, recipe)
         cosine = agreement["cross_kind_min_cosine"]
         if cosine is not None and cosine < recipe["direction_cosine_min"]:
             violations.append({"rule": "cross_kind_direction", "value": cosine, "minimum": recipe["direction_cosine_min"]})
         candidates.append({"recipe": name, "matched": not violations, "violations": violations, "skipped_projections": skipped})
-    candidates.sort(key=lambda item: (len(item["violations"]), item["recipe"]))
+    # At equal counts a recipe with a row-norm limit ranks first, since it asserts more about the edit.
+    candidates.sort(key=lambda item: (len(item["violations"]), "row_norm_max_relative_error_max" not in recipes[item["recipe"]], item["recipe"]))
     return {"nearest_recipe": candidates[0]["recipe"] if candidates else None, "matched": candidates[0]["matched"] if candidates else False,
             "violations": candidates[0]["violations"] if candidates else [], "candidates": candidates,
             "skipped_projections": candidates[0]["skipped_projections"] if candidates else [],
