@@ -174,6 +174,7 @@ class BundleTests(unittest.TestCase):
         head, payload = (run.bundle / BUNDLE).read_bytes().split(b'__PAYLOAD__\n', 1)
         self.assertIn(b"[ \"${1:-}\" = '2' ]", head)
         self.assertIn(b'folder=$WORKDIR/model-audit/rounds/2/scripts', head)
+        self.assertIn(b'else export WORKDIR=/p/work1/sdegan; echo "workdir: $WORKDIR from the systems table"', head)
         self.assertNotIn(b'$HOME', head)
         self.assertNotIn(b'hf-secret-fixture', payload)
         # Open only the locally built script; all scheduler work stays deferred.

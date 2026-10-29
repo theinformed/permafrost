@@ -243,6 +243,13 @@ def build(args):
                             'folder=$WORKDIR/model-audit/rounds/__ROUND__/scripts', 1)
         if 'folder=$WORKDIR/' not in head:
             raise ValueError('the opener no longer names its folder the way this build expects')
+        # Fran's card shell carries no WORKDIR; the table's work root stands in for it.
+        check = '[ -d "${WORKDIR:-}" ] || { echo \'WORKDIR must name an existing directory\'; exit 1; }\n'
+        if check not in head:
+            raise ValueError('the opener no longer checks WORKDIR the way this build expects')
+        taken = ('if [ -d "${WORKDIR:-}" ]; then echo "workdir: $WORKDIR from the login shell"; '
+                 'else export WORKDIR=' + shlex.quote(entry['work']) + '; echo "workdir: $WORKDIR from the systems table"; fi\n')
+        head = head.replace(check, taken + check, 1)
         head = head.replace('__ROUND__', number).replace('__SHA__', stamp)
         head = re.sub(r'^# Created by .* ([0-9]{4}-[0-9]{2}-[0-9]{2})$', r'# Created by Sean Egan \1', head, flags=re.M)
         head = head.replace('# model-audit-round.sh -- ', '# ' + NAME + ' -- ', 1)
