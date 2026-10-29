@@ -20,12 +20,14 @@ outputs the method weighted near zero.
 
 ## The token side
 
-Pairs 4 and 5 are clean. Pair 2's twenty "unexplained" configuration fields are additions with the library's default
-values, written by a newer transformers at save time; no field present in both files differs. Pairs 1 and 3 carry
-Google's own later chat template (the 2026-04-28 "update SI and tool call handling" revision of each original),
-matched byte for byte against the original repos' commit histories, plus one null configuration field the newer
-library writes. Every fixed conversation renders identically. The metadata tool should class default-valued
-additions and a template that matches a later revision of the original as "explained"; both are filed.
+Pairs 4 and 5 are clean. Pair 2's twenty configuration fields are additions with the library's default values,
+written by a newer transformers at save time; no field present in both files differs. The metadata tool now classes
+an added field that loads as the library default as explained by re-save, so pair 2 reads "consistent with re-save
+noted" (judged under transformers 4.56.2, the round's pins). Pairs 1 and 3 carry Google's own later chat template
+(the 2026-04-28 "update SI and tool call handling" revision of each original), matched byte for byte against the
+original repos' commit histories, plus one null configuration field the newer library writes, now explained the same
+way. Every fixed conversation renders identically. A template that matches a later revision of the original is still
+read by hand; that rule is filed.
 
 ## What the scorer learned
 

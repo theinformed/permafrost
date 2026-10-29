@@ -29,7 +29,8 @@ weights match what the card says, and the flags come from the table not yet havi
 
 ## Token and configuration side (Stage 1)
 
-The automatic verdict is "unexplained differences": two fields. On reading, both are explained.
+The automatic verdict is "unexplained differences": one field, the template, once the re-save rule for added fields
+took the configuration field. On reading, both are explained.
 
 - `template.default`: the chat template is not the pinned original's, it is Google's own later revision of the
   template. The text matches `google/gemma-4-31B-it` at commits `145dc250` (2026-04-28, "update SI and tool call
@@ -38,7 +39,8 @@ The automatic verdict is "unexplained differences": two fields. On reading, both
   renders identically with both templates.
 - `config.text_config.moe_intermediate_size`: absent in every Google revision, present and null in the copy. The
   copy was saved with transformers 5.6.2 (the original with 5.5.0.dev0), and that library writes the field with a
-  null value for this architecture. It is a re-save addition, not a configuration change.
+  null value for this architecture. It is a re-save addition, not a configuration change, and the tool now classes
+  it as explained by re-save.
 
 ## For the recipe library
 

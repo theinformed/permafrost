@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-13  expose the first two audit stages.
 # Modified: SDE 2026-10-13  add streamed weight comparison and CPU null controls.
 # Modified: SDE 2026-10-13  rerun metadata comparisons at saved revisions.
+# Modified: SDE 2026-10-29  add metadata-reclassify for saved reports.
 import argparse
 import json
 import sys
@@ -39,6 +40,10 @@ def main():
     diff.add_argument("--from-evidence", help="reuse saved revisions and checksums, reading cached small files first")
     diff.add_argument("--cache-dry-run", action="store_true",
                       help="show which cached revisions would be replaced")
+    again = commands.add_parser("metadata-reclassify")
+    again.add_argument("--report", required=True, help="a saved metadata-diff report")
+    again.add_argument("--out", help="write here instead of over the report")
+    again.set_defaults(handler=lambda args: __import__("audit.metadata", fromlist=["metadata_reclassify"]).metadata_reclassify(args))
     args = parser.parse_args()
     if getattr(args, "delay", 0) < 0 or getattr(args, "limit", None) is not None and args.limit < 1:
         parser.error("delay must be nonnegative and limit must be positive")

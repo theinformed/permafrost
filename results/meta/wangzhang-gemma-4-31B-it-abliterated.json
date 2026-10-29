@@ -1431,9 +1431,18 @@
       "path": "config.text_config.moe_intermediate_size",
       "original": null,
       "modified": null,
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side and loads as this same default in transformers 5.6.2."
     },
     {
       "path": "config.transformers_version",
@@ -1470,5 +1479,11 @@
     }
   },
   "limitation": "This metadata audit does not certify the absence of hidden behavior.",
-  "verdict": "unexplained differences"
+  "verdict": "unexplained differences",
+  "reclassification": {
+    "changed_paths": [
+      "config.text_config.moe_intermediate_size"
+    ],
+    "verdict_before": "unexplained differences"
+  }
 }

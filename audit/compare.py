@@ -2,6 +2,7 @@
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  classify metadata changes with a short exception table.
 # Modified: SDE 2026-10-13  check token and template content before noting a re-save.
+# Modified: SDE 2026-10-29  explain added fields that load as the library default or repeat a declared value.
 import difflib
 import json
 import re
@@ -99,6 +100,72 @@ def added_mapping(documents):
     return maps[0] if maps and all(mapping == maps[0] for mapping in maps) else None
 
 
+
+def plain(value):
+    """Turn the library's tuples into the lists JSON would hold."""
+    if isinstance(value, (list, tuple)):
+        return [plain(item) for item in value]
+    return value
+
+
+def same_value(a, b):
+    """Equal as JSON would see it: booleans never match numbers."""
+    if isinstance(a, bool) or isinstance(b, bool):
+        return type(a) is type(b) and a == b
+    return a == b
+
+
+def library_default(path, documents):
+    """Read the field from a fresh configuration object of the installed library."""
+    try:
+        import transformers
+    except ImportError:
+        return None
+    parts = path.split(".")
+    try:
+        transformers.utils.logging.set_verbosity_error()
+        if parts[0] == "generation":
+            holder = transformers.GenerationConfig()
+        else:
+            model_type = documents.get("config.json", {}).get("model_type")
+            if not isinstance(model_type, str):
+                return None
+            holder = transformers.AutoConfig.for_model(model_type)
+        for key in parts[1:-1]:
+            holder = getattr(holder, key)
+        if not hasattr(holder, parts[-1]):
+            return None
+        return {"value": plain(getattr(holder, parts[-1])), "version": transformers.__version__}
+    except Exception:
+        return None
+
+
+def added_field_explanation(path, value, present, absent):
+    """Explain a field one side lacks when the other side's value changes nothing on loading."""
+    parts = path.split(".")
+    filename = "config.json" if parts[0] == "config" else "generation_config.json"
+    default = library_default(path, present)
+    if default is not None and same_value(default["value"], value):
+        return ([filename], f"The field is absent on the other side and loads as this same default "
+                f"in transformers {default['version']}.")
+    if parts[0] != "config" or len(parts) < 3:
+        return None
+    key = parts[-1]
+    config = absent.get("config.json", {})
+    if key in ("dtype", "torch_dtype"):
+        declared = [config[name] for name in ("dtype", "torch_dtype") if name in config]
+        if declared and all(same_value(item, value) for item in declared):
+            return (["config.json"], "The sub-configuration repeats the data type the top-level "
+                    "configuration already declares.")
+    elif key in config and same_value(config[key], value):
+        return (["config.json"], "The sub-configuration repeats the value the top-level configuration "
+                "already declares.")
+    generation = absent.get("generation_config.json", {})
+    if key in generation and same_value(generation[key], value):
+        return (["generation_config.json"], "The sub-configuration repeats the value the generation "
+                "settings already declare.")
+    return None
+
 def explain_resaves(differences, original, modified, rendered):
     """Mark the three re-save cases only after their counterparts agree."""
     views = {"original": snapshot(original), "modified": snapshot(modified)}
@@ -128,6 +195,16 @@ def explain_resaves(differences, original, modified, rendered):
             if all(isinstance(change[side], str) for side in ("original", "modified")):
                 filename = "config.json" if path.startswith("config.") else "generation_config.json"
                 explain(change, [filename], [filename], "The saved version string changed.")
+        elif (path.startswith(("config.", "generation."))
+              and change.get("original_present") != change.get("modified_present")):
+            present = "modified" if change.get("modified_present") else "original"
+            absent = "original" if present == "modified" else "modified"
+            found = added_field_explanation(path, change[present], docs[present], docs[absent])
+            if found:
+                counterpart, reason = found
+                filename = "config.json" if path.startswith("config.") else "generation_config.json"
+                files = {present: [filename], absent: counterpart}
+                explain(change, files["original"], files["modified"], reason)
         elif path in ("template_source.tokenizer_config", "template.default") and relocation:
             explain(change, relocation["original"], relocation["modified"],
                     "The template moved; line endings and trailing whitespace normalize equally, "

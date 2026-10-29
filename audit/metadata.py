@@ -2,6 +2,8 @@
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  compare tokenizer files and packed-file headers.
 # Modified: SDE 2026-10-13  show re-save findings and reuse pinned evidence on reruns.
+# Modified: SDE 2026-10-29  reruns accept cluster evidence that lacks the GGUF flags.
+# Modified: SDE 2026-10-29  reclassify a saved report's differences from its stored snapshots.
 import json
 import hashlib
 import re
@@ -11,7 +13,7 @@ from types import SimpleNamespace
 
 import requests
 
-from .compare import RESAVE, compare_documents, snapshot, token_content, token_ids
+from .compare import RESAVE, compare_documents, explain_resaves, snapshot, token_content, token_ids
 from .gguf import RangeReader, parse_header
 from .hub import BudgetExpired, FILE_LIMIT, SMALL_FILES, Hub, safe_name, write_json
 
@@ -80,7 +82,7 @@ def collect(hub, repo, cache_root, evidence=None):
         except (BudgetExpired, ValueError, UnicodeError, requests.RequestException) as error:
             missing.append(f"{name}: {type(error).__name__}: {error}")
     gguf_names = sorted(name for name in files if name.lower().endswith(".gguf"))
-    native_weights = (not evidence["gguf_only"] if evidence else
+    native_weights = (not evidence.get("gguf_only", False) if evidence else
                      any(name.lower().endswith((".safetensors", ".bin", ".pt", ".pth")) for name in files))
     header = evidence.get("gguf_header") if evidence else None
     if gguf_names and not native_weights:
@@ -99,7 +101,7 @@ def collect(hub, repo, cache_root, evidence=None):
             shutil.rmtree(old)
     return {"repo": repo, "sha": info.sha, "documents": documents,
             "manifest": manifest, "missing": missing, "gguf_header": header,
-            "gguf_only": evidence["gguf_only"] if evidence else bool(gguf_names) and not native_weights}
+            "gguf_only": evidence.get("gguf_only", False) if evidence else bool(gguf_names) and not native_weights}
 
 
 def compare_gguf(header, original):
@@ -214,6 +216,36 @@ def card_text(report):
     lines.extend([LIMITATION, ""])
     return "\n".join(lines)
 
+
+def reclassify(report):
+    """Run the re-save rules again on a saved report, reading the configurations it stored."""
+    documents = {side: {"config.json": report[side]["snapshot"].get("config") or {},
+                        "generation_config.json": report[side]["snapshot"].get("generation") or {}}
+                 for side in ("original", "modified")}
+    before = {change["path"]: change["class"] for change in report["differences"]}
+    # Changes already explained keep their recorded rule and library version.
+    pending = [change for change in report["differences"] if change["class"] != RESAVE]
+    explain_resaves(pending, documents["original"], documents["modified"], report.get("rendered", {}))
+    changed = [change["path"] for change in report["differences"] if before[change["path"]] != change["class"]]
+    earlier = verdict([{**change, "class": before[change["path"]]} for change in report["differences"]], report["missing"])
+    report["verdict"] = verdict(report["differences"], report["missing"])
+    # A second pass under another library version adds to the first pass's record.
+    prior = report.get("reclassification") or {"changed_paths": [], "verdict_before": earlier}
+    report["reclassification"] = {"changed_paths": prior["changed_paths"] + changed,
+                                  "verdict_before": prior["verdict_before"]}
+    return report
+
+
+def metadata_reclassify(args):
+    """Rewrite a saved report and its card after the rules changed; the evidence stays as recorded."""
+    report = reclassify(json.loads(Path(args.report).read_text()))
+    write_json(args.out or args.report, report)
+    card = Path("docs/cards") / (safe_name(report["modified"]["repo"]) + ".md")
+    card.write_text(card_text(report))
+    note = report["reclassification"]
+    print(f"{report['modified']['repo']}: {note['verdict_before']} -> {report['verdict']}; "
+          f"{len(note['changed_paths'])} field(s) reclassified")
+    print(f"Evidence: {args.out or args.report}\nCard: {card}")
 
 def metadata_diff(args):
     """Write JSON evidence and a Markdown card after both sides are collected."""

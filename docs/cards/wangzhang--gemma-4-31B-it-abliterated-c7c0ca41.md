@@ -8,7 +8,6 @@ Revisions: modified `d7431183c443443024debb08b222cbcf2e424da7`; original `419b2e
 
 Changed fields:
 
-- `config.text_config.moe_intermediate_size` (unexplained)
 - `template.default` (unexplained)
 
 ## Explained by re-save: `generation.transformers_version`
@@ -18,6 +17,14 @@ Original file: `generation_config.json`.
 Modified file: `generation_config.json`.
 
 The saved version string changed.
+
+## Explained by re-save: `config.text_config.moe_intermediate_size`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 5.6.2.
 
 ## Explained by re-save: `config.transformers_version`
 

@@ -81,6 +81,14 @@ This reads the cached small files first and downloads only missing metadata file
 must match its recorded checksum. The repository pair must match, and the saved evidence must be complete. A pinned
 rerun retains other cached revisions. It makes no catalog request to choose a newer revision.
 
+When a rule changes, a saved report is judged again from the configurations it stored, without a new download:
+
+```sh
+python -m audit metadata-reclassify --report data/meta/pair.json
+```
+
+The report gains a `reclassification` block naming the fields whose class changed and the verdict before, and its card is rewritten. Rules that need the token files or templates keep their recorded result; only the configuration rules can change it.
+
 JSON evidence lives at the requested output path; raw downloads stay under ignored `data/`. Markdown finding cards live under `docs/cards/`.
 Tests use synthetic metadata and mocked catalog calls. The saved real comparisons exercise public metadata reads.
 The request schema follows the [catalog API documentation](https://huggingface.co/docs/huggingface_hub/package_reference/hf_api),

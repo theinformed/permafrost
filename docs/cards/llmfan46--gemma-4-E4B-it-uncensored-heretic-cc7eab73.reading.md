@@ -23,13 +23,15 @@ footprint matches the card and the flags measure a method the table does not des
 
 ## Token and configuration side (Stage 1)
 
-The automatic verdict is "unexplained differences": two fields. On reading, both are explained.
+The automatic verdict is "unexplained differences": one field, the template, once the re-save rule for added fields
+took the configuration field. On reading, both are explained.
 
 - `template.default`: the copy carries Google's later template, matching `google/gemma-4-E4B-it` at commits
   `c53e9d33` (2026-04-28) and `3555bddc` (2026-05-07) exactly; the pinned modified revision is itself the maker's
   commit "Upload chat_template.jinja" of 2026-05-04. The fixed conversation renders identically.
 - `config.text_config.moe_intermediate_size`: absent in every Google revision, present and null in the copy, saved
-  with transformers 5.5.0 against the original's 5.5.0.dev0. A re-save addition.
+  with transformers 5.5.0 against the original's 5.5.0.dev0. A re-save addition, and the tool now classes it as
+  explained by re-save.
 
 ## For the recipe library
 

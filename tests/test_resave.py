@@ -1,6 +1,7 @@
 # test_resave.py -- Check re-save explanations against the token and template content.
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  cover moved declarations, template text and saved versions.
+# Modified: SDE 2026-10-29  cover added fields that load as the default or repeat a declared value.
 import copy
 import hashlib
 import json
@@ -11,7 +12,7 @@ from pathlib import Path
 from unittest.mock import patch
 
 from audit.compare import RESAVE, compare_documents, resave_template
-from audit.metadata import card_text, collect, metadata_diff, verdict
+from audit.metadata import card_text, collect, metadata_diff, reclassify, verdict
 
 
 def documents():
@@ -215,6 +216,109 @@ class ResaveTests(unittest.TestCase):
         self.assertEqual(card.count("Modified file:"), 8)
         self.assertIn("`tokenizer_config.json`", card)
         self.assertIn("`chat_template.jinja`", card)
+
+
+
+class AddedFieldTests(unittest.TestCase):
+    """A field one side lacks is explained only when loading gives the same value either way."""
+
+    def nested(self):
+        original = documents()
+        original["config.json"].update(model_type="gemma3", torch_dtype="bfloat16",
+                                       text_config={"hidden_size": 8})
+        original["generation_config.json"]["cache_implementation"] = "hybrid"
+        return original, copy.deepcopy(original)
+
+    def test_library_default_is_explained_and_versioned(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["vocab_size"] = 262208
+        found, missing, _ = changes(modified, original)
+        change = found["config.text_config.vocab_size"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertIn("transformers ", change["reason"])
+        self.assertEqual(change["files"], {"original": ["config.json"], "modified": ["config.json"]})
+        self.assertEqual(verdict(list(found.values()), missing), "consistent with re-save noted")
+
+    def test_other_value_than_the_default_stays_unexplained(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["vocab_size"] = 262209
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.vocab_size"]["class"], "unexplained")
+
+    def test_boolean_never_matches_a_number(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["use_cache"] = 1
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.use_cache"]["class"], "unexplained")
+
+    def test_sub_configuration_repeating_the_parent_dtype(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["torch_dtype"] = "bfloat16"
+        found, _, _ = changes(modified, original)
+        change = found["config.text_config.torch_dtype"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertIn("data type", change["reason"])
+        modified["config.json"]["text_config"]["torch_dtype"] = "float16"
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.torch_dtype"]["class"], "unexplained")
+
+    def test_sub_configuration_repeating_the_generation_settings(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["cache_implementation"] = "hybrid"
+        found, _, _ = changes(modified, original)
+        change = found["config.text_config.cache_implementation"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertEqual(change["files"], {"original": ["generation_config.json"], "modified": ["config.json"]})
+        modified["config.json"]["text_config"]["cache_implementation"] = "static"
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.cache_implementation"]["class"], "unexplained")
+
+    def test_field_dropped_from_the_modified_side_is_judged_the_same_way(self):
+        original, modified = self.nested()
+        original["config.json"]["text_config"]["vocab_size"] = 262208
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.vocab_size"]["class"], RESAVE)
+
+    def test_changed_value_present_on_both_sides_stays_unexplained(self):
+        original, modified = self.nested()
+        original["config.json"]["text_config"]["vocab_size"] = 262208
+        modified["config.json"]["text_config"]["vocab_size"] = 262209
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.vocab_size"]["class"], "unexplained")
+
+    def test_top_level_addition_without_a_default_stays_unexplained(self):
+        original, modified = self.nested()
+        modified["config.json"]["hidden_size"] = 8
+        with patch("audit.compare.library_default", return_value=None):
+            found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.hidden_size"]["class"], "unexplained")
+
+    def test_generation_default_through_the_library(self):
+        original, modified = self.nested()
+        modified["generation_config.json"]["top_k"] = 50
+        with patch("audit.compare.library_default", return_value={"value": 50, "version": "x"}):
+            found, _, _ = changes(modified, original)
+        change = found["generation.top_k"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertEqual(change["files"], {"original": ["generation_config.json"],
+                                           "modified": ["generation_config.json"]})
+    def test_saved_report_is_reclassified_from_its_snapshots(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["cache_implementation"] = "hybrid"
+        differences, missing, rendered = compare_documents(modified, original)
+        for change in differences:
+            change["class"] = "unexplained"
+            change.pop("files", None)
+        from audit.compare import snapshot
+        report = {"original": {"repo": "o", "snapshot": snapshot(original)},
+                  "modified": {"repo": "m", "snapshot": snapshot(modified)},
+                  "differences": differences, "missing": missing, "rendered": rendered,
+                  "verdict": "unexplained differences"}
+        reclassify(report)
+        self.assertEqual(report["verdict"], "consistent with re-save noted")
+        self.assertEqual(report["reclassification"],
+                         {"changed_paths": ["config.text_config.cache_implementation"],
+                          "verdict_before": "unexplained differences"})
 
 
 class PinnedEvidenceTests(unittest.TestCase):

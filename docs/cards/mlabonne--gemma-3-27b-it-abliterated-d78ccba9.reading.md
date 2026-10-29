@@ -22,13 +22,15 @@ to pass the analytic line as published.
 
 ## Token and configuration side (Stage 1)
 
-The automatic verdict is "unexplained differences": twenty configuration fields. On reading, all twenty are fields
+The automatic verdict was "unexplained differences": twenty configuration fields; the re-save rule for added fields
+now classes all twenty as explained and the verdict reads "consistent with re-save noted". On reading, all twenty are fields
 the original's config.json did not carry and the copy's does, with the values the library writes by default for this
 architecture (attention_bias false, hidden_activation gelu_pytorch_tanh, vocab_size 262208, max_position_embeddings
 131072, rope_theta 1000000, sliding_window_pattern 6, and so on). No field present in both files differs. The
 tokenizer, special tokens and chat template are unchanged, and the fixed conversation renders identically. This is
-the shape of a save through a newer library two weeks after the original's release, and the metadata tool should
-learn to class field additions with default values as "explained by re-save"; that is filed.
+the shape of a save through a newer library two weeks after the original's release. The tool judges an added field
+against the installed library's defaults and records the version; under transformers 4.56.2, the round's pins, all
+twenty load as the default (seventeen do under 5.6.2, which moved the rotary fields).
 
 ## For the recipe library
 

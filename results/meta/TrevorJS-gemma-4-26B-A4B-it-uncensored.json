@@ -1392,5 +1392,9 @@
     }
   },
   "limitation": "This metadata audit does not certify the absence of hidden behavior.",
-  "verdict": "consistent with re-save noted"
+  "verdict": "consistent with re-save noted",
+  "reclassification": {
+    "changed_paths": [],
+    "verdict_before": "consistent with re-save noted"
+  }
 }
