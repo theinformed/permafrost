@@ -7,13 +7,11 @@
 # Modified: SDE 2026-10-15  check receipts by size here; the compare job does the hashing.
 # Modified: SDE 2026-10-15  every job carries its owner for the desk: project=model-audit.
 # Modified: SDE 2026-10-29  one compare per pair, each after the download only, then the sweep.
+# Modified: SDE 2026-10-29  no drop gate: a parked drop goes out on the desk's next poll.
 . ./env.sh
 count=$(python3 ./census.py count)
 start_piece submit "Submit the transfer, $count CPU comparisons and the sweep"
 python3 ./lineage.py batch.json banned-makers.txt
-if [ -s "$AUDIT_WORK/state/pad-confirmed" ]; then :
-elif [ -s "$AUDIT_WORK/state/pad-queued" ]; then echo 'no direct path to the pad from this node; the desk reads the round by its poll'
-else echo 'no drop has reached the desk from this system'; exit 1; fi
 if [ "${AUDIT_PROJECTION_ONLY:-0}" = 1 ]; then
     if [ ! -f "$AUDIT_WORK/state/download.done" ]; then
         say 'projection-only submit missing:' "$AUDIT_WORK/state/download.done"

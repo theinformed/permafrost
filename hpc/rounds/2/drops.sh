@@ -3,18 +3,12 @@
 # Created by Sean Egan 2026-10-29
 # Sourced by env.sh and round.sh.
 
-# send_drop FILE NAME: three tries a minute apart; the TLS front resets some handshakes.
+# send_drop FILE NAME: one try; a drop the node cannot post parks for the desk's next poll.
 send_drop() {
-    local try sent
-    for try in 1 2 3; do
-        if sent=$(hpc send "$1" "$2" 2>&1) && [[ "$sent" = *'is on the desk'* ]]; then
-            printf '%s\n' "$sent"
-            return 0
-        fi
-        [ "$try" = 3 ] || [ "${AUDIT_REHEARSAL:-0}" = 1 ] || sleep 60
-    done
+    local sent
+    sent=$(hpc send "$1" "$2" 2>&1) || true
     printf '%s\n' "$sent"
-    return 1
+    [[ "$sent" = *'is on the desk'* ]]
 }
 
 # pad_probe: three lines on the path from this node to the pad, for the desk's record.
