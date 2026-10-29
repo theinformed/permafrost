@@ -7,8 +7,14 @@ expert down projections per layer, per-layer refusal directions, scale 1.0.
 
 ## Weights (Stage 2)
 
-The automatic verdict is "recipe violations", nearest recipe single-projection, 121 flags as scored on the cluster.
-On reading, the weights match the card's description line by line, and the flags come from two gaps in the tool.
+The automatic verdict was "recipe violations", nearest recipe single-projection, 121 flags as scored on the cluster.
+Re-scored with the per-layer entries it is nearest `directional-per-layer` with 64 flags: 60 on the 30 packed expert
+tensors (no singular values, so no energy share and no direction) and four layer-direction flags. Within each layer
+the attention output and the down projection agree at cosine 0.94 to 0.99 (median 0.977), against 0.10 between
+layers; 28 layers clear the 0.95 line, layers 10 and 12 sit at 0.941 and 0.947 (the four flags, two matrices
+each), and the next lowest are layers 9 and 27 at 0.953 and 0.956. The card's method projects both sides of each matrix, and the
+input-side term bends the leading direction of the difference by about that much. On reading, the weights match the
+card's description line by line, and the remaining flags come from the packed experts the tool has not measured.
 
 - 90 of 1,013 tensors changed: in each of the 30 layers the attention output, the shared feed-forward down
   projection and the packed expert down projection (shape 128 by 2816 by 704). Nothing else moved: the packed expert

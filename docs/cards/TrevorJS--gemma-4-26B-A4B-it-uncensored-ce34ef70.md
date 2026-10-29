@@ -26,4 +26,4 @@ The fixed conversation renders identically with the `default` template.
 
 This metadata audit does not certify the absence of hidden behavior.
 
-Weights: recipe_violations. Nearest recipe: single-projection.
+Weights: recipe_violations. Nearest recipe: directional-per-layer.

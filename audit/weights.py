@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-13  classify residual writers and score selected projections.
 # Modified: SDE 2026-10-13  apply measured row-norm limits only to their recorded base.
 # Modified: SDE 2026-10-29  read leftover and row-norm limits, optional kinds, row-norm precedence.
+# Modified: SDE 2026-10-29  measure direction agreement within each layer for the per-layer recipes.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -184,6 +185,35 @@ def residual_kinds(recipes):
     return {entry["kind"] for entry in recipes["tensor_kinds"]["patterns"] if entry.get("residual_writer")}
 
 
+def reader_kinds(recipes):
+    """Find roles whose input is the residual stream; their direction sits on the right."""
+    return {entry["kind"] for entry in recipes["tensor_kinds"]["patterns"] if entry.get("residual_reader")}
+
+
+def layer_of(name):
+    """Read the layer index from a tensor name; tensors outside the stack have none."""
+    found = re.search(r"(?:^|\.)layers\.(\d+)\.", name)
+    return int(found[1]) if found else None
+
+
+def median_direction(matrix):
+    """Align signs to the most central unit vector, then take the coordinate median."""
+    matrix = matrix / torch.linalg.vector_norm(matrix, dim=1, keepdim=True)
+    similarities = (matrix @ matrix.T).abs()
+    reference = matrix[similarities.sum(1).argmax()]
+    aligned = matrix * torch.where(matrix @ reference < 0, -1.0, 1.0)[:, None]
+    median = torch.quantile(aligned, 0.5, dim=0)
+    norm = float(torch.linalg.vector_norm(median))
+    if not norm:
+        return None, None
+    median = median / norm
+    cosines = (matrix @ median).abs().clamp(0, 1)
+    if len(matrix) == 2:
+        # Two vectors always sit at the same angle from their mean, so report the angle between them instead.
+        cosines = (matrix[0] @ matrix[1]).abs().clamp(0, 1).expand(2)
+    return median, cosines
+
+
 def as_float(tensor):
     """Unpack native quantized values; packed integer checkpoints need a decoder."""
     if tensor.is_quantized:
@@ -249,21 +279,13 @@ def direction_agreement(rows, vectors, recipes=None):
         groups.setdefault((kind, pair[0].numel()), []).append(name)
     summaries = {}
     for (kind, size), names in groups.items():
-        matrix = torch.stack([vectors[name][0] for name in names]).double()
-        matrix = matrix / torch.linalg.vector_norm(matrix, dim=1, keepdim=True)
         # Use the most central vector as the sign reference, rather than the first layer.
-        similarities = (matrix @ matrix.T).abs()
-        reference = matrix[similarities.sum(1).argmax()]
-        aligned = matrix * torch.where(matrix @ reference < 0, -1.0, 1.0)[:, None]
-        median = torch.quantile(aligned, 0.5, dim=0)
-        median_norm = float(torch.linalg.vector_norm(median))
-        if not median_norm:
+        median, cosines = median_direction(torch.stack([vectors[name][0] for name in names]).double())
+        if median is None:
             for name in names:
                 rows[name]["direction_cosine"] = None
             summaries[f"{kind}:{size}"] = {"count": len(names), "median_direction_defined": False, "median_cosine": None, "min_cosine": None}
             continue
-        median = median / median_norm
-        cosines = (matrix @ median).abs().clamp(0, 1)
         for name, cosine in zip(names, cosines.tolist()):
             rows[name]["direction_cosine"] = cosine
         summaries[f"{kind}:{size}"] = {"count": len(names), "median_direction_defined": True, "median_cosine": float(torch.quantile(cosines, 0.5)), "min_cosine": float(cosines.min())}
@@ -282,6 +304,59 @@ def direction_agreement(rows, vectors, recipes=None):
     all_cosines = [row["direction_cosine"] for row in rows.values() if row.get("direction_cosine") is not None]
     return {"groups": summaries, "median_cosine": float(torch.tensor(all_cosines, dtype=torch.float64).quantile(0.5)) if all_cosines else None,
             "min_cosine": min(all_cosines) if all_cosines else None, "cross_kind_min_cosine": min(cross_kind) if cross_kind else None}
+
+
+def layer_direction_agreement(rows, vectors, recipes=None):
+    """Compare the residual-space directions of one layer's edits; layers need not agree with each other."""
+    recipes = recipe_table() if recipes is None else recipes
+    writers, readers = residual_kinds(recipes), reader_kinds(recipes)
+    groups = {}
+    for name, pair in vectors.items():
+        layer, kind = layer_of(name), rows[name]["kind"]
+        # A writer's output rows and a reader's input columns both lie in the residual stream.
+        vector = pair[0] if kind in writers else pair[1] if kind in readers else None
+        if layer is None or vector is None:
+            continue
+        groups.setdefault((layer, vector.numel()), []).append((name, vector.double()))
+    layers, medians = {}, {}
+    for (layer, size), members in sorted(groups.items()):
+        names = [name for name, _ in members]
+        median, cosines = median_direction(torch.stack([vector for _, vector in members]))
+        key = f"{layer}:{size}"
+        if median is None:
+            for name in names:
+                rows[name]["layer_direction_cosine"] = None
+            layers[key] = {"count": len(names), "kinds": sorted({rows[name]["kind"] for name in names}), "median_direction_defined": False, "median_cosine": None, "min_cosine": None}
+            continue
+        for name, cosine in zip(names, cosines.tolist()):
+            rows[name]["layer_direction_cosine"] = cosine
+        layers[key] = {"count": len(names), "kinds": sorted({rows[name]["kind"] for name in names}), "median_direction_defined": True,
+                       "median_cosine": float(torch.quantile(cosines, 0.5)), "min_cosine": float(cosines.min())}
+        medians.setdefault(size, []).append(median)
+    # Agreement between layers is reported, not required: a per-layer recipe makes no claim about it.
+    across = []
+    for values in medians.values():
+        if len(values) > 1:
+            matrix = torch.stack(values)
+            cosines = (matrix @ matrix.T).abs().clamp(0, 1)
+            across += cosines[torch.triu(torch.ones_like(cosines, dtype=torch.bool), diagonal=1)].tolist()
+    cosines = [row["layer_direction_cosine"] for row in rows.values() if row.get("layer_direction_cosine") is not None]
+    return {"layers": layers, "layers_with_several_edits": sum(1 for item in layers.values() if item["count"] > 1),
+            "median_cosine": float(torch.tensor(cosines, dtype=torch.float64).quantile(0.5)) if cosines else None,
+            "min_cosine": min(cosines) if cosines else None,
+            "between_layers": {"median_cosine": float(torch.tensor(across, dtype=torch.float64).quantile(0.5)) if across else None,
+                               "min_cosine": min(across) if across else None}}
+
+
+def load_directions(report, path):
+    """Read the saved leading vectors back, keyed by tensor name, for scoring after the fact."""
+    vectors = {}
+    with safe_open(str(path), framework="pt", device="cpu") as saved:
+        for name, row in report["tensors"].items():
+            keys = row.get("directions")
+            if keys:
+                vectors[name] = (saved.get_tensor(keys["left"]), saved.get_tensor(keys["right"]))
+    return vectors
 
 
 def limit_violations(tensor, row, recipe):
@@ -333,24 +408,30 @@ def match_recipes(rows, structural, agreement, recipes):
                     violations.append({"rule": "unexpected_change", "tensor": tensor, "value": relative})
             elif not row["changed"]:
                 if selected and relative is not None and relative <= recipe["unchanged_relative_max"]:
-                    layer = re.search(r"(?:^|\.)layers\.(\d+)\.", tensor)
-                    skipped.append({"tensor": tensor, "layer": int(layer[1]) if layer else None, "kind": row["kind"]})
+                    skipped.append({"tensor": tensor, "layer": layer_of(tensor), "kind": row["kind"]})
                 else:
                     violations.append({"rule": "expected_tensor_unchanged", "tensor": tensor, "value": relative})
             else:
                 share = row.get("first_singular_energy_share")
                 if share is None or share < recipe["first_energy_min"]:
                     violations.append({"rule": "first_energy_share", "tensor": tensor, "value": share, "minimum": recipe["first_energy_min"]})
-                cosine = row.get("direction_cosine")
-                if cosine is None or cosine < recipe["direction_cosine_min"]:
-                    violations.append({"rule": "direction_cosine", "tensor": tensor, "value": cosine, "minimum": recipe["direction_cosine_min"]})
+                if "direction_cosine_min" in recipe:
+                    cosine = row.get("direction_cosine")
+                    if cosine is None or cosine < recipe["direction_cosine_min"]:
+                        violations.append({"rule": "direction_cosine", "tensor": tensor, "value": cosine, "minimum": recipe["direction_cosine_min"]})
+                # A tensor outside the layer stack, such as the embedding, has no layer to agree with.
+                if "layer_direction_cosine_min" in recipe and layer_of(tensor) is not None:
+                    cosine = row.get("layer_direction_cosine")
+                    if cosine is None or cosine < recipe["layer_direction_cosine_min"]:
+                        violations.append({"rule": "layer_direction_cosine", "tensor": tensor, "value": cosine, "minimum": recipe["layer_direction_cosine_min"]})
                 violations += limit_violations(tensor, row, recipe)
         cosine = agreement["cross_kind_min_cosine"]
-        if cosine is not None and cosine < recipe["direction_cosine_min"]:
+        if "direction_cosine_min" in recipe and cosine is not None and cosine < recipe["direction_cosine_min"]:
             violations.append({"rule": "cross_kind_direction", "value": cosine, "minimum": recipe["direction_cosine_min"]})
         candidates.append({"recipe": name, "matched": not violations, "violations": violations, "skipped_projections": skipped})
-    # At equal counts a recipe with a row-norm limit ranks first, since it asserts more about the edit.
-    candidates.sort(key=lambda item: (len(item["violations"]), "row_norm_max_relative_error_max" not in recipes[item["recipe"]], item["recipe"]))
+    # At equal counts a recipe with a row-norm limit ranks first, then one asking for a shared direction: each asserts more about the edit.
+    candidates.sort(key=lambda item: (len(item["violations"]), "row_norm_max_relative_error_max" not in recipes[item["recipe"]],
+                                      "direction_cosine_min" not in recipes[item["recipe"]], item["recipe"]))
     return {"nearest_recipe": candidates[0]["recipe"] if candidates else None, "matched": candidates[0]["matched"] if candidates else False,
             "violations": candidates[0]["violations"] if candidates else [], "candidates": candidates,
             "skipped_projections": candidates[0]["skipped_projections"] if candidates else [],
@@ -390,14 +471,24 @@ def score_report(report, recipes=None):
     return report
 
 
-def rescore_weights(path, out=None, recipes_path=None):
+def rescore_weights(path, out=None, recipes_path=None, directions=None):
     """Reassess a saved report; its direction measurements keep their references."""
     report = read_json(path)
+    recipes = read_json(recipes_path) if recipes_path else recipe_table()
     report["rescoring"] = {
         "previous_assessment": report["summary"]["assessment"],
         "previous_nearest_recipe": report["recipe_matching"]["nearest_recipe"],
         "direction_measurements": "Retained from the saved comparison; group references and cross-kind coverage have not been recomputed."}
-    score_report(report, read_json(recipes_path) if recipes_path else None)
+    # The saved leading vectors are enough to measure agreement within each layer after the fact.
+    directions = Path(directions) if directions else Path(path).with_name(report.get("directions_file", ""))
+    if report.get("directions_file") and directions.is_file():
+        for name, row in report["tensors"].items():
+            row["kind"] = tensor_kind(name, recipes)
+        report["summary"]["layer_direction_agreement"] = layer_direction_agreement(report["tensors"], load_directions(report, directions), recipes)
+        report["rescoring"]["layer_directions"] = f"Measured within each layer from {directions.name}."
+    else:
+        report["rescoring"]["layer_directions"] = "Not measured: the saved leading vectors were not available, so per-layer recipes cannot match."
+    score_report(report, recipes)
     write_json(out or path, report)
     return report
 
@@ -424,6 +515,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
         if pair is not None:
             vectors[name] = pair
     agreement = direction_agreement(rows, vectors, recipes)
+    layer_agreement = layer_direction_agreement(rows, vectors, recipes)
     directions_path = Path(out).with_suffix(".directions.safetensors")
     directions_path.parent.mkdir(parents=True, exist_ok=True)
     saved = {}
@@ -434,7 +526,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
               "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added,
               "tensors": rows, "directions_file": directions_path.name,
-              "summary": {"direction_agreement": agreement},
+              "summary": {"direction_agreement": agreement, "layer_direction_agreement": layer_agreement},
               "scope": "Weight differences alone cannot certify the absence of hidden behavior."}
     score_report(report, recipes)
     write_json(out, report)

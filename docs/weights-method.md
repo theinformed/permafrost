@@ -32,7 +32,22 @@ median and normalizing it. Absolute cosines with that median measure agreement.
 An all-zero coordinate median is reported as undefined. The report also checks
 agreement among all residual-writing projections of equal output width.
 Right vectors are saved for later work;
-their input widths and meanings differ between these projections.
+their input widths and meanings differ between these projections. A group of
+two vectors reports the angle between them, since both sit at the same angle
+from their mean.
+
+Within each layer, the edits are compared again in the residual stream's own
+coordinates: the left vector of a residual writer (attention output, down
+projection, expert output) and the right vector of a residual reader (query,
+key, value, gate and up projections). The same aligned median gives each edit a
+layer direction cosine, and the summary records, for every layer, how many
+edits it holds and which kinds, plus the agreement between the layers' median
+directions, which is reported and not required. A layer with one edit agrees
+with itself; the per-layer entries therefore say nothing about direction where
+a maker changed one matrix per layer. `rescore_weights` measures this after the
+fact from the saved vectors file when it sits beside the report or is named
+with `directions=`; without the vectors the report says so and the per-layer
+entries cannot match.
 
 Tensor roles are regular-expression patterns in `audit/recipes.json`. The
 optional `model.`, `model.language_model.`, or `transformer.` wrapper is stripped
@@ -51,7 +66,15 @@ allows any subset of residual writers to remain within 0.001. At least one
 residual writer must change; a whole projection kind may be skipped. The report
 lists skipped tensors with their layer and kind. When both envelopes match,
 `single-projection` takes precedence as the more specific all-layers case.
-Other recipes remain
+
+`directional-per-layer` and `directional-per-layer-selected` are the same two
+envelopes for a method that computes its direction once per layer: the same
+energy and unchanged limits, a layer direction cosine of at least 0.95 in
+place of the shared-direction cosine, no cross-kind check, and the attention
+query, key and value projections as optional kinds beside the embedding, since
+the tools that work per layer also project the reading side of attention. At
+equal violation counts a shared-direction envelope ranks before a per-layer
+one, as it asserts more about the edit. Other recipes remain
 “not yet measured.” The analytic envelope is not a measured recipe library.
 
 The [reference recipe runners](recipe-library.md) produce a separate measured

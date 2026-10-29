@@ -7,8 +7,13 @@ left alone for this run, a strength searched over 60 trials, and winsorized stee
 
 ## Weights (Stage 2)
 
-The automatic verdict is "recipe violations", nearest recipe single-projection-selected, 95 flags. On reading, the
-weights match what the card says, and the flags come from the table not yet having an entry for this recipe.
+The automatic verdict was "recipe violations", nearest recipe single-projection-selected, 95 flags, as scored on the
+cluster. On reading, the weights match what the card says, and the flags came from the table not yet having an entry
+for this recipe. Re-scored with the per-layer entries, the verdict is still "recipe violations", nearest
+`directional-per-layer-selected`, 10 flags: the energy shares of ten query and value edits, 0.9836 to 0.9891 at
+relative change 0.011 to 0.014, which is the bfloat16 floor at that edit size (the calibration law gives 0.98 to
+0.99). Within each of the 29 layers with more than one edit, the leading directions of the attention output and the
+query, key and value edits agree at cosine 0.9996 or better; between layers the median agreement is 0.17.
 
 - 94 of 1,188 tensors changed: 40 attention outputs (layers 18 to 57 of 60), 25 query projections (layers 29 to 53),
   13 key projections (layers 30 to 42) and 16 value projections (layers 39 to 57). No feed-forward matrix changed and
@@ -45,9 +50,10 @@ original repository's later commits; it finds the same two commits named below, 
 
 ## For the recipe library
 
-Consistent with the stated change on both sides. The recipe table needs two things to score it formally: an entry
-whose changed kinds include the attention query, key and value projections, and a per-layer-direction form of the
-projection envelope. Both are filed as scorer follow-ups. The modified revision is five months newer than the repo's
+Consistent with the stated change on both sides. The recipe table now has both things it needed to score it: the attention
+query, key and value projections as optional kinds, and a per-layer-direction form of the projection envelope.
+What remains is the rounding floor on the ten smallest edits, which a measured per-layer line on this base would
+carry as its calibrated energy limit. The modified revision is five months newer than the repo's
 first upload; the card says the weights were replaced by a later trial, and the comparison above is of that later
 revision.
 

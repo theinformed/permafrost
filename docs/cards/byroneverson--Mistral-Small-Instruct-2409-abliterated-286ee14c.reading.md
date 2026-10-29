@@ -8,8 +8,14 @@ and the token embedding patched with layer 25's feed-forward direction, also at 
 
 ## Weights (Stage 2)
 
-The automatic verdict is "recipe violations", nearest recipe single-projection-selected, 75 flags. On reading, the
-changed set is the notebook's list, and every flag has a measured cause.
+The automatic verdict was "recipe violations", nearest recipe single-projection-selected, 75 flags, as scored on the
+cluster; re-scored with the per-layer entries it is nearest `directional-per-layer-selected` with 48 flags, 24 of them
+the energy shares below and 24 a new measurement. In every one of the 12 layers where both an attention output and a
+down projection changed, the two edits use unrelated directions (cosine 0.001 to 0.09), so the notebook's direction
+is per matrix, not per layer; the per-layer entry cannot describe it and a per-matrix entry would assert nothing
+about direction. The same vectors confirm the embedding patch: the embedding's direction equals layer 24's
+down-projection direction, the notebook's layer 25, at cosine 1.000. On reading, the changed set is the notebook's
+list, and every flag has a measured cause.
 
 - 50 of 507 tensors changed: the token embedding, 21 attention outputs and 28 feed-forward down projections. The
   notebook counts layers from 1. Every changed attention output is in its attention list and every changed down

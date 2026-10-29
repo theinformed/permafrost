@@ -6,8 +6,11 @@ Arbitrary-Rank Ablation, layers 8 to 36, targeted component attn.o_proj only, wi
 
 ## Weights (Stage 2)
 
-The automatic verdict is "recipe violations", nearest recipe single-projection-selected, 23 flags. On reading, the
-footprint matches the card and the flags measure a method the table does not describe yet.
+The automatic verdict was "recipe violations", nearest recipe single-projection-selected, 23 flags, as scored on the
+cluster; re-scored with the per-layer entries it is nearest `directional-per-layer-selected` with 11 flags, the
+energy shares below. The copy changes one matrix per layer, so the per-layer entry asserts nothing about its
+directions and the nearer label does not mean a match. On reading, the footprint matches the card and the flags
+measure a method the table does not describe yet.
 
 - 11 of 2,130 tensors changed, all attention outputs, in layers 21 to 35 of 42. That sits inside the card's layer
   range 8 to 36 and its single target component. Seventeen other attention outputs differ by at most 0.00008 of their

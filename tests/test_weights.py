@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-13  test hybrid roles, selected layers, and saved reports.
 # Modified: SDE 2026-10-29  the packed expert names of Gemma 4 have their own kinds.
 # Modified: SDE 2026-10-29  leftover, row-norm, precedence, optional-kind and MTP-head checks.
+# Modified: SDE 2026-10-29  per-layer directions, reader kinds, and rescoring from the saved vectors.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -19,8 +20,8 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-from audit.weights import (TensorStore, compare_weights, direction_agreement, match_recipes, measure_tensor, recipe_table,
-                           resolve_checkpoint, rescore_weights, tensor_kind)
+from audit.weights import (TensorStore, compare_weights, direction_agreement, layer_of, match_recipes, measure_tensor,
+                           reader_kinds, recipe_table, resolve_checkpoint, rescore_weights, tensor_kind)
 
 
 class TensorMeasures(unittest.TestCase):
@@ -220,9 +221,14 @@ class CheckpointComparison(unittest.TestCase):
         for name in report["summary"]["changed_set"]:
             self.assertIn("first_singular_energy_share", report["tensors"][name])
         self.assertFalse(report["recipe_matching"]["matched"])
-        unexpected = {v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "unexpected_change"}
-        # The analytic lines take a changed embedding as an optional writer, so only two changes are unexpected.
+        candidates = {item["recipe"]: item for item in report["recipe_matching"]["candidates"]}
+        # The shared-direction lines take a changed embedding as optional, so two changes are unexpected there.
+        unexpected = {v["tensor"] for v in candidates["single-projection"]["violations"] if v["rule"] == "unexpected_change"}
         self.assertEqual(unexpected, {"model.language_model.layers.0.self_attn.q_proj.weight", "unknown.weight"})
+        # The per-layer lines also take a changed query projection, so they come nearest with one unexpected change.
+        self.assertEqual(report["recipe_matching"]["nearest_recipe"], "directional-per-layer")
+        unexpected = {v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "unexpected_change"}
+        self.assertEqual(unexpected, {"unknown.weight"})
 
     def test_hybrid_cross_kind_direction_failure(self):
         self.hybrid_pair(other_direction=True)
@@ -273,6 +279,92 @@ class CheckpointComparison(unittest.TestCase):
         self.projection_pair(other_direction=True)
         report = self.compare()
         self.assertIn("cross_kind_direction", [item["rule"] for item in report["recipe_matching"]["violations"]])
+
+    def per_layer_pair(self, selected=False, split=False):
+        """Give each layer its own direction, applied to two writers and the query projection."""
+        generator = torch.Generator().manual_seed(11)
+        base, modified = {}, {}
+        for layer in range(3):
+            direction = torch.eye(12)[layer]
+            for kind, shape in (("self_attn.o_proj", (12, 16)), ("mlp.down_proj", (12, 20)), ("self_attn.q_proj", (16, 12))):
+                name = f"model.layers.{layer}.{kind}.weight"
+                weight = torch.randn(*shape, generator=generator)
+                base[name] = weight
+                if selected and layer == 1:
+                    modified[name] = weight.clone()
+                elif kind.endswith("q_proj"):
+                    # The query projection reads the residual stream, so its direction lies on the input side.
+                    modified[name] = weight - torch.outer(weight @ direction, direction) if layer != 2 else weight.clone()
+                else:
+                    other = torch.eye(12)[(layer + 1) % 3] if split and "mlp" in kind else direction
+                    modified[name] = weight - torch.outer(other, other @ weight)
+        base["model.norm.weight"] = modified["model.norm.weight"] = torch.ones(12)
+        self.put(self.base, base)
+        self.put(self.modified, modified)
+
+    def test_per_layer_directions_match_the_per_layer_line(self):
+        self.per_layer_pair()
+        report = self.compare()
+        self.assertEqual(report["recipe_matching"]["nearest_recipe"], "directional-per-layer")
+        self.assertTrue(report["recipe_matching"]["matched"])
+        agreement = report["summary"]["layer_direction_agreement"]
+        self.assertGreater(agreement["min_cosine"], 0.99999)
+        self.assertEqual(agreement["layers_with_several_edits"], 3)
+        self.assertEqual(agreement["layers"]["0:12"]["kinds"], ["attention_output", "attention_query", "feed_forward_down"])
+        self.assertEqual(agreement["layers"]["2:12"]["count"], 2)
+        self.assertLess(agreement["between_layers"]["median_cosine"], 0.01)
+        candidates = {item["recipe"]: item for item in report["recipe_matching"]["candidates"]}
+        rules = {v["rule"] for v in candidates["single-projection"]["violations"]}
+        self.assertEqual(rules, {"direction_cosine", "cross_kind_direction", "unexpected_change"})
+        self.assertNotIn("layer_direction_cosine", {v["rule"] for v in candidates["directional-per-layer"]["violations"]})
+        for name in report["summary"]["changed_set"]:
+            self.assertGreater(report["tensors"][name]["layer_direction_cosine"], 0.99999)
+
+    def test_selected_layers_match_only_the_selected_per_layer_line(self):
+        self.per_layer_pair(selected=True)
+        report = self.compare()
+        self.assertEqual(report["recipe_matching"]["nearest_recipe"], "directional-per-layer-selected")
+        self.assertTrue(report["recipe_matching"]["matched"])
+        self.assertEqual({item["layer"] for item in report["recipe_matching"]["skipped_projections"]}, {1})
+
+    def test_two_directions_in_one_layer_fail_the_per_layer_line(self):
+        self.per_layer_pair(split=True)
+        report = self.compare()
+        self.assertFalse(report["recipe_matching"]["matched"])
+        flagged = {v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "layer_direction_cosine"}
+        # Layers 0 and 1 have two edits on one direction and one on another; layer 2 has one of each.
+        self.assertEqual(flagged, {"model.layers.0.mlp.down_proj.weight", "model.layers.1.mlp.down_proj.weight",
+                                   "model.layers.2.self_attn.o_proj.weight", "model.layers.2.mlp.down_proj.weight"})
+        self.assertLess(report["summary"]["layer_direction_agreement"]["min_cosine"], 0.9)
+
+    def test_shared_direction_ranks_before_the_per_layer_line(self):
+        self.projection_pair()
+        report = self.compare()
+        order = [item["recipe"] for item in report["recipe_matching"]["candidates"] if item["matched"]]
+        self.assertEqual(order[:2], ["single-projection", "single-projection-selected"])
+        self.assertIn("directional-per-layer", order)
+
+    def test_rescore_measures_layer_directions_from_the_saved_vectors(self):
+        self.per_layer_pair()
+        report = self.compare()
+        saved = json.loads((self.root / "report.json").read_text())
+        del saved["summary"]["layer_direction_agreement"]
+        for row in saved["tensors"].values():
+            row.pop("layer_direction_cosine", None)
+        # Saved away from its vectors, the report has nothing to measure layer agreement from.
+        (self.root / "elsewhere").mkdir()
+        stale = self.root / "elsewhere" / "stale.json"
+        stale.write_text(json.dumps(saved))
+        # Without the vectors the per-layer lines cannot match, and the report says so.
+        rescored = rescore_weights(stale, out=self.root / "without.json")
+        self.assertTrue(rescored["rescoring"]["layer_directions"].startswith("Not measured"))
+        self.assertFalse(rescored["recipe_matching"]["matched"])
+        self.assertIn("layer_direction_cosine", {v["rule"] for v in rescored["recipe_matching"]["violations"]})
+        rescored = rescore_weights(stale, out=self.root / "with.json", directions=self.root / report["directions_file"])
+        self.assertEqual(rescored["rescoring"]["layer_directions"], f"Measured within each layer from {report['directions_file']}.")
+        self.assertTrue(rescored["recipe_matching"]["matched"])
+        self.assertEqual(rescored["recipe_matching"]["nearest_recipe"], "directional-per-layer")
+        self.assertEqual(rescored["summary"]["layer_direction_agreement"]["layers_with_several_edits"], 3)
 
     def test_named_streaming_and_missing_names(self):
         self.put(self.base, {"z": torch.ones(3), "original_only": torch.ones(2)}, "one.safetensors")
@@ -387,6 +479,34 @@ class RecipeRules(unittest.TestCase):
         self.assertEqual(self.rules({"a": writer, "e": scored_row("embedding")}, self.line), ["unexpected_change"])
         # An embedding change alone does not stand in for the projection.
         self.assertIn("missing_changed_projection", self.rules({"e": scored_row("embedding")}, recipe))
+
+    def test_layer_direction_rule(self):
+        line = {**self.line, "layer_direction_cosine_min": 0.95}
+        del line["direction_cosine_min"]
+        row = {"status": "ok", "kind": "attention_output", "changed": True, "relative_difference": 0.05, "first_singular_energy_share": 0.999}
+        rows = {"model.layers.3.self_attn.o_proj.weight": {**row, "layer_direction_cosine": 0.5}}
+        self.assertEqual(self.rules(rows, line), ["layer_direction_cosine"])
+        rows = {"model.layers.3.self_attn.o_proj.weight": {**row}}
+        self.assertEqual(self.rules(rows, line), ["layer_direction_cosine"])
+        rows = {"model.layers.3.self_attn.o_proj.weight": {**row, "layer_direction_cosine": 0.99}}
+        self.assertEqual(self.rules(rows, line), [])
+        # A tensor outside the layer stack has no layer to agree with, so the rule passes over it.
+        rows["model.embed_tokens.weight"] = {**row, "kind": "embedding"}
+        self.assertEqual(self.rules(rows, {**line, "optional_kinds": ["embedding"]}), [])
+        # The shared-direction rule and its cross-kind check stay with lines that ask for one direction.
+        rows = {"model.layers.3.self_attn.o_proj.weight": {**row, "direction_cosine": 0.5}}
+        self.assertEqual(self.rules(rows, self.line), ["direction_cosine"])
+        self.assertEqual(self.rules(rows, line), ["layer_direction_cosine"])
+
+    def test_reader_kinds_and_layer_index(self):
+        recipes = recipe_table()
+        self.assertEqual(reader_kinds(recipes), {"attention_query", "attention_key", "attention_value", "feed_forward_gate", "feed_forward_up", "expert_gate_up"})
+        self.assertEqual(layer_of("model.language_model.layers.17.self_attn.q_proj.weight"), 17)
+        self.assertIsNone(layer_of("model.embed_tokens.weight"))
+        for name in ("directional-per-layer", "directional-per-layer-selected"):
+            self.assertEqual(recipes[name]["status"], "analytic")
+            self.assertEqual(recipes[name]["optional_kinds"], ["embedding", "attention_query", "attention_key", "attention_value"])
+            self.assertNotIn("direction_cosine_min", recipes[name])
 
     def test_analytic_lines_carry_the_optional_embedding(self):
         table = recipe_table()
