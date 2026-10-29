@@ -41,7 +41,8 @@ case ${1:-} in
     '') [ $# = 0 ] || exit 2 ;;
     --list) printf '%s\n' "${all[@]}"; echo '90-cleanup.sh is optional; use --only'; exit 0 ;;
     --only|--from) [ $# = 2 ] || exit 2; mode=${1#--}; at=${2#./} ;;
-    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP]'; exit 2 ;;
+    timing) [ $# = 1 ] || exit 2; mode=only; at=timing ;;  # the bare word keeps a desk card short
+    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing]'; exit 2 ;;
 esac
 todo=()
 if [ "$mode" = all ]; then todo=("${steps[@]}")

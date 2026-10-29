@@ -247,7 +247,7 @@ class BundleTests(unittest.TestCase):
     def test_the_timing_step_queues_one_small_job_by_name(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)
-        self.assertEqual(run.call(['./round.sh', '--only', 'timing'], run.round), 0)
+        self.assertEqual(run.call(['./round.sh', 'timing'], run.round), 0)
         log = (run.directory / 'outbox/round-2-only-15-timing-end.log').read_text()
         self.assertIn('timing job: ', log)
         self.assertIn('VERDICT timing OK', log)
