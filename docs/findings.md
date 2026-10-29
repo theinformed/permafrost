@@ -98,6 +98,34 @@ The Mistral Small 2409 copy's notebook patches the token embedding separately. T
 leading direction equal to layer 24's down-projection direction at cosine 1.000 (the notebook's layer 25, counting
 from one). The embedding edit therefore reuses one internal layer's direction, a detail the notebook does not state.
 
+## 7. Four copies whose stated original cannot be pinned or compared
+
+Choosing the eight pairs for the seventh census round (`data/batches/round-7-batch-1.json`) turned up four copies
+whose cards name an original that the pinning rule (`hpc/pin_census.py`) cannot settle. Each is a provenance fact in
+its own right, and each is a reason the published card alone cannot carry the audit.
+
+- OpenYourMind/gemma-4-12B-it-abliterated-uncensored was created at 19:57Z on 2026-06-03. Its stated original,
+  google/gemma-4-12B-it, was created on 2026-05-23, yet the original's visible history now begins at 21:14Z on
+  2026-06-03, two hours after the copy, and runs to 2026-07-20 in seven commits. Google rewrote the repository's
+  history after release, so no surviving revision of the original predates the copy and no revision can be named as
+  the one the copy was made from. The same rewrite touches every copy of that base made before 06-03.
+- mlabonne/gemma-3-12b-it-abliterated-v2 names google/gemma-3-12b-it correctly, but Google's own card for that model
+  declares a base repository, google/gemma-3-12b, that does not exist on the hub. The lineage walker stops at a
+  declared parent it cannot open, so the pair waits on a rule for publisher declarations that point nowhere.
+- minpeter/Voxtral-Mini-3B-Text-2507-hf-heretic is a text-only extraction of mistralai/Voxtral-Mini-3B-2507, whose
+  release carries the audio tower as well. The two repositories do not share tensor names, so a weight-by-weight
+  comparison against the stated original is undefined until the text tower is cut out of the original by the same
+  recipe, which the card does not give.
+- timfromhcs/Ministral-3-14B-abliterated is stored in bf16; its stated original, mistralai/Ministral-3-14B-Instruct-2512,
+  is published in FP8 with per-tensor scales. The tensor names differ, so the comparison needs a dequantized original
+  first, and any difference measured then includes the dequantization as well as the edit.
+
+The first two were replaced in the batch by igorls/gemma-4-12B-it-heretic-v1 and
+llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic; the last two by richardyoung/Mistral-7B-Instruct-v0.2-abliterated-obliteratus
+and evolveon/Mistral-7B-Instruct-v0.3-abliterated. The inventory sample (`docs/inventory-sample.md`) already showed
+the stated original failing to resolve in 16 of 30 repositories; these four show the ways it fails even when a
+repository by that name exists.
+
 ## What the second pass adds
 
 The second census pass (Nautilus, card 5055, jobs 4080809 to 4080815) measures, for every changed matrix, how much of
