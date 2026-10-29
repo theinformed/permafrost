@@ -33,6 +33,15 @@ for list in $(find . "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name b
         echo "guard rewritten: $list"
     fi
 done
+# The project's pad token line arrives by its own card beside the shared file and is merged once,
+# so another project's line in ~/.hpc/pad-token is never overwritten.
+line=$HOME/.hpc/pad-token-model-audit
+if [ -f "$line" ] && ! grep -q '^model-audit ' "$HOME/.hpc/pad-token" 2>/dev/null; then
+    mkdir -p "$HOME/.hpc"
+    cat "$line" >> "$HOME/.hpc/pad-token"
+    chmod 600 "$HOME/.hpc/pad-token"
+    echo 'pad token: model-audit line added'
+fi
 echo "kit version: $(cat "$HOME/metoc/jobs/hpc/KIT_VERSION")"
 echo "ipv4 report: $(grep -c 'curl -4' "$HOME/bin/hpc-report.sh" 2>/dev/null || echo 0)"
 echo 'VERDICT kit OK'

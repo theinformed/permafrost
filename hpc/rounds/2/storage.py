@@ -6,6 +6,7 @@
 import json
 import os
 from pathlib import Path
+import shutil
 import subprocess
 
 
@@ -41,8 +42,14 @@ def main():
         info = os.statvfs(work)
         free = info.f_bavail * info.f_frsize
         used, limit = 0, free
-    elif method == 'show_storage':
-        subprocess.check_call(['show_storage', '-h'])
+    elif method in ('show_storage', 'show_usage'):
+        # The Navy centers print show_storage, the Army and Air Force centers show_usage; either is
+        # a reading for the log, and a system with neither still gives its free space.
+        tool = next((name for name in ('show_storage', 'show_usage') if shutil.which(name)), None)
+        if tool:
+            subprocess.call([tool, '-h'])
+        else:
+            print('storage tool absent on this system; free space alone')
         info = os.statvfs(work)
         free = info.f_bavail * info.f_frsize
         used, limit = 0, free
