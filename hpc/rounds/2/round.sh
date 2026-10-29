@@ -47,7 +47,8 @@ if [ "$mode" = all ]; then todo=("${steps[@]}")
 else
     found=0
     for step in "${all[@]}"; do
-        if [ "$step" = "$at" ]; then found=1; fi
+        # a step may be named by its number alone (--only 10), which keeps a desk card under 50 characters
+        if [ "$step" = "$at" ] || [ "${step%%-*}" = "$at" ]; then found=1; at=$step; fi
         [ "$found" = 1 ] || continue
         if [ "$step" = 90-cleanup.sh ] && [ "$mode" != only ]; then continue; fi
         todo+=("$step")
