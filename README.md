@@ -10,4 +10,6 @@ abliterated-model-audit-plan-20261013.md beside it.
 
 License: code under Apache 2.0 (LICENSE, NOTICE); data, cards and documents under CC BY 4.0 (DATA-LICENSE.md). Cite with CITATION.cff.
 
+Findings to date: docs/findings.md.
+
 Layout: audit/ (the package), tools/ (house helpers), tests/, docs/ (cards and notes), data/ (never committed).
