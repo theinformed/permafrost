@@ -26,7 +26,7 @@ sys.path.insert(0, str(ROOT / 'hpc'))
 sys.path.append(str(ROUND))
 from lineage import screen
 from pin_census import pin
-from rehearse_round2 import BUNDLE, CensusRehearsal, CLUSTER_PYTHON, dependency, fixture_kit, NAMES, NEEDS
+from rehearse_round2 import BUNDLE, CensusRehearsal, CLUSTER_PYTHON, dependency, fixture_kit, NAMES, NEEDS, SYSTEMS
 
 
 def module(name):
@@ -744,8 +744,14 @@ class SystemsTableTests(unittest.TestCase):
         self.kit = fixture_kit(self.directory / 'kit')
 
     def build(self, *extra, round_number='2'):
+        # The needs line names the system's own subproject, as the desk requires.
+        needs = NEEDS
+        if '--system' in extra:
+            system = extra[extra.index('--system') + 1]
+            if system in SYSTEMS:
+                needs = NEEDS.replace(SYSTEMS['nautilus']['subproject'], SYSTEMS[system]['subproject'])
         return subprocess.run([sys.executable, str(ROUND / 'bundle.py'), 'build', '--round', round_number,
-                               '--kit', str(self.kit), '--out', str(self.directory / 'out'), '--needs', NEEDS]
+                               '--kit', str(self.kit), '--out', str(self.directory / 'out'), '--needs', needs]
                               + list(extra), stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                               universal_newlines=True)
 
@@ -838,7 +844,7 @@ class BiggerBatchTests(unittest.TestCase):
         for row in rows:
             self.assertEqual(row['scheduler'], 'pbs')
             arguments = row['arguments']
-            self.assertEqual(arguments[arguments.index('-A') + 1], 'NRLMR57635502')
+            self.assertEqual(arguments[arguments.index('-A') + 1], 'NRLMR5762B403')
             self.assertTrue(arguments[arguments.index('-v') + 1].startswith('HPC_PROJECT=model-audit,'))
         self.assertEqual(rows[0]['arguments'][rows[0]['arguments'].index('-q') + 1], 'transfer')
         self.assertIn('select=1:ncpus=1:mem=64gb', rows[1]['arguments'])

@@ -26,7 +26,7 @@
   "jean": {
     "scheduler": "slurm",
     "work": "/p/work1/sdegan",
-    "subproject": "NRLMR57635502",
+    "subproject": "NRLMR5762B403",
     "transfer": ["--partition=transfer", "--qos=normal"],
     "background": ["--partition=background", "--qos=normal"],
     "time_limit": "03:55:00",
@@ -39,7 +39,7 @@
   "wheat": {
     "scheduler": "pbs",
     "work": "/p/work/sdegan",
-    "subproject": "NRLMR57635502",
+    "subproject": "NRLMR5762B403",
     "transfer": ["-q", "transfer"],
     "background": ["-q", "background"],
     "time_limit": "03:55:00",
