@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-13  add bounded downloads and a shared request clock.
 # Modified: SDE 2026-10-13  send the saved hub token on every call. and a shared request clock.
 # Modified: SDE 2026-10-29  import httpx and the client factory only when a Hub is made.
+# Modified: SDE 2026-10-29  read a repository's commit history.
 import hashlib
 import json
 import time
@@ -51,6 +52,11 @@ class Hub:
             raise BudgetExpired("network time budget reached; rerun to use the saved files")
         time.sleep(max(0, self.delay - (time.monotonic() - self.last_call)))
         self.last_call = time.monotonic()
+
+    def commits(self, repo):
+        """List the repository's commits, newest first, within the same call budget."""
+        self.pause()
+        return self.api.list_repo_commits(repo)
 
     def info(self, repo):
         """Ask for file sizes and card declarations in the same catalog call."""

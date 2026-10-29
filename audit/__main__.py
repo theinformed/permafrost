@@ -43,6 +43,9 @@ def main():
     again = commands.add_parser("metadata-reclassify")
     again.add_argument("--report", required=True, help="a saved metadata-diff report")
     again.add_argument("--out", help="write here instead of over the report")
+    again.add_argument("--later-revisions", action="store_true",
+                       help="read the original repository's later commits to explain a changed template")
+    again.add_argument("--delay", type=float, default=0.2)
     again.set_defaults(handler=lambda args: __import__("audit.metadata", fromlist=["metadata_reclassify"]).metadata_reclassify(args))
     args = parser.parse_args()
     if getattr(args, "delay", 0) < 0 or getattr(args, "limit", None) is not None and args.limit < 1:

@@ -29,8 +29,9 @@ weights match what the card says, and the flags come from the table not yet havi
 
 ## Token and configuration side (Stage 1)
 
-The automatic verdict is "unexplained differences": one field, the template, once the re-save rule for added fields
-took the configuration field. On reading, both are explained.
+The automatic verdict is "consistent with re-save noted" now that the tool reads the library defaults and the
+original repository's later commits; it finds the same two commits named below, `145dc250` and `ba74f5b6`. On first scoring it was
+"unexplained differences" in two fields, and the reading stands.
 
 - `template.default`: the chat template is not the pinned original's, it is Google's own later revision of the
   template. The text matches `google/gemma-4-31B-it` at commits `145dc250` (2026-04-28, "update SI and tool call

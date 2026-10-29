@@ -2,6 +2,7 @@
 # Created by LT Sean Egan, PhD 2026-10-13
 # Modified: SDE 2026-10-13  cover moved declarations, template text and saved versions.
 # Modified: SDE 2026-10-29  cover added fields that load as the default or repeat a declared value.
+# Modified: SDE 2026-10-29  cover a template the original repository published later.
 import copy
 import hashlib
 import json
@@ -11,8 +12,10 @@ from argparse import Namespace
 from pathlib import Path
 from unittest.mock import patch
 
+import requests
+
 from audit.compare import RESAVE, compare_documents, resave_template
-from audit.metadata import card_text, collect, metadata_diff, reclassify, verdict
+from audit.metadata import card_text, collect, explain_later_templates, metadata_diff, reclassify, verdict
 
 
 def documents():
@@ -319,6 +322,100 @@ class AddedFieldTests(unittest.TestCase):
         self.assertEqual(report["reclassification"],
                          {"changed_paths": ["config.text_config.cache_implementation"],
                           "verdict_before": "unexplained differences"})
+
+
+class LaterTemplateTests(unittest.TestCase):
+    """A changed template is explained only by the original repository's own later text."""
+
+    class Commit:
+        def __init__(self, sha, title, day):
+            import datetime
+            self.commit_id, self.title = sha, title
+            self.created_at = datetime.datetime(2026, 4, day)
+
+    class FakeHub:
+        """Commits newest first, like the catalog; template text per commit."""
+
+        def __init__(self, history, texts):
+            self.history, self.texts, self.calls = history, texts, []
+
+        def commits(self, repo):
+            return list(self.history)
+
+        def small_file(self, repo, revision, filename, directory, max_bytes=None):
+            self.calls.append((revision, filename))
+            if filename != "chat_template.jinja" or revision not in self.texts:
+                raise requests.HTTPError(response=Namespace(status_code=404))
+            data = self.texts[revision].encode()
+            Path(directory).mkdir(parents=True, exist_ok=True)
+            (Path(directory) / filename).write_bytes(data)
+            return data
+
+    def setUp(self):
+        self.original = documents()
+        self.modified = documents()
+        # A leading comment changes the text and leaves the render, trailing newline included, the same.
+        self.modified["tokenizer_config.json"]["chat_template"] = "{# v2 #}{{ messages[0].content }}{{ eos_token }}\n"
+        self.pinned = "a" * 40
+        self.history = [self.Commit("c" * 40, "README", 9), self.Commit("b" * 40, "fix template", 5),
+                        self.Commit(self.pinned, "release", 1), self.Commit("0" * 40, "init", 0 + 1)]
+        self.cache = tempfile.TemporaryDirectory()
+
+    def tearDown(self):
+        self.cache.cleanup()
+
+    def run_rule(self, texts, modified=None):
+        differences, missing, rendered = compare_documents(modified or self.modified, self.original)
+        hub = self.FakeHub(self.history, texts)
+        notes = explain_later_templates(differences, rendered, {"repo": "org/base", "sha": self.pinned},
+                                        {"tokenizer_config.json": {}}, hub, cache_root=self.cache.name)
+        return {d["path"]: d for d in differences}, notes, hub
+
+    def test_template_equal_to_a_later_commit_is_explained(self):
+        found, notes, hub = self.run_rule({"b" * 40: self.modified["tokenizer_config.json"]["chat_template"],
+                                           "c" * 40: self.modified["tokenizer_config.json"]["chat_template"]})
+        change = found["template.default"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertEqual(change["later_revision"]["sha"], "b" * 40)
+        self.assertEqual(change["later_revision"]["matching"], ["b" * 40, "c" * 40])
+        self.assertIn("2026-04-05", change["reason"])
+        self.assertEqual(change["files"], {"original": ["chat_template.jinja@bbbbbbbb"], "modified": ["tokenizer_config.json"]})
+        self.assertEqual(notes, [])
+        # Only commits after the pinned one are read.
+        self.assertEqual({revision for revision, _ in hub.calls}, {"b" * 40, "c" * 40})
+
+    def test_no_later_commit_matches(self):
+        found, notes, _ = self.run_rule({"b" * 40: "{{ something_else }}"})
+        self.assertEqual(found["template.default"]["class"], "unexplained")
+        self.assertEqual(notes, [])
+
+    def test_changed_render_is_never_explained_by_history(self):
+        modified = documents()
+        modified["tokenizer_config.json"]["chat_template"] = "{{ messages[1].content }}"
+        found, _, hub = self.run_rule({"b" * 40: "{{ messages[1].content }}"}, modified)
+        self.assertEqual(found["template.default"]["class"], "unexplained")
+        self.assertEqual(hub.calls, [])
+
+    def test_pinned_revision_missing_from_history_is_noted(self):
+        self.pinned = "f" * 40
+        found, notes, _ = self.run_rule({})
+        self.assertEqual(found["template.default"]["class"], "unexplained")
+        self.assertEqual(notes, ["original: pinned revision not found in the commit history"])
+
+    def test_reclassify_reads_history_only_when_given_a_hub(self):
+        differences, missing, rendered = compare_documents(self.modified, self.original)
+        from audit.compare import snapshot
+        report = {"original": {"repo": "org/base", "sha": self.pinned, "snapshot": snapshot(self.original)},
+                  "modified": {"repo": "org/copy", "manifest": {"chat_template.jinja": {}}, "snapshot": snapshot(self.modified)},
+                  "differences": differences, "missing": missing, "rendered": rendered, "verdict": "unexplained differences"}
+        offline = reclassify(copy.deepcopy(report))
+        self.assertEqual(offline["verdict"], "unexplained differences")
+        hub = self.FakeHub(self.history, {"b" * 40: self.modified["tokenizer_config.json"]["chat_template"]})
+        with patch("audit.metadata.CACHE_ROOT", self.cache.name):
+            online = reclassify(copy.deepcopy(report), hub)
+        self.assertEqual(online["verdict"], "consistent with re-save noted")
+        self.assertEqual(online["reclassification"]["changed_paths"], ["template.default"])
+        self.assertEqual(online["differences"][0]["files"]["modified"], ["chat_template.jinja"])
 
 
 class PinnedEvidenceTests(unittest.TestCase):

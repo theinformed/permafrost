@@ -23,8 +23,9 @@ footprint matches the card and the flags measure a method the table does not des
 
 ## Token and configuration side (Stage 1)
 
-The automatic verdict is "unexplained differences": one field, the template, once the re-save rule for added fields
-took the configuration field. On reading, both are explained.
+The automatic verdict is "consistent with re-save noted" now that the tool reads the library defaults and the
+original repository's later commits; it finds the same two commits named below, `c53e9d33` and `3555bddc`. On first scoring it was
+"unexplained differences" in two fields, and the reading stands.
 
 - `template.default`: the copy carries Google's later template, matching `google/gemma-4-E4B-it` at commits
   `c53e9d33` (2026-04-28) and `3555bddc` (2026-05-07) exactly; the pinned modified revision is itself the maker's

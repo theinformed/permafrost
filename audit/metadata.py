@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-13  show re-save findings and reuse pinned evidence on reruns.
 # Modified: SDE 2026-10-29  reruns accept cluster evidence that lacks the GGUF flags.
 # Modified: SDE 2026-10-29  reclassify a saved report's differences from its stored snapshots.
+# Modified: SDE 2026-10-29  explain a template the original repository itself published later.
 import json
 import hashlib
 import re
@@ -13,7 +14,7 @@ from types import SimpleNamespace
 
 import requests
 
-from .compare import RESAVE, compare_documents, explain_resaves, snapshot, token_content, token_ids
+from .compare import RESAVE, compare_documents, explain_resaves, snapshot, templates, token_content, token_ids
 from .gguf import RangeReader, parse_header
 from .hub import BudgetExpired, FILE_LIMIT, SMALL_FILES, Hub, safe_name, write_json
 
@@ -217,7 +218,81 @@ def card_text(report):
     return "\n".join(lines)
 
 
-def reclassify(report):
+def later_revisions(hub, repo, sha):
+    """The original repository's commits after the pinned revision, oldest first."""
+    commits = list(hub.commits(repo))
+    identifiers = [commit.commit_id for commit in commits]
+    if sha not in identifiers:
+        return None
+    return list(reversed(commits[:identifiers.index(sha)]))
+
+
+def revision_template(hub, repo, commit, name, cache_root):
+    """Read the named template as the original repository published it at one commit."""
+    directory = Path(cache_root) / safe_name(repo) / commit.commit_id
+    documents = {}
+    for filename in ("chat_template.jinja", "tokenizer_config.json"):
+        target = directory / filename
+        try:
+            data = target.read_bytes() if target.exists() else hub.small_file(repo, commit.commit_id, filename, directory)
+        except requests.HTTPError as error:
+            if error.response.status_code == 404:
+                continue
+            raise
+        documents[filename] = json.loads(data) if filename.endswith(".json") else data.decode("utf-8")
+        if name in templates(documents):
+            break
+    return templates(documents).get(name), ("chat_template.jinja" if "chat_template.jinja" in documents
+                                             else "tokenizer_config.json")
+
+
+def explain_later_templates(differences, rendered, original, modified_files, hub, cache_root=CACHE_ROOT, limit=20):
+    """Explain a changed template that equals one the original repository itself published later."""
+    pending = [change for change in differences if change["path"].startswith("template.")
+               and change["class"] not in ("expected", RESAVE) and isinstance(change.get("modified"), str)]
+    if not pending or not original.get("sha"):
+        return []
+    try:
+        revisions = later_revisions(hub, original["repo"], original["sha"])
+    except Exception as error:
+        if getattr(getattr(error, "response", None), "status_code", None) == 429:
+            raise
+        return [f"original: commit history unavailable: {type(error).__name__}: {error}"]
+    notes = []
+    if revisions is None:
+        return ["original: pinned revision not found in the commit history"]
+    if len(revisions) > limit:
+        revisions, notes = revisions[:limit], [f"original: only the first {limit} later revisions were read"]
+    for change in pending:
+        name = change["path"].removeprefix("template.")
+        values = rendered.get(name, {})
+        if len(values) != 2 or values["original"] != values["modified"]:
+            continue
+        matches = []
+        for commit in revisions:
+            try:
+                text, filename = revision_template(hub, original["repo"], commit, name, cache_root)
+            except Exception as error:
+                if getattr(getattr(error, "response", None), "status_code", None) == 429:
+                    raise
+                notes.append(f"original: {commit.commit_id[:8]}: {type(error).__name__}: {error}")
+                continue
+            if text == change["modified"]:
+                matches.append((commit, filename))
+        if not matches:
+            continue
+        first, filename = matches[0]
+        date = first.created_at.date().isoformat() if getattr(first, "created_at", None) else "undated"
+        source = "chat_template.jinja" if "chat_template.jinja" in modified_files else "tokenizer_config.json"
+        change.update({"class": RESAVE, "files": {"original": [f"{filename}@{first.commit_id[:8]}"], "modified": [source]},
+                       "reason": f"The template equals the original repository's own later revision {first.commit_id[:8]} "
+                                 f"({date}, \"{first.title}\"), and the fixed conversation renders identically.",
+                       "later_revision": {"sha": first.commit_id, "date": date, "title": first.title,
+                                          "matching": [commit.commit_id for commit, _ in matches]}})
+    return notes
+
+
+def reclassify(report, hub=None):
     """Run the re-save rules again on a saved report, reading the configurations it stored."""
     documents = {side: {"config.json": report[side]["snapshot"].get("config") or {},
                         "generation_config.json": report[side]["snapshot"].get("generation") or {}}
@@ -226,6 +301,10 @@ def reclassify(report):
     # Changes already explained keep their recorded rule and library version.
     pending = [change for change in report["differences"] if change["class"] != RESAVE]
     explain_resaves(pending, documents["original"], documents["modified"], report.get("rendered", {}))
+    if hub is not None:
+        notes = explain_later_templates(pending, report.get("rendered", {}), report["original"],
+                                        report["modified"].get("manifest", {}), hub)
+        report["missing"] = sorted(set(report["missing"]) | set(notes))
     changed = [change["path"] for change in report["differences"] if before[change["path"]] != change["class"]]
     earlier = verdict([{**change, "class": before[change["path"]]} for change in report["differences"]], report["missing"])
     report["verdict"] = verdict(report["differences"], report["missing"])
@@ -238,7 +317,8 @@ def reclassify(report):
 
 def metadata_reclassify(args):
     """Rewrite a saved report and its card after the rules changed; the evidence stays as recorded."""
-    report = reclassify(json.loads(Path(args.report).read_text()))
+    hub = Hub(getattr(args, "delay", 0.2), max_seconds=45) if getattr(args, "later_revisions", False) else None
+    report = reclassify(json.loads(Path(args.report).read_text()), hub)
     write_json(args.out or args.report, report)
     card = Path("docs/cards") / (safe_name(report["modified"]["repo"]) + ".md")
     card.write_text(card_text(report))
@@ -275,6 +355,7 @@ def metadata_diff(args):
         differences, missing, rendered = compare_gguf(modified["gguf_header"], original["documents"])
     else:
         differences, missing, rendered = compare_documents(modified["documents"], original["documents"])
+        missing.extend(explain_later_templates(differences, rendered, original, modified["manifest"], hub))
     missing.extend("modified: " + m for m in modified["missing"])
     missing.extend("original: " + m for m in original["missing"])
     # Raw vocabularies are already saved at their pinned revisions. Reports need

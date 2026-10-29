@@ -87,7 +87,9 @@ When a rule changes, a saved report is judged again from the configurations it s
 python -m audit metadata-reclassify --report data/meta/pair.json
 ```
 
-The report gains a `reclassification` block naming the fields whose class changed and the verdict before, and its card is rewritten. Rules that need the token files or templates keep their recorded result; only the configuration rules can change it.
+The report gains a `reclassification` block naming the fields whose class changed and the verdict before, and its card is rewritten. Rules that need the token files keep their recorded result; the configuration rules can change it, and with `--later-revisions` so can the template rule below.
+
+A changed template is explained by re-save when it equals, byte for byte, the template the original repository itself published at a later commit and the fixed conversation renders identically. The comparison reads the original's commit history after the pinned revision (at most twenty commits) and the template file at each, caching them under the original's cache folder. The record names the first matching commit, its date and title, and every matching commit.
 
 JSON evidence lives at the requested output path; raw downloads stay under ignored `data/`. Markdown finding cards live under `docs/cards/`.
 Tests use synthetic metadata and mocked catalog calls. The saved real comparisons exercise public metadata reads.

@@ -26,8 +26,9 @@ an added field that loads as the library default as explained by re-save, so pai
 noted" (judged under transformers 4.56.2, the round's pins). Pairs 1 and 3 carry Google's own later chat template
 (the 2026-04-28 "update SI and tool call handling" revision of each original), matched byte for byte against the
 original repos' commit histories, plus one null configuration field the newer library writes, now explained the same
-way. Every fixed conversation renders identically. A template that matches a later revision of the original is still
-read by hand; that rule is filed.
+way. Every fixed conversation renders identically. The tool also reads the original repository's later commits: both
+templates equal Google's 2026-04-28 fix byte for byte, so pairs 1 and 3 read "consistent with re-save noted" as well,
+and every round 2 pair now closes on the token side without a hand reading.
 
 ## What the scorer learned
 
