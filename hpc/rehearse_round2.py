@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-15  real tensor names, the tested pins, lineage, stale, stamp and pinned cases.
 # Modified: SDE 2026-10-15  check that no printed line runs past 100 columns.
 # Modified: SDE 2026-10-29  any batch and system: parallel compares, the sweep, PBS and the image.
+# Modified: SDE 2026-10-30  a failed compare leaves the sweep dropped and every original in place (afterok).
 import argparse
 import ast
 import hashlib
@@ -221,16 +222,18 @@ class CensusRehearsal(Rehearsal):
         return len(logs), found
 
     def failed_pair_kept(self, rows):
-        """Pair 1 failed: its siblings finish, the sweep runs and keeps pair 1's original."""
-        self.expect(all(row['status'] == 'finished' for row in rows[2:]), 'a sibling or the sweep did not finish')
-        record = self.sweep()
-        kept = [group for group in record['kept'] if 1 in group['pairs']]
-        self.expect(len(kept) == 1 and 1 in kept[0]['missing'] and Path(kept[0]['path']).is_dir(),
-                    "the sweep did not keep the failed pair's original")
-        others = [group for group in record['deleted'] if 1 not in group['pairs']]
-        self.expect(all(not Path(group['path']).exists() for group in others), 'a finished original survived')
-        self.append('sweep kept {} for pair 1; deleted {}; kept {}'.format(
-            kept[0]['hub_id'], len(record['deleted']), len(record['kept'])))
+        """Pair 1 failed: its siblings finish; the sweep waits on every compare finishing well, so the scheduler
+        drops it for its dependency, no sweep record is written, and every original stays on disk for the refile."""
+        compares, sweep = rows[2:-1], rows[-1]
+        self.expect(all(row['status'] == 'finished' for row in compares), 'a sibling did not finish')
+        self.expect(sweep['status'] == 'cancelled-invalid-dependency', 'the sweep ran behind a failed compare')
+        self.expect(not (self.results / 'measurements/sweep.json').exists(), 'a sweep record exists behind a failed compare')
+        wanted = {pair['original']['revision'] for pair in json.loads(Path(self.manifest).read_text())['pairs']}
+        kept = [path for path in (self.work / 'model-audit/originals').iterdir() if path.is_dir()]
+        self.expect(len(kept) == len(wanted) and all(any(path.iterdir()) for path in kept),
+                    'an original went missing with no sweep')
+        self.append('sweep {} dropped behind the failed pair 1; {} originals stay for the refile'.format(
+            sweep['job'], len(kept)))
 
 
 def expected_writers(manifest, number):

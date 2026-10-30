@@ -10,6 +10,7 @@
 # Modified: SDE 2026-10-29  round from batch.json; queues, scheduler and image from the systems table.
 # Modified: SDE 2026-10-30  the table's named interpreter stands in for an old system python3.
 # Modified: SDE 2026-10-30  the drop reads the log only after the output pipeline has drained.
+# Modified: SDE 2026-10-30  the verify floor check reads the Python module the jobs load, in a subshell.
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 ROUND=$(python3 ./census.py round)
@@ -180,6 +181,30 @@ start_piece() {
     fi
 }
 
+floor_python() {
+    # The interpreter the jobs build on must reach the pins' floor: the table's named one where there is one,
+    # the Python module everywhere else (Nautilus's login python3 is 3.6), python3 itself in the home rehearsal.
+    floor='import sys; print("python floor: %d.%d.%d" % sys.version_info[:3]); sys.exit(sys.version_info < (3, 10))'
+    if [ -n "${AUDIT_PYTHON:-}" ]; then
+        "$AUDIT_PYTHON" -c "$floor"
+    elif [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then
+        python3 -c "$floor"
+    else
+        ( python_module && python3 -c "$floor" )
+    fi
+}
+
+python_module() {
+    # Load the Python 3.11 module by name pattern; a caller that wants the login shell untouched runs this in a subshell.
+    if ! type module >/dev/null 2>&1 && [ -r /etc/profile.d/modules.sh ]; then . /etc/profile.d/modules.sh; fi
+    loaded=""
+    for candidate in python/3.11/3.11 $(module -t avail python/3.1 2>&1 | grep '^python/3\.1' | sed 's/(.*//'); do
+        if module load "$candidate" >/dev/null 2>&1; then loaded=$candidate; break; fi
+    done
+    if [ -z "$loaded" ]; then echo "no Python 3.11 module found (tried python/3.11/3.11 and python/3.1*)"; module -t avail python 2>&1 | head -20; return 1; fi
+    echo "Python module: $loaded ($(python3 --version 2>&1))"
+}
+
 compute_python() {
     # An image build checks the image and its pins; the jobs then run Python inside it.
     if [ -n "${AUDIT_IMAGE:-}" ]; then
@@ -196,13 +221,7 @@ compute_python() {
         export PATH=$AUDIT_WORK/pybin:$PATH
         echo "Python: $found ($(python3 --version 2>&1)) stands in for the system python3"
     elif [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
-        if ! type module >/dev/null 2>&1 && [ -r /etc/profile.d/modules.sh ]; then . /etc/profile.d/modules.sh; fi
-        loaded=""
-        for candidate in python/3.11/3.11 $(module -t avail python/3.1 2>&1 | grep '^python/3\.1' | sed 's/(.*//'); do
-            if module load "$candidate" >/dev/null 2>&1; then loaded=$candidate; break; fi
-        done
-        if [ -z "$loaded" ]; then echo "no Python 3.11 module found (tried python/3.11/3.11 and python/3.1*)"; module -t avail python 2>&1 | head -20; return 1; fi
-        echo "Python module: $loaded ($(python3 --version 2>&1))"
+        python_module || return 1
     fi
     if [ -n "${AUDIT_COMPUTE_BIN:-}" ]; then
         export PATH=$AUDIT_COMPUTE_BIN:$PATH

@@ -882,10 +882,21 @@ class SystemsTableTests(unittest.TestCase):
 
     def test_verify_refuses_an_old_python_without_an_image(self):
         text = (ROUND / '20-verify.sh').read_text()
-        self.assertIn('sys.version_info < (3, 10)', text)
         self.assertIn('build this system with --image', text)
-        self.assertLess(text.index('AUDIT_IMAGE:-'), text.index('sys.version_info < (3, 10)'))
-        self.assertIn('"${AUDIT_PYTHON:-python3}" -c', text)
+        self.assertLess(text.index('AUDIT_IMAGE:-'), text.index('floor_python ||'))
+        env = (ROUND / 'env.sh').read_text()
+        self.assertIn('sys.version_info < (3, 10)', env)
+        # Nautilus names no interpreter in the table and its login python3 is 3.6: the check reads the module
+        # the jobs load, in a subshell, so the login shell keeps its own Python; the home rehearsal reads python3.
+        floor = env[env.index('floor_python() {'):env.index('python_module() {')]
+        self.assertIn('"$AUDIT_PYTHON" -c "$floor"', floor)
+        self.assertIn('( python_module && python3 -c "$floor" )', floor)
+        self.assertLess(floor.index('AUDIT_REHEARSAL:-0}" = 1'), floor.index('( python_module'))
+        module = env[env.index('python_module() {'):env.index('compute_python() {')]
+        self.assertIn('module load "$candidate"', module)
+        compute = env[env.index('compute_python() {'):]
+        self.assertIn('python_module || return 1', compute)
+        self.assertNotIn('module load', compute)
 
     def test_blueback_bundle_names_its_compute_python(self):
         result = self.build('--system', 'blueback')
