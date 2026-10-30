@@ -193,7 +193,16 @@ in a card. The rank is readable too: the OBLITERATUS "advanced" copy (richardyou
 group of four near-equal singular values and then a drop of 25 to 40 times on each of 63 layer matrices and the output
 head, the first four directions carrying 0.90 to 0.99 of each change, which matches the tool's "4 directions (SVD)";
 the llmfan46 arbitrary-rank copies show no such gap, with shares that climb only to 0.96 to 0.99 by the eighth value.
-Evidence: the eight `results/weights/` reports of round 7 and `docs/census-round-7.md`.
+The second pass of round 2 reads the same quantity on the earlier copies. mlabonne's Gemma 3 27B copy reads 1.50
+within 0.01 on all 124 matrices against the card's 1.5, with directions 2 to 8 untouched within 0.004. wangzhang's
+norm-preserving Gemma 4 31B edit, whose row norms move by at most 0.0008 and so show nothing to the row-norm rule,
+reads weights of 2.75 to 3.78 on its 40 attention outputs (past a reflection in every layer) and up to 5.6 on its
+query and key projections; the card names a searched strength and no value. byroneverson's Mistral Small copy, whose
+notebook says amount 2.0, reads 0.05 to 11.1 by layer: the notebook's per-layer direction is not of unit length, so a
+fixed amount becomes a weight of twice the direction's squared length, and the token embedding and layer 24 read the
+same 3.09 to four decimals.
+Evidence: the eight `results/weights/` reports of round 7, the five `results/weights/*.pass-2.json` reports and
+`docs/census-round-7.md` and `docs/census-round-3.md`.
 
 ## 11. A configuration that loads a different tower than the weights it ships
 
@@ -208,13 +217,39 @@ not something this audit runs. Evidence: `results/meta/igorls-gemma-4-12B-it-her
 `docs/cards/igorls--gemma-4-12B-it-heretic-v1-5c5f6826.reading.md`, and the library check recorded in
 `docs/census-round-7.md`.
 
-## What the second pass adds
+## 12. Which side of a matrix an edit touched is readable, and one method edits the input side
 
-The second census pass (Nautilus, card 5055, jobs 4080809 to 4080815) measures, for every changed matrix, how much of
-the original's action the copy keeps along each leading direction, which reads the projection weight off the weights
-(0 for a removal, negative for an over-projection), and measures the packed Gemma 4 expert tensors one expert at a
-time. Those results settle the projection weights of items 2 and 6, give the arbitrary-rank method of llmfan46 its own
-measured line, and complete the TrevorJS reading on its thirty expert tensors.
+The two remaining fractions of a changed matrix (along the leading left direction and along the leading right one)
+fall in a fixed order for an output-side edit: 273 of the 274 output-side matrices in round 2's pairs 1, 2, 4 and 5 put
+the left fraction below the right, and the one exception is the token embedding, whose residual coordinates are its
+columns. wangzhang's 54 reading-side edits (query, key and value projections) and all 11 changed matrices of
+llmfan46/gemma-4-E4B-it-uncensored-heretic put it the other way. For that heretic copy the leading direction therefore
+sits in the input space of each attention output, one over-projected direction per layer at weights 1.27 to 1.79
+(median 1.46), under a weak tail of many directions that each keep 0.90 to 1.03 of the original; no entry in the
+recipe table describes an input-side direction yet. Evidence: `results/weights/*.pass-2.json`,
+`docs/cards/llmfan46--gemma-4-E4B-it-uncensored-heretic-cc7eab73.reading.md` and `docs/census-round-3.md`.
+
+## 13. A mixture-of-experts abliteration reads expert by expert
+
+TrevorJS/gemma-4-26B-A4B-it-uncensored changes all 128 experts of each of 30 packed expert tensors. Measured one
+expert at a time, the experts of a layer share one output direction at median cosine 0.996 to 0.999 (minimum 0.940),
+the median expert keeps a first-value energy share of 0.989 to 0.994 in every layer, and the worst expert of a layer
+falls to 0.881 in layer 0 and 0.951 to 0.990 elsewhere. The experts' median direction, added to the layer's group,
+resolves the two layers the dense matrices left at 0.941 and 0.947: layers 10 and 12 now agree at 0.991 and 0.995.
+The scorer takes the worst expert, which is why the copy still carries 30 flags on those tensors; the per-expert
+numbers say the edit is one direction per layer applied to every expert. Evidence:
+`results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and
+`docs/cards/TrevorJS--gemma-4-26B-A4B-it-uncensored-ce34ef70.reading.md`.
+
+## What the second pass settled
+
+The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
+comparisons with the remaining-fraction and per-expert measures. Every number both passes share is equal to the last
+digit on all 6,085 matched tensors, the shard checksums are identical, and no flag count changed except TrevorJS's (64
+to 31, the packed tensors now measured). Its one tooling result: a card written on a cluster, without network access
+and with a pinned library older than the architecture (transformers 4.56.2 has no Gemma 4 class), reads "unexplained
+differences" on configuration fields and templates that close at home, so every Gemma 4 copy's token-side reading is
+the home judgement until the pins move. Details in `docs/census-round-3.md`.
 
 ## Not yet established
 
