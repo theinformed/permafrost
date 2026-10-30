@@ -163,7 +163,7 @@ class CensusRehearsal(Rehearsal):
             if row.get('scheduler') != 'pbs':
                 self.expect('--kill-on-invalid-dep=yes' in row['arguments'], 'a compare lacks the kill instruction')
         self.expect(sweep['arguments'][-1].endswith('/jobs/sweep.sh'), 'the last job is not the sweep')
-        self.expect(dependency(sweep) == 'afterany:' + ':'.join(row['job'] for row in compares),
+        self.expect(dependency(sweep) == 'afterok:' + ':'.join(row['job'] for row in compares),
                     'the sweep does not wait on every compare')
         self.expect([row['environment']['AUDIT_PAIR'] for row in compares] ==
                     [str(number) for number in range(1, self.count + 1)], 'compare pieces out of order')

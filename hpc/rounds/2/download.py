@@ -3,11 +3,13 @@
 # Modified: SDE 2026-10-14  verify published objects before saving the batch receipt.
 # Modified: SDE 2026-10-15  leave the duplicate consolidated shards behind; fold messages.
 # Modified: SDE 2026-10-29  any pair count, shared originals once, and a probe before any shard.
+# Modified: SDE 2026-10-30  fetch a checkpoint three times before giving up, naming the hub's own error.
 import hashlib
 import json
 import os
 from pathlib import Path
 import shutil
+import time
 from huggingface_hub import HfApi, snapshot_download
 from census import batch, checksum, count, pair, paths, token, verify
 from lineage import screen
@@ -85,6 +87,29 @@ def probe(api, credential):
     print('PROBE OK {} {}'.format(row['size'], model['hub_id'])[:100], flush=True)
 
 
+def fetch(model, directory, rows, credential, tries=3, pause=120):
+    """Download one pinned snapshot; a hub or network fault gets two more tries after a pause.
+
+    The hub client turns any failed repository lookup (a dropped connection, a 429, a 5xx) into one
+    message about locating files on the Hub; the cause it chains is printed so the log names the fault.
+    A retry resumes the files already on disk (Blueback 3392481 died on its third checkpoint, 23 min in).
+    """
+    for attempt in range(1, tries + 1):
+        try:
+            snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
+                              local_dir=str(directory), allow_patterns=[row['path'] for row in rows], max_workers=1)
+            return
+        except Exception as error:
+            cause = error.__cause__ or error.__context__
+            detail = '{}: {}'.format(type(error).__name__, str(error).split('\n')[0])
+            if cause is not None:
+                detail += ' <- {}: {}'.format(type(cause).__name__, str(cause).split('\n')[0])
+            print(fold('hub fetch {} of {} failed for {}:'.format(attempt, tries, model['hub_id']), detail), flush=True)
+            if attempt == tries:
+                raise ValueError('checkpoint fetch failed after {} tries: {}'.format(tries, detail))
+            time.sleep(pause)
+
+
 def main():
     screen(batch(), 'maker-guard.sha256')
     marker = Path(os.environ['AUDIT_WORK']) / 'state/download.done'
@@ -127,8 +152,7 @@ def main():
             if published != rows:
                 raise ValueError('saved receipt differs from pinned hub objects')
         else:
-            snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
-                              local_dir=str(directory), allow_patterns=[row['path'] for row in rows], max_workers=1)
+            fetch(model, directory, rows, credential)
         for row in rows:
             row['sha256'] = check_file(directory / row['path'], row)
         manifest.write_text(json.dumps({'base': model['hub_id'], 'revision': model['revision'],

@@ -9,6 +9,7 @@
 # Modified: SDE 2026-10-29  a parked drop is the normal path; the drop gate is gone; a pad probe.
 # Modified: SDE 2026-10-29  round from batch.json; queues, scheduler and image from the systems table.
 # Modified: SDE 2026-10-30  the table's named interpreter stands in for an old system python3.
+# Modified: SDE 2026-10-30  the drop reads the log only after the output pipeline has drained.
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 ROUND=$(python3 ./census.py round)
@@ -110,6 +111,13 @@ export HPC_DROP=0
 finish_piece() {
     local rc=$?
     trap - EXIT
+    # The last lines of a failing job are still in the output pipeline when the exit trap fires; close it,
+    # wait for it, then write the rest straight to the log so the drop carries the error (Blueback 3392481).
+    if [ -n "${PIECE_PIPE:-}" ]; then
+        exec 1>&- 2>&-
+        wait "$PIECE_PIPE" 2>/dev/null || true
+        exec >>"$PIECE_LOG" 2>&1
+    fi
     # hpc_report_on_exit may have recorded the ending already; one record per job.
     if [ -n "${_HPC_DONE:-}" ]; then :
     elif [ "$rc" = 0 ]; then hpc_job_finish 'piece finished'
@@ -159,6 +167,7 @@ start_piece() {
     export PIECE_LOG
     printf '%s\n' "$HPC_JOB_ID" >> "$AUDIT_WORK/state/round-$ROUND-cards"
     exec > >(narrow | tee -a "$PIECE_LOG") 2>&1
+    PIECE_PIPE=$!
     hpc_job_start "$2" --project model-audit --study 'Checkpoint census' --row MODEL-AUDIT-1 --log "$PIECE_LOG"
     trap finish_piece EXIT
     trap 'exit 143' TERM HUP

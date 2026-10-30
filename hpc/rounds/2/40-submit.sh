@@ -1,6 +1,7 @@
 #!/bin/bash
 # 40-submit.sh -- Submit one pinned download, its parallel compares and the sweep per build.
 # Created by Sean Egan 2026-10-13
+# Modified: SDE 2026-10-30  the sweep depends on every compare finishing well; a dead chain stops.
 # Modified: SDE 2026-10-14  chain five CPU pieces after one transfer job.
 # Modified: SDE 2026-10-13  allow rebuilt retries and retain the earlier job ids.
 # Modified: SDE 2026-10-14  allow projection alone with a completed download receipt.
@@ -58,8 +59,9 @@ for AUDIT_PAIR in $pieces; do
     echo "compare piece $AUDIT_PAIR job: $next"
     compares+=("$next")
 done
-# The sweep starts once every compare has ended, however it ended.
+# The sweep starts only when every compare has finished well; a failed compare stops the chain
+# instead of letting the sweep run on nothing (Blueback 3392491 ran for 10 s behind a failed download).
 ids=$(IFS=:; printf '%s' "${compares[*]}")
-sweep=$(submit_job sweep "afterany:$ids")
+sweep=$(submit_job sweep "afterok:$ids")
 echo "sweep job: $sweep"
 echo 'VERDICT submit OK'

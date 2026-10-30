@@ -8,6 +8,8 @@ import ast
 from datetime import datetime, timezone
 import hashlib
 import importlib.util
+import contextlib
+import io
 import json
 import os
 from pathlib import Path
@@ -155,7 +157,7 @@ class BundleTests(unittest.TestCase):
             self.assertIn('--account=NRLMR57635502', row['arguments'])
             self.assertIn('--time=03:55:00', row['arguments'])
         self.assertIn('--qos=transfer', rows[0]['arguments'])
-        self.assertEqual(dependency(rows[-1]), 'afterany:1002:1003:1004:1005:1006')
+        self.assertEqual(dependency(rows[-1]), 'afterok:1002:1003:1004:1005:1006')
         self.assertIn('--time=00:30:00', rows[-1]['arguments'])
         for row in rows:
             self.assertIn('--comment=project=model-audit', row['arguments'])
@@ -302,7 +304,7 @@ class BundleTests(unittest.TestCase):
         self.assertTrue(rows[-2]['arguments'][-1].endswith('/jobs/project.sh'))
         self.assertIsNone(dependency(rows[-2]))
         self.assertTrue(rows[-1]['arguments'][-1].endswith('/jobs/sweep.sh'))
-        self.assertEqual(dependency(rows[-1]), 'afterany:' + rows[-2]['job'])
+        self.assertEqual(dependency(rows[-1]), 'afterok:' + rows[-2]['job'])
 
     def test_piece_past_the_batch_is_refused(self):
         run = self.fixture()
@@ -833,6 +835,42 @@ class SystemsTableTests(unittest.TestCase):
         self.assertIn('ln -sfn "$found" "$AUDIT_WORK/pybin/python3"', env)
         self.assertLess(env.index('AUDIT_PYTHON:-'), env.index('module load'))
         self.assertIn('compute_python', (ROUND / 'jobs/timing.sh').read_text())
+
+    def test_a_checkpoint_fetch_gets_three_tries_and_names_the_hub_error(self):
+        sys.path.insert(0, str(ROUND))
+        import download
+        calls = []
+
+        def flaky(hub_id, **kwargs):
+            calls.append(hub_id)
+            if len(calls) < 3:
+                try:
+                    raise ConnectionError('connection reset')
+                except ConnectionError as cause:
+                    raise OSError('cannot find the appropriate snapshot folder') from cause
+        original = download.snapshot_download
+        download.snapshot_download = flaky
+        try:
+            with contextlib.redirect_stdout(io.StringIO()) as out:
+                download.fetch({'hub_id': 'maker/model', 'revision': 'a' * 40}, Path('/nonexistent'), [], None, pause=0)
+            self.assertEqual(len(calls), 3)
+            self.assertIn('hub fetch 2 of 3 failed', out.getvalue())
+            self.assertIn('ConnectionError: connection reset', out.getvalue())
+            calls.clear()
+            download.snapshot_download = lambda hub_id, **kwargs: (_ for _ in ()).throw(OSError('down'))
+            with contextlib.redirect_stdout(io.StringIO()), self.assertRaises(ValueError) as refused:
+                download.fetch({'hub_id': 'maker/model', 'revision': 'a' * 40}, Path('/nonexistent'), [], None, pause=0)
+            self.assertIn('after 3 tries', str(refused.exception))
+        finally:
+            download.snapshot_download = original
+
+    def test_sweep_waits_for_every_compare_to_finish_well_and_the_drop_drains_the_log(self):
+        submit = (ROUND / '40-submit.sh').read_text()
+        self.assertIn('submit_job sweep "afterok:$ids"', submit)
+        self.assertNotIn('afterany', submit)
+        env = (ROUND / 'env.sh').read_text()
+        self.assertIn('PIECE_PIPE=$!', env)
+        self.assertLess(env.index('wait "$PIECE_PIPE"'), env.index('tail -n 200 "$PIECE_LOG"'))
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
         table['blueback']['python'] = 'perl'
         path = self.directory / 'systems.json'
@@ -900,7 +938,7 @@ class BiggerBatchTests(unittest.TestCase):
         run = CensusRehearsal(self.args(manifest=str(path)), self.directory / 'nine')
         rows = run.queued()
         self.assertEqual(len(rows), 11)
-        self.assertEqual(dependency(rows[-1]), 'afterany:' + ':'.join(str(job) for job in range(1002, 1011)))
+        self.assertEqual(dependency(rows[-1]), 'afterok:' + ':'.join(str(job) for job in range(1002, 1011)))
         self.assertIn("'Verify and submit 9 CPU comparisons'", (run.directory / 'builder.log').read_text())
         cards = [path.read_text() for path in (run.home / '.hpc/jobs').glob('round-7-submit-*.json')]
         self.assertTrue(any('Submit the transfer, 9 CPU comparisons and the sweep' in card for card in cards))
