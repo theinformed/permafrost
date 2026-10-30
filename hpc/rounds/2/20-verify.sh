@@ -11,6 +11,11 @@ start_piece verify 'Check the transfer and CPU comparison requests'
 python3 ./lineage.py batch.json maker-guard.sha256
 python3 ./login.py
 python3 ./storage.py
+# The pins need Python 3.10 or newer (Fran's 3.9 found no pydantic 2.14.1 at job time); an image brings its own.
+if [ -z "${AUDIT_IMAGE:-}" ]; then
+    python3 -c 'import sys; print("python floor: %d.%d.%d" % sys.version_info[:3]); sys.exit(sys.version_info < (3, 10))' \
+        || { echo 'this Python is below the pins; build this system with --image'; echo 'VERDICT verify FAIL'; exit 1; }
+fi
 for piece in download project sweep timing; do
     test_submission "$piece" "jobs/$piece.sh"
 done

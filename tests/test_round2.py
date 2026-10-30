@@ -811,6 +811,12 @@ class SystemsTableTests(unittest.TestCase):
         self.assertEqual(table['wheat']['scheduler'], 'pbs')
         self.assertEqual(table['jean']['transfer_time_limit'], '23:55:00')
 
+    def test_verify_refuses_an_old_python_without_an_image(self):
+        text = (ROUND / '20-verify.sh').read_text()
+        self.assertIn('sys.version_info < (3, 10)', text)
+        self.assertIn('build this system with --image', text)
+        self.assertLess(text.index('AUDIT_IMAGE:-'), text.index('sys.version_info < (3, 10)'))
+
     def test_a_system_with_tbd_values_is_refused(self):
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
         table['wheat']['subproject'] = 'TBD'
