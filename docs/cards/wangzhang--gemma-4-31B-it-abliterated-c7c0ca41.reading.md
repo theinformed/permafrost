@@ -58,3 +58,43 @@ first upload; the card says the weights were replaced by a later trial, and the 
 revision.
 
 Weight differences alone cannot certify the absence of hidden behavior.
+
+## Second pass (2026-10-30)
+
+Measured again on Nautilus, round 3 piece 1 (card 5055, download job 4080809, compare job 4080810, exit 0), on the
+same pins (modified `d7431183`, original `419b2efe`) and the same shard checksums, with the comparison as of commit
+d0f48bb. The second-pass report is `results/weights/wangzhang-gemma-4-31B-it-abliterated.pass-2.json`; its leading
+vectors are in the pull copy at
+`/opt/ai/hpc-packages/pulls/model-audit/nautilus3/measurements/pair-1/weights.directions.safetensors`.
+
+Scored with today's table it reads as before: recipe violations, nearest `directional-per-layer-selected`, the same
+10 energy-share flags on the same ten query and value edits, 94 changed tensors, 0 outside them. Every measure both
+passes report is equal to the last digit: relative change, difference norms, energy shares, row norms, the
+within-layer direction cosines (median 0.99999, minimum 0.9996) and the between-layer agreement (0.17). One number
+moved: the cross-layer direction cosine of the two key projections in layers 35 and 41 reads 0.022 where the first
+pass read 0.715. Those two form a group of two, and the comparison now reports the angle between the pair
+(2 × 0.715² − 1 = 0.022) where the older kit reported each vector's angle from their mean. Same measurement, one
+convention.
+
+The new measure reads the weight of each projection off the weights. Along the leading output direction of each
+attention output the copy keeps −1.75 to −2.78 of the original's action: −1.75 at layer 18, falling smoothly to
+−2.78 at layers 37 and 38, back to −1.77 at layer 57. A projection of weight a leaves 1 − a, so the weight on the
+attention outputs is 2.75 to 3.78, in a smooth arc over the layers. Along the second to eighth directions the copy
+keeps 0.91 to 1.05 (median 0.99), so each edit is one direction. On the reading side the clean fraction is along the
+input direction: query 0.19 at layer 29, −4.61 at layer 41, −0.02 at layer 53 (weights 0.8 to 5.6); key −0.11 at
+layer 30, −4.63 at layer 36, −0.34 at layer 42 (weights 1.1 to 5.6); value 0.17 at layer 39, −0.42 at layer 48,
+0.15 at layer 57 (weights 0.8 to 1.4). The sides agree with the roles: on all 40 output edits the left fraction is
+below the right one, the order a rank-one edit on the output side produces, and on all 54 query, key and value
+edits the right fraction is below the left one. The row-norm rule read 0.0008 on these matrices in the first pass;
+the norm restoration removes the trace a weight of 3 leaves in the row norms, and the remaining fraction is the
+only reading of that weight the weights give. The card names a strength searched over 60 trials and gives no value.
+
+On the token side the cluster's card reads "unexplained differences" on `config.text_config.moe_intermediate_size`
+and `template.default`, the two fields the first pass closed. Both closed at home for the same reason as before,
+and the cluster could not apply either rule: the compare job runs without network access, so the original
+repository's later commits (the template rule) are out of its reach, and its pinned transformers 4.56.2 has no
+Gemma 4 configuration class, so the library-default rule has nothing to ask. Re-judged at home under transformers
+5.6.2 with the original repository's history, the same report reads "consistent with re-save noted" on the same
+commits, `145dc250` and `ba74f5b6`; that re-judged report is
+`results/meta/wangzhang-gemma-4-31B-it-abliterated.pass-2.json`, with the cluster's reading kept in its
+`reclassification` block.

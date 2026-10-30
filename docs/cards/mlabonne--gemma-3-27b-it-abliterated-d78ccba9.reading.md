@@ -39,3 +39,26 @@ the recipe library: a projection with weight 1.5 keeps the rank-one shape and th
 the row norms rather than the singular values.
 
 Weight differences alone cannot certify the absence of hidden behavior.
+
+## Second pass (2026-10-30)
+
+Measured again on Nautilus, round 3 piece 2 (card 5055, download job 4080809, compare job 4080811, exit 0), on the
+same pins (modified `eaa815df`, original `dfb98f29`) and the same shard checksums, with the comparison as of commit
+d0f48bb. The second-pass report is `results/weights/mlabonne-gemma-3-27b-it-abliterated.pass-2.json`; its leading
+vectors are in the pull copy at
+`/opt/ai/hpc-packages/pulls/model-audit/nautilus3/measurements/pair-2/weights.directions.safetensors`.
+
+It reads as before: recipe match, `single-projection`, 0 flags, 124 changed tensors, 0 outside them. Every measure
+both passes report is equal to the last digit, the within-layer agreement included (median 0.999997, minimum
+0.99999).
+
+The new measure confirms the card's number. Along the leading output direction of every one of the 124 matrices
+the copy keeps −0.497 of the original's action (band −0.507 to −0.491, both kinds), so the weight is 1.50 within
+0.01 on every matrix; the card says 1.5. Along the second to eighth directions it keeps 0.998 to 1.004, so nothing
+else was touched. On all 124 matrices the left fraction is below the right one (right 0.0 to 0.99), the order of a
+rank-one edit on the output side. This is the first declared weight the measure has been checked against, and it
+reads it to two decimals.
+
+On the token side the cluster's card reads "consistent with re-save noted" as before: the twenty added
+configuration fields load as the library defaults under transformers 4.56.2, which knows this architecture, and
+the result is the same at home. The re-judged report is `results/meta/mlabonne-gemma-3-27b-it-abliterated.pass-2.json`.

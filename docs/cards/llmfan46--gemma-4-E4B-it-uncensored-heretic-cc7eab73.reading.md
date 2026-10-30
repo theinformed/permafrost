@@ -45,3 +45,60 @@ bfloat16 floor, which only lowers the first share on small edits and climbs to 1
 "arbitrary-rank" entry can be calibrated from this when a run of our own is made.
 
 Weight differences alone cannot certify the absence of hidden behavior.
+
+## Second pass (2026-10-30)
+
+Measured again on Nautilus, round 3 piece 3 (card 5055, download job 4080809, compare job 4080812, exit 0), on the
+same pins (modified `446ec370`, original `292a7e27`) and the same shard checksums, with the comparison as of commit
+d0f48bb. The second-pass report is `results/weights/llmfan46-gemma-4-E4B-it-uncensored-heretic.pass-2.json`; its
+leading vectors are in the pull copy at
+`/opt/ai/hpc-packages/pulls/model-audit/nautilus3/measurements/pair-3/weights.directions.safetensors`.
+
+It reads as before: recipe violations, nearest `directional-per-layer-selected`, the same 11 energy-share flags, 11
+changed tensors, 0.00008 outside them. Every measure both passes report is equal to the last digit.
+
+The new measure is what this pass was for. Along the eight leading directions of each of the 11 attention outputs
+the copy keeps the following fractions of the original's action (left is along the output-side vector, right along
+the input-side vector; E1 and E8 are the energy in the first value and in the first eight):
+
+| Layer | Relative change | E1 | E8 | Left, direction 1 | Right, direction 1 | Right, directions 2 to 8 |
+| --- | --- | --- | --- | --- | --- | --- |
+| 21 | 0.030 | 0.931 | 0.960 | 0.77 | −0.36 | 0.93 to 1.01 |
+| 22 | 0.036 | 0.957 | 0.971 | 0.62 | −0.40 | 0.95 to 1.00 |
+| 23 | 0.039 | 0.920 | 0.935 | 0.81 | −0.79 | 0.96 to 0.99 |
+| 24 | 0.044 | 0.960 | 0.972 | 0.29 | −0.47 | 0.94 to 1.00 |
+| 25 | 0.035 | 0.960 | 0.975 | 0.59 | −0.27 | 0.95 to 1.01 |
+| 26 | 0.026 | 0.942 | 0.952 | 0.76 | −0.34 | 0.97 to 1.02 |
+| 27 | 0.046 | 0.941 | 0.963 | 0.80 | −0.57 | 0.90 to 1.03 |
+| 29 | 0.025 | 0.957 | 0.967 | 0.92 | −0.53 | 0.98 to 1.00 |
+| 30 | 0.052 | 0.947 | 0.961 | 0.62 | −0.58 | 0.92 to 0.99 |
+| 32 | 0.036 | 0.948 | 0.961 | 0.74 | −0.73 | 0.91 to 1.01 |
+| 35 | 0.022 | 0.952 | 0.964 | 0.77 | −0.41 | 0.96 to 1.00 |
+
+The leading direction sits on the input side of the attention output, in the coordinates of the concatenated
+head outputs. On all 11 matrices the left fraction is above the right one, the order a rank-one edit on the input
+side produces; the output-side edits of the other four pairs give the reverse order on 273 of their 274 matrices
+(the one exception is an embedding, whose residual coordinates are on the right). Along that direction the copy
+keeps −0.27 to −0.79, a weight of 1.27 to 1.79 (median 1.46), past a plain ablation (which reads 0) and short of a
+reflection (−1), a scaled projection whose weight differs by layer as a searched per-layer weight would. The rest
+of the edit is a weak tail. Along the second to eighth directions the copy keeps 0.90 to 1.03 (median 0.986),
+weights under about 0.1 each, and 2.5 to 6.5 percent of the energy lies beyond the eighth direction. The profile is one over-projected direction plus many small ones, which is
+what the method's name says. The library's runner records that the pinned public release 1.3.0 has no
+arbitrary-rank search; the card names release 1.2.0, so a run of our own needs that release.
+
+For an arbitrary-rank entry these numbers give a first line, from one copy: attention outputs in a selected set of
+layers, one matrix per layer (so no within-layer direction term); first-value energy share at least 0.90 (measured
+0.920 to 0.960); energy in the first eight values 0.93 to 0.975 at relative change 0.02 to 0.05, where the rounding
+floor alone would leave 0.999, which is the signature that separates it from a rank-one edit; a remaining fraction
+along the leading direction between −1 and 0 on one side (measured −0.79 to −0.27) with the tail directions keeping
+at least 0.89; everything outside the changed set within 0.001 (measured 0.00008); no row-norm limit (0.0016 to
+0.0165). A calibration run of our own is needed before the line goes into the table.
+
+On the token side the cluster's card reads "unexplained differences" on `config.text_config.moe_intermediate_size`
+and `template.default`, the two fields the first pass closed. The compare job runs without network access, so the
+template rule cannot read the original repository's later commits, and its pinned transformers 4.56.2 has no
+Gemma 4 configuration class, so the library-default rule has nothing to ask. Re-judged at home under transformers
+5.6.2 with the original repository's history, the same report reads "consistent with re-save noted" on the same
+commits, `c53e9d33` and `3555bddc`; that report is
+`results/meta/llmfan46-gemma-4-E4B-it-uncensored-heretic.pass-2.json`, with the cluster's reading kept in its
+`reclassification` block.
