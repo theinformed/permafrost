@@ -3,15 +3,19 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: ten published copies on ten bases, plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
+population is small: eighteen measurements of seventeen distinct published copies on fourteen bases (one copy is a
+re-upload of another), plus two edits of my own made to calibrate the measurement. Numbers are from the committed
+reports in `results/weights/` and `results/meta/`.
 
-## 1. Every published copy measured so far is what its card says it is
+## 1. Sixteen of the seventeen published copies measured so far are what their cards say they are
 
-Ten community copies of open-weight models, five from one maker on Qwen bases and five from five makers on Gemma and
-Mistral bases, have been compared tensor by tensor with their stated originals. In every one, the changed tensors
-are exactly the matrices the stated method edits, and nothing else moved: the largest relative change outside the
-changed set is 0 in nine copies and 0.00008 in the tenth, on matrices the method itself weighted near zero. No copy
-carries an edit its card does not describe.
+Seventeen community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma and
+Mistral bases (round 2) and seven more from six makers on Gemma 4 and Mistral 7B bases (round 7), have been compared
+tensor by tensor with their stated originals. In sixteen, the changed tensors are exactly the matrices the stated
+method edits, and nothing else moved: the largest relative change outside the changed set is 0 in fourteen copies and
+0.00008 and 0.000006 in the two others, on matrices the method itself weighted near zero. The seventeenth,
+3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated, changes every matrix in the model and is finding 8. The eighteenth
+measurement, prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma 4 E4B copy re-uploaded (finding 9).
 
 | Copy | Original | Changed tensors | Outside the changed set |
 | --- | --- | --- | --- |
@@ -25,9 +29,17 @@ carries an edit its card does not describe.
 | llmfan46/gemma-4-E4B-it-uncensored-heretic | google/gemma-4-E4B-it | 11 attention outputs in the declared layer range | 0.00008 |
 | TrevorJS/gemma-4-26B-A4B-it-uncensored | google/gemma-4-26B-A4B-it | attention outputs, down projections and packed expert down projections, per layer | 0 |
 | byroneverson/Mistral-Small-Instruct-2409-abliterated | mistralai/Mistral-Small-Instruct-2409 | a listed set of attention outputs and down projections, plus the token embedding | 0 |
+| llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic | google/gemma-4-E4B-it | 17 attention outputs in the declared layer range | 0.000006 |
+| huihui-ai/Huihui-gemma-4-E4B-it-abliterated | google/gemma-4-E4B-it | 70 of 2,130 (attention output and down projection in layers 7 to 41) | 0 |
+| igorls/gemma-4-12B-it-heretic-v1 | google/gemma-4-12B-it | 22 of 677 (13 down projections, 9 attention outputs) | 0 |
+| richardyoung/Mistral-7B-Instruct-v0.3-abliterated | mistralai/Mistral-7B-Instruct-v0.3 | 48 of 291 (27 down projections, 21 attention outputs) | 0 |
+| prithivMLmods/gemma-4-E4B-it-Uncensored-MAX | google/gemma-4-E4B-it | the same 70 as the huihui-ai copy, field for field | 0 |
+| richardyoung/Mistral-7B-Instruct-v0.2-abliterated-obliteratus | mistralai/Mistral-7B-Instruct-v0.2 | 64 of 291 (all seven projections in nine layers, the output head) | 0 |
+| evolveon/Mistral-7B-Instruct-v0.3-abliterated | mistralai/Mistral-7B-Instruct-v0.3 | 65 of 291 (every attention output and down projection, the token embedding) | 0 |
 
-The fair statement of the result is narrow: at the weight level, these copies contain the edit they claim and
-no other. Weight differences alone cannot certify the absence of hidden behaviour, and the census is ten copies.
+The fair statement of the result is narrow: at the weight level, sixteen copies contain the edit they claim and no
+other, and one contains an edit its card does not name. Weight differences alone cannot certify the absence of hidden
+behaviour, and the census is seventeen copies.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -50,8 +62,8 @@ word "abliterated":
 The maker's description, where there is one, agrees with the shape in every case. The weight of the projection is
 readable too: mlabonne's card says refusal weight 1.5 and the row norms move by up to 0.069, where a weight-1
 projection leaves a rank-one change and a norm-restored one leaves none; byroneverson's notebook says amount 2.0 and
-its row norms move by up to 0.45. The second pass now running on Nautilus measures that weight directly, as the
-fraction of the original's action the copy keeps along each leading direction.
+its row norms move by up to 0.45. The remaining-fraction measurement added after round 2 reads that weight directly
+(finding 10).
 
 ## 3. The published pass line for "rank one" was a storage artefact
 
@@ -78,9 +90,17 @@ config pad differently. Harmless for single-prompt generation, a quiet fault for
 training. The same copy also projects the refusal direction out of the token embedding: the change moves 71 percent of
 the embedding's entries, where a padding remap would move one row, and its direction agrees with all 128 residual
 writers at cosine 0.99993 or better. The card documents the embedding edit only by reference to a blog article. Every
-other token and configuration difference in the census is a re-save effect: fields a newer library adds with their
-default values, declarations moved between files, or the original vendor's own later chat-template fix carried over
-byte for byte. The reading: `docs/cards/huihui-ai--Qwen2.5-32B-Instruct-abliterated-228c265b.reading.md`.
+other token and configuration difference in the first ten copies is a re-save effect: fields a newer library adds
+with their default values, declarations moved between files, or the original vendor's own later chat-template fix
+carried over byte for byte. The reading: `docs/cards/huihui-ai--Qwen2.5-32B-Instruct-abliterated-228c265b.reading.md`.
+Round 7 adds three kinds of token-side change that are not re-save effects, none of them in a card: a chat template
+that marks a different lineage (finding 8), configuration values a copy dropped (finding 11), and a padding token,
+`</s>` (id 2), that three copies declare where their originals declare none. Two abliteration tools set the pad token
+to the end-of-sequence token when a tokenizer has none (Heretic's `model.py`, lines 151 to 152, is one); in all three
+copies the two token files agree and the generation settings are unchanged, so there is no contradiction of the kind
+above. Readings: `docs/cards/3MPER0RR--Mistral-7B-v0.3-3MPER0RR-abliterated-d0ad7aaf.reading.md`,
+`richardyoung--Mistral-7B-Instruct-v0.3-abliterated-b702c120.reading.md`,
+`richardyoung--Mistral-7B-Instruct-v0.2-abliterated-obliteratus-acce918f.reading.md`.
 
 ## 5. Makers reach further into the model than the name suggests
 
@@ -126,6 +146,68 @@ and evolveon/Mistral-7B-Instruct-v0.3-abliterated. The inventory sample (`docs/i
 the stated original failing to resolve in 16 of 30 repositories; these four show the ways it fails even when a
 repository by that name exists.
 
+## 8. One copy's weights contradict the original its card names
+
+3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated names mistralai/Mistral-7B-v0.3, the base model, as its original, in its
+card and in its `base_model` field. Compared against that base, 226 of its 291 tensors changed: every query, key,
+value, output, gate, up and down projection in all 32 layers, the token embedding (0.021 of its norm) and the output
+head (0.017); only the 65 normalisation vectors are unchanged. The reading-side matrices carry a dense change, 0.008 to
+0.027 of each norm, with first-value energy shares of 0.01 to 0.24, leading directions unrelated across layers (cosine
+0.03 to 0.24) and 0.94 to 1.11 of the original's action remaining along them. That is training, in every matrix, at
+about 2 percent. On top of it the attention outputs of layers 6 to 30 and the down projections of layers 9 to 31 carry
+a shared-direction ablation (cosine 0.95 or better across layers, 0.998 and 0.996 in the middle) whose weight follows
+a kernel over the layers, 0.11 at layer 9 rising to 1.32 at layer 24 and falling to 0.74 at layer 31, the shape of
+Heretic's per-component weight schedule; the card's "Trials: 200" is that tool's default.
+
+The token side names the parent the weights point to. The copy carries a `chat_template.jinja` of 3,959 bytes that
+equals mistralai/Mistral-7B-Instruct-v0.3's template at `c170c708` byte for byte; the base has no chat template, and
+base and instruct share the same `config.json` and `tokenizer.json` checksums, so the template is the one small file
+that tells them apart. The measured footprint fits an abliteration of the instruct model, or of another dense
+fine-tune of the base, described as an abliteration of the base. One further comparison, against the instruct
+weights, would leave only the ablation. Evidence: `results/weights/3MPER0RR-Mistral-7B-v0.3-3MPER0RR-abliterated.json`,
+`results/meta/3MPER0RR-Mistral-7B-v0.3-3MPER0RR-abliterated.json`, the reading
+`docs/cards/3MPER0RR--Mistral-7B-v0.3-3MPER0RR-abliterated-d0ad7aaf.reading.md`, and `docs/census-round-7.md`.
+
+## 9. A re-upload measured as the same edit
+
+prithivMLmods/gemma-4-E4B-it-Uncensored-MAX names google/gemma-4-E4B-it in its `base_model` field and says in its card
+that it is huihui-ai/Huihui-gemma-4-E4B-it-abliterated re-sharded with no change to the weights. Measured against the
+Google original it was pinned to, its report equals the huihui copy's report in every one of 29,820 per-tensor fields
+across 2,130 tensors, and the two saved direction files (2,503,680 bytes) are equal byte for byte; the two pinned
+Google revisions carry one weight file (shard checksum `cfbd3d2f`). The card names the parent and the field names the grandparent, and the
+weight fingerprint shows which is right without a reading. A census that counts copies has to count this one as the huihui
+edit, and a comparison tool can flag two pairs with the same original weights and identical measurements by itself.
+Evidence: `results/weights/prithivMLmods-gemma-4-E4B-it-Uncensored-MAX.json` against
+`results/weights/huihui-ai-Huihui-gemma-4-E4B-it-abliterated.json`; the readings in `docs/cards/`.
+
+## 10. The weight and the rank of an edit are readable from the weights
+
+The remaining-fraction measurement (how much of the original's action the copy keeps along each leading direction)
+reads a projection's weight as one minus the fraction. Across round 7 it reads 2.5 on the huihui-ai Gemma 4 E4B copy
+(fraction -1.501 to -1.499 in all 70 matrices: the output along the direction is reversed and enlarged by half, with
+row norms moved by up to 0.068), 1.0 on the evolveon Mistral copy (0.000 to 0.004 remaining in all 64 matrices, a plain
+ablation, and 0.004 on the token embedding's input side), and the per-layer kernels of three Heretic copies: 1.08 to
+1.38 on down projections and 0.49 to 0.70 on attention outputs (igorls, Gemma 4 12B), 1.24 to 1.31 and 0.54 to 0.82
+(richardyoung, Mistral 7B Instruct v0.3), and the 0.11 to 1.32 to 0.74 kernel of finding 8. None of these weights is
+in a card. The rank is readable too: the OBLITERATUS "advanced" copy (richardyoung, Mistral 7B Instruct v0.2) shows a
+group of four near-equal singular values and then a drop of 25 to 40 times on each of 63 layer matrices and the output
+head, the first four directions carrying 0.90 to 0.99 of each change, which matches the tool's "4 directions (SVD)";
+the llmfan46 arbitrary-rank copies show no such gap, with shares that climb only to 0.96 to 0.99 by the eighth value.
+Evidence: the eight `results/weights/` reports of round 7 and `docs/census-round-7.md`.
+
+## 11. A configuration that loads a different tower than the weights it ships
+
+igorls/gemma-4-12B-it-heretic-v1 changes 22 text matrices and nothing else, and its `config.json` lacks four values
+the original's carries: the audio tower's `audio_samples_per_token`, `hidden_size` and `output_proj_dims` (640, 640,
+640) and the vision patch size (48). Under the library version that saved the copy (transformers 5.10.1) the original's
+configuration loads those values and the copy's loads a hidden size of 1024, an output projection of 1536 and nothing
+for the other two; a 5.10.1 re-save of the original's configuration writes all four back, so the library did not drop
+them. The copy ships the audio embedding projection unchanged at shape [3840, 640], the original's geometry, which its
+own configuration no longer describes. The card's text-only use is unaffected; whether the copy accepts audio input is
+not something this audit runs. Evidence: `results/meta/igorls-gemma-4-12B-it-heretic-v1.json`, the reading
+`docs/cards/igorls--gemma-4-12B-it-heretic-v1-5c5f6826.reading.md`, and the library check recorded in
+`docs/census-round-7.md`.
+
 ## What the second pass adds
 
 The second census pass (Nautilus, card 5055, jobs 4080809 to 4080815) measures, for every changed matrix, how much of
@@ -139,7 +221,7 @@ measured line, and complete the TrevorJS reading on its thirty expert tensors.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Ten copies is a sample; the inventory sample of 30 repositories
+- Population. Seventeen copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 

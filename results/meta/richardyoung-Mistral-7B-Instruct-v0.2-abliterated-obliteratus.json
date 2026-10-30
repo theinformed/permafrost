@@ -1,0 +1,636 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "richardyoung/Mistral-7B-Instruct-v0.2-abliterated-obliteratus",
+    "sha": "9c17c8bda868d9422835ef6446015365b81fec70",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "bd2fc42cc8180b5d6e760d8c9d55a6f6e639df421a4db52e92a25fb2ec6eaeee",
+        "bytes": 1028
+      },
+      "tokenizer.json": {
+        "sha256": "fdce456722cad57cf24919fba07fdc335282d516793358c039f940cc02f11e0c",
+        "bytes": 3505859
+      },
+      "special_tokens_map.json": {
+        "sha256": "4452b845ab9ca2afa863f59f1411a959e8a32bb4334e264b0e71d5d17dd4dcb9",
+        "bytes": 437
+      },
+      "generation_config.json": {
+        "sha256": "cd22f08997eb2353c809a1d9b523c42c924247eb8619aa3e408bba3448f6e270",
+        "bytes": 111
+      },
+      "config.json": {
+        "sha256": "9e57964c900501177f3d53c773860d5cf2032d1173880abb33741584e59f05ce",
+        "bytes": 610
+      },
+      "chat_template.jinja": {
+        "sha256": "796853172235ab3aaa4810013ddfe2eab481bda3306dad4f700c00d436eed596",
+        "bytes": 1058
+      }
+    },
+    "missing": [],
+    "snapshot": {
+      "templates": {
+        "default": "{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content'] %}\n    {%- set loop_messages = messages[1:] %}\n{%- else %}\n    {%- set loop_messages = messages %}\n{%- endif %}\n\n{{- bos_token }}\n{%- for message in loop_messages %}\n    {%- if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}\n        {{- raise_exception('After the optional system message, conversation roles must alternate user/assistant/user/assistant/...') }}\n    {%- endif %}\n    {%- if message['role'] == 'user' %}\n        {%- if loop.first and system_message is defined %}\n            {{- ' [INST] ' + system_message + '\\n\\n' + message['content'] + ' [/INST]' }}\n        {%- else %}\n            {{- ' [INST] ' + message['content'] + ' [/INST]' }}\n        {%- endif %}\n    {%- elif message['role'] == 'assistant' %}\n        {{- ' ' + message['content'] + eos_token}}\n    {%- else %}\n        {{- raise_exception('Only user and assistant roles are supported, with the exception of an initial optional system message!') }}\n    {%- endif %}\n{%- endfor %}\n"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<s>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [],
+          "ids": []
+        },
+        "special_tokens_map.json:bos_token": {
+          "value": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            1
+          ]
+        },
+        "special_tokens_map.json:eos_token": {
+          "value": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:pad_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:unk_token": {
+          "value": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "</s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:0": {
+          "content": "<unk>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:1": {
+          "content": "<s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:2": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 1,
+        "eos_token_id": 2
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "</s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": {
+          "0": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "1": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "2": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          }
+        },
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 32000,
+        "with_added": 32000,
+        "config": 32000
+      },
+      "generation": {
+        "_from_model_config": true,
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "transformers_version": "4.57.6"
+      },
+      "config": {
+        "architectures": [
+          "MistralForCausalLM"
+        ],
+        "attention_dropout": 0.0,
+        "bos_token_id": 1,
+        "dtype": "bfloat16",
+        "eos_token_id": 2,
+        "head_dim": null,
+        "hidden_act": "silu",
+        "hidden_size": 4096,
+        "initializer_range": 0.02,
+        "intermediate_size": 14336,
+        "max_position_embeddings": 32768,
+        "model_type": "mistral",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 32,
+        "num_key_value_heads": 8,
+        "rms_norm_eps": 1e-05,
+        "rope_theta": 1000000.0,
+        "sliding_window": null,
+        "tie_word_embeddings": false,
+        "transformers_version": "4.57.6",
+        "use_cache": true,
+        "vocab_size": 32000
+      }
+    }
+  },
+  "original": {
+    "repo": "mistralai/Mistral-7B-Instruct-v0.2",
+    "sha": "63a8b081895390a26e140280378bc85ec8bce07a",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "475361439e5c012de9dffdedc416a66a50f1a29f7aa80b375ba014fb13d6bb8a",
+        "bytes": 2103
+      },
+      "tokenizer.json": {
+        "sha256": "11c08db21487c885d8c792180f0be237f6a261b89a46f128a6a80a3aa4bd1720",
+        "bytes": 1795188
+      },
+      "special_tokens_map.json": {
+        "sha256": "6fa06efa2785e450051989a6f8fb4416b10149ded485ddd3f127a40734f5cfd0",
+        "bytes": 414
+      },
+      "generation_config.json": {
+        "sha256": "104f69e9625993a0839aff79b17f7a0aa73b0954ef8f7e7665aa50b5ef1d4454",
+        "bytes": 111
+      },
+      "config.json": {
+        "sha256": "2e97da1b1d2b7e7669f0991c186904538c27d4ea56c4fc74e89215e2b2013922",
+        "bytes": 596
+      }
+    },
+    "missing": [],
+    "snapshot": {
+      "templates": {
+        "default": "{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content'] %}\n    {%- set loop_messages = messages[1:] %}\n{%- else %}\n    {%- set loop_messages = messages %}\n{%- endif %}\n\n{{- bos_token }}\n{%- for message in loop_messages %}\n    {%- if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}\n        {{- raise_exception('After the optional system message, conversation roles must alternate user/assistant/user/assistant/...') }}\n    {%- endif %}\n    {%- if message['role'] == 'user' %}\n        {%- if loop.first and system_message is defined %}\n            {{- ' [INST] ' + system_message + '\\n\\n' + message['content'] + ' [/INST]' }}\n        {%- else %}\n            {{- ' [INST] ' + message['content'] + ' [/INST]' }}\n        {%- endif %}\n    {%- elif message['role'] == 'assistant' %}\n        {{- ' ' + message['content'] + eos_token}}\n    {%- else %}\n        {{- raise_exception('Only user and assistant roles are supported, with the exception of an initial optional system message!') }}\n    {%- endif %}\n{%- endfor %}\n"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<s>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": null,
+          "ids": [
+            null
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [],
+          "ids": []
+        },
+        "special_tokens_map.json:bos_token": {
+          "value": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            1
+          ]
+        },
+        "special_tokens_map.json:eos_token": {
+          "value": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:unk_token": {
+          "value": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "</s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:0": {
+          "content": "<unk>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:1": {
+          "content": "<s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:2": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 1,
+        "eos_token_id": 2
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "</s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": {
+          "0": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "1": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "2": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          }
+        },
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 32000,
+        "with_added": 32000,
+        "config": 32000
+      },
+      "generation": {
+        "_from_model_config": true,
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "transformers_version": "4.36.0"
+      },
+      "config": {
+        "architectures": [
+          "MistralForCausalLM"
+        ],
+        "attention_dropout": 0.0,
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "hidden_act": "silu",
+        "hidden_size": 4096,
+        "initializer_range": 0.02,
+        "intermediate_size": 14336,
+        "max_position_embeddings": 32768,
+        "model_type": "mistral",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 32,
+        "num_key_value_heads": 8,
+        "rms_norm_eps": 1e-05,
+        "rope_theta": 1000000.0,
+        "sliding_window": null,
+        "tie_word_embeddings": false,
+        "torch_dtype": "bfloat16",
+        "transformers_version": "4.36.0",
+        "use_cache": true,
+        "vocab_size": 32000
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "special_tokens.special_tokens_map.json:pad_token",
+      "original": null,
+      "modified": {
+        "value": "</s>",
+        "ids": [
+          2
+        ]
+      },
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.tokenizer_config.json:pad_token",
+      "original": {
+        "value": null,
+        "ids": [
+          null
+        ]
+      },
+      "modified": {
+        "value": "</s>",
+        "ids": [
+          2
+        ]
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "generation.transformers_version",
+      "original": "4.36.0",
+      "modified": "4.57.6",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "generation_config.json"
+        ],
+        "modified": [
+          "generation_config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "config.dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.head_dim",
+      "original": null,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side and loads as this same default in transformers 4.56.2."
+    },
+    {
+      "path": "config.torch_dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": false
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "4.36.0",
+      "modified": "4.57.6",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "template_source.tokenizer_config",
+      "original": "{%- if messages[0]['role'] == 'system' %}\n    {%- set system_message = messages[0]['content'] %}\n    {%- set loop_messages = messages[1:] %}\n{%- else %}\n    {%- set loop_messages = messages %}\n{%- endif %}\n\n{{- bos_token }}\n{%- for message in loop_messages %}\n    {%- if (message['role'] == 'user') != (loop.index0 % 2 == 0) %}\n        {{- raise_exception('After the optional system message, conversation roles must alternate user/assistant/user/assistant/...') }}\n    {%- endif %}\n    {%- if message['role'] == 'user' %}\n        {%- if loop.first and system_message is defined %}\n            {{- ' [INST] ' + system_message + '\\n\\n' + message['content'] + ' [/INST]' }}\n        {%- else %}\n            {{- ' [INST] ' + message['content'] + ' [/INST]' }}\n        {%- endif %}\n    {%- elif message['role'] == 'assistant' %}\n        {{- ' ' + message['content'] + eos_token}}\n    {%- else %}\n        {{- raise_exception('Only user and assistant roles are supported, with the exception of an initial optional system message!') }}\n    {%- endif %}\n{%- endfor %}\n",
+      "modified": null,
+      "class": "explained by re-save",
+      "files": {
+        "original": [
+          "tokenizer_config.json"
+        ],
+        "modified": [
+          "chat_template.jinja"
+        ]
+      },
+      "reason": "The template moved; line endings and trailing whitespace normalize equally, and the fixed conversation renders identically."
+    }
+  ],
+  "missing": [],
+  "rendered": {
+    "default": {
+      "original": "<s> [INST] You are a careful assistant.\n\nWhat is two plus two? [/INST] Four.</s> [INST] Write that as a word. [/INST]",
+      "modified": "<s> [INST] You are a careful assistant.\n\nWhat is two plus two? [/INST] Four.</s> [INST] Write that as a word. [/INST]"
+    }
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "unexplained differences",
+  "reclassification": {
+    "changed_paths": [],
+    "verdict_before": "unexplained differences"
+  }
+}
