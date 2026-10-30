@@ -3,19 +3,24 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: eighteen measurements of seventeen distinct published copies on fourteen bases (one copy is a
-re-upload of another), plus two edits of my own made to calibrate the measurement. Numbers are from the committed
-reports in `results/weights/` and `results/meta/`.
+population is small: twenty-six measurements of twenty-five distinct published copies on sixteen bases (one copy is a
+re-upload of another, and one could not be paired tensor by tensor), plus two edits of my own made to calibrate the
+measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. Sixteen of the seventeen published copies measured so far are what their cards say they are
+## 1. Twenty-three of the twenty-four published copies measured so far are what their cards say they are
 
-Seventeen community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma and
-Mistral bases (round 2) and seven more from six makers on Gemma 4 and Mistral 7B bases (round 7), have been compared
-tensor by tensor with their stated originals. In sixteen, the changed tensors are exactly the matrices the stated
-method edits, and nothing else moved: the largest relative change outside the changed set is 0 in fourteen copies and
-0.00008 and 0.000006 in the two others, on matrices the method itself weighted near zero. The seventeenth,
-3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated, changes every matrix in the model and is finding 8. The eighteenth
-measurement, prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma 4 E4B copy re-uploaded (finding 9).
+Twenty-four community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma
+and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7) and seven from six makers
+on Gemma 4 and Ministral 3 bases (round 8), have been compared tensor by tensor with their stated originals. In
+twenty-three, the changed tensors are exactly the matrices the stated method reaches, and nothing else moved: the
+largest relative change outside the changed set is 0 in twenty copies, 0.00008 and 0.000006 in two others on matrices
+the method itself weighted near zero, and 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61
+normalisation vectors just under the threshold. Twenty-one of the twenty-three are ablations; two
+(ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
+are training, as their cards say, findings 17 and 18. The twenty-fourth, 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated,
+changes every matrix in the model and is finding 8. The twenty-fifth measurement,
+prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma 4 E4B copy re-uploaded (finding 9), and the
+twenty-sixth, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its original (finding 14).
 
 | Copy | Original | Changed tensors | Outside the changed set |
 | --- | --- | --- | --- |
@@ -36,10 +41,17 @@ measurement, prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma
 | prithivMLmods/gemma-4-E4B-it-Uncensored-MAX | google/gemma-4-E4B-it | the same 70 as the huihui-ai copy, field for field | 0 |
 | richardyoung/Mistral-7B-Instruct-v0.2-abliterated-obliteratus | mistralai/Mistral-7B-Instruct-v0.2 | 64 of 291 (all seven projections in nine layers, the output head) | 0 |
 | evolveon/Mistral-7B-Instruct-v0.3-abliterated | mistralai/Mistral-7B-Instruct-v0.3 | 65 of 291 (every attention output and down projection, the token embedding) | 0 |
+| TrevorJS/gemma-4-E4B-it-uncensored | google/gemma-4-E4B-it | 84 of 2,130 (every attention output and down projection) | 0 |
+| coder3101/gemma-4-E4B-it-heretic | google/gemma-4-E4B-it | 21 attention outputs in the declared layer range | 0 |
+| Madras1/Gemma-4-E4B-Abliterated-Uncensored | google/gemma-4-E4B-it | 81 of 2,076 (attention output, down and gate projection in layers 8 to 34) | 0 |
+| llmfan46/gemma-4-E2B-it-ultra-uncensored-heretic | google/gemma-4-E2B-it | 7 attention outputs in the declared layer range | 0 |
+| TrevorJS/gemma-4-12B-it-uncensored | google/gemma-4-12B-it | 66 of 677 (attention output and down projection in layers 15 to 47) | 0 |
+| richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | google/gemma-4-12B-it | 557 of 677 (every projection and most normalisations: the parent fine-tune, with the ablation on 52 writers) | 0.00099 |
+| ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored | mistralai/Ministral-3-8B-Reasoning-2512 | 238 of 531 (the seven projections of every layer) | 0 |
 
-The fair statement of the result is narrow: at the weight level, sixteen copies contain the edit they claim and no
-other, and one contains an edit its card does not name. Weight differences alone cannot certify the absence of hidden
-behaviour, and the census is seventeen copies.
+The fair statement of the result is narrow: at the weight level, twenty-three copies contain the edit or the training
+they claim and no other, one contains an edit its card does not name, and one could not be paired. Weight differences
+alone cannot certify the absence of hidden behaviour, and the census is twenty-four measured copies.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -193,7 +205,10 @@ in a card. The rank is readable too: the OBLITERATUS "advanced" copy (richardyou
 group of four near-equal singular values and then a drop of 25 to 40 times on each of 63 layer matrices and the output
 head, the first four directions carrying 0.90 to 0.99 of each change, which matches the tool's "4 directions (SVD)";
 the llmfan46 arbitrary-rank copies show no such gap, with shares that climb only to 0.96 to 0.99 by the eighth value.
-The second pass of round 2 reads the same quantity on the earlier copies. mlabonne's Gemma 3 27B copy reads 1.50
+Round 8 reads 1.355 on all 81 matrices of the Madras1 Gemma 4 E4B copy against a card that states 1.35, on the output
+side of the 54 writers and the input side of the 27 gate projections as the card's two formulas say, and reads the
+searched input-side weights of two more arbitrary-rank copies at 1.32 to 2.02 (coder3101, E4B) and 1.86 to 4.41
+(llmfan46, E2B). The second pass of round 2 reads the same quantity on the earlier copies. mlabonne's Gemma 3 27B copy reads 1.50
 within 0.01 on all 124 matrices against the card's 1.5, with directions 2 to 8 untouched within 0.004. wangzhang's
 norm-preserving Gemma 4 31B edit, whose row norms move by at most 0.0008 and so show nothing to the row-norm rule,
 reads weights of 2.75 to 3.78 on its 40 attention outputs (past a reflection in every layer) and up to 5.6 on its
@@ -204,18 +219,25 @@ same 3.09 to four decimals.
 Evidence: the eight `results/weights/` reports of round 7, the five `results/weights/*.pass-2.json` reports and
 `docs/census-round-7.md` and `docs/census-round-3.md`.
 
-## 11. A configuration that loads a different tower than the weights it ships
+## 11. Four configuration values that later libraries omit on save and restore on load (corrected 2026-10-30)
 
-igorls/gemma-4-12B-it-heretic-v1 changes 22 text matrices and nothing else, and its `config.json` lacks four values
-the original's carries: the audio tower's `audio_samples_per_token`, `hidden_size` and `output_proj_dims` (640, 640,
-640) and the vision patch size (48). Under the library version that saved the copy (transformers 5.10.1) the original's
-configuration loads those values and the copy's loads a hidden size of 1024, an output projection of 1536 and nothing
-for the other two; a 5.10.1 re-save of the original's configuration writes all four back, so the library did not drop
-them. The copy ships the audio embedding projection unchanged at shape [3840, 640], the original's geometry, which its
-own configuration no longer describes. The card's text-only use is unaffected; whether the copy accepts audio input is
-not something this audit runs. Evidence: `results/meta/igorls-gemma-4-12B-it-heretic-v1.json`, the reading
-`docs/cards/igorls--gemma-4-12B-it-heretic-v1-5c5f6826.reading.md`, and the library check recorded in
-`docs/census-round-7.md`.
+As first written on 2026-10-30 from round 7, this finding said that igorls/gemma-4-12B-it-heretic-v1's `config.json`
+lacked four values the original's carries (the audio tower's `audio_samples_per_token`, `hidden_size` and
+`output_proj_dims`, 640, 640, 640, and the vision patch size, 48), that the copy's configuration loaded a different
+audio geometry under the library that saved it, and that the library had not dropped them. The second and third
+claims were wrong. Round 8 measured two more copies of Gemma 4 12B (TrevorJS, saved with transformers 5.12.0;
+richardyoung, saved with 5.12.1 from a parent saved with 5.10.2) and both lack the same four fields. Loaded at home
+under 5.10.1 and under 5.12.1, the original's configuration, the igorls copy's and the TrevorJS copy's all give 640,
+640, 640 and 48: the four values are the defaults of the library's unified Gemma 4 audio and vision configuration
+classes (`model_type` gemma4_unified), which the library omits when it writes a configuration and restores when it
+reads one, and a save of Google's own configuration under either version drops the same four fields. The 1024 and
+1536 read in round 7 are the defaults of the library's other Gemma 4 class, which the copy's `model_type` does not
+select. The copies' configurations describe the weights they ship. What stands: a copy saved under transformers 5.10
+or later will lack these four fields, the metadata tool needs a rule that judges an absent field under the saving
+library's own class defaults, and a reading that loads a configuration must use the class its `model_type` names.
+Evidence: `results/meta/igorls-gemma-4-12B-it-heretic-v1.json`, `results/meta/TrevorJS-gemma-4-12B-it-uncensored.json`,
+`results/meta/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json`, the readings in `docs/cards/` and the
+library check recorded in `docs/census-round-8.md`.
 
 ## 12. Which side of a matrix an edit touched is readable, and one method edits the input side
 
@@ -241,6 +263,101 @@ numbers say the edit is one direction per layer applied to every expert. Evidenc
 `results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and
 `docs/cards/TrevorJS--gemma-4-26B-A4B-it-uncensored-ce34ef70.reading.md`.
 
+## 14. Re-exports change the tensor set, and the comparison must map it before it can measure
+
+Two copies in round 8 do not carry the original's tensor names. Jiunsong/supergemma4-e4b-abliterated holds 719 tensors
+under `language_model.model.` where google/gemma-4-E4B-it holds 2,130 under `model.`; every one of the 719 is a
+language-model name of the original once the prefix is removed, and the audio tower (752 tensors), the vision tower
+(659) and their two embedding projections are absent, as is `vision_config` from the copy's configuration. The
+comparison strips three wrappers and this is a fourth, so it paired nothing: the report has no measurement and 2,850
+flags that count names. Madras1/Gemma-4-E4B-Abliterated-Uncensored holds 2,076 of the original's 2,130 tensors; the 54
+absent are the key projection, value projection and key normalisation of layers 24 to 41, the 18 layers that reuse
+the keys and values of earlier layers (`num_kv_shared_layers` 18 in both configurations), which the original ships
+and never reads and the copy's loader (transformers 5.16.1, `unsloth_fixed`) omits. The 2,076 that remain measure as
+a clean scaled projection (finding 10). A census that compares names has to know the wrappers and the unused tensors
+of each architecture, or it will report a text-only re-export as unmeasurable and a lighter save as 54 violations.
+Evidence: `results/weights/Jiunsong-supergemma4-e4b-abliterated.json`,
+`results/weights/Madras1-Gemma-4-E4B-Abliterated-Uncensored.json` and the readings in `docs/cards/`.
+
+## 15. A loader moved a copy's end-of-sequence token, and the copy's files disagree about it
+
+Madras1/Gemma-4-E4B-Abliterated-Uncensored was saved by a loader that writes `unsloth_fixed: true` into
+`config.json`. Its `tokenizer_config.json` declares the end-of-sequence token as `<turn|>` (id 106) where the original
+declares `<eos>` (id 1), its `config.json` lists `eos_token_id` 106 where the original lists [1, 106], and a pad token
+of 0 is added to the configuration and the special-token ids; its generation settings still list [1, 106, 50]. Under
+the library, generation stops as the original does; a runtime that reads the configuration or the tokenizer alone
+stops at the turn marker only and no longer at `<eos>`. The same loader rewrote the chat template's error branch for
+string-valued tool arguments (the fixed conversation renders identically) and wrote the global head dimension as a
+per-layer map. None of it is in the card, whose method section the weights confirm in every number. This is the
+second copy with a token-side change made by a tool and a disagreement between files (finding 4 is the first);
+the loader's signature is a pattern the metadata tool should name. Evidence:
+`results/meta/Madras1-Gemma-4-E4B-Abliterated-Uncensored.json` and
+`docs/cards/Madras1--Gemma-4-E4B-Abliterated-Uncensored-6ee6560d.reading.md`.
+
+## 16. A copy whose template writes a fixed system text into every conversation, beside an unmodified one
+
+Jiunsong/supergemma4-e4b-abliterated's `chat_template.jinja` is Google's template of 2026-04-10 with a six-line block
+added that defines a fixed system text ("You are a precise coding assistant", followed by three rules on raw JSON,
+code-only answers and the shortest valid answer) and with the condition that opens the system turn replaced by
+`if true`; every conversation rendered with it begins with that text, and a system message the user supplies follows
+it. The fixed conversation renders at 545 bytes against the original's 176. The same repository's
+`tokenizer_config.json` carries Google's unmodified template, so which template applies depends on the loader. The
+card speaks of formatting discipline and release hardening and does not describe the template or the two towers it
+dropped (finding 14). At the prompt level this is the largest behavioural change in the census so far, and the
+weights behind it are unmeasured. Evidence: `results/meta/Jiunsong-supergemma4-e4b-abliterated.json` and
+`docs/cards/Jiunsong--supergemma4-e4b-abliterated-abcc2f15.reading.md`.
+
+## 17. Refusal removal by a merged adapter is readable, and it is distinct from every ablation measured
+
+ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored, whose card says "LoRA" and names no modules, changes the query,
+key, value, output, gate, up and down projections of all 34 layers (238 matrices) and nothing else: the token
+embedding, the output head, the 69 normalisation vectors and the 222 tensors of the vision tower are unchanged.
+Each matrix moved by 0.6 to 1.8 percent of its norm; the first singular value carries 0.15 to 0.90 of each change and
+the first eight 0.67 to 0.99, with the singular values falling slowly (first over second 1.0 to 5.6), so the change is
+low-rank with a rank above eight on most matrices. Along every leading direction on both sides the copy keeps 0.94 to
+1.05 of the original's action (medians 1.000): nothing was projected out. The leading directions are unrelated across
+layers (cosine 0.14 to 0.47 with their median) and within layers (0.29 to 0.37). Three measures separate a
+merged adapter from an ablation without a card: a remaining fraction at 1, a slow fall of the singular values and no
+shared direction; every ablation in the census takes part or all of the original's action away along its direction
+on at least one side (the lower of the two fractions is at or below 0 on the projections and 0.01 to 0.77 on the
+biprojected copies) and reads a shared or per-layer direction. Evidence: `results/weights/ccharnkij-Ministral-3-8B-Reasoning-2512-Uncensored.json` and
+`docs/cards/ccharnkij--Ministral-3-8B-Reasoning-2512-Uncensored-da7d421f.reading.md`.
+
+## 18. An ablation on top of a fine-tune, measured against the grandparent, separates but its weight does not
+
+richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic names yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1,
+a coding fine-tune of google/gemma-4-12B-it, as its parent in the first line of its card and google/gemma-4-12B-it in
+its `base_model` field; the pin rule compared against the field. Against Google, 557 of 677 tensors changed. The
+dense part is the fine-tune: every projection of all 48 layers at 0.2 to 1.0 percent, first-value shares 0.05 to 0.80,
+leading directions unrelated across layers (0.10 to 0.14), 0.98 to 1.09 of the original's action kept along them,
+normalisation vectors moved by up to 8.6 percent, the token embedding untouched. On top of it one shared direction
+sits on the attention outputs of layers 15 to 47 and the down projections of layers 24 to 42: first-value shares 0.93
+to 0.99 there against 0.02 to 0.80 elsewhere, cross-layer agreement 0.90 to 0.998 with the attention outputs of
+layers 0 to 14 at 0.042 at most, within-layer agreement 0.918 to 0.998 where both writers carry it. The card's
+weights (1.24 to 1.28 and 1.47 to 1.48) do not read: along the shared direction the copy keeps −0.10 to 0.95 of
+Google's action, because the fine-tune's own change along that direction adds to the ablation's. The copy's
+`config.json` equals the parent's in every field but the version string, so its eight configuration differences from
+Google are the parent's, and the copy is float16 throughout because the parent was saved so. The comparison that
+would leave only the ablation is against the parent (`237e5d8e`), owed to the next batch with the 3MPER0RR pair of
+finding 8. After the re-upload of finding 9 this is the second copy whose card names a nearer parent than its
+`base_model` field, and the second reason the pin rule should read the card. Evidence:
+`results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json`,
+`results/meta/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json` and the reading in `docs/cards/`.
+
+## 19. Half of the round's Gemma 4 copies carry a chat template that matches no revision Google published
+
+Of the seven Gemma 4 copies in round 8, three carry Google's template at the pinned revision byte for byte (TrevorJS
+E4B and 12B, richardyoung) and four carry a template that equals no commit of the original repository, each in a
+different way. coder3101's is Google's 2026-04-10 template with 14 blank lines removed. llmfan46's E2B copy carries
+Google's 2026-04-28 template plus a 14-line macro and seven call sites that accept a list of types in a tool schema,
+which no commit of Google's E2B or E4B repository contains (neither repository has a pull-request branch) and which
+Google's next template of 2026-05-18 does not adopt. Madras1's is Google's 2026-07-20 template with its header comment
+removed and its string-arguments error branch rewritten by the loader. Jiunsong's is finding 16. Three of the four
+render the fixed conversation identically, so a rendering check alone passes them; the later-revision rule, which
+closed the templates of rounds 2 and 7 by matching Google's own commits, closes none of the four. Patched Google
+templates circulate, and a template reading that stops at "matches a published revision" will miss them. Evidence:
+the four `results/meta/` reports of round 8 and `docs/census-round-8.md`.
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -256,7 +373,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Seventeen copies is a sample; the inventory sample of 30 repositories
+- Population. Twenty-five copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
