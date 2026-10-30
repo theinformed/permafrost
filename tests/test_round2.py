@@ -806,7 +806,7 @@ class SystemsTableTests(unittest.TestCase):
         sys.path.insert(0, str(ROUND))
         import bundle
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
-        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat', 'fran', 'blueback'})
+        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat', 'fran', 'blueback', 'makau'})
         for name in table:
             entry = bundle.system_entry(table, name)
             self.assertLess(len(entry['work'] + '/model-audit-census.sh 24'), 50, name)
@@ -869,6 +869,19 @@ class SystemsTableTests(unittest.TestCase):
         self.assertNotIn('cp kit/* ', text)
         self.assertIn('mv -f "$HOME/metoc/jobs/hpc/.${file##*/}.new" "$HOME/metoc/jobs/hpc/${file##*/}"', text)
 
+    def test_makau_bundle_names_the_gres_every_job_there_must_carry(self):
+        result = self.build('--system', 'makau')
+        self.assertEqual(result.returncode, 0, result.stdout)
+        folder = opened(self.directory / 'out' / BUNDLE, self.directory / 'makau-open')
+        words = subprocess.run(['bash', '-c', '. ./system.sh; printf "%s|%s|%s" "$AUDIT_TRANSFER_ARGS" '
+                                '"$AUDIT_BACKGROUND_ARGS" "$AUDIT_PYTHON"'], cwd=str(folder), stdout=subprocess.PIPE,
+                               universal_newlines=True, check=True).stdout
+        transfer, background, python = words.split('|')
+        self.assertEqual(transfer.splitlines(), ['--partition=transfer', '--qos=transfer'])
+        self.assertEqual(background.splitlines(), ['--partition=background', '--gres=gpu:h100_nvl:1'])
+        self.assertEqual(python, '/usr/bin/python3.11')
+        self.assertIn('/p/work/sdegan/model-audit-census.sh', result.stdout)
+
     def test_sweep_waits_for_every_compare_to_finish_well_and_the_drop_drains_the_log(self):
         submit = (ROUND / '40-submit.sh').read_text()
         self.assertIn('submit_job sweep "afterok:$ids"', submit)
@@ -899,7 +912,7 @@ class SystemsTableTests(unittest.TestCase):
     def test_round_mismatch_unknown_system_and_missing_image_are_refused(self):
         result = self.build('--manifest', str(ROOT / 'data/batches/round-2-batch-1.json'), round_number='5')
         self.assertIn('the batch is round 2, not round 5', result.stdout)
-        self.assertIn('unknown system makau', self.build('--system', 'makau').stdout)
+        self.assertIn('unknown system narwhal', self.build('--system', 'narwhal').stdout)
         self.assertIn('jean runs the census inside the image', self.build('--system', 'jean').stdout)
 
     def test_round_five_builds_from_its_own_manifest(self):
