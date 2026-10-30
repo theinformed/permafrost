@@ -3,6 +3,8 @@
 # Modified: SDE 2026-10-14  keep dates and full revisions beside each pair.
 # Modified: SDE 2026-10-29  a new manifest takes its round from its name; the names command
 #                           writes rehearsal fixtures from published headers, never weights.
+# Modified: SDE 2026-10-30  a parent that is itself a copy: the undeclared ancestor both sides share is
+#                           the publisher root, so a copy compares against its stated parent.
 import argparse
 from datetime import datetime, timezone
 import json
@@ -18,6 +20,35 @@ def declared(info):
     """Keep the card's declaration, including a list used for merges."""
     card = info.card_data.to_dict() if info.card_data else {}
     return card.get('base_model')
+
+
+def leaves(node):
+    """Every ancestor in the tree that declares no base of its own."""
+    if not node['base_model_chain']:
+        return [node]
+    return [leaf for child in node['base_model_chain'] for leaf in leaves(child)]
+
+
+def settle_roots(copy, base):
+    """Mark the publisher roots of both trees and what each node's lineage settles.
+
+    An undeclared ancestor is a publisher root when the original's publisher put it out, or when
+    both sides descend from it and neither party to the comparison published it; that second case
+    is a copy compared with its stated parent, itself a copy of the maker's model. An undeclared
+    ancestor on one side alone stays unknown and the screen holds the pair."""
+    parties = {copy['maker'], base['maker']}
+    shared = {leaf['hub_id'] for leaf in leaves(copy)} & {leaf['hub_id'] for leaf in leaves(base)}
+
+    def walk(node, root=False):
+        undeclared = not node['base_model_chain']
+        node['publisher_root'] = bool(undeclared and not root and (
+            node['maker'] == base['maker'] or (node['hub_id'] in shared and node['maker'] not in parties)))
+        node['lineage_known'] = not undeclared or node['publisher_root']
+        for child in node['base_model_chain']:
+            walk(child)
+
+    walk(copy, root=True)
+    walk(base)
 
 
 def pin(api, modified, original):
@@ -49,8 +80,6 @@ def pin(api, modified, original):
         seen.remove((repo, revision))
         return {'hub_id': repo, 'maker': repo.split('/')[0].lower(), 'revision': info.sha,
                 'declared_base_model': bases, 'base_model_chain': nodes,
-                'lineage_known': bool(nodes) or (not root and repo.split('/')[0] == original.split('/')[0]),
-                'publisher_root': not names and not root and repo.split('/')[0] == original.split('/')[0],
                 'created_at': info.created_at.isoformat()}
 
     node = lineage(modified, copy.sha, root=True)
@@ -59,6 +88,7 @@ def pin(api, modified, original):
     node['revision_date'] = copy_commit.created_at.isoformat()
     base = lineage(original, commit.commit_id)
     base['revision_date'] = commit.created_at.isoformat()
+    settle_roots(node, base)
     return {'modified': node, 'original': base,
         'original_selection': {'cutoff': copy.created_at.isoformat(),
             'rule': 'latest commit at or before modified repository creation',

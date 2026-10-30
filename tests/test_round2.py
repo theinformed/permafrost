@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-15  real tensor names, round 1's pins, the lean measure, the census bundle name.
 # Modified: SDE 2026-10-29  the shared table names packed experts and audit.hub loads under the pins.
 # Modified: SDE 2026-10-29  batches of any size, parallel compares and the sweep, systems table, PBS.
+# Modified: SDE 2026-10-30  a copy pinned against its stated parent, itself a copy, passes the screen.
 import ast
 from datetime import datetime, timezone
 import hashlib
@@ -127,6 +128,39 @@ class PinTests(unittest.TestCase):
         history[:] = history[1:]
         with self.assertRaisesRegex(ValueError, 'predates creation'):
             pin(API(), 'owner/copy', 'publisher/base')
+
+    def test_a_parent_that_is_itself_a_copy_pins_and_passes_the_screen(self):
+        created = datetime(2026, 1, 2, tzinfo=timezone.utc)
+        cards = {'rich/coder-heretic': 'maker/model-it', 'yu/coder': 'maker/model-it',
+                 'maker/model-it': ['maker/model'], 'own/copy-v2': 'own/copy-v1'}
+
+        class API:
+            def model_info(self, repo, revision=None):
+                card = {'base_model': cards[repo]} if repo in cards else {}
+                return SimpleNamespace(sha=revision or 'c' * 40, created_at=created,
+                                       card_data=SimpleNamespace(to_dict=lambda: card))
+
+            def list_repo_commits(self, repo):
+                return [SimpleNamespace(commit_id='c' * 40, created_at=created)]
+
+        banned = ROOT / 'hpc/banned-makers.txt'
+        row = pin(API(), 'rich/coder-heretic', 'yu/coder')
+        for side in ('modified', 'original'):
+            leaf = row[side]['base_model_chain'][0]['base_model_chain'][0]
+            self.assertEqual(leaf['hub_id'], 'maker/model')
+            self.assertTrue(leaf['publisher_root'] and leaf['lineage_known'])
+            self.assertFalse(row[side]['publisher_root'])
+        self.assertTrue(row['original']['lineage_known'])
+        self.assertEqual(screen({'pairs': [row]}, banned), 1)
+        # the maker's own instruct model as the original still pins as before
+        plain = pin(API(), 'rich/coder-heretic', 'maker/model-it')
+        self.assertTrue(plain['original']['base_model_chain'][0]['publisher_root'])
+        self.assertEqual(screen({'pairs': [plain]}, banned), 1)
+        # an undeclared ancestor on the copy's side alone is still held
+        held = pin(API(), 'own/copy-v2', 'maker/model-it')
+        self.assertFalse(held['modified']['base_model_chain'][0]['lineage_known'])
+        with self.assertRaisesRegex(ValueError, 'held: own/copy-v2'):
+            screen({'pairs': [held]}, banned)
 
 
 class BundleTests(unittest.TestCase):
