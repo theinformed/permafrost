@@ -864,6 +864,11 @@ class SystemsTableTests(unittest.TestCase):
         finally:
             download.snapshot_download = original
 
+    def test_kit_files_move_into_place_instead_of_overwriting_a_running_one(self):
+        text = (ROUND / '10-install-kit.sh').read_text()
+        self.assertNotIn('cp kit/* ', text)
+        self.assertIn('mv -f "$HOME/metoc/jobs/hpc/.${file##*/}.new" "$HOME/metoc/jobs/hpc/${file##*/}"', text)
+
     def test_sweep_waits_for_every_compare_to_finish_well_and_the_drop_drains_the_log(self):
         submit = (ROUND / '40-submit.sh').read_text()
         self.assertIn('submit_job sweep "afterok:$ids"', submit)

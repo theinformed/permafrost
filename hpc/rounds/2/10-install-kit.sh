@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-14  reuse the managed reporting kit for the census.
 # Modified: SDE 2026-10-29  rewrite a plain maker list left on the cluster as the hashed guard.
 # Modified: SDE 2026-10-13  compare the installed version before copying.
+# Modified: SDE 2026-10-30  move each kit file into place instead of writing over a running one.
 . ./env.sh
 start_piece kit 'Install the shared job reporting tools'
 mkdir -p logs
@@ -11,7 +12,12 @@ wanted=$(cat kit/KIT_VERSION)
 current=$(cat "$HOME/metoc/jobs/hpc/KIT_VERSION" 2>/dev/null || true)
 if [[ "$wanted" > "$current" ]]; then
     mkdir -p "$HOME/metoc/jobs/hpc" "$HOME/bin"
-    cp kit/* "$HOME/metoc/jobs/hpc/"
+    # The desk's poll may be running the installed dispatcher this second (Blueback 5282: "Text file busy");
+    # each file lands under a temporary name and moves into place, which never writes into an open binary.
+    for file in kit/*; do
+        cp "$file" "$HOME/metoc/jobs/hpc/.${file##*/}.new"
+        mv -f "$HOME/metoc/jobs/hpc/.${file##*/}.new" "$HOME/metoc/jobs/hpc/${file##*/}"
+    done
     chmod 755 "$HOME/metoc/jobs/hpc/"*.sh "$HOME/metoc/jobs/hpc/hpc"
     install -m 755 kit/hpc-poll.sh "$HOME/bin/hpc-poll.sh"
     install -m 755 kit/hpc-report.sh "$HOME/bin/hpc-report.sh"
