@@ -602,6 +602,39 @@ class PinTests2(unittest.TestCase):
         self.assertIn('protobuf==6.32.1', pins(ROUND / 'compute-requirements.txt'))
         self.assertIn("huggingface_hub==0.35.3", (ROUND / 'jobs/download.sh').read_text())
 
+    def test_compares_starting_together_build_the_venv_once(self):
+        """Six compares released in one second raced the venv build on Blueback (round 9): a mkdir lock serializes it."""
+        text = (ROUND / 'jobs/project.sh').read_text()
+        self.assertIn('until mkdir "$venv_lock" 2>/dev/null; do', text)
+        self.assertLess(text.index('until mkdir "$venv_lock"'), text.index('rm -rf -- "$AUDIT_WORK/venv"'))
+        self.assertIn('rmdir "$venv_lock" 2>/dev/null; trap - EXIT', text)
+        self.assertIn('taking it over', text)
+
+    def test_six_compares_released_together_build_the_venv_once_and_wait(self):
+        """Rehearse the Blueback round 9 start: six compares at once, one build, five waits, six reuse."""
+        import subprocess, tempfile, concurrent.futures
+        text = (ROOT / 'hpc/rounds/2/jobs/project.sh').read_text()
+        start = text.index('    pins=$(sha256sum compute-requirements.txt')
+        end = text.index('    "$AUDIT_WORK/venv/bin/python" ./measure.py')
+        block = text[start:end]
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = Path(tmp)
+            (tmp / 'compute-requirements.txt').write_text('torch==0\n')
+            harness = tmp / 'harness.sh'
+            harness.write_text('#!/bin/bash\nset -euo pipefail\ncd "$(dirname "$0")"\nexport AUDIT_WORK=$PWD/work\nmkdir -p "$AUDIT_WORK"\n'
+                               'python3() { if [ "${1:-}" = -m ] && [ "${2:-}" = venv ]; then mkdir -p "$3/bin" && printf \'#!/bin/bash\\nsleep 2\\n\' > "$3/bin/python" && chmod +x "$3/bin/python"; else command python3 "$@"; fi; }\n'
+                               + block + 'echo "compare $1 done"\n')
+            harness.chmod(0o755)
+            def run(i):
+                return subprocess.run(['bash', str(harness), str(i)], capture_output=True, text=True, timeout=120)
+            with concurrent.futures.ThreadPoolExecutor(max_workers=6) as pool:
+                results = list(pool.map(run, range(1, 7)))
+        out = '\n'.join(r.stdout + r.stderr for r in results)
+        self.assertTrue(all(r.returncode == 0 for r in results), out)
+        self.assertEqual(out.count('compute venv: building for pins'), 1, out)
+        self.assertEqual(out.count('another compare is building it; waiting'), 5, out)
+        self.assertEqual(out.count('compute venv: reusing pins'), 5, out)
+
     def test_venv_ready_marker_is_the_pin_hash(self):
         text = (ROUND / 'jobs/project.sh').read_text()
         self.assertIn('pins=$(sha256sum compute-requirements.txt', text)

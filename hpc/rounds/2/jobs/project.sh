@@ -11,6 +11,7 @@
 # Modified: SDE 2026-10-15  rebuild the compute venv when its pins change; no address-space cap.
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard; the image path.
 # Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
+# Modified: SDE 2026-10-30  one compare builds the venv under a mkdir lock; the rest wait and reuse it.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -48,7 +49,21 @@ else
     # Shards are mapped from disk, so an address-space cap would refuse a 31 GB shard;
     # the scheduler's --mem holds the real memory line.
     # The venv is good only for the pins it was built from; new pins rebuild it.
+    # The compares of one round may all start in the same second, so one of them builds
+    # the venv while the others wait on an atomic mkdir lock, then every job reuses it.
     pins=$(sha256sum compute-requirements.txt | cut -d' ' -f1)
+    venv_lock=$AUDIT_WORK/venv.lock
+    waited=0
+    until mkdir "$venv_lock" 2>/dev/null; do
+        if [ "$waited" -ge 2400 ]; then
+            echo "compute venv: lock held over 40 minutes; taking it over"
+            rm -rf -- "$venv_lock"
+            continue
+        fi
+        [ "$waited" = 0 ] && echo "compute venv: another compare is building it; waiting"
+        sleep 20; waited=$((waited + 20))
+    done
+    trap 'rmdir "$venv_lock" 2>/dev/null' EXIT
     if [ "$(cat "$AUDIT_WORK/venv/.ready" 2>/dev/null)" != "$pins" ]; then
         echo "compute venv: building for pins $pins"
         rm -rf -- "$AUDIT_WORK/venv"
@@ -58,6 +73,7 @@ else
     else
         echo "compute venv: reusing pins $pins"
     fi
+    rmdir "$venv_lock" 2>/dev/null; trap - EXIT
     "$AUDIT_WORK/venv/bin/python" ./measure.py
 fi
 touch "$AUDIT_PIECE_WORK/state/timing.done" "$AUDIT_PIECE_WORK/state/project.done" "$AUDIT_PIECE_WORK/state/compare.done"
