@@ -804,7 +804,7 @@ class SystemsTableTests(unittest.TestCase):
         sys.path.insert(0, str(ROUND))
         import bundle
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
-        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat', 'fran'})
+        self.assertEqual(set(table), {'nautilus', 'raider', 'jean', 'wheat', 'fran', 'blueback'})
         for name in table:
             entry = bundle.system_entry(table, name)
             self.assertLess(len(entry['work'] + '/model-audit-census.sh 24'), 50, name)
@@ -816,6 +816,28 @@ class SystemsTableTests(unittest.TestCase):
         self.assertIn('sys.version_info < (3, 10)', text)
         self.assertIn('build this system with --image', text)
         self.assertLess(text.index('AUDIT_IMAGE:-'), text.index('sys.version_info < (3, 10)'))
+        self.assertIn('"${AUDIT_PYTHON:-python3}" -c', text)
+
+    def test_blueback_bundle_names_its_compute_python(self):
+        result = self.build('--system', 'blueback')
+        self.assertEqual(result.returncode, 0, result.stdout)
+        folder = opened(self.directory / 'out' / BUNDLE, self.directory / 'blueback-open')
+        words = subprocess.run(['bash', '-c', '. ./system.sh; printf "%s|%s|%s" "$AUDIT_TRANSFER_ARGS" '
+                                '"$AUDIT_BACKGROUND_ARGS" "$AUDIT_PYTHON"'], cwd=str(folder), stdout=subprocess.PIPE,
+                               universal_newlines=True, check=True).stdout
+        transfer, background, python = words.split('|')
+        self.assertEqual(transfer.splitlines(), ['--partition=general', '--qos=transfer', '--constraint=xfer'])
+        self.assertEqual(background.splitlines(), ['--partition=general', '--qos=background', '--constraint=standard'])
+        self.assertEqual(python, '/usr/bin/python3.11')
+        env = (ROUND / 'env.sh').read_text()
+        self.assertIn('ln -sfn "$found" "$AUDIT_WORK/pybin/python3"', env)
+        self.assertLess(env.index('AUDIT_PYTHON:-'), env.index('module load'))
+        self.assertIn('compute_python', (ROUND / 'jobs/timing.sh').read_text())
+        table = json.loads((ROOT / 'hpc/systems.json').read_text())
+        table['blueback']['python'] = 'perl'
+        path = self.directory / 'systems.json'
+        path.write_text(json.dumps(table))
+        self.assertIn('python for blueback must be', self.build('--system', 'blueback', '--systems', str(path)).stdout)
 
     def test_a_system_with_tbd_values_is_refused(self):
         table = json.loads((ROOT / 'hpc/systems.json').read_text())
@@ -834,7 +856,7 @@ class SystemsTableTests(unittest.TestCase):
     def test_round_mismatch_unknown_system_and_missing_image_are_refused(self):
         result = self.build('--manifest', str(ROOT / 'data/batches/round-2-batch-1.json'), round_number='5')
         self.assertIn('the batch is round 2, not round 5', result.stdout)
-        self.assertIn('unknown system blueback', self.build('--system', 'blueback').stdout)
+        self.assertIn('unknown system makau', self.build('--system', 'makau').stdout)
         self.assertIn('jean runs the census inside the image', self.build('--system', 'jean').stdout)
 
     def test_round_five_builds_from_its_own_manifest(self):

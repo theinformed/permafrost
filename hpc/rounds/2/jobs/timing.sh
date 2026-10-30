@@ -7,6 +7,7 @@
 #SBATCH --output=logs/%x-%j.out
 # timing.sh -- One small background job: the node's facts and how long the queue held it.
 # Created by Sean Egan 2026-10-29
+# Modified: SDE 2026-10-30  prove the compute interpreter on the node.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -19,6 +20,8 @@ started=$(date -u -d "@${AUDIT_JOB_STARTED%.*}" +%FT%TZ)
 queued=$(cat "$AUDIT_WORK/state/timing-queued" 2>/dev/null || echo unknown)
 echo "node: $(hostname -s), $(nproc) cores, $(awk '/MemTotal/ {printf "%d GB", $2/1048576}' /proc/meminfo)"
 echo "python: $(python3 --version 2>&1)"
+# The compute interpreter is proven on a node here, before any download is queued.
+compute_python
 echo "round: $(python3 ./census.py round), $(python3 ./census.py count) pairs"
 ended=$(date -u +%FT%TZ)
 mkdir -p "${AUDIT_MEASUREMENT%/*}"

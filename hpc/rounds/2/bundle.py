@@ -76,6 +76,8 @@ def system_entry(table, name):
     for field in ('work', 'token_file'):
         if not re.fullmatch(r'/[A-Za-z0-9/._-]+', entry[field]) or '..' in entry[field].split('/'):
             raise ValueError('{} for {} must be a plain absolute path'.format(field, name))
+    if 'python' in entry and not re.fullmatch(r'/[A-Za-z0-9/._-]+|python3(\.[0-9]+)?', entry['python']):
+        raise ValueError('python for {} must be an absolute path or a python3.N name'.format(name))
     if not re.fullmatch(r'[A-Za-z0-9_-]+', entry['subproject']):
         raise ValueError('invalid subproject for ' + name)
     if entry['scheduler'] == 'pbs':
@@ -107,6 +109,7 @@ def system_script(name, entry, image=None, image_sha256=None):
              '# Created by Sean Egan 2026-10-14',
              '# Modified: SDE 2026-10-14  bind the submission system at build.',
              '# Modified: SDE 2026-10-29  scheduler, queue words and limits from hpc/systems.json.',
+             '# Modified: SDE 2026-10-30  name the compute interpreter where the system python3 is old.',
              '[ "${AUDIT_REHEARSAL:-0}" = 1 ] || export HPC_SYSTEM=' + name,
              'export AUDIT_SCHEDULER={} AUDIT_SUBPROJECT={}'.format(value(entry['scheduler']), value(entry['subproject'])),
              'export AUDIT_TIME_LIMIT={} AUDIT_TRANSFER_TIME_LIMIT={}'.format(
@@ -115,6 +118,9 @@ def system_script(name, entry, image=None, image_sha256=None):
              'AUDIT_TRANSFER_ARGS=' + value('\n'.join(entry['transfer'])),
              'AUDIT_BACKGROUND_ARGS=' + value('\n'.join(entry['background'])),
              'export AUDIT_TRANSFER_ARGS AUDIT_BACKGROUND_ARGS']
+    if entry.get('python'):
+        # A system whose python3 is older than the pins names the interpreter the jobs build their venvs on.
+        lines.append('export AUDIT_PYTHON=' + value(entry['python']))
     if entry['scheduler'] == 'pbs':
         # A system that hands out whole nodes names ncpus and mpiprocs and no memory word.
         memory = entry.get('mem', {})

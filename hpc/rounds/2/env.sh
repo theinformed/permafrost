@@ -8,6 +8,7 @@
 # Modified: SDE 2026-10-15  keep every printed line within 100 columns.
 # Modified: SDE 2026-10-29  a parked drop is the normal path; the drop gate is gone; a pad probe.
 # Modified: SDE 2026-10-29  round from batch.json; queues, scheduler and image from the systems table.
+# Modified: SDE 2026-10-30  the table's named interpreter stands in for an old system python3.
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 ROUND=$(python3 ./census.py round)
@@ -178,7 +179,14 @@ compute_python() {
     fi
     # Modules are loaded in jobs, leaving the login interpreter alone.
     # Nautilus has no module called python3; its Python modules are python/3.11/3.11 and kin.
-    if [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
+    if [ -n "${AUDIT_PYTHON:-}" ] && [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
+        # Blueback has no python module and its python3 is older than the pins; the table names /usr/bin/python3.11.
+        found=$(command -v "$AUDIT_PYTHON" 2>/dev/null) || { echo "the systems table names $AUDIT_PYTHON here; nothing answers to it"; return 1; }
+        mkdir -p "$AUDIT_WORK/pybin"
+        ln -sfn "$found" "$AUDIT_WORK/pybin/python3"
+        export PATH=$AUDIT_WORK/pybin:$PATH
+        echo "Python: $found ($(python3 --version 2>&1)) stands in for the system python3"
+    elif [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
         if ! type module >/dev/null 2>&1 && [ -r /etc/profile.d/modules.sh ]; then . /etc/profile.d/modules.sh; fi
         loaded=""
         for candidate in python/3.11/3.11 $(module -t avail python/3.1 2>&1 | grep '^python/3\.1' | sed 's/(.*//'); do

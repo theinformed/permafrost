@@ -95,5 +95,26 @@
     "quota": "statvfs",
     "token_file": "/p/home/sdegan/.hpc/hf-token",
     "image": "optional"
+  },
+  "blueback": {
+    "scheduler": "slurm",
+    "work": "/p/work1/sdegan",
+    "subproject": "NRLMR5762B402",
+    "transfer": [
+      "--partition=general",
+      "--qos=transfer",
+      "--constraint=xfer"
+    ],
+    "background": [
+      "--partition=general",
+      "--qos=background",
+      "--constraint=standard"
+    ],
+    "time_limit": "03:55:00",
+    "purge_days": 21,
+    "quota": "show_storage",
+    "token_file": "/p/home/sdegan/.hpc/hf-token",
+    "image": "optional",
+    "python": "/usr/bin/python3.11"
   }
 }
