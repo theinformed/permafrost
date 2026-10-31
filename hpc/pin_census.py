@@ -7,6 +7,8 @@
 #                           the publisher root, so a copy compares against its stated parent.
 # Modified: SDE 2026-10-31  an original whose surviving history starts after the copy was created pins to the
 #   copy's revision date and says so in the record.
+# Modified: SDE 2026-10-31  a quantised original and a repository of several weight files with no index are refused
+#   at the names step.
 import argparse
 from datetime import datetime, timezone
 import json
@@ -138,12 +140,39 @@ def shard_header(hub, repo, revision, filename):
     return header
 
 
+def weight_files(hub, repo, revision):
+    """The safetensors files a repository publishes at one revision, from the hub's file list."""
+    from urllib.parse import quote
+    hub.pause()
+    url = 'https://huggingface.co/api/models/{}/revision/{}'.format(quote(repo, safe='/'), quote(revision, safe=''))
+    response = hub.session.get(url, timeout=15)
+    response.raise_for_status()
+    return sorted(item['rfilename'] for item in response.json().get('siblings', [])
+                  if item['rfilename'].endswith('.safetensors'))
+
+
+def quantised(config):
+    """True when a config declares quantised weights; such an original cannot be compared raw."""
+    return bool(config.get('quantization_config') or config.get('text_config', {}).get('quantization_config'))
+
+
 def fixture(hub, model):
-    """Names, shapes and shard of every tensor at one pinned revision, with its config."""
+    """Names, shapes and shard of every tensor at one pinned revision, with its config.
+
+    A repository with no index and several weight files publishes several checkpoints under
+    one name (DarkRomeo88's four quantised files of one copy, round 14); it is refused here
+    rather than read as one checkpoint with repeated tensor names on the cluster.
+    """
     repo, revision = model['hub_id'], model['revision']
     text = bounded_get(hub, repo, revision, INDEX)
     weight_map = json.loads(text.decode('utf-8'))['weight_map'] if text else None
-    shards = sorted(set(weight_map.values())) if weight_map else [SINGLE]
+    if weight_map:
+        shards = sorted(set(weight_map.values()))
+    else:
+        shards = weight_files(hub, repo, revision)
+        if len(shards) != 1:
+            raise ValueError('{} weight files and no index: {} publishes {} under one name'.format(
+                len(shards), repo, 'several checkpoints' if shards else 'no safetensors weights'))
     tensors = {}
     for shard in shards:
         for name, row in shard_header(hub, repo, revision, shard).items():
@@ -178,6 +207,10 @@ def names(manifest, out, hub=None):
                 continue
             seen.add(model['revision'])
             record = fixture(hub, model)
+            if side == 'original' and quantised(record['config']):
+                # Finding 37: a float8 original compared raw reads as 280 changed matrices and 560 scale
+                # tensors; the pair waits for a dequantised copy made at home.
+                raise ValueError('original is quantised (quantization_config): ' + model['hub_id'])
             with tempfile.NamedTemporaryFile('w', dir=str(out), delete=False, suffix='.tmp') as stream:
                 stream.write(json.dumps(record, sort_keys=True, separators=(',', ':')) + '\n')
             Path(stream.name).replace(target)

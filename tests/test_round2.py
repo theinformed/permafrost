@@ -1266,5 +1266,51 @@ class NamesFixtureTests(unittest.TestCase):
                 with patch('builtins.print'):
                     self.assertEqual(pin_census.names(path, temporary, hub=object()), [])
 
+    def test_quantised_originals_and_several_files_without_an_index_are_refused(self):
+        import pin_census
+        stored = json.loads((NAMES / '419b2efe4219.json').read_text())
+        headers = {}
+        for name, row in stored['tensors'].items():
+            headers.setdefault(row['file'], {})[name] = {'dtype': row['dtype'], 'shape': row['shape'],
+                                                          'data_offsets': [0, 0]}
+        single = next(iter(headers))
+        files = ['odd-name.safetensors']
+
+        def get(hub, repo, revision, filename, limit=None):
+            if filename == pin_census.INDEX:
+                return None
+            return json.dumps({**stored['config'], **extra}).encode()
+        model = {'hub_id': stored['hub_id'], 'revision': stored['revision']}
+        with patch.object(pin_census, 'bounded_get', get), \
+                patch.object(pin_census, 'weight_files', lambda hub, repo, revision: list(files)), \
+                patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[single])):
+            # One weight file under another name is that checkpoint.
+            extra = {}
+            record = pin_census.fixture(object(), model)
+            self.assertEqual({row['file'] for row in record['tensors'].values()}, {'odd-name.safetensors'})
+            # Several files and no index are several checkpoints (DarkRomeo88, round 14).
+            files.append('second.safetensors')
+            with self.assertRaisesRegex(ValueError, 'several checkpoints under one name'):
+                pin_census.fixture(object(), model)
+            files.clear()
+            with self.assertRaisesRegex(ValueError, 'no safetensors weights'):
+                pin_census.fixture(object(), model)
+            # A quantised original is refused at the names step (finding 37); a quantised copy is not.
+            files.append('odd-name.safetensors')
+            extra = {'quantization_config': {'quant_method': 'fp8'}}
+            with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
+                path = Path(temporary) / 'batch.json'
+                record = manifest()
+                record['pairs'] = [{'original': model, 'modified': model}]
+                path.write_text(json.dumps(record))
+                with patch('builtins.print'), self.assertRaisesRegex(ValueError, 'original is quantised'):
+                    pin_census.names(path, temporary, hub=object())
+                copy = {'hub_id': 'owner/copy', 'revision': 'f' * 40}
+                record['pairs'] = [{'original': {**model, 'revision': 'e' * 40}, 'modified': copy}]
+                path.write_text(json.dumps(record))
+                extra = {}
+                with patch('builtins.print'):
+                    self.assertEqual(len(pin_census.names(path, temporary, hub=object())), 2)
+
 if __name__ == '__main__':
     unittest.main()
