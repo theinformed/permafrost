@@ -244,10 +244,41 @@ def wrapper_mapping(original_names, modified_names, recipes):
                     break
                 if present:
                     names[name] = present.pop()
-            if names and set(names.values()) == modified_names:
+            if names and set(names.values()) == modified_names and len(set(names.values())) == len(names):
                 renamed = sum(1 for name, other in names.items() if name != other)
                 if renamed:
                     return {"prefix": prefix, "carried_by": side, "renamed": renamed, "names": names}
+    return swapped_wrapper_mapping(original_names, modified_names, recipes)
+
+
+def swapped_wrapper_mapping(original_names, modified_names, recipes):
+    """Pair names across an export that swapped one wrapper for another.
+
+    A text-only re-export of a Gemma 4 model saves its tensors under
+    language_model.model. where the original has model.language_model.; neither
+    side merely added a wrapper, so the single-prefix rule finds nothing. The
+    swap is accepted when one pair of wrappers, the original's replaced by the
+    export's, pairs every modified name with exactly one original."""
+    prefixes = sorted(recipes["tensor_kinds"]["prefixes"], key=len, reverse=True)
+    for old in prefixes:
+        for new in prefixes:
+            if old == new:
+                continue
+            names = {}
+            for name in original_names:
+                partners = {name}
+                if name.startswith(old):
+                    partners.add(new + name[len(old):])
+                present = partners & modified_names
+                if len(present) > 1:
+                    names = None
+                    break
+                if present:
+                    names[name] = present.pop()
+            if names and set(names.values()) == modified_names and len(set(names.values())) == len(names):
+                renamed = sum(1 for name, other in names.items() if name != other)
+                if renamed:
+                    return {"prefix": old + " -> " + new, "carried_by": "swap", "renamed": renamed, "names": names}
     return None
 
 

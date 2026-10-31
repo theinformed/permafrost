@@ -492,6 +492,29 @@ class CheckpointComparison(unittest.TestCase):
         self.assertIsNone(report["name_mapping"])
         self.assertEqual(report["modified_only"], sorted(list(set(nested) - set(base)) + ["model.new.weight"]))
 
+    def test_an_export_under_a_swapped_wrapper_is_paired_by_name(self):
+        # A text-only re-export of a Gemma 4 model saves its tensors under language_model.model. where the
+        # original has model.language_model. and keeps no tower; the swap pairs every text tensor and the
+        # towers it left out are listed as dropped, not as structural change.
+        base = {"model.language_model.embed_tokens.weight": torch.ones(2, 2),
+                "model.language_model.layers.0.mlp.down_proj.weight": torch.ones(2, 2),
+                "model.audio_tower.layers.0.linear.weight": torch.ones(2, 2),
+                "model.vision_tower.encoder.layers.0.mlp.up_proj.weight": torch.ones(2, 2)}
+        swapped = {"language_model.model.embed_tokens.weight": torch.ones(2, 2),
+                   "language_model.model.layers.0.mlp.down_proj.weight": torch.ones(2, 2) * 2}
+        self.put(self.base, base)
+        self.put(self.modified, swapped)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"],
+                         {"prefix": "model.language_model. -> language_model.model.", "carried_by": "swap", "renamed": 2})
+        self.assertEqual(report["modified_only"], [])
+        self.assertEqual(sorted(report["dropped_towers"]), ["audio_tower", "vision_tower"])
+        self.assertTrue(report["tensors"]["model.language_model.layers.0.mlp.down_proj.weight"]["changed"])
+        self.assertFalse(report["tensors"]["model.language_model.embed_tokens.weight"]["changed"])
+        # Two originals that would map onto one export name leave the plain comparison in place.
+        self.put(self.base, {**base, "language_model.model.embed_tokens.weight": torch.ones(2, 2)})
+        self.assertIsNone(self.compare()["name_mapping"])
+
     def test_named_streaming_and_missing_names(self):
         self.put(self.base, {"z": torch.ones(3), "original_only": torch.ones(2)}, "one.safetensors")
         self.put(self.base, {"a": torch.ones(5)}, "two.safetensors")
