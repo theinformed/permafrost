@@ -8,6 +8,7 @@
 # Modified: SDE 2026-10-29  read leftover and row-norm limits, optional kinds, row-norm precedence.
 # Modified: SDE 2026-10-29  measure direction agreement within each layer for the per-layer recipes.
 # Modified: SDE 2026-10-29  remaining fraction along each leading direction; per-expert measures on packed tensors.
+# Modified: SDE 2026-10-31  an export without the shared-KV layers' own key and value tensors is listed, not scored as a violation.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -122,6 +123,33 @@ def resolve_checkpoint(value, revision="main", cache=None):
         finally:
             temporary.unlink(missing_ok=True)
     return directory, {"source": value, "revision": sha}
+
+
+SHARED_KV = re.compile(r"\.layers\.(\d+)\.self_attn\.(k_proj|v_proj|k_norm|v_norm)\.")
+
+
+def checkpoint_config(directory):
+    """The checkpoint's config.json, or nothing when it is absent or unreadable."""
+    path = Path(directory) / "config.json"
+    try:
+        return json.loads(path.read_text()) if path.is_file() else {}
+    except (OSError, ValueError):
+        return {}
+
+
+def unused_shared_kv(names, config):
+    """The key and value tensors of the layers that read another layer's cache.
+
+    Gemma 4's E2B and E4B originals keep k_proj, v_proj and k_norm for every layer, yet the last
+    num_kv_shared_layers layers never read their own. Several exports drop those tensors, 54 or
+    60 names, and change nothing the model computes; they are listed apart from a real omission.
+    """
+    text = config.get("text_config", config) if isinstance(config, dict) else {}
+    layers, shared = text.get("num_hidden_layers"), text.get("num_kv_shared_layers")
+    if not isinstance(layers, int) or not isinstance(shared, int) or shared <= 0:
+        return []
+    first = layers - shared
+    return [name for name in names if (found := SHARED_KV.search(name)) and int(found.group(1)) >= first]
 
 
 class TensorStore:
@@ -541,7 +569,8 @@ def score_report(report, recipes=None):
     rows = report["tensors"]
     for name, row in rows.items():
         row["kind"] = tensor_kind(name, recipes)
-    structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"]]
+    unused = set(report.get("unused_shared_kv", []))
+    structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"] if name not in unused]
     structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"]]
     agreement = report["summary"]["direction_agreement"]
     matching = match_recipes(rows, structural, agreement, applicable)
@@ -594,6 +623,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     base, other = TensorStore(original_dir), TensorStore(modified_dir)
     missing = sorted(base.names.keys() - other.names.keys())
     added = sorted(other.names.keys() - base.names.keys())
+    unused = unused_shared_kv(missing, checkpoint_config(original_dir))
     rows, vectors = {}, {}
     for name in sorted(base.names.keys() & other.names.keys()):
         # Nothing in this loop retains the full tensors from the preceding pair.
@@ -614,7 +644,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
         rows[name]["directions"] = {"left": name + ".left", "right": name + ".right"}
     save_file(saved, str(directions_path))
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
-              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added,
+              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused,
               "tensors": rows, "directions_file": directions_path.name,
               "summary": {"direction_agreement": agreement, "layer_direction_agreement": layer_agreement},
               "scope": "Weight differences alone cannot certify the absence of hidden behavior."}

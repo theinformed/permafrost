@@ -417,6 +417,23 @@ class CheckpointComparison(unittest.TestCase):
         self.assertEqual(rescored["recipe_matching"]["nearest_recipe"], "directional-per-layer")
         self.assertEqual(rescored["summary"]["layer_direction_agreement"]["layers_with_several_edits"], 3)
 
+    def test_an_export_without_the_shared_kv_tensors_is_listed_not_scored(self):
+        # Gemma 4 E-series layers from num_hidden_layers - num_kv_shared_layers on read another layer's cache;
+        # several exports drop their own k_proj, v_proj and k_norm. The report lists them apart from a real omission.
+        kept = {"model.layers.0.self_attn.k_proj.weight": torch.ones(2, 2), "model.layers.3.mlp.down_proj.weight": torch.ones(2, 2)}
+        shared = {"model.layers.3.self_attn.k_proj.weight": torch.ones(2, 2), "model.layers.2.self_attn.k_norm.weight": torch.ones(2)}
+        self.put(self.base, {**kept, **shared, "other": torch.ones(2)}, "one.safetensors")
+        self.put(self.modified, kept, "one.safetensors")
+        (self.base / "config.json").write_text(json.dumps({"text_config": {"num_hidden_layers": 4, "num_kv_shared_layers": 2}}))
+        report = self.compare()
+        self.assertEqual(report["unused_shared_kv"], sorted(shared))
+        self.assertEqual(report["original_only"], sorted(list(shared) + ["other"]))
+        self.assertEqual([v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"], ["other"])
+        (self.base / "config.json").unlink()
+        report = self.compare()
+        self.assertEqual(report["unused_shared_kv"], [])
+        self.assertEqual(len([v for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"]), 3)
+
     def test_named_streaming_and_missing_names(self):
         self.put(self.base, {"z": torch.ones(3), "original_only": torch.ones(2)}, "one.safetensors")
         self.put(self.base, {"a": torch.ones(5)}, "two.safetensors")

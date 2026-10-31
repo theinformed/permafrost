@@ -8,6 +8,7 @@
 # Modified: SDE 2026-10-29  share the direction helpers: remaining fractions and per-expert measures.
 # Modified: SDE 2026-10-29  seed every pair of the batch; leave the original for the sweep.
 # Modified: SDE 2026-10-31 a small file that is not valid JSON is read leniently and recorded (Blueback round 13 pair 5).
+# Modified: SDE 2026-10-31 a stub checkpoint declares the layer counts its fixture config carries.
 import hashlib
 import json
 import re
@@ -98,6 +99,16 @@ def stub_names(model):
     return shards, 'model.safetensors' not in shards
 
 
+def stub_layers(model):
+    """The layer counts the fixture's config carries, so a stub original declares its shared-KV layers."""
+    folder = os.environ.get('AUDIT_STUB_NAMES')
+    if not folder:
+        return {}
+    config = json.loads((Path(folder) / (model['revision'][:12] + '.json')).read_text()).get('config') or {}
+    text = config.get('text_config', config)
+    return {key: text[key] for key in ('num_hidden_layers', 'num_kv_shared_layers') if isinstance(text.get(key), int)}
+
+
 def seed_original():
     """Small artificial pairs on the real names exercise the actual tensor comparison."""
     import torch
@@ -136,7 +147,8 @@ def seed_original():
                     {'metadata': {}, 'weight_map': weight_map}) + '\n')
             version = '2.0' if side == 'modified' else '1.0'
             # The saved version gives the re-save classifier a small chore.
-            (directory / 'config.json').write_text('{"hidden_size":4,"transformers_version":"' + version + '"}\n')
+            (directory / 'config.json').write_text(json.dumps(
+                {'hidden_size': 4, 'transformers_version': version, **stub_layers(row[side])}) + '\n')
             (directory / 'tokenizer.json').write_text('{"model":{"vocab":{"a":0,"b":1}}}\n')
             (directory / 'tokenizer_config.json').write_text('{"bos_token":"a","eos_token":"b"}\n')
             files = [{'path': path.name, 'size': path.stat().st_size, 'sha256': checksum(path),

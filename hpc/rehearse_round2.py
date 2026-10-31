@@ -41,6 +41,7 @@ def fixture_kit(directory):
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  retain the job description and its exit event.
 # Modified: SDE 2026-10-31  the kept originals are read from the round's own folder.
+# Modified: SDE 2026-10-31  the shared-KV tensors an export drops do not fail the names check.
 hpc_job_start() {
     mkdir -p "$HOME/.hpc/jobs"
     printf '{"v":1,"job":"%s","description":"%s","project":"model-audit"}\\n' "$HPC_JOB_ID" "$1" > "$HOME/.hpc/jobs/$HPC_JOB_ID.json"
@@ -295,7 +296,8 @@ def suite(args, directory):
             found[kind] = found.get(kind, 0) + 1
         lean = sum(1 for row in report['tensors'].values() if row.get('lean'))
         clean.expect(found == wanted and all(wanted.values()), 'changed writers differ from the real names')
-        clean.expect(not report['original_only'] and not report['modified_only'], 'tensor names differ across a pair')
+        unused = set(report.get('unused_shared_kv', []))
+        clean.expect(not (set(report['original_only']) - unused) and not report['modified_only'], 'tensor names differ across a pair')
         clean.append('pair {} {}: {} tensors; changed {}; lean {}; {}{}'.format(
             number, model.split('/')[1], len(report['tensors']), json.dumps(found, sort_keys=True), lean,
             report['summary']['assessment'], '; shared original' if receipt['shared_original'] else ''))
