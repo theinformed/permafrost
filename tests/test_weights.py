@@ -434,6 +434,36 @@ class CheckpointComparison(unittest.TestCase):
         self.assertEqual(report["unused_shared_kv"], [])
         self.assertEqual(len([v for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"]), 3)
 
+    def test_an_export_nested_under_one_more_wrapper_is_paired_by_name(self):
+        # One export saves the same tensors under names with one extra wrapper; the rows keep the
+        # original's names and the report records the wrapper once.
+        base = {"language_model.lm_head.weight": torch.ones(2, 2), "language_model.model.layers.0.mlp.down_proj.weight": torch.ones(2, 2),
+                "vision_tower.patch_conv.weight": torch.ones(2, 2)}
+        nested = {"language_model.lm_head.weight": torch.ones(2, 2), "model.language_model.model.layers.0.mlp.down_proj.weight": torch.ones(2, 2) * 2,
+                  "model.vision_tower.patch_conv.weight": torch.ones(2, 2)}
+        self.put(self.base, base)
+        self.put(self.modified, nested)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"], {"prefix": "model.", "carried_by": "modified", "renamed": 2})
+        self.assertEqual((report["original_only"], report["modified_only"]), ([], []))
+        self.assertEqual(sorted(report["tensors"]), sorted(base))
+        self.assertTrue(report["tensors"]["language_model.model.layers.0.mlp.down_proj.weight"]["changed"])
+        self.put(self.base, nested)
+        self.put(self.modified, base)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"], {"prefix": "model.", "carried_by": "original", "renamed": 2})
+        self.assertEqual(sorted(report["tensors"]), sorted(nested))
+        # A modified name with two possible partners, or one with none, leaves the plain comparison.
+        self.put(self.base, base)
+        self.put(self.modified, {**nested, "vision_tower.patch_conv.weight": torch.ones(2, 2)})
+        report = self.compare()
+        self.assertIsNone(report["name_mapping"])
+        self.assertEqual(len(report["modified_only"]), 2)
+        self.put(self.modified, {**nested, "model.new.weight": torch.ones(2)})
+        report = self.compare()
+        self.assertIsNone(report["name_mapping"])
+        self.assertEqual(report["modified_only"], sorted(list(set(nested) - set(base)) + ["model.new.weight"]))
+
     def test_named_streaming_and_missing_names(self):
         self.put(self.base, {"z": torch.ones(3), "original_only": torch.ones(2)}, "one.safetensors")
         self.put(self.base, {"a": torch.ones(5)}, "two.safetensors")

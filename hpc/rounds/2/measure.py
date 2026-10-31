@@ -113,7 +113,7 @@ def seed_original():
     """Small artificial pairs on the real names exercise the actual tensor comparison."""
     import torch
     from safetensors.torch import save_file
-    from audit.weights import recipe_table, residual_kinds, tensor_kind
+    from audit.weights import core_name, recipe_table, residual_kinds, tensor_kind
     from census import count, pair, paths
     torch.set_num_threads(1)
     table = census_kinds(recipe_table())
@@ -133,7 +133,9 @@ def seed_original():
             for shard, names in sorted(shards.items()):
                 tensors = {}
                 for name, shape in sorted(names.items()):
-                    generator = torch.Generator().manual_seed(len(name) * 7919 + len(shape))
+                    # Seeded by the name under its wrappers: an export that nests the model one
+                    # level deeper must still read as the same tensor.
+                    generator = torch.Generator().manual_seed(len(core_name(name, table)) * 7919 + len(shape))
                     value = torch.randn(shape, generator=generator).to(torch.bfloat16)
                     if side == 'modified' and tensor_kind(name, table) in writers:
                         # A rank-one edit along the first axis, the shape abliteration leaves.

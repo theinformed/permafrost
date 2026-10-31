@@ -191,6 +191,47 @@ def recipe_table():
     return read_json(Path(__file__).with_name("recipes.json"))
 
 
+def core_name(name, recipes):
+    """Remove every wrapper, however deep the export nested the model."""
+    stripped = strip_prefix(name, recipes)
+    while stripped != name:
+        name, stripped = stripped, strip_prefix(stripped, recipes)
+    return name
+
+
+def wrapper_mapping(original_names, modified_names, recipes):
+    """Pair tensor names across an export that nested the model under one more wrapper, or dropped one.
+
+    Some exports save the same tensors under names that carry one extra wrapper
+    (an older Mistral 3 layout against the current one, for example). The
+    mapping is accepted only when one prefix, added or removed, pairs every
+    modified name with an original; a modified name with two possible partners,
+    or one with none, leaves the plain comparison in place."""
+    original_names, modified_names = set(original_names), set(modified_names)
+    if modified_names <= original_names:
+        return None
+    for prefix in sorted(recipes["tensor_kinds"]["prefixes"], key=len, reverse=True):
+        for side in ("modified", "original"):
+            names = {}
+            for name in original_names:
+                partners = {name}
+                if side == "modified":
+                    partners.add(prefix + name)
+                elif name.startswith(prefix):
+                    partners.add(name[len(prefix):])
+                present = partners & modified_names
+                if len(present) > 1:
+                    names = None
+                    break
+                if present:
+                    names[name] = present.pop()
+            if names and set(names.values()) == modified_names:
+                renamed = sum(1 for name, other in names.items() if name != other)
+                if renamed:
+                    return {"prefix": prefix, "carried_by": side, "renamed": renamed, "names": names}
+    return None
+
+
 def strip_prefix(name, recipes):
     """Remove the longest wrapper first; nested wrappers otherwise lose a piece."""
     for prefix in sorted(recipes["tensor_kinds"]["prefixes"], key=len, reverse=True):
@@ -621,13 +662,16 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     original_dir, original_info = resolve_checkpoint(original, original_revision)
     modified_dir, modified_info = resolve_checkpoint(modified, modified_revision)
     base, other = TensorStore(original_dir), TensorStore(modified_dir)
-    missing = sorted(base.names.keys() - other.names.keys())
-    added = sorted(other.names.keys() - base.names.keys())
+    mapping = wrapper_mapping(base.names, other.names, recipes)
+    # Rows keep the original's names; a wrapper the export added or dropped is recorded once.
+    names = mapping["names"] if mapping else {name: name for name in base.names.keys() & other.names.keys()}
+    missing = sorted(base.names.keys() - names.keys())
+    added = sorted(other.names.keys() - set(names.values()))
     unused = unused_shared_kv(missing, checkpoint_config(original_dir))
     rows, vectors = {}, {}
-    for name in sorted(base.names.keys() & other.names.keys()):
+    for name in sorted(names):
         # Nothing in this loop retains the full tensors from the preceding pair.
-        first, second = base.get(name), other.get(name)
+        first, second = base.get(name), other.get(names[name])
         row, pair = measure_tensor(first, second, threshold, seed)
         del first, second
         row["kind"] = tensor_kind(name, recipes)
@@ -645,6 +689,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     save_file(saved, str(directions_path))
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
               "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused,
+              "name_mapping": None if mapping is None else {key: mapping[key] for key in ("prefix", "carried_by", "renamed")},
               "tensors": rows, "directions_file": directions_path.name,
               "summary": {"direction_agreement": agreement, "layer_direction_agreement": layer_agreement},
               "scope": "Weight differences alone cannot certify the absence of hidden behavior."}
