@@ -12,6 +12,7 @@
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard, node facts, image.
 # Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
 # Modified: SDE 2026-10-31  the scheduler's test of the CPU requests runs here, off the login node, as a reading.
+# Modified: SDE 2026-10-31  the storage probe runs here too, before anything is staged.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -22,6 +23,9 @@ start_piece download "Download and verify $count checkpoint pairs"
 hpc_report_on_exit
 fips_guard
 python3 ./lineage.py batch.json maker-guard.sha256
+# The space check runs here, where the space is about to be used, and not on the login node (round 19's
+# clock put 296 s of its login half in this probe's du over the project tree on Lustre).
+python3 ./storage.py
 # The start estimates the desk reads; the submit step has already queued the real requests, so a node
 # without the scheduler client only loses the reading.
 for piece in project sweep timing; do

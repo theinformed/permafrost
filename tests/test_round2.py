@@ -645,15 +645,17 @@ class PinTests2(unittest.TestCase):
         self.assertIn('taking it over', text)
 
     def test_the_login_half_of_a_round_asks_the_scheduler_nothing_slow(self):
-        """Round 18's verify held the Nautilus login for 294 s of a 328 s card, on four scheduler test
-        submissions that each wait for a start estimate and on the center's quota tool. The login half is
-        clocked and keeps syntax, request words, lineage, the Python floor and the Lustre quota; the
-        scheduler's test runs in the download job as a reading, and a failed submission withdraws what it
-        queued."""
+        """Round 18's verify held the Nautilus login for 294 s of a 328 s card, and round 19's clock put
+        296 s of its login half in storage.py (a du over the project tree on Lustre). The login half is
+        clocked and keeps syntax, request words, lineage and the Python floor; the storage probe and the
+        scheduler's test run in the download job, and a failed submission withdraws what it queued."""
         verify = (ROUND / '20-verify.sh').read_text()
         self.assertNotIn('test_submission', verify)
         self.assertIn('clocked check_submission "$piece" "jobs/$piece.sh"', verify)
-        self.assertIn('clocked python3 ./storage.py', verify)
+        self.assertNotIn('python3 ./storage.py', verify)
+        download = (ROUND / 'jobs/download.sh').read_text()
+        self.assertIn('python3 ./storage.py', download)
+        self.assertLess(download.index('python3 ./storage.py'), download.index('test_submission "$piece"'))
         self.assertIn('took $((SECONDS - t0)) s', verify)
         scheduler = (ROUND / 'scheduler.sh').read_text()
         self.assertIn('check_submission() {', scheduler)

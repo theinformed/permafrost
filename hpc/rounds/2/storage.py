@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  the quota method comes from the systems table; the size line lives in work.
 # Modified: SDE 2026-10-31  lfs quota without show_storage, and free space when the quota table is unreadable.
 # Modified: SDE 2026-10-31  the lfs path never calls show_storage; it is a central-service call, not a login probe.
+# Modified: SDE 2026-10-31  runs in the download job, never on a login node: its du over the project tree took 296 s there.
 import json
 import os
 from pathlib import Path

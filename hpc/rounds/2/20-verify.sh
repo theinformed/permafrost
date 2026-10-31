@@ -8,6 +8,7 @@
 # Modified: SDE 2026-10-29  test all three requests through the scheduler adapter; check the image.
 # Modified: SDE 2026-10-30  the floor check reads the Python module where the table names no interpreter.
 # Modified: SDE 2026-10-31  the Python check runs first, so a system without the module fails in seconds.
+# Modified: SDE 2026-10-31  the storage probe leaves the login node too (round 19: storage.py 296 s of 343 s).
 # Modified: SDE 2026-10-31  every probe is clocked; the scheduler's test-only calls leave the login node
 #                           (round 18's verify held Nautilus for 294 s); the download job prints them.
 . ./env.sh
@@ -22,7 +23,9 @@ fi
 clocked() { local t0=$SECONDS rc=0; "$@" || rc=$?; echo "verify: $1 ${2:-} took $((SECONDS - t0)) s"; return $rc; }
 clocked python3 ./lineage.py batch.json maker-guard.sha256
 clocked python3 ./login.py
-clocked python3 ./storage.py
+# No storage probe here: round 19's clock put 296 s of its login half in storage.py (a du over the project
+# tree on Lustre). The download job runs it on the transfer node before it stages anything; the desk
+# checks quota before every approval.
 for piece in download project sweep timing; do
     clocked check_submission "$piece" "jobs/$piece.sh"
 done
