@@ -297,6 +297,7 @@ def suite(args, directory):
         lean = sum(1 for row in report['tensors'].values() if row.get('lean'))
         clean.expect(found == wanted and all(wanted.values()), 'changed writers differ from the real names')
         unused = set(report.get('unused_shared_kv', []))
+        unused.update(name for names in report.get('dropped_towers', {}).values() for name in names)
         clean.expect(not (set(report['original_only']) - unused) and not report['modified_only'], 'tensor names differ across a pair')
         clean.append('pair {} {}: {} tensors; changed {}; lean {}; {}{}'.format(
             number, model.split('/')[1], len(report['tensors']), json.dumps(found, sort_keys=True), lean,

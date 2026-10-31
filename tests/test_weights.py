@@ -438,6 +438,30 @@ class CheckpointComparison(unittest.TestCase):
         self.assertEqual(tensor_kind("model.language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")
         self.assertEqual(tensor_kind("language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")
 
+    def test_a_text_only_export_lists_its_dropped_towers_apart_from_an_omission(self):
+        # A copy saved as a text-only model keeps every language tensor under one wrapper less and has no
+        # vision tower or projector at all; those names are listed by tower and not scored as omissions.
+        base = {"language_model.lm_head.weight": torch.ones(2, 2), "language_model.model.layers.0.mlp.down_proj.weight": torch.ones(2, 2),
+                "vision_tower.patch_conv.weight": torch.ones(2, 2), "multi_modal_projector.linear_1.weight": torch.ones(2, 2),
+                "language_model.model.norm.weight": torch.ones(2)}
+        text = {"lm_head.weight": torch.ones(2, 2), "model.layers.0.mlp.down_proj.weight": torch.ones(2, 2) * 2}
+        self.put(self.base, base)
+        self.put(self.modified, text)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"], {"prefix": "language_model.", "carried_by": "original", "renamed": 2})
+        self.assertEqual(report["dropped_towers"], {"multi_modal_projector": ["multi_modal_projector.linear_1.weight"],
+                                                    "vision_tower": ["vision_tower.patch_conv.weight"]})
+        self.assertEqual(report["original_only"], sorted(set(base) - {"language_model.lm_head.weight", "language_model.model.layers.0.mlp.down_proj.weight"}))
+        self.assertEqual([v["tensor"] for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"], ["language_model.model.norm.weight"])
+        # A tower kept in part is a real omission.
+        self.put(self.modified, {**text, "vision_tower.patch_conv.weight": torch.ones(2, 2)})
+        report = self.compare()
+        self.assertEqual(report["dropped_towers"], {"multi_modal_projector": ["multi_modal_projector.linear_1.weight"]})
+        self.put(self.modified, {"language_model.lm_head.weight": torch.ones(2, 2), "language_model.model.layers.0.mlp.down_proj.weight": torch.ones(2, 2),
+                                 "vision_tower.patch_conv.weight": torch.ones(2, 2), "language_model.model.norm.weight": torch.ones(2),
+                                 "multi_modal_projector.linear_1.weight": torch.ones(2, 2)})
+        self.assertEqual(self.compare()["dropped_towers"], {})
+
     def test_an_export_nested_under_one_more_wrapper_is_paired_by_name(self):
         # One export saves the same tensors under names with one extra wrapper; the rows keep the
         # original's names and the report records the wrapper once.

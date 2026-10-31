@@ -137,6 +137,25 @@ def checkpoint_config(directory):
         return {}
 
 
+TOWER = re.compile(r"^(?:model\.)?(vision_tower|audio_tower|embed_vision|embed_audio|multi_modal_projector|vision_model|audio_encoder|mm_projector)\.")
+
+
+def dropped_towers(missing, modified_names):
+    """The tensors of a vision or audio tower that the export left out entirely.
+
+    Some copies are saved as text-only models: the language tensors are all there and
+    comparable, the vision or audio tower and its projector are gone. Those names are
+    listed by tower, apart from a real omission; a tower the export kept in part is a
+    real omission and stays one."""
+    kept = {found.group(1) for name in modified_names if (found := TOWER.match(name))}
+    towers = {}
+    for name in missing:
+        found = TOWER.match(name)
+        if found and found.group(1) not in kept:
+            towers.setdefault(found.group(1), []).append(name)
+    return {tower: sorted(names) for tower, names in sorted(towers.items())}
+
+
 def unused_shared_kv(names, config):
     """The key and value tensors of the layers that read another layer's cache.
 
@@ -611,6 +630,7 @@ def score_report(report, recipes=None):
     for name, row in rows.items():
         row["kind"] = tensor_kind(name, recipes)
     unused = set(report.get("unused_shared_kv", []))
+    unused.update(name for names in report.get("dropped_towers", {}).values() for name in names)
     structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"] if name not in unused]
     structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"]]
     agreement = report["summary"]["direction_agreement"]
@@ -668,6 +688,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     missing = sorted(base.names.keys() - names.keys())
     added = sorted(other.names.keys() - set(names.values()))
     unused = unused_shared_kv(missing, checkpoint_config(original_dir))
+    dropped = dropped_towers(missing, other.names)
     rows, vectors = {}, {}
     for name in sorted(names):
         # Nothing in this loop retains the full tensors from the preceding pair.
@@ -688,7 +709,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
         rows[name]["directions"] = {"left": name + ".left", "right": name + ".right"}
     save_file(saved, str(directions_path))
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
-              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused,
+              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused, "dropped_towers": dropped,
               "name_mapping": None if mapping is None else {key: mapping[key] for key in ("prefix", "carried_by", "renamed")},
               "tensors": rows, "directions_file": directions_path.name,
               "summary": {"direction_agreement": agreement, "layer_direction_agreement": layer_agreement},
