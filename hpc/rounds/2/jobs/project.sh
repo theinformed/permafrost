@@ -12,6 +12,8 @@
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard; the image path.
 # Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
 # Modified: SDE 2026-10-30  one compare builds the venv under a mkdir lock; the rest wait and reuse it.
+# Modified: SDE 2026-10-31  the lock sets no exit trap of its own: the one it set replaced the reporting
+#                            kit's trap, and every compare from round 12 on ended without a drop (Nautilus 4120062-8).
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -51,6 +53,8 @@ else
     # The venv is good only for the pins it was built from; new pins rebuild it.
     # The compares of one round may all start in the same second, so one of them builds
     # the venv while the others wait on an atomic mkdir lock, then every job reuses it.
+    # No trap here: the EXIT trap belongs to start_piece and hpc_report_on_exit (the drop
+    # home); a holder that dies mid-build leaves its lock to the 40-minute takeover below.
     pins=$(sha256sum compute-requirements.txt | cut -d' ' -f1)
     venv_lock=$AUDIT_WORK/venv.lock
     waited=0
@@ -63,7 +67,6 @@ else
         [ "$waited" = 0 ] && echo "compute venv: another compare is building it; waiting"
         sleep 20; waited=$((waited + 20))
     done
-    trap 'rmdir "$venv_lock" 2>/dev/null' EXIT
     if [ "$(cat "$AUDIT_WORK/venv/.ready" 2>/dev/null)" != "$pins" ]; then
         echo "compute venv: building for pins $pins"
         rm -rf -- "$AUDIT_WORK/venv"
@@ -73,7 +76,7 @@ else
     else
         echo "compute venv: reusing pins $pins"
     fi
-    rmdir "$venv_lock" 2>/dev/null; trap - EXIT
+    rmdir "$venv_lock" 2>/dev/null
     "$AUDIT_WORK/venv/bin/python" ./measure.py
 fi
 touch "$AUDIT_PIECE_WORK/state/timing.done" "$AUDIT_PIECE_WORK/state/project.done" "$AUDIT_PIECE_WORK/state/compare.done"

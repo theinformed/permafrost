@@ -641,8 +641,17 @@ class PinTests2(unittest.TestCase):
         text = (ROUND / 'jobs/project.sh').read_text()
         self.assertIn('until mkdir "$venv_lock" 2>/dev/null; do', text)
         self.assertLess(text.index('until mkdir "$venv_lock"'), text.index('rm -rf -- "$AUDIT_WORK/venv"'))
-        self.assertIn('rmdir "$venv_lock" 2>/dev/null; trap - EXIT', text)
+        self.assertIn('rmdir "$venv_lock" 2>/dev/null\n', text)
         self.assertIn('taking it over', text)
+
+    def test_no_job_script_sets_its_own_exit_trap(self):
+        """The lock's own EXIT trap replaced the reporting kit's, so every compare from round 12 on ended
+        without a drop while its sweep ran afterok (Nautilus 4120062-4120068, 10-31). The EXIT trap belongs
+        to start_piece and hpc_report_on_exit; a job script never sets or clears one."""
+        import re
+        for script in sorted((ROUND / 'jobs').glob('*.sh')):
+            text = script.read_text()
+            self.assertIsNone(re.search(r'^\s*trap\b', text, re.M), script.name)
 
     def test_six_compares_released_together_build_the_venv_once_and_wait(self):
         """Rehearse the Blueback round 9 start: six compares at once, one build, five waits, six reuse."""
@@ -655,7 +664,7 @@ class PinTests2(unittest.TestCase):
             tmp = Path(tmp)
             (tmp / 'compute-requirements.txt').write_text('torch==0\n')
             harness = tmp / 'harness.sh'
-            harness.write_text('#!/bin/bash\nset -euo pipefail\ncd "$(dirname "$0")"\nexport AUDIT_WORK=$PWD/work\nmkdir -p "$AUDIT_WORK"\n'
+            harness.write_text('#!/bin/bash\nset -euo pipefail\ncd "$(dirname "$0")"\nexport AUDIT_WORK=$PWD/work\nmkdir -p "$AUDIT_WORK"\ntrap \'echo "finish $1"\' EXIT\n'
                                'python3() { if [ "${1:-}" = -m ] && [ "${2:-}" = venv ]; then mkdir -p "$3/bin" && printf \'#!/bin/bash\\nsleep 2\\n\' > "$3/bin/python" && chmod +x "$3/bin/python"; else command python3 "$@"; fi; }\n'
                                + block + 'echo "compare $1 done"\n')
             harness.chmod(0o755)
@@ -668,6 +677,7 @@ class PinTests2(unittest.TestCase):
         self.assertEqual(out.count('compute venv: building for pins'), 1, out)
         self.assertEqual(out.count('another compare is building it; waiting'), 5, out)
         self.assertEqual(out.count('compute venv: reusing pins'), 5, out)
+        self.assertEqual(out.count('finish '), 6, 'the exit trap set before the lock block must survive it: ' + out)
 
     def test_venv_ready_marker_is_the_pin_hash(self):
         text = (ROUND / 'jobs/project.sh').read_text()
