@@ -927,6 +927,9 @@ class SystemsTableTests(unittest.TestCase):
         # the jobs load, in a subshell, so the login shell keeps its own Python; the home rehearsal reads python3.
         floor = env[env.index('floor_python() {'):env.index('python_module() {')]
         self.assertIn('"$AUDIT_PYTHON" -c "$floor"', floor)
+        # The home rehearsal reaches the floor with its own python3 before the table's interpreter is consulted
+        # (round 22's Blueback rehearsal failed at home looking for /usr/bin/python3.11).
+        self.assertLess(floor.index('AUDIT_REHEARSAL:-0'), floor.index('"$AUDIT_PYTHON" -c "$floor"'))
         self.assertIn('( python_module && python3 -c "$floor" )', floor)
         self.assertLess(floor.index('AUDIT_REHEARSAL:-0}" = 1'), floor.index('( python_module'))
         module = env[env.index('python_module() {'):env.index('compute_python() {')]

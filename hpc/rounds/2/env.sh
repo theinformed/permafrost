@@ -12,6 +12,7 @@
 # Modified: SDE 2026-10-30  the drop reads the log only after the output pipeline has drained.
 # Modified: SDE 2026-10-30  the verify floor check reads the Python module the jobs load, in a subshell.
 # Modified: SDE 2026-10-31  cray-python modules count; the newest 3.1x of either family is loaded.
+# Modified: SDE 2026-10-31 the Python floor reads the home rehearsal before the table interpreter (Blueback names /usr/bin/python3.11, which the home machine lacks)
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 ROUND=$(python3 ./census.py round)
@@ -186,10 +187,11 @@ floor_python() {
     # The interpreter the jobs build on must reach the pins' floor: the table's named one where there is one,
     # the Python module everywhere else (Nautilus's login python3 is 3.6), python3 itself in the home rehearsal.
     floor='import sys; print("python floor: %d.%d.%d" % sys.version_info[:3]); sys.exit(sys.version_info < (3, 10))'
-    if [ -n "${AUDIT_PYTHON:-}" ]; then
-        "$AUDIT_PYTHON" -c "$floor"
-    elif [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then
+    # The rehearsal is checked first: the table's interpreter lives on the cluster, not on the home machine.
+    if [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then
         python3 -c "$floor"
+    elif [ -n "${AUDIT_PYTHON:-}" ]; then
+        "$AUDIT_PYTHON" -c "$floor"
     else
         ( python_module && python3 -c "$floor" )
     fi
