@@ -434,6 +434,10 @@ class CheckpointComparison(unittest.TestCase):
         self.assertEqual(report["unused_shared_kv"], [])
         self.assertEqual(len([v for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"]), 3)
 
+    def test_a_name_under_two_wrappers_keeps_its_role(self):
+        self.assertEqual(tensor_kind("model.language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")
+        self.assertEqual(tensor_kind("language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")
+
     def test_an_export_nested_under_one_more_wrapper_is_paired_by_name(self):
         # One export saves the same tensors under names with one extra wrapper; the rows keep the
         # original's names and the report records the wrapper once.

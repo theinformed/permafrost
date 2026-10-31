@@ -241,9 +241,9 @@ def strip_prefix(name, recipes):
 
 
 def tensor_kind(name, recipes=None):
-    """Match the matrix's role after removing its optional wrapper."""
+    """Match the matrix's role after removing its wrappers, however many an export stacked."""
     recipes = recipe_table() if recipes is None else recipes
-    name = strip_prefix(name, recipes)
+    name = core_name(name, recipes)
     for entry in recipes["tensor_kinds"]["patterns"]:
         if re.fullmatch(entry["pattern"], name):
             return entry["kind"]
