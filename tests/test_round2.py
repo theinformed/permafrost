@@ -691,6 +691,28 @@ class PinTests2(unittest.TestCase):
         self.assertIn('protobuf==6.32.1', pins(ROUND / 'compute-requirements.txt'))
         self.assertIn("huggingface_hub==0.35.3", (ROUND / 'jobs/download.sh').read_text())
 
+    def test_the_download_job_bounds_pip_and_stages_wheels_once_per_system(self):
+        """Nautilus 4138542 and 4138717 finished their wheel step and then wrote nothing for three hours,
+        pip still alive at the wall. Every step is stamped, each pip call has a bound that names the step
+        when it passes, pip's temp sits on the node's disk, and the wheels are staged once per system."""
+        env = (ROUND / 'env.sh').read_text()
+        self.assertIn('step() {\n    echo "$(date -u +%FT%TZ) step: $*"', env)
+        self.assertIn('timeout -k 30 "$limit" "$@" && return 0', env)
+        self.assertIn('echo "step over its $limit s bound: $*"', env)
+        self.assertIn('export AUDIT_WHEELS=$WORKDIR/model-audit/wheels/$(sha256sum compute-requirements.txt 2>/dev/null | cut -c1-16)', env)
+        self.assertIn('if [ -f "$AUDIT_WHEELS/.complete" ]; then', env)
+        self.assertIn('bounded 1800 "$1" -m pip download --disable-pip-version-check', env)
+        download = (ROUND / 'jobs/download.sh').read_text()
+        self.assertIn('tmp=$(mktemp -d /tmp/model-audit-XXXXXX 2>/dev/null) && export TMPDIR=$tmp', download)
+        self.assertIn("bounded 600 \"$py\" -m pip install --disable-pip-version-check 'huggingface_hub==0.35.3'", download)
+        self.assertIn('stage_wheels "$py"', download)
+        self.assertNotIn('"$AUDIT_WORK/wheels"', download)
+        self.assertEqual(download.count('step "'), 4)
+        self.assertLess(download.index('step "hub fetch: $count pairs"'), download.index('"$py" ./download.py'))
+        project = (ROUND / 'jobs/project.sh').read_text()
+        self.assertIn('--find-links "$AUDIT_WHEELS"', project)
+        self.assertNotIn('$AUDIT_WORK/wheels', project)
+
     def test_compares_starting_together_build_the_venv_once(self):
         """Six compares released in one second raced the venv build on Blueback (round 9): a mkdir lock serializes it."""
         text = (ROUND / 'jobs/project.sh').read_text()
@@ -746,7 +768,7 @@ class PinTests2(unittest.TestCase):
             tmp = Path(tmp)
             (tmp / 'compute-requirements.txt').write_text('torch==0\n')
             harness = tmp / 'harness.sh'
-            harness.write_text('#!/bin/bash\nset -euo pipefail\ncd "$(dirname "$0")"\nexport AUDIT_WORK=$PWD/work\nmkdir -p "$AUDIT_WORK"\ntrap \'echo "finish $1"\' EXIT\n'
+            harness.write_text('#!/bin/bash\nset -euo pipefail\ncd "$(dirname "$0")"\nexport AUDIT_WORK=$PWD/work AUDIT_WHEELS=$PWD/work/wheels\nmkdir -p "$AUDIT_WORK"\ntrap \'echo "finish $1"\' EXIT\n'
                                'python3() { if [ "${1:-}" = -m ] && [ "${2:-}" = venv ]; then mkdir -p "$3/bin" && printf \'#!/bin/bash\\nsleep 2\\n\' > "$3/bin/python" && chmod +x "$3/bin/python"; else command python3 "$@"; fi; }\n'
                                + block + 'echo "compare $1 done"\n')
             harness.chmod(0o755)

@@ -23,6 +23,8 @@ export AUDIT_WORK=$WORKDIR/model-audit/rounds/$ROUND
 export AUDIT_ROUND=$(pwd -P)
 export HF_HOME=$WORKDIR/model-audit/cache
 export PIP_CACHE_DIR=$AUDIT_WORK/cache/pip PYTHONDONTWRITEBYTECODE=1
+# The compute wheels are staged once per system for a pin set and reused by every later round.
+export AUDIT_WHEELS=$WORKDIR/model-audit/wheels/$(sha256sum compute-requirements.txt 2>/dev/null | cut -c1-16)
 # Home on some systems is over quota; tool caches stay in work.
 export XDG_CACHE_HOME=$AUDIT_WORK/cache/xdg
 export OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1
@@ -53,6 +55,47 @@ say() {
         printf '%s\n' "$part" | fold -w $((100 - ${#indent})) | sed "s/^/$indent/"
         indent='  '
     done
+}
+
+# step WHAT: one timestamped line per step, so a log says where a job's time went.
+step() {
+    echo "$(date -u +%FT%TZ) step: $*"
+}
+
+# bounded SECONDS COMMAND...: the command gets that long; past it the job stops with a line naming the
+# step (two Nautilus downloads sat three hours in pip's last breath and died at the wall without a word).
+bounded() {
+    local limit=$1 code
+    shift
+    timeout -k 30 "$limit" "$@" && return 0
+    code=$?
+    if [ "$code" = 124 ] || [ "$code" = 137 ]; then
+        echo "step over its $limit s bound: $*"
+    else
+        echo "step failed (exit $code): $*"
+    fi
+    return 1
+}
+
+# stage_wheels PYTHON: fetch the compute wheels into the system's shared staging unless a round already did.
+stage_wheels() {
+    local part
+    if [ -f "$AUDIT_WHEELS/.complete" ]; then
+        step "wheels: reusing $AUDIT_WHEELS"
+        return 0
+    fi
+    step "wheels: fetching to $AUDIT_WHEELS"
+    part=$AUDIT_WHEELS.part-${HPC_JOB_ID:-$$}
+    rm -rf -- "$part" "$AUDIT_WHEELS"
+    mkdir -p "$part"
+    bounded 1800 "$1" -m pip download --disable-pip-version-check -r compute-requirements.txt --dest "$part" || return 1
+    if mv -T "$part" "$AUDIT_WHEELS" 2>/dev/null; then
+        touch "$AUDIT_WHEELS/.complete"
+    else
+        # Another download landed the same pins first.
+        rm -rf -- "$part"
+    fi
+    step "wheels: staged"
 }
 
 # queue_args QUEUE: the bundled system's words for the transfer or background queue.

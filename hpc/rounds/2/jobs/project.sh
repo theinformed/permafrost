@@ -71,7 +71,7 @@ else
         echo "compute venv: building for pins $pins"
         rm -rf -- "$AUDIT_WORK/venv"
         python3 -m venv "$AUDIT_WORK/venv"
-        "$AUDIT_WORK/venv/bin/python" -m pip install --no-index --find-links "$AUDIT_WORK/wheels" -r compute-requirements.txt
+        "$AUDIT_WORK/venv/bin/python" -m pip install --no-index --find-links "$AUDIT_WHEELS" -r compute-requirements.txt
         echo "$pins" > "$AUDIT_WORK/venv/.ready"
     else
         echo "compute venv: reusing pins $pins"
