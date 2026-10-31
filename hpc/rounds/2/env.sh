@@ -136,7 +136,8 @@ fips_guard() {
 # node_facts PYTHON: one line each for the node, its cores, memory and Python.
 node_facts() {
     echo "node: $(hostname -s)"
-    echo "cores: $(nproc)"
+    # nproc beside the scheduler's grant and the cgroup quota: Wheat's probe read one core under ncpus=92.
+    echo "cores: $(nproc) visible to the job; scheduler grant ${NCPUS:-${SLURM_CPUS_ON_NODE:-unset}}; affinity $(taskset -cp $$ 2>/dev/null | sed 's/.*: //' || echo unread); cgroup cpu quota $(cat /sys/fs/cgroup/cpu.max 2>/dev/null || cat /sys/fs/cgroup/cpu/cpu.cfs_quota_us 2>/dev/null || echo unread)"
     awk '/^MemTotal:/ {t = $2} /^MemFree:/ {f = $2} /^MemAvailable:/ {a = $2}
          END {printf "memory: %d MB total, %d MB free, %d MB available\n", t / 1024, f / 1024, a / 1024}' \
         /proc/meminfo
