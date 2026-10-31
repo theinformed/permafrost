@@ -41,8 +41,9 @@ submit_job() {
     printf '%s %s build %s snapshot %s\n' "$piece" "$id" "$stamp" "$pinned" >> "$state"
     printf '%s\n' "$id"
 }
-# submit_job runs in a command substitution, so the parent keeps the list of what is queued and
-# withdraws it when a later submission fails: nothing of this build waits on a request never made.
+# Each submission above is called inside a command substitution, so the parent shell keeps the list
+# of what is queued and withdraws it when a later submission fails: nothing of this build waits on
+# a request never made.
 queued=()
 fail_submit() {
     echo "$1 submission failed; withdrawing ${#queued[@]} queued job(s): ${queued[*]}"
