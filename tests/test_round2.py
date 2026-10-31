@@ -1266,6 +1266,31 @@ class NamesFixtureTests(unittest.TestCase):
                 with patch('builtins.print'):
                     self.assertEqual(pin_census.names(path, temporary, hub=object()), [])
 
+    def test_one_refused_checkpoint_does_not_stop_the_names_step(self):
+        import pin_census
+        stored = json.loads((NAMES / '419b2efe4219.json').read_text())
+        temporary = tempfile.TemporaryDirectory()
+        self.addCleanup(temporary.cleanup)
+        directory = Path(temporary.name)
+        manifest = directory / 'batch.json'
+        other = {'hub_id': 'someone/copy', 'revision': 'b' * 40}
+        manifest.write_text(json.dumps({'round': 2, 'batch': 1, 'pairs': [
+            {'original': {'hub_id': stored['hub_id'], 'revision': stored['revision']}, 'modified': other},
+            {'original': {'hub_id': 'maker/next', 'revision': 'c' * 40}, 'modified': {'hub_id': 'x/y', 'revision': 'd' * 40}}]}))
+
+        def fixture(hub, model):
+            if model['revision'] == stored['revision']:
+                raise ValueError('2 weight files and no index: several checkpoints under one name')
+            tensors = {'a': {'file': 'm.safetensors', 'dtype': 'BF16', 'shape': [2]}}
+            if model['revision'] == 'c' * 40:
+                # A float8 original without the config block still carries its scales in the names.
+                tensors['language_model.model.layers.0.mlp.down_proj.activation_scale'] = {'file': 'm.safetensors', 'dtype': 'BF16', 'shape': [1]}
+            return {'hub_id': model['hub_id'], 'revision': model['revision'], 'config': {}, 'tensors': tensors}
+        out = directory / 'fixtures'
+        with patch.object(pin_census, 'fixture', fixture), self.assertRaisesRegex(ValueError, '2 checkpoint.* refused; pair 1 original: 2 weight files.*; pair 2 original: original is quantised .1 scale tensors'):
+            pin_census.names(str(manifest), str(out), hub=object())
+        self.assertEqual(sorted(path.name for path in out.iterdir()), ['bbbbbbbbbbbb.json', 'dddddddddddd.json'])
+
     def test_quantised_originals_and_several_files_without_an_index_are_refused(self):
         import pin_census
         stored = json.loads((NAMES / '419b2efe4219.json').read_text())

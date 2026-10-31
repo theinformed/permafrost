@@ -187,6 +187,14 @@ def fixture(hub, model):
     return record
 
 
+SCALE = re.compile(r'\.(weight_scale|weight_scale_inv|activation_scale|input_scale)(_inv)?$')
+
+
+def scale_tensors(tensors):
+    """Names of the per-tensor scales a float8 checkpoint carries beside its weights."""
+    return sorted(name for name in tensors if SCALE.search(name))
+
+
 def names(manifest, out, hub=None):
     """Write one fixture per pinned checkpoint in the batch, both sides, skipping ones on disk."""
     if hub is None:
@@ -198,25 +206,39 @@ def names(manifest, out, hub=None):
     out = Path(out)
     out.mkdir(parents=True, exist_ok=True)
     written = []
+    refused = []
     seen = set()
-    for row in json.loads(Path(manifest).read_text())['pairs']:
+    for number, row in enumerate(json.loads(Path(manifest).read_text())['pairs'], 1):
         for side in ('original', 'modified'):
             model = row[side]
             target = out / (model['revision'][:12] + '.json')
             if model['revision'] in seen or target.exists():
                 continue
             seen.add(model['revision'])
-            record = fixture(hub, model)
-            if side == 'original' and quantised(record['config']):
-                # Finding 37: a float8 original compared raw reads as 280 changed matrices and 560 scale
-                # tensors; the pair waits for a dequantised copy made at home.
-                raise ValueError('original is quantised (quantization_config): ' + model['hub_id'])
+            # One refused checkpoint does not stop the screen: the rest of the batch still gets its
+            # fixtures, and every refusal is reported together at the end.
+            try:
+                record = fixture(hub, model)
+                if side == 'original' and quantised(record['config']):
+                    # Finding 37: a float8 original compared raw reads as 280 changed matrices and 560 scale
+                    # tensors; the pair waits for a dequantised copy made at home.
+                    raise ValueError('original is quantised (quantization_config): ' + model['hub_id'])
+                scales = scale_tensors(record['tensors']) if side == 'original' else []
+                if scales:
+                    # The same checkpoint without the config block: the scales in the names say so.
+                    raise ValueError('original is quantised ({} scale tensors, {} first): {}'.format(len(scales), scales[0], model['hub_id']))
+            except ValueError as error:
+                refused.append('pair {} {}: {}'.format(number, side, error))
+                print('refused ' + refused[-1])
+                continue
             with tempfile.NamedTemporaryFile('w', dir=str(out), delete=False, suffix='.tmp') as stream:
                 stream.write(json.dumps(record, sort_keys=True, separators=(',', ':')) + '\n')
             Path(stream.name).replace(target)
             written.append(target)
             print('{}: {} tensors, {}'.format(target.name, len(record['tensors']), model['hub_id']))
     print('fixtures written: {}'.format(len(written)))
+    if refused:
+        raise ValueError('{} checkpoint(s) refused; '.format(len(refused)) + '; '.join(refused))
     return written
 
 
