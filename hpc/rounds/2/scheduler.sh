@@ -6,6 +6,7 @@
 
 SWEEP_TIME_LIMIT=00:30:00
 TIMING_TIME_LIMIT=00:05:00
+PROBE_TIME_LIMIT=00:10:00
 
 # job_id_env: this job's scheduler id without a server suffix; nothing outside a job.
 job_id_env() {
@@ -16,9 +17,9 @@ job_id_env() {
     fi
 }
 
-# piece_queue PIECE: the download uses the transfer queue; everything else runs in background.
+# piece_queue PIECE: the download and its probe use the transfer queue; everything else runs in background.
 piece_queue() {
-    if [ "$1" = download ]; then echo transfer; else echo background; fi
+    case $1 in download|probe) echo transfer ;; *) echo background ;; esac
 }
 
 piece_time() {
@@ -26,6 +27,7 @@ piece_time() {
         download) printf '%s\n' "${AUDIT_TRANSFER_TIME_LIMIT:-$AUDIT_TIME_LIMIT}" ;;
         sweep) printf '%s\n' "$SWEEP_TIME_LIMIT" ;;
         timing) printf '%s\n' "$TIMING_TIME_LIMIT" ;;
+        probe) printf '%s\n' "$PROBE_TIME_LIMIT" ;;
         *) printf '%s\n' "$AUDIT_TIME_LIMIT" ;;
     esac
 }
@@ -34,7 +36,7 @@ piece_time() {
 piece_memory() {
     case $1 in
         download) printf '%s\n' "${AUDIT_PBS_MEM_DOWNLOAD:-}" ;;
-        sweep|timing) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:-}" ;;
+        sweep|timing|probe) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:-}" ;;
         *) printf '%s\n' "${AUDIT_PBS_MEM_PROJECT:-}" ;;
     esac
 }

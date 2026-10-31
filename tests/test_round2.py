@@ -314,6 +314,20 @@ class BundleTests(unittest.TestCase):
         self.assertIn('VERDICT timing OK', log)
         self.assertNotIn('15-timing', (run.directory / 'outbox/round-2-end.log').read_text())
 
+    def test_the_probe_step_queues_one_transfer_job_by_name(self):
+        run = self.fixture()
+        self.assertEqual(run.run(), 0)
+        self.assertEqual(run.call(['./round.sh', 'probe'], run.round), 0)
+        log = (run.directory / 'outbox/round-2-only-16-probe-end.log').read_text()
+        self.assertIn('probe job: ', log)
+        self.assertIn('VERDICT probe OK', log)
+        self.assertNotIn('16-probe', (run.directory / 'outbox/round-2-end.log').read_text())
+        # The probe asks the transfer queue, as the download does.
+        rows = [row for row in run.rows() if '--job-name=model-audit-census-probe' in row['arguments']]
+        self.assertEqual(len(rows), 1, run.rows())
+        self.assertIn('--qos=transfer', rows[0]['arguments'])
+        self.assertIn('--time=00:10:00', rows[0]['arguments'])
+
     def test_a_step_may_be_named_by_its_number(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)
@@ -800,7 +814,7 @@ class SyntaxTests(unittest.TestCase):
             self.assertNotIn('#SBATCH --time', text)
         self.assertIn('--mem=60G', (ROUND / 'jobs/project.sh').read_text())
         self.assertEqual(sorted(path.name for path in (ROUND / 'jobs').glob('*.sh')),
-                         ['download.sh', 'project.sh', 'sweep.sh', 'timing.sh'])
+                         ['download.sh', 'probe.sh', 'project.sh', 'sweep.sh', 'timing.sh'])
 
 
 class BatchCountTests(unittest.TestCase):

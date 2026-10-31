@@ -20,8 +20,8 @@ narrow() {
     if command -v stdbuf >/dev/null 2>&1; then stdbuf -oL fold -w 100; else fold -w 100; fi
 }
 steps=(10-install-kit.sh 20-verify.sh 30-install-reporting.sh 40-submit.sh)
-# timing and cleanup run only by name: ./round.sh --only timing
-all=("${steps[@]}" 15-timing.sh 90-cleanup.sh)
+# timing, probe and cleanup run only by name: ./round.sh --only timing
+all=("${steps[@]}" 15-timing.sh 16-probe.sh 90-cleanup.sh)
 mode=all
 at=
 if [ "${1:-}" = projection ]; then
@@ -41,8 +41,8 @@ case ${1:-} in
     '') [ $# = 0 ] || exit 2 ;;
     --list) printf '%s\n' "${all[@]}"; echo '90-cleanup.sh is optional; use --only'; exit 0 ;;
     --only|--from) [ $# = 2 ] || exit 2; mode=${1#--}; at=${2#./} ;;
-    timing) [ $# = 1 ] || exit 2; mode=only; at=timing ;;  # the bare word keeps a desk card short
-    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing]'; exit 2 ;;
+    timing|probe) [ $# = 1 ] || exit 2; mode=only; at=$1 ;;  # the bare word keeps a desk card short
+    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing | probe]'; exit 2 ;;
 esac
 todo=()
 if [ "$mode" = all ]; then todo=("${steps[@]}")
@@ -52,7 +52,7 @@ else
         # a step may be named by its number alone (--only 10), which keeps a desk card under 50 characters
         if [ "$step" = "$at" ] || [ "${step%%-*}" = "$at" ] || [ "${step#*-}" = "$at.sh" ]; then found=1; at=$step; fi
         [ "$found" = 1 ] || continue
-        if [[ "$step" = @(90-cleanup|15-timing).sh ]] && [ "$mode" != only ]; then continue; fi
+        if [[ "$step" = @(90-cleanup|15-timing|16-probe).sh ]] && [ "$mode" != only ]; then continue; fi
         todo+=("$step")
         [ "$mode" != only ] || break
     done
