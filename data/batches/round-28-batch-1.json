@@ -1,0 +1,470 @@
+{
+  "round": 28,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "p-e-w/Mistral-Nemo-Instruct-2407-heretic-noslop",
+        "maker": "p-e-w",
+        "revision": "8e9a40f6a31f3a255803fbed57d84e0ed82f8bc0",
+        "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+            "maker": "mistralai",
+            "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-18T10:26:55+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-01-11T10:52:46+00:00",
+        "revision_date": "2026-01-11T12:51:08+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+        "maker": "mistralai",
+        "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+        "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+            "maker": "mistralai",
+            "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-18T10:26:55+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2024-07-17T17:26:49+00:00",
+        "revision_date": "2025-07-28T17:16:02+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-01-11T10:52:46+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 33,
+        "original_history_starts": "2024-07-17T17:26:49+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "richardyoung/Mistral-7B-Instruct-v0.3-heretic",
+        "maker": "richardyoung",
+        "revision": "017a4698e709592b9b7c1b347c5230073cc6aa6d",
+        "declared_base_model": "mistralai/Mistral-7B-v0.3",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-7B-v0.3",
+            "maker": "mistralai",
+            "revision": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-05-22T09:56:38+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-24T23:01:10+00:00",
+        "revision_date": "2026-09-26T19:09:02+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "mistralai/Mistral-7B-Instruct-v0.3",
+        "maker": "mistralai",
+        "revision": "c170c708c41dac9275d15a8fff4eca08d52bab71",
+        "declared_base_model": "mistralai/Mistral-7B-v0.3",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-7B-v0.3",
+            "maker": "mistralai",
+            "revision": "caa1feb0e54d415e2df31207e5f4e273e33509b1",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-05-22T09:56:38+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2024-05-22T09:57:04+00:00",
+        "revision_date": "2025-12-03T12:13:48+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-24T23:01:10+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 34,
+        "original_history_starts": "2024-05-22T09:57:04+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "hehua2008/Mistral-Small-3.2-24B-Instruct-2506-abliterated",
+        "maker": "hehua2008",
+        "revision": "665e3ee115b258e65cff0bd19fb44bff11d4207b",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.1-24B-Base-2503"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+            "maker": "mistralai",
+            "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-03-16T23:31:11+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-10T05:05:27+00:00",
+        "revision_date": "2026-06-10T10:41:36+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+        "maker": "mistralai",
+        "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.1-24B-Base-2503"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+            "maker": "mistralai",
+            "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-03-16T23:31:11+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-06-19T17:41:13+00:00",
+        "revision_date": "2025-12-22T10:16:55+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-10T05:05:27+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 10,
+        "original_history_starts": "2025-06-20T15:54:57+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "uncensoredai/Mistral-Small-24B-Instruct-2501",
+        "maker": "uncensoredai",
+        "revision": "837e9437ad7f5edee4e049b60c364ebf0aeb15f1",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-24B-Base-2501"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+            "maker": "mistralai",
+            "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-01-23T14:13:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-02-02T21:58:32+00:00",
+        "revision_date": "2025-02-09T07:34:58+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+        "maker": "mistralai",
+        "revision": "20b2ed1c4e9af44b9ad125f79f713301e27737e2",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-24B-Base-2501"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+            "maker": "mistralai",
+            "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-01-23T14:13:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-01-28T13:30:13+00:00",
+        "revision_date": "2025-02-02T12:52:05+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-02-02T21:58:32+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 54,
+        "original_history_starts": "2025-01-28T13:30:13+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "simonko912/gemma-4-31B-it-abliterated-v3",
+        "maker": "simonko912",
+        "revision": "85c0d2f1988b8c728d04d9513297a65a8b7eea99",
+        "declared_base_model": "google/gemma-4-31B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-29T05:18:57+00:00",
+        "revision_date": "2026-04-29T05:20:07+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-31B-it",
+        "maker": "google",
+        "revision": "145dc2508c480a64b47242f160d286cff94a2343",
+        "declared_base_model": null,
+        "base_model_chain": [],
+        "created_at": "2026-03-11T18:22:36+00:00",
+        "revision_date": "2026-04-28T17:33:42+00:00",
+        "publisher_root": true,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-29T05:18:57+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 13,
+        "original_history_starts": "2026-04-02T10:52:51+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "MoonRide/gemma-4-12B-it-heretic-custom",
+        "maker": "moonride",
+        "revision": "609bf6d2fd44977dfbc48a30c8c698429798c2a8",
+        "declared_base_model": [
+          "google/gemma-4-12B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-06T09:28:43+00:00",
+        "revision_date": "2026-06-06T09:51:05+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-12B-it",
+        "maker": "google",
+        "revision": "5926caa4ec0cac5cbfadaf4077420520de1d5205",
+        "declared_base_model": [
+          "google/gemma-4-12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B",
+            "maker": "google",
+            "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-05-23T02:43:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-23T01:17:15+00:00",
+        "revision_date": "2026-06-04T11:58:10+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-06T09:28:43+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2026-06-03T21:14:23+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "trohrbaugh/gemma-4-12b-it-heretic",
+        "maker": "trohrbaugh",
+        "revision": "1f21141c9b67ef238209bc32a00a30a54534e118",
+        "declared_base_model": [
+          "google/gemma-4-12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B",
+            "maker": "google",
+            "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-05-23T02:43:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-10T20:04:17+00:00",
+        "revision_date": "2026-06-10T21:15:48+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-12B-it",
+        "maker": "google",
+        "revision": "5926caa4ec0cac5cbfadaf4077420520de1d5205",
+        "declared_base_model": [
+          "google/gemma-4-12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B",
+            "maker": "google",
+            "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-05-23T02:43:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-23T01:17:15+00:00",
+        "revision_date": "2026-06-04T11:58:10+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-10T20:04:17+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2026-06-03T21:14:23+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Bahushruth/gemma-4-26B-A4B-it-abliterated",
+        "maker": "bahushruth",
+        "revision": "d7f5a44401442359f0aee7fcf0069bb97f458ae6",
+        "declared_base_model": "google/gemma-4-26B-A4B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-27T12:13:18+00:00",
+        "revision_date": "2026-07-31T09:17:29+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-26B-A4B-it",
+        "maker": "google",
+        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B",
+            "maker": "google",
+            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-12T00:38:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-11T21:25:57+00:00",
+        "revision_date": "2026-07-20T16:42:12+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-27T12:13:18+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 13,
+        "original_history_starts": "2026-04-02T10:52:44+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-10-31T19:04:05.131258+00:00",
+  "note": "Round 28, rehearsed on the Blueback table, lane by the desk: the heretic author's own Mistral Nemo export (p-e-w, the noslop variant), richardyoung's Mistral 7B v0.3 heretic, hehua2008's Mistral Small 3.2 abliteration, uncensoredai's Mistral Small 24B 2501, simonko912's Gemma 4 31B v3, two 12B heretic exports (MoonRide custom, trohrbaugh) and Bahushruth's 26B-A4B. Held for room under the 1T work line: akpsahan's 31B v2, claymorecrystal's 26B-A4B, NullpoLab's E4B; held for the kit: TurkishCodeMan's E2B, a text-only export whose audio and vision towers are gone."
+}
