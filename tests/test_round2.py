@@ -328,6 +328,28 @@ class BundleTests(unittest.TestCase):
         self.assertIn('--qos=transfer', rows[0]['arguments'])
         self.assertIn('--time=00:10:00', rows[0]['arguments'])
 
+    def test_the_compute_probe_queues_the_same_job_on_the_background_queue(self):
+        """Wheat's login node opened the image and its transfer node did not; the compute nodes get the same
+        ten-minute question before eight compares depend on the answer."""
+        run = self.fixture()
+        self.assertEqual(run.run(), 0)
+        self.assertEqual(run.call(['./round.sh', 'probe-compute'], run.round), 0)
+        log = (run.directory / 'outbox/round-2-only-16-probe-compute-end.log').read_text()
+        self.assertIn('probe job: ', log)
+        self.assertIn('probe queue: background', log)
+        self.assertIn('VERDICT probe OK', log)
+        rows = [row for row in run.rows() if '--job-name=model-audit-census-probe-compute' in row['arguments']]
+        self.assertEqual(len(rows), 1, run.rows())
+        self.assertIn('--qos=background', rows[0]['arguments'])
+        self.assertIn('--time=00:10:00', rows[0]['arguments'])
+        probe = (ROUND / 'jobs/probe.sh').read_text()
+        self.assertIn('if standalone_python; then', probe)
+        self.assertIn('echo "pypi answers: $pypi"', probe)
+        env = (ROUND / 'env.sh').read_text()
+        self.assertIn('standalone_python() {', env)
+        self.assertIn('tar -xzf "$tar" -C "$part" --strip-components=1', env)
+        self.assertIn('dir=$WORKDIR/model-audit/python/${sum:0:16}', env)
+
     def test_a_step_may_be_named_by_its_number(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)
@@ -1165,10 +1187,31 @@ class BiggerBatchTests(unittest.TestCase):
         self.assertTrue(any('Submit the transfer, 9 CPU comparisons and the sweep' in card for card in cards))
         self.assertTrue((run.work / 'model-audit/rounds/7/scripts/batch.json').is_file())
 
+    def test_wheat_without_the_image_carries_its_own_python(self):
+        """Wheat's transfer nodes refuse user namespaces (rounds 5 and 30), so the round brings a standalone
+        CPython tar instead of the image; the login half only sees the tar, the jobs unpack it."""
+        run = CensusRehearsal(self.args(system='wheat'), self.directory / 'wheat-tar')
+        rows = run.queued()
+        text = run.log.read_text()
+        self.assertIn('python tar: ', text)
+        self.assertIn('; the jobs unpack it', text)
+        self.assertNotIn('VERDICT image', text)
+        system = (run.round / 'system.sh').read_text()
+        self.assertIn('export AUDIT_PYTHON_TAR=', system)
+        self.assertNotIn('AUDIT_PYTHON=', system.replace('AUDIT_PYTHON_TAR', ''))
+        self.assertNotIn('AUDIT_IMAGE', system)
+        self.assertEqual(rows[0]['arguments'][rows[0]['arguments'].index('-q') + 1], 'transfer')
+        self.assertIn('select=1:ncpus=92:mpiprocs=1', rows[1]['arguments'])
+        self.assertEqual(len(rows), run.count + 2)
+        result = CensusRehearsal(self.args(system='wheat'), self.directory / 'wheat-bare')
+        result.python_tar = False
+        built = result.build(check=False)
+        self.assertIn('wheat carries its own Python; give --python-tar', built.stdout)
+
     def test_wheat_queues_the_same_shape_through_pbs_and_the_image(self):
         if not CLUSTER_PYTHON.exists():
             self.skipTest('the image check needs the venv built from the cluster pins')
-        run = CensusRehearsal(self.args(system='wheat'), self.directory / 'wheat')
+        run = CensusRehearsal(self.args(system='wheat', image=True), self.directory / 'wheat')
         rows = run.queued()
         text = run.log.read_text()
         self.assertIn('PBS request: qsub -v HPC_PROJECT=model-audit,', text)

@@ -27,7 +27,7 @@ piece_time() {
         download) printf '%s\n' "${AUDIT_TRANSFER_TIME_LIMIT:-$AUDIT_TIME_LIMIT}" ;;
         sweep) printf '%s\n' "$SWEEP_TIME_LIMIT" ;;
         timing) printf '%s\n' "$TIMING_TIME_LIMIT" ;;
-        probe) printf '%s\n' "$PROBE_TIME_LIMIT" ;;
+        probe|probe-compute) printf '%s\n' "$PROBE_TIME_LIMIT" ;;
         *) printf '%s\n' "$AUDIT_TIME_LIMIT" ;;
     esac
 }
@@ -36,7 +36,7 @@ piece_time() {
 piece_memory() {
     case $1 in
         download) printf '%s\n' "${AUDIT_PBS_MEM_DOWNLOAD:-}" ;;
-        sweep|timing|probe) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:-}" ;;
+        sweep|timing|probe|probe-compute) printf '%s\n' "${AUDIT_PBS_MEM_SWEEP:-}" ;;
         *) printf '%s\n' "${AUDIT_PBS_MEM_PROJECT:-}" ;;
     esac
 }

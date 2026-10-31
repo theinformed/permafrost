@@ -57,6 +57,12 @@ else
     unset TMPDIR
 fi
 node_facts "$py"
+# The scheduler's own limits on this user, so a drop names why jobs wait while nodes idle (Blueback: six of
+# ours run and the rest pend with reason None).
+if command -v sacctmgr >/dev/null 2>&1; then
+    echo "qos limits: $(sacctmgr -nP show qos format=Name,MaxJobsPU,MaxTRESPU,MaxSubmitPU 2>/dev/null | grep -E '^(transfer|background)\|' | tr '\n' ' ')"
+    echo "association limits: $(sacctmgr -nP show assoc user=$USER format=Account,Partition,QOS,MaxJobs,GrpJobs,MaxSubmit 2>/dev/null | tr '\n' ' ')"
+fi
 step "hub fetch: $count pairs"
 if [ "$stub" = 1 ]; then
     "$py" ./measure.py --seed-original

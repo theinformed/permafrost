@@ -76,8 +76,8 @@ def system_entry(table, name):
     for field in ('work', 'token_file'):
         if not re.fullmatch(r'/[A-Za-z0-9/._-]+', entry[field]) or '..' in entry[field].split('/'):
             raise ValueError('{} for {} must be a plain absolute path'.format(field, name))
-    if 'python' in entry and not re.fullmatch(r'/[A-Za-z0-9/._-]+|python3(\.[0-9]+)?', entry['python']):
-        raise ValueError('python for {} must be an absolute path or a python3.N name'.format(name))
+    if 'python' in entry and not re.fullmatch(r'/[A-Za-z0-9/._-]+|python3(\.[0-9]+)?|tar', entry['python']):
+        raise ValueError('python for {} must be an absolute path, a python3.N name or tar'.format(name))
     if not re.fullmatch(r'[A-Za-z0-9_-]+', entry['subproject']):
         raise ValueError('invalid subproject for ' + name)
     if entry['scheduler'] == 'pbs':
@@ -101,7 +101,7 @@ def minutes(clock):
     return int(hours) * 60 + int(mins)
 
 
-def system_script(name, entry, image=None, image_sha256=None):
+def system_script(name, entry, image=None, image_sha256=None, python_tar=None, python_tar_sha256=None):
     """system.sh: the bound system, its scheduler words and limits, one word per line."""
     def value(text):
         return shlex.quote(str(text))
@@ -118,7 +118,7 @@ def system_script(name, entry, image=None, image_sha256=None):
              'AUDIT_TRANSFER_ARGS=' + value('\n'.join(entry['transfer'])),
              'AUDIT_BACKGROUND_ARGS=' + value('\n'.join(entry['background'])),
              'export AUDIT_TRANSFER_ARGS AUDIT_BACKGROUND_ARGS']
-    if entry.get('python'):
+    if entry.get('python') and entry['python'] != 'tar':
         # A system whose python3 is older than the pins names the interpreter the jobs build their venvs on.
         lines.append('export AUDIT_PYTHON=' + value(entry['python']))
     if entry['scheduler'] == 'pbs':
@@ -133,6 +133,9 @@ def system_script(name, entry, image=None, image_sha256=None):
                          *(value(memory.get(piece, '')) for piece in ('download', 'project', 'sweep'))))
     if image:
         lines.append('export AUDIT_IMAGE={} AUDIT_IMAGE_SHA256={}'.format(value(image), value(image_sha256)))
+    if python_tar:
+        # A system without a Python at the pins and without namespaces for the image carries its own.
+        lines.append('export AUDIT_PYTHON_TAR={} AUDIT_PYTHON_TAR_SHA256={}'.format(value(python_tar), value(python_tar_sha256)))
     return '\n'.join(lines) + '\n'
 
 
@@ -164,6 +167,14 @@ def build(args):
         raise ValueError('image needs a plain absolute .sif path on the cluster')
     if args.image and not re.fullmatch(r'[0-9a-f]{64}', args.image_sha256):
         raise ValueError('image needs its 64-character sha256')
+    if bool(args.python_tar) != bool(args.python_tar_sha256):
+        raise ValueError('--python-tar and --python-tar-sha256 go together')
+    if entry.get('python') == 'tar' and not args.python_tar and not args.image:
+        raise ValueError(args.system + ' carries its own Python; give --python-tar and --python-tar-sha256, or an image')
+    if args.python_tar and (not re.fullmatch(r'/[A-Za-z0-9/._-]+\.tar\.gz', args.python_tar) or '..' in args.python_tar.split('/')):
+        raise ValueError('python tar needs a plain absolute .tar.gz path on the cluster')
+    if args.python_tar and not re.fullmatch(r'[0-9a-f]{64}', args.python_tar_sha256):
+        raise ValueError('python tar needs its 64-character sha256')
     source = Path(args.rounds) / KIT
     reporting = source / 'hpc-poll.d/model-audit.sh'
     if not reporting.is_file() or not reporting.read_text().splitlines()[1].startswith('# version 1 '):
@@ -200,7 +211,8 @@ def build(args):
         (stage / 'maker-guard.sha256').write_text(guard_text(ROOT / 'hpc/banned-makers.txt'))
         (stage / 'batch.json').write_text(json.dumps(manifest, indent=2) + '\n')
         (stage / 'systems.json').write_text(json.dumps(table, indent=2) + '\n')
-        (stage / 'system.sh').write_text(system_script(args.system, entry, args.image, args.image_sha256))
+        (stage / 'system.sh').write_text(system_script(args.system, entry, args.image, args.image_sha256,
+                                                       args.python_tar, args.python_tar_sha256))
         if args.image:
             (stage / 'IMAGE.txt').write_text('image: {}\nsha256: {}\n'.format(args.image, args.image_sha256))
             for name in ('image.sh', 'run-check.sh'):
@@ -225,7 +237,7 @@ def build(args):
             rows.append('{}  {}'.format(hashlib.sha256(path.read_bytes()).hexdigest(), path.relative_to(stage)))
         (stage / 'SHA256SUMS').write_text('\n'.join(rows) + '\n')
         (stage / 'MANIFEST.json').write_text(json.dumps({'round': args.round, 'system': args.system,
-            'scheduler': entry['scheduler'], 'pairs': count, 'needs': fields, 'image': args.image,
+            'scheduler': entry['scheduler'], 'pairs': count, 'needs': fields, 'image': args.image, 'python_tar': args.python_tar,
             'kit_version': version, 'steps': STEPS, 'optional_steps': ['90-cleanup.sh'],
             'storage': {'home': 'scripts and cards only', 'work_budget_bytes': 8 * 1024 ** 4,
                         'submissions': {'copies': 64, 'files_per_copy': 500, 'source_bytes_per_copy': 8 * 1024 ** 2,
@@ -346,6 +358,8 @@ def main():
     pack.add_argument('--takes', help='measured login-round duration')
     pack.add_argument('--image', help='the round image path on the cluster')
     pack.add_argument('--image-sha256', help='that image file\'s sha256')
+    pack.add_argument('--python-tar', help='a standalone CPython tar.gz on the cluster, for a system with neither a Python at the pins nor namespaces for the image')
+    pack.add_argument('--python-tar-sha256', help='that tar file\'s sha256')
     pack.set_defaults(handler=build)
     close = commands.add_parser('record')
     close.add_argument('system')

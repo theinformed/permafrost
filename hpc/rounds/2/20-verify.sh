@@ -16,8 +16,12 @@ start_piece verify 'Check the transfer and CPU comparison requests'
 # The pins need Python 3.10 or newer (Fran's 3.9 found no pydantic 2.14.1 at job time); an image brings its own.
 # The check reads the interpreter the jobs will build on: the table's named one, else the Python module (env.sh).
 # It comes first so that a system without the module fails this card in seconds, before any other probe.
-if [ -z "${AUDIT_IMAGE:-}" ]; then
-    floor_python || { echo 'this Python is below the pins; build this system with --image'; echo 'VERDICT verify FAIL'; exit 1; }
+if [ -n "${AUDIT_PYTHON_TAR:-}" ] && [ -z "${AUDIT_IMAGE:-}" ]; then
+    # The round carries its own interpreter; the login node only sees that the tar is there, the jobs unpack it.
+    [ -s "$AUDIT_PYTHON_TAR" ] || { echo "python tar missing: $AUDIT_PYTHON_TAR"; echo 'VERDICT verify FAIL'; exit 1; }
+    echo "python tar: $AUDIT_PYTHON_TAR ($(stat -c %s "$AUDIT_PYTHON_TAR") bytes); the jobs unpack it"
+elif [ -z "${AUDIT_IMAGE:-}" ]; then
+    floor_python || { echo 'this Python is below the pins; build this system with --image or --python-tar'; echo 'VERDICT verify FAIL'; exit 1; }
 fi
 # Each probe says what it cost; the desk's rule is one minute on a login node for the whole card.
 clocked() { local t0=$SECONDS rc=0; "$@" || rc=$?; echo "verify: $1 ${2:-} took $((SECONDS - t0)) s"; return $rc; }

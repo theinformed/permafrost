@@ -42,7 +42,8 @@ case ${1:-} in
     --list) printf '%s\n' "${all[@]}"; echo '90-cleanup.sh is optional; use --only'; exit 0 ;;
     --only|--from) [ $# = 2 ] || exit 2; mode=${1#--}; at=${2#./} ;;
     timing|probe) [ $# = 1 ] || exit 2; mode=only; at=$1 ;;  # the bare word keeps a desk card short
-    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing | probe]'; exit 2 ;;
+    probe-compute) [ $# = 1 ] || exit 2; mode=only; at=probe; export AUDIT_PROBE_PIECE=probe-compute ;;  # the same probe on the compute queue
+    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing | probe | probe-compute]'; exit 2 ;;
 esac
 todo=()
 if [ "$mode" = all ]; then todo=("${steps[@]}")
@@ -60,6 +61,7 @@ else
 fi
 log=round-$ROUND-end.log
 [ "$mode" = all ] || log=round-$ROUND-$mode-${at%.sh}-end.log
+[ "${AUDIT_PROBE_PIECE:-}" != probe-compute ] || log=round-$ROUND-$mode-16-probe-compute-end.log
 {
     echo 'project: model-audit'
     echo "system: $HPC_SYSTEM"

@@ -252,15 +252,38 @@ python_module() {
     echo "Python module: $loaded ($(python3 --version 2>&1))"
 }
 
+# standalone_python: the round's own CPython, unpacked once per system from the tar a file card pushed
+# (Wheat's transfer nodes refuse user namespaces, so the image cannot open there, and its login Python is 3.6).
+standalone_python() {
+    local tar=${AUDIT_PYTHON_TAR:?} sum=${AUDIT_PYTHON_TAR_SHA256:?} dir part
+    dir=$WORKDIR/model-audit/python/${sum:0:16}
+    if [ ! -x "$dir/bin/python3" ]; then
+        [ -f "$tar" ] || { echo "python tar missing: $tar"; return 1; }
+        [ "$(sha256sum "$tar" | cut -d' ' -f1)" = "$sum" ] || { echo "python tar sha256 differs from the pin: $tar"; return 1; }
+        part=$dir.part-${HPC_JOB_ID:-$$}
+        rm -rf -- "$part"
+        mkdir -p "$part"
+        tar -xzf "$tar" -C "$part" --strip-components=1 || { rm -rf -- "$part"; echo "python tar did not unpack: $tar"; return 1; }
+        # Another job may have landed it first; the rename is atomic either way.
+        mv -T "$part" "$dir" 2>/dev/null || rm -rf -- "$part"
+        [ -x "$dir/bin/python3" ] || { echo 'python tar unpacked without bin/python3'; return 1; }
+    fi
+    export PATH=$dir/bin:$PATH
+    echo "Python: standalone $(python3 --version 2>&1) from $dir"
+}
+
 compute_python() {
     # An image build checks the image and its pins; the jobs then run Python inside it.
     if [ -n "${AUDIT_IMAGE:-}" ]; then
         image_ready 0
         return
     fi
+    # A system that carries its own interpreter unpacks it once and builds the venvs on it.
+    if [ -n "${AUDIT_PYTHON_TAR:-}" ] && [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
+        standalone_python || return 1
     # Modules are loaded in jobs, leaving the login interpreter alone.
     # Nautilus has no module called python3; its Python modules are python/3.11/3.11 and kin.
-    if [ -n "${AUDIT_PYTHON:-}" ] && [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
+    elif [ -n "${AUDIT_PYTHON:-}" ] && [ "${AUDIT_REHEARSAL:-0}" != 1 ]; then
         # Blueback has no python module and its python3 is older than the pins; the table names /usr/bin/python3.11.
         found=$(command -v "$AUDIT_PYTHON" 2>/dev/null) || { echo "the systems table names $AUDIT_PYTHON here; nothing answers to it"; return 1; }
         mkdir -p "$AUDIT_WORK/pybin"

@@ -22,6 +22,12 @@ hpc_report_on_exit
 started=$(date -u -d "@${AUDIT_JOB_STARTED%.*}" +%FT%TZ)
 echo "node: $(hostname -s), $(nproc) cores, $(awk '/MemTotal/ {printf "%d GB", $2/1048576}' /proc/meminfo)"
 echo "python: $(python3 --version 2>&1)"
+standalone=none
+if [ -n "${AUDIT_PYTHON_TAR:-}" ]; then
+    # The round's own interpreter, unpacked here if no job has yet; its version is the mechanism proof.
+    if standalone_python; then standalone=$(python3 --version 2>&1 | tr -d '"' | tr ' ' '-'); else standalone=fail; fi
+fi
+echo "standalone python: $standalone"
 namespaces=$(cat /proc/sys/user/max_user_namespaces 2>/dev/null || echo unknown)
 echo "user namespaces allowed: $namespaces"
 image=none
@@ -32,9 +38,17 @@ fi
 echo "image on this node: $image"
 hub=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://huggingface.co/api/models/google/gemma-4-E4B-it 2>/dev/null || echo none)
 echo "hub answers: $hub"
+pypi=$(curl -sS -o /dev/null -w '%{http_code}' --max-time 20 https://pypi.org/simple/pip/ 2>/dev/null || echo none)
+echo "pypi answers: $pypi"
+# The scheduler's own limits on this user, so a drop names why jobs wait while nodes idle (Blueback: six of
+# ours run and the rest pend with reason None).
+if command -v sacctmgr >/dev/null 2>&1; then
+    echo "qos limits: $(sacctmgr -nP show qos format=Name,MaxJobsPU,MaxTRESPU,MaxSubmitPU 2>/dev/null | grep -E '^(transfer|background)\|' | tr '\n' ' ')"
+    echo "association limits: $(sacctmgr -nP show assoc user=$USER format=Account,Partition,QOS,MaxJobs,GrpJobs,MaxSubmit 2>/dev/null | tr '\n' ' ')"
+fi
 ended=$(date -u +%FT%TZ)
 mkdir -p "${AUDIT_MEASUREMENT%/*}"
-printf '{"job": "%s", "host": "%s", "python": "%s", "user_namespaces": "%s", "image": "%s", "hub_http": "%s", "started": "%s", "ended": "%s"}\n' \
-    "$(job_id_env)" "$(hostname -s)" "$(python3 --version 2>&1 | tr -d '"')" "$namespaces" "$image" "$hub" "$started" "$ended" > "$AUDIT_MEASUREMENT"
-echo "probe: image $image hub $hub namespaces $namespaces"
+printf '{"job": "%s", "host": "%s", "python": "%s", "standalone_python": "%s", "user_namespaces": "%s", "image": "%s", "hub_http": "%s", "pypi_http": "%s", "started": "%s", "ended": "%s"}\n' \
+    "$(job_id_env)" "$(hostname -s)" "$(python3 --version 2>&1 | tr -d '"')" "$standalone" "$namespaces" "$image" "$hub" "$pypi" "$started" "$ended" > "$AUDIT_MEASUREMENT"
+echo "probe: image $image hub $hub namespaces $namespaces pypi $pypi python $standalone"
 echo 'VERDICT probe OK'

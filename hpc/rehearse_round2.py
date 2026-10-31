@@ -54,6 +54,20 @@ hpc_job_fail() { echo "card event: failed; $*"; }
     return directory
 
 
+def fixture_python_tar(directory):
+    """A stand-in for the standalone Python tar; the rehearsal never unpacks it (AUDIT_REHEARSAL skips that)."""
+    import io, tarfile
+    directory.mkdir(parents=True, exist_ok=True)
+    path = directory / 'cpython-rehearsal.tar.gz'
+    with tarfile.open(str(path), 'w:gz') as archive:
+        data = b'#!/bin/bash\necho rehearsal stand-in\n'
+        info = tarfile.TarInfo('python/bin/python3')
+        info.size = len(data)
+        info.mode = 0o755
+        archive.addfile(info, io.BytesIO(data))
+    return path, hashlib.sha256(path.read_bytes()).hexdigest()
+
+
 def fixture_image(directory):
     """A stand-in image file and the record run-check.sh reads inside a real image."""
     directory.mkdir(parents=True, exist_ok=True)
@@ -118,6 +132,7 @@ class CensusRehearsal(Rehearsal):
         self.count = len(self.batch['pairs'])
         self.system = getattr(args, 'system', None) or 'nautilus'
         self.image = getattr(args, 'image', False) or SYSTEMS[self.system]['image'] == 'required'
+        self.python_tar = SYSTEMS[self.system].get('python') == 'tar' and not self.image
         super().__init__(args, directory)
         wrapper(self.binary / 'python3', self.login)
         self.compute = os.path.abspath(args.compute_python)
@@ -142,6 +157,9 @@ class CensusRehearsal(Rehearsal):
         if self.image:
             image, sha = fixture_image(self.directory / 'images')
             command += ['--image', str(image), '--image-sha256', sha]
+        if self.python_tar:
+            tar, sha = fixture_python_tar(self.directory / 'images')
+            command += ['--python-tar', str(tar), '--python-tar-sha256', sha]
         result = captured(command, env=self.environment)
         (self.directory / 'builder.log').write_text(result.stdout)
         if check and result.returncode:

@@ -78,7 +78,8 @@
     "purge_days": 30,
     "quota": "statvfs",
     "token_file": "/p/work/sdegan/hf-token",
-    "image": "required"
+    "image": "optional",
+    "python": "tar"
   },
   "fran": {
     "scheduler": "slurm",
