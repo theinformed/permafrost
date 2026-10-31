@@ -5,6 +5,8 @@
 #                           writes rehearsal fixtures from published headers, never weights.
 # Modified: SDE 2026-10-30  a parent that is itself a copy: the undeclared ancestor both sides share is
 #                           the publisher root, so a copy compares against its stated parent.
+# Modified: SDE 2026-10-31  an original whose surviving history starts after the copy was created pins to the
+#   copy's revision date and says so in the record.
 import argparse
 from datetime import datetime, timezone
 import json
@@ -57,9 +59,17 @@ def pin(api, modified, original):
     copy_history = api.list_repo_commits(modified)
     copy_commit = next(row for row in copy_history if row.commit_id == copy.sha)
     history = api.list_repo_commits(original)
-    eligible = [row for row in history if row.created_at <= copy.created_at]
+    cutoff, rule = copy.created_at, 'latest commit at or before modified repository creation'
+    eligible = [row for row in history if row.created_at <= cutoff]
     if not eligible:
-        raise ValueError('no original revision predates creation: ' + modified)
+        # The original's surviving history starts after the copy was created: the publisher rewrote it
+        # (google/gemma-4-12B-it keeps no commit older than OpenYourMind's copy of it, by about an hour).
+        # The copy's measured revision then sets the cutoff and the record says so.
+        cutoff, rule = copy_commit.created_at, ('latest commit at or before the modified revision; the original '
+                                                'history starts after the modified repository was created')
+        eligible = [row for row in history if row.created_at <= cutoff]
+    if not eligible:
+        raise ValueError('no original revision predates creation or the modified revision: ' + modified)
     commit = max(eligible, key=lambda row: row.created_at)
     seen = set()
 
@@ -90,9 +100,9 @@ def pin(api, modified, original):
     base['revision_date'] = commit.created_at.isoformat()
     settle_roots(node, base)
     return {'modified': node, 'original': base,
-        'original_selection': {'cutoff': copy.created_at.isoformat(),
-            'rule': 'latest commit at or before modified repository creation',
-            'history_commits_read': len(history)}}
+        'original_selection': {'cutoff': cutoff.isoformat(), 'rule': rule,
+            'history_commits_read': len(history),
+            'original_history_starts': min(history, key=lambda row: row.created_at).created_at.isoformat()}}
 
 
 INDEX = 'model.safetensors.index.json'

@@ -129,6 +129,30 @@ class PinTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, 'predates creation'):
             pin(API(), 'owner/copy', 'publisher/base')
 
+    def test_a_rewritten_original_history_pins_to_the_copy_revision_and_says_so(self):
+        # google/gemma-4-12B-it keeps no commit older than OpenYourMind's copy of it, which was created about an
+        # hour before the oldest surviving original commit and revised two weeks later. The pin takes the latest
+        # original commit no later than the copy's measured revision and records where the history starts.
+        created = datetime(2026, 6, 3, 19, 57, tzinfo=timezone.utc)
+        revised = datetime(2026, 6, 16, 9, 28, tzinfo=timezone.utc)
+        history = [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 6, 3, 21, 14, tzinfo=timezone.utc)),
+                   SimpleNamespace(commit_id='b' * 40, created_at=datetime(2026, 6, 20, tzinfo=timezone.utc))]
+        class API:
+            def model_info(self, repo, revision=None):
+                card = {'base_model': 'publisher/base'} if repo == 'owner/copy' else {}
+                return SimpleNamespace(sha=revision or 'c' * 40, created_at=created,
+                                       card_data=SimpleNamespace(to_dict=lambda: card))
+            def list_repo_commits(self, repo):
+                if repo == 'owner/copy':
+                    return [SimpleNamespace(commit_id='c' * 40, created_at=revised)]
+                return history
+        row = pin(API(), 'owner/copy', 'publisher/base')
+        self.assertEqual(row['original']['revision'], 'a' * 40)
+        selection = row['original_selection']
+        self.assertEqual(selection['cutoff'], revised.isoformat())
+        self.assertIn('history starts after', selection['rule'])
+        self.assertEqual(selection['original_history_starts'], history[0].created_at.isoformat())
+
     def test_a_parent_that_is_itself_a_copy_pins_and_passes_the_screen(self):
         created = datetime(2026, 1, 2, tzinfo=timezone.utc)
         cards = {'rich/coder-heretic': 'maker/model-it', 'yu/coder': 'maker/model-it',
