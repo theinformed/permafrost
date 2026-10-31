@@ -386,6 +386,23 @@ class ReadTests(unittest.TestCase):
         self.env.start()
         self.addCleanup(self.env.stop)
 
+    def test_a_published_config_with_a_trailing_comma_is_read_and_recorded(self):
+        # Round 13 pair 5 on Blueback died in the metadata step: the original's generation_config.json
+        # (mistralai, 1483f238) ends its last field with a comma. The compare reads it anyway and keeps the fact.
+        folder = self.directory / 'pinned'
+        folder.mkdir()
+        (folder / 'config.json').write_text('{"model_type": "mistral"}')
+        (folder / 'generation_config.json').write_text('{\n  "bos_token_id": 1,\n  "temperature": 0.15,\n}\n')
+        model = {'hub_id': 'maker/model', 'revision': 'abc'}
+        documents, record = self.module.metadata(folder, model)
+        self.assertEqual(documents['generation_config.json'], {'bos_token_id': 1, 'temperature': 0.15})
+        self.assertEqual(list(record['invalid_json']), ['generation_config.json'])
+        self.assertIn('trailing comma dropped', record['invalid_json']['generation_config.json'])
+        (folder / 'generation_config.json').write_text('{"temperature": }')
+        documents, record = self.module.metadata(folder, model)
+        self.assertEqual(documents['generation_config.json'], {})
+        self.assertTrue(record['invalid_json']['generation_config.json'].endswith('not read'))
+
     def test_old_state_markers_do_not_enter_freshness_inputs(self):
         (self.directory / 'state/projection').mkdir(parents=True)
         prior = self.directory / 'state/projection/context.json'

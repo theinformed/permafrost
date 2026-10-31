@@ -7,8 +7,10 @@
 # Modified: SDE 2026-10-15  name packed expert outputs, and seed stubs on the real tensor names.
 # Modified: SDE 2026-10-29  share the direction helpers: remaining fractions and per-expert measures.
 # Modified: SDE 2026-10-29  seed every pair of the batch; leave the original for the sweep.
+# Modified: SDE 2026-10-31 a small file that is not valid JSON is read leniently and recorded (Blueback round 13 pair 5).
 import hashlib
 import json
+import re
 import os
 from pathlib import Path
 import shutil
@@ -294,18 +296,40 @@ def metadata(directory, model):
     from audit.compare import snapshot
     card_tools()
     from audit.hub import SMALL_FILES
-    documents, manifest = {}, {}
+    documents, manifest, invalid = {}, {}, {}
     for name in SMALL_FILES:
         path = directory / name
         if not path.is_file():
             continue
         if path.stat().st_size > 64 * 1024 ** 2:
             raise ValueError('metadata file exceeds 64 MB: ' + name)
-        text = path.read_text()
-        documents[name] = text if name.endswith('.jinja') else json.loads(text)
+        documents[name], fault = read_document(name, path.read_text())
         manifest[name] = {'sha256': checksum(path), 'bytes': path.stat().st_size}
+        if fault:
+            invalid[name] = fault
+            print('metadata: {} of {}: {}'.format(name, model['hub_id'], fault), flush=True)
     return documents, {'repo': model['hub_id'], 'sha': model['revision'], 'manifest': manifest,
-                       'missing': [], 'snapshot': snapshot(documents)}
+                       'missing': [], 'invalid_json': invalid, 'snapshot': snapshot(documents)}
+
+
+def read_document(name, text):
+    """A small file's document, read leniently when the published JSON is not valid.
+
+    mistralai's Mistral-Small-3.2-24B-Instruct-2506 (revision 1483f238) publishes a
+    generation_config.json with a trailing comma after its last field. A trailing comma
+    loses no field, so the document is read with it dropped and the fault is recorded;
+    anything worse leaves an empty document and a fault the verdict counts as missing.
+    """
+    if name.endswith('.jinja'):
+        return text, None
+    try:
+        return json.loads(text), None
+    except json.JSONDecodeError as error:
+        fault = 'not valid JSON ({})'.format(error)
+    try:
+        return json.loads(re.sub(r',(\s*[}\]])', r'\1', text)), fault + '; read with the trailing comma dropped'
+    except json.JSONDecodeError:
+        return {}, fault + '; not read'
 
 
 def card_tools():
@@ -376,6 +400,9 @@ def compare(arguments):
     first, base = metadata(original, row['original'])
     second, copy = metadata(derived, row['modified'])
     differences, missing, rendered = compare_documents(second, first)
+    for side, record in (('original', base), ('modified', copy)):
+        missing.extend('{} {} {}'.format(side, name, fault) for name, fault in record['invalid_json'].items()
+                       if fault.endswith('not read'))
     meta = {'schema_version': 1, 'modified': copy, 'original': base, 'differences': differences,
             'missing': missing, 'rendered': rendered, 'limitation': tools.LIMITATION,
             'verdict': tools.verdict(differences, missing)}
