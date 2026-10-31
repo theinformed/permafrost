@@ -4,11 +4,10 @@ Original: `google/gemma-4-31B-it`
 
 Verdict: **unexplained differences**
 
-Revisions: modified `d5bfc0d99e308beb9805440806161ad0233df357`; original `842da3794eaa0b77d5f08bae87a17459d91ff475`.
+Revisions: modified `d5bfc0d99e308beb9805440806161ad0233df357`; original `419b2efe421994fdfd3394e621983d4cc511cd4f`.
 
 Changed fields:
 
-- `config.text_config.moe_intermediate_size` (unexplained)
 - `template.default` (unexplained)
 - `rendered_template.default` (unexplained)
 
@@ -19,6 +18,14 @@ Original file: `generation_config.json`.
 Modified file: `generation_config.json`.
 
 The saved version string changed.
+
+## Explained by re-save: `config.text_config.moe_intermediate_size`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 5.6.2.
 
 ## Explained by re-save: `config.transformers_version`
 
@@ -33,3 +40,5 @@ The `default` template source differs beyond line endings and trailing whitespac
 The fixed conversation renders differently with the `default` template.
 
 This metadata audit does not certify the absence of hidden behavior.
+
+Weights: recipe_violations. Nearest recipe: directional-per-layer-selected.

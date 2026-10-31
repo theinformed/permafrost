@@ -3,24 +3,25 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: twenty-six measurements of twenty-five distinct published copies on sixteen bases (one copy is a
+population is small: thirty-two measurements of thirty-one distinct published copies on sixteen bases (one copy is a
 re-upload of another, and one could not be paired tensor by tensor), plus two edits of my own made to calibrate the
 measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. Twenty-three of the twenty-four published copies measured so far are what their cards say they are
+## 1. Twenty-nine of the thirty published copies measured so far are what their cards say they are
 
-Twenty-four community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma
-and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7) and seven from six makers
-on Gemma 4 and Ministral 3 bases (round 8), have been compared tensor by tensor with their stated originals. In
-twenty-three, the changed tensors are exactly the matrices the stated method reaches, and nothing else moved: the
-largest relative change outside the changed set is 0 in twenty copies, 0.00008 and 0.000006 in two others on matrices
+Thirty community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma
+and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six makers
+on Gemma 4 and Ministral 3 bases (round 8) and six from four makers on the two larger Gemma 4 bases (round 12), have
+been compared tensor by tensor with their stated originals. In twenty-nine, the changed tensors are exactly the
+matrices the stated method reaches, and nothing else moved: the largest relative change outside the changed set is 0
+in twenty-six copies, 0.00008 and 0.000006 in two others on matrices
 the method itself weighted near zero, and 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61
-normalisation vectors just under the threshold. Twenty-one of the twenty-three are ablations; two
+normalisation vectors just under the threshold. Twenty-seven of the twenty-nine are ablations; two
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
-are training, as their cards say, findings 17 and 18. The twenty-fourth, 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated,
-changes every matrix in the model and is finding 8. The twenty-fifth measurement,
+are training, as their cards say, findings 17 and 18. The thirtieth, 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated,
+changes every matrix in the model and is finding 8. The thirty-first measurement,
 prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma 4 E4B copy re-uploaded (finding 9), and the
-twenty-sixth, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its original (finding 14).
+thirty-second, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its original (finding 14).
 
 | Copy | Original | Changed tensors | Outside the changed set |
 | --- | --- | --- | --- |
@@ -48,10 +49,16 @@ twenty-sixth, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its or
 | TrevorJS/gemma-4-12B-it-uncensored | google/gemma-4-12B-it | 66 of 677 (attention output and down projection in layers 15 to 47) | 0 |
 | richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | google/gemma-4-12B-it | 557 of 677 (every projection and most normalisations: the parent fine-tune, with the ablation on 52 writers) | 0.00099 |
 | ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored | mistralai/Ministral-3-8B-Reasoning-2512 | 238 of 531 (the seven projections of every layer) | 0 |
+| llmfan46/gemma-4-31B-it-uncensored-heretic | google/gemma-4-31B-it | 18 of 1,188 (the attention outputs of layers 30 to 47, the declared range) | 0 |
+| coder3101/gemma-4-31B-it-heretic | google/gemma-4-31B-it | 58 of 1,188 (the attention outputs of layers 1 to 58, the declared range; 23 of them rounding residues) | 0 |
+| TrevorJS/gemma-4-31B-it-uncensored | google/gemma-4-31B-it | 120 of 1,188 (every attention output and down projection) | 0 |
+| huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2 | google/gemma-4-31B-it | 110 of 1,188 (attention output and down projection in layers 5 to 59) | 0 |
+| huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated | google/gemma-4-26B-A4B-it | 50 of 1,013 (attention output and shared down projection in layers 5 to 29; no expert) | 0 |
+| coder3101/gemma-4-26B-A4B-it-heretic | google/gemma-4-26B-A4B-it | 20 of 1,013 (the attention outputs of layers 10 to 29, the declared range; no expert) | 0 |
 
-The fair statement of the result is narrow: at the weight level, twenty-three copies contain the edit or the training
+The fair statement of the result is narrow: at the weight level, twenty-nine copies contain the edit or the training
 they claim and no other, one contains an edit its card does not name, and one could not be paired. Weight differences
-alone cannot certify the absence of hidden behaviour, and the census is twenty-four measured copies.
+alone cannot certify the absence of hidden behaviour, and the census is thirty measured copies.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -75,7 +82,9 @@ The maker's description, where there is one, agrees with the shape in every case
 readable too: mlabonne's card says refusal weight 1.5 and the row norms move by up to 0.069, where a weight-1
 projection leaves a rank-one change and a norm-restored one leaves none; byroneverson's notebook says amount 2.0 and
 its row norms move by up to 0.45. The remaining-fraction measurement added after round 2 reads that weight directly
-(finding 10).
+(finding 10). Round 12 adds two shared-direction copies at weights 1.5 and 3.0 (huihui-ai, Gemma 4 31B and 26B-A4B,
+finding 21), the per-layer biprojection on all 60 layers of the 31B (TrevorJS, finding 24) and three more arbitrary-rank
+copies (finding 22); each reads as its card says.
 
 ## 3. The published pass line for "rank one" was a storage artefact
 
@@ -122,7 +131,8 @@ the same copy, and the token embedding on Qwen2.5 32B. On mixture-of-experts bas
 6,144 expert down projections on Qwen3 30B-A3B, and all packed expert down projections on Gemma 4 26B-A4B. wangzhang's
 Gemma 4 31B edits the reading side of attention (query, key and value) as well as the writing side. The published
 descriptions of the method name the writers; the copies in circulation edit readers, embeddings and prediction heads
-too.
+too. Round 12 adds the opposite case: on Gemma 4 26B-A4B, where the experts of a layer are one packed tensor, the same
+maker's edit reaches the attention outputs and the shared down projections and no expert (finding 20).
 
 ## 6. byroneverson's embedding patch equals one layer's direction
 
@@ -215,8 +225,11 @@ reads weights of 2.75 to 3.78 on its 40 attention outputs (past a reflection in 
 query and key projections; the card names a searched strength and no value. byroneverson's Mistral Small copy, whose
 notebook says amount 2.0, reads 0.05 to 11.1 by layer: the notebook's per-layer direction is not of unit length, so a
 fixed amount becomes a weight of twice the direction's squared length, and the token embedding and layer 24 read the
-same 3.09 to four decimals.
-Evidence: the eight `results/weights/` reports of round 7, the five `results/weights/*.pass-2.json` reports and
+same 3.09 to four decimals. Round 12 reads 1.50 on all 110 matrices of huihui-ai's second 31B copy (−0.497 to −0.501)
+and 3.00 on all 50 of its 26B-A4B copy (−1.998 to −2.004), neither in a card, and the searched input-side weights of
+three more arbitrary-rank copies: 1.37 to 3.36 (llmfan46, 31B), 0.51 to 10.18 (coder3101, 31B) and 0.76 to 1.49
+(coder3101, 26B-A4B), the first weights under 1 read on the method.
+Evidence: the eight `results/weights/` reports of round 7, the six of round 12, the five `results/weights/*.pass-2.json` reports and
 `docs/census-round-7.md` and `docs/census-round-3.md`.
 
 ## 11. Four configuration values that later libraries omit on save and restore on load (corrected 2026-10-30)
@@ -248,7 +261,9 @@ columns. wangzhang's 54 reading-side edits (query, key and value projections) an
 llmfan46/gemma-4-E4B-it-uncensored-heretic put it the other way. For that heretic copy the leading direction therefore
 sits in the input space of each attention output, one over-projected direction per layer at weights 1.27 to 1.79
 (median 1.46), under a weak tail of many directions that each keep 0.90 to 1.03 of the original; no entry in the
-recipe table describes an input-side direction yet. Evidence: `results/weights/*.pass-2.json`,
+recipe table describes an input-side direction yet. Round 12 adds 73 input-side matrices on three arbitrary-rank copies
+(left above right on all 73) and 280 output-side matrices on three others (left below right on 278). Evidence:
+`results/weights/*.pass-2.json`, the six `results/weights/` reports of round 12,
 `docs/cards/llmfan46--gemma-4-E4B-it-uncensored-heretic-cc7eab73.reading.md` and `docs/census-round-3.md`.
 
 ## 13. A mixture-of-experts abliteration reads expert by expert
@@ -259,7 +274,8 @@ the median expert keeps a first-value energy share of 0.989 to 0.994 in every la
 falls to 0.881 in layer 0 and 0.951 to 0.990 elsewhere. The experts' median direction, added to the layer's group,
 resolves the two layers the dense matrices left at 0.941 and 0.947: layers 10 and 12 now agree at 0.991 and 0.995.
 The scorer takes the worst expert, which is why the copy still carries 30 flags on those tensors; the per-expert
-numbers say the edit is one direction per layer applied to every expert. Evidence:
+numbers say the edit is one direction per layer applied to every expert. huihui-ai's copy of the same base (round 12)
+changes the attention output and the shared down projection of layers 5 to 29 and no expert (finding 20). Evidence:
 `results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and
 `docs/cards/TrevorJS--gemma-4-26B-A4B-it-uncensored-ce34ef70.reading.md`.
 
@@ -358,6 +374,100 @@ closed the templates of rounds 2 and 7 by matching Google's own commits, closes 
 templates circulate, and a template reading that stops at "matches a published revision" will miss them. Evidence:
 the four `results/meta/` reports of round 8 and `docs/census-round-8.md`.
 
+Round 12 adds six Gemma 4 copies on the two larger bases. One carries the pinned template byte for byte (TrevorJS 31B).
+Two carry Google's release template of 2026-04-02 where the pin chose the 2026-04-10 revision, because each repository
+was created within a day after that fix (huihui-ai 31B and 26B-A4B; the maker's E4B copy in round 7 was the same case).
+Two carry Google's 2026-04-10 template with its 15 blank lines removed, one file byte for byte in two repositories
+(coder3101 31B and 26B-A4B; the maker's E4B copy in round 8 had 14 blank lines removed). One carries Google's latest
+template with one line changed (llmfan46 31B, finding 23). Of the thirteen Gemma 4 copies of rounds 8 and 12, four carry
+the template they were pinned against. Evidence: the six `results/meta/` reports of round 12 and
+`docs/census-round-12.md`.
+
+## 20. A mixture-of-experts abliteration that reaches no expert, and the card says so
+
+huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated changes 50 of 1,013 tensors: the attention output and the shared dense
+down projection (2816 by 2112) in each of layers 5 to 29, one shared direction at weight 3.0. The 30 packed expert down
+tensors (128 by 2816 by 704), the 30 packed gate-up tensors, the 30 routers, the reading-side projections and the
+vision tower are unchanged; the largest relative change outside the 50 is exactly 0. The card says no ablation was
+performed on the experts, naming 256 per layer where the configuration has 128. The same maker's edit of Qwen3
+30B-A3B changed all 6,144 expert down projections beside the 48 attention outputs (finding 5), and TrevorJS's copy of
+this base changed all 128 experts of every layer (finding 13). The difference is the tensor layout: on Qwen each expert
+is a linear module of its own, on Gemma 4 the experts of a layer are one packed three-dimensional parameter, and a
+tool that edits linear modules reaches the first and not the second. A refusal direction removed from the attention
+output and the shared projection of a mixture, and left in all 3,840 expert matrices that write into the same
+residual stream, is a different edit from the one the same word names on a dense model or on another mixture; the
+scorer matched the copy cleanly because its "selected" entry lets a whole kind go unchanged, and it should say when
+the kind left unchanged is the experts. Evidence:
+`results/weights/huihui-ai-Huihui-gemma-4-26B-A4B-it-abliterated.json`,
+`results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and the readings in `docs/cards/`.
+
+## 21. One maker's shared projection reads three weights on three bases
+
+huihui-ai's three Gemma 4 copies are one method, one shared direction projected out of every attention output and
+down projection from a chosen layer onward, at three weights the cards do not state: 2.5 on E4B (layers 7 to 41,
+round 7), 1.5 on the second version of the 31B copy (layers 5 to 59) and 3.0 on 26B-A4B (layers 5 to 29). Each reads
+to two decimals on every changed matrix (−1.501 to −1.499 on 70, −0.497 to −0.501 on 110, −1.998 to −2.004 on 50
+along the shared direction), with the second to eighth directions kept within 0.004. The 31B card says the second
+version leaves the first five layers alone, and the weights agree; it compares the two versions by perplexity (13,161
+against 13,336) and does not say the weight changed. The 3.0 is the largest shared-direction weight in the census:
+the output along the direction is reversed and doubled, and row norms move by up to 0.609 on the 26B-A4B copy and
+0.643 on the 31B copy, against 0.068 on E4B. Evidence: `results/weights/huihui-ai-Huihui-gemma-4-31B-it-abliterated-v2.json`,
+`results/weights/huihui-ai-Huihui-gemma-4-26B-A4B-it-abliterated.json`,
+`results/weights/huihui-ai-Huihui-gemma-4-E4B-it-abliterated.json` and the readings in `docs/cards/`.
+
+## 22. Arbitrary-rank copies across sizes: searched weights from 0.51 to 10.18, rewritten layers left as residues, and a preservation claim that reads 0.007 on every base
+
+Seven copies of the arbitrary-rank method are now measured (llmfan46 on E2B, E4B twice and 31B; coder3101 on E4B,
+26B-A4B and 31B). All seven edit the attention outputs only, on the input side, with one searched weight per layer and
+a tail of weak directions, and read as their cards say. Round 12 widens the measured bands. The per-layer weight runs
+from 0.51 (coder3101 31B, layer 50) to 10.18 (the same copy, layer 48, relative change 0.169, the largest edit of the
+method), and four layers of the 26B-A4B copy read 0.76 to 0.92, under a plain ablation; the first-value share falls
+to 0.659 on the 26B-A4B copy's layer 10. coder3101's 31B copy rewrote the attention outputs of all 58 layers in its
+declared range and left 23 of them as rounding residues (relative change 0.0013 to 0.0018, first share 0.002 to
+0.028, the original's action kept at 0.99 to 1.01, row norms within 0.0008): layers the search weighted near zero,
+which the energy-share rule flags as failed projections. The two makers differ in one claim and the weights read it
+the same way on every base: coder3101's cards claim row-norm preservation and the rows move by 0.0059 to 0.0080 on all
+75 edited matrices of its three copies, while llmfan46's cards claim none and the rows move by 0.0016 to 0.066. The
+restoration step of the method is an approximation that leaves seven tenths of a percent at every size. Evidence:
+`results/weights/llmfan46-gemma-4-31B-it-uncensored-heretic.json`,
+`results/weights/coder3101-gemma-4-31B-it-heretic.json`, `results/weights/coder3101-gemma-4-26B-A4B-it-heretic.json`,
+the four earlier reports named in findings 10 and 12, and the readings in `docs/cards/`.
+
+## 23. A maker's one-line patch to Google's template writes an empty thought block into every earlier model turn
+
+llmfan46/gemma-4-31B-it-uncensored-heretic's `chat_template.jinja` (18,841 bytes) is Google's template of
+2026-07-15 (`68abe480`, the one Google's repository still serves) with one line changed: where Google opens each model
+turn of the history with `<|turn>model` and a newline, the copy's template adds `<|channel>thought`, a newline and
+`<channel|>` whenever thinking is off and the message carries no reasoning field. The fixed conversation renders at
+232 bytes against 204, the earlier answer "Four." becoming "<|channel>thought\n<channel|>Four.". The maker's commit
+of 2026-09-19 uploaded, beside the new template, a file named `chat_template.jinja.official-2026-07-09.bak` that
+equals Google's 2026-07-15 template byte for byte, and deleted it nine seconds later; the maker replaced the template
+seven times between 2026-04-14 and 2026-09-19. Google's card says the 26B and 31B models emit the empty block
+themselves when thinking is off and that earlier turns' thoughts are not to be added to the history. The change is
+the maker's, it reaches the prompt of every multi-turn conversation with thinking off, and the card does not mention
+it; the weights of the copy are the original's outside the 18 attention outputs its card names. After Jiunsong's
+fixed system text (finding 16) this is the second template in the census that changes what a conversation renders to,
+and the first that does so by patching Google's current template, which the later-revision rule nearly matches and
+cannot close. Evidence: `results/meta/llmfan46-gemma-4-31B-it-uncensored-heretic.json` and
+`docs/cards/llmfan46--gemma-4-31B-it-uncensored-heretic-33dab253.reading.md`.
+
+## 24. One method measured on four sizes of one family reads the same fingerprint
+
+TrevorJS's norm-preserving biprojection is now measured on Gemma 4 E4B (84 matrices), 12B (66), 26B-A4B (60 dense
+matrices and 3,840 experts) and 31B (120), and the four readings agree in every measure that does not depend on the
+size. The row norms of every dense matrix stay within 0.0004 (and within 0.0012 per expert row), the first-value
+share sits at the storage floor (0.975 to 0.996), the copy keeps a median 0.03 to 0.18 of the original's action along
+the leading output direction (scale 1.0 with the biprojection's second term), and the second term bends the two
+edits of a layer apart by a few degrees in the same part of the model each time: layer 12 of the 31B at 0.925, layers
+10 and 12 of the 26B-A4B at 0.941 and 0.947 before the experts' direction joined, three layers of the E4B at 0.934 to
+0.947, and none of the 12B's edited layers (15 to 47) below 0.970. The settings differ once, the 12B's 70 percent of
+layers against 100 percent on the other three, and the weights read it. The same second term puts one matrix in 120
+of the 31B copy past the 0.0025 leftover line (layer 2's attention output, 0.0032, with 0.016 of its energy in the
+second direction) and two of the 26B-A4B's 60 past it; the single-direction floor of finding 3 does not quite cover a
+biprojection, and a norm-preserving entry needs its own band. Evidence: `results/weights/TrevorJS-gemma-4-31B-it-uncensored.json`,
+`results/weights/TrevorJS-gemma-4-12B-it-uncensored.json`, `results/weights/TrevorJS-gemma-4-E4B-it-uncensored.json`,
+`results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and the readings in `docs/cards/`.
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -373,7 +483,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Twenty-five copies is a sample; the inventory sample of 30 repositories
+- Population. Thirty-one copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
