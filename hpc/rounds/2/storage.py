@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-14  check the census budget and display GB.
 # Modified: SDE 2026-10-29  the quota method comes from the systems table; the size line lives in work.
 # Modified: SDE 2026-10-31  lfs quota without show_storage, and free space when the quota table is unreadable.
+# Modified: SDE 2026-10-31  the lfs path never calls show_storage; it is a central-service call, not a login probe.
 import json
 import os
 from pathlib import Path
@@ -55,11 +56,8 @@ def main():
         free = info.f_bavail * info.f_frsize
         used, limit = 0, free
     else:
-        # Lustre quota; show_storage is a reading for the log where the center has it (Raider has not).
-        if shutil.which('show_storage'):
-            subprocess.call(['show_storage', '-h'])
-        else:
-            print('show_storage absent on this system; lfs quota alone')
+        # Lustre quota alone: the center's show_storage asks a central service and belongs to no
+        # login-node card (round 18's verify held Nautilus for 294 s); the desk's quota monitor reads it.
         info = os.statvfs(work)
         free = info.f_bavail * info.f_frsize
         try:

@@ -644,6 +644,31 @@ class PinTests2(unittest.TestCase):
         self.assertIn('rmdir "$venv_lock" 2>/dev/null\n', text)
         self.assertIn('taking it over', text)
 
+    def test_the_login_half_of_a_round_asks_the_scheduler_nothing_slow(self):
+        """Round 18's verify held the Nautilus login for 294 s of a 328 s card, on four scheduler test
+        submissions that each wait for a start estimate and on the center's quota tool. The login half is
+        clocked and keeps syntax, request words, lineage, the Python floor and the Lustre quota; the
+        scheduler's test runs in the download job as a reading, and a failed submission withdraws what it
+        queued."""
+        verify = (ROUND / '20-verify.sh').read_text()
+        self.assertNotIn('test_submission', verify)
+        self.assertIn('clocked check_submission "$piece" "jobs/$piece.sh"', verify)
+        self.assertIn('clocked python3 ./storage.py', verify)
+        self.assertIn('took $((SECONDS - t0)) s', verify)
+        scheduler = (ROUND / 'scheduler.sh').read_text()
+        self.assertIn('check_submission() {', scheduler)
+        self.assertIn('cancel_batch() {', scheduler)
+        self.assertNotIn('--test-only', scheduler[scheduler.index('check_submission() {'):scheduler.index('cancel_batch() {')])
+        download = (ROUND / 'jobs/download.sh').read_text()
+        self.assertIn('test_submission "$piece" "jobs/$piece.sh" || echo', download)
+        storage = (ROUND / 'storage.py').read_text()
+        lfs_branch = storage[storage.index('    else:\n        # Lustre quota alone'):]
+        self.assertNotIn("show_storage'", lfs_branch.split('lfs quota unreadable')[0])
+        submit = (ROUND / '40-submit.sh').read_text()
+        self.assertEqual(submit.count('|| fail_submit'), 4)
+        self.assertIn('cancel_batch "${queued[@]}"', submit)
+        self.assertLess(submit.index('queued+=("$download")'), submit.index('echo "download job: $download"'))
+
     def test_no_job_script_sets_its_own_exit_trap(self):
         """The lock's own EXIT trap replaced the reporting kit's, so every compare from round 12 on ended
         without a drop while its sweep ran afterok (Nautilus 4120062-4120068, 10-31). The EXIT trap belongs

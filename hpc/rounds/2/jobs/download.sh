@@ -11,6 +11,7 @@
 # Modified: SDE 2026-10-15  the hub client round 1 tested; no progress bars in the log.
 # Modified: SDE 2026-10-29  account and time from the submit line; FIPS guard, node facts, image.
 # Modified: SDE 2026-10-29  hpc_report_on_exit after the piece starts, as every job script must.
+# Modified: SDE 2026-10-31  the scheduler's test of the CPU requests runs here, off the login node, as a reading.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -21,6 +22,11 @@ start_piece download "Download and verify $count checkpoint pairs"
 hpc_report_on_exit
 fips_guard
 python3 ./lineage.py batch.json maker-guard.sha256
+# The start estimates the desk reads; the submit step has already queued the real requests, so a node
+# without the scheduler client only loses the reading.
+for piece in project sweep timing; do
+    test_submission "$piece" "jobs/$piece.sh" || echo "request test for $piece did not run on this node"
+done
 stub=0
 if [ "${AUDIT_STUB:-0}" = 1 ] && [ "${AUDIT_REHEARSAL:-0}" = 1 ]; then stub=1; fi
 if [ "$stub" = 1 ] && [ -z "${AUDIT_IMAGE:-}" ]; then

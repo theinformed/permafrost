@@ -139,6 +139,32 @@ pbs_word_check() {
 }
 
 # test_submission PIECE SCRIPT: check one job's request without queueing it.
+check_submission() {
+    # The login half of a round: syntax and the request words, in well under a second per piece.
+    # The scheduler's own test (test_submission) asks a busy controller for a backfill start estimate,
+    # which held the Nautilus login for minutes in round 18; the download job runs it as a reading.
+    local piece=$1 script=$2
+    bash -n "$script"
+    scheduler_words "$piece" "$script" "$PWD" || return 1
+    case ${AUDIT_SCHEDULER:-slurm} in
+        slurm) say "request words for $piece:" "${SCHEDULER_WORDS[*]}" ;;
+        pbs)
+            # PBS has no test submission anyway; the words are checked here and printed for the desk.
+            pbs_word_check || return 1
+            say "PBS request: qsub -v HPC_PROJECT=model-audit,$SCHEDULER_VARS ${SCHEDULER_WORDS[*]}"
+            ;;
+    esac
+}
+
+cancel_batch() {
+    # Withdraw jobs this submission queued before a later submission failed, so no chain waits on nothing.
+    [ $# -gt 0 ] || return 0
+    case ${AUDIT_SCHEDULER:-slurm} in
+        slurm) scancel "$@" ;;
+        pbs) qdel "$@" ;;
+    esac
+}
+
 test_submission() {
     local piece=$1 script=$2
     bash -n "$script"
