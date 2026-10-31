@@ -3,25 +3,31 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: thirty-two measurements of thirty-one distinct published copies on sixteen bases (one copy is a
-re-upload of another, and one could not be paired tensor by tensor), plus two edits of my own made to calibrate the
-measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
+population is small: thirty-nine measurements of thirty-seven distinct published copies on nineteen originals (two
+copies are re-uploads of others, one copy is measured against both its grandparent and its parent, and one could not be
+paired tensor by tensor), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. Twenty-nine of the thirty published copies measured so far are what their cards say they are
+## 1. Thirty-two of the thirty-five published copies measured so far are what their cards say they are
 
-Thirty community copies of open-weight models, five from one maker on Qwen bases, five from five makers on Gemma
-and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six makers
-on Gemma 4 and Ministral 3 bases (round 8) and six from four makers on the two larger Gemma 4 bases (round 12), have
-been compared tensor by tensor with their stated originals. In twenty-nine, the changed tensors are exactly the
-matrices the stated method reaches, and nothing else moved: the largest relative change outside the changed set is 0
-in twenty-six copies, 0.00008 and 0.000006 in two others on matrices
-the method itself weighted near zero, and 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61
-normalisation vectors just under the threshold. Twenty-seven of the twenty-nine are ablations; two
+Thirty-five community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
+Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
+makers on Gemma 4 and Ministral 3 bases (round 8), six from four makers on the two larger Gemma 4 bases (round 12) and
+five from five makers on Gemma 4, Ministral 3 and Mistral Small bases (round 16), have been compared tensor by tensor
+with their stated originals. In thirty-two, the changed tensors are exactly the matrices the stated method reaches,
+and nothing else moved: the largest relative change outside the changed set is 0 in twenty-seven copies, 0.00008,
+0.000006 and 0.00024 in three others on matrices the method itself weighted near zero, 0.00099 in the richardyoung
+Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the threshold, and 0.000998 in the
+aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors. Thirty of the thirty-two are ablations
+(one, aifeifei798's, with 0.1 to 0.3 percent of training beside it, as its card says); two
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
-are training, as their cards say, findings 17 and 18. The thirtieth, 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated,
-changes every matrix in the model and is finding 8. The thirty-first measurement,
-prithivMLmods/gemma-4-E4B-it-Uncensored-MAX, is the huihui-ai Gemma 4 E4B copy re-uploaded (finding 9), and the
-thirty-second, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its original (finding 14).
+are training, as their cards say, findings 17 and 18. The three others carry a parent their cards do not name:
+3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated changes every matrix in the model (finding 8),
+lemuralabs/Gemma-4-12B-uncensored-bf16 carries a third party's coding fine-tune under its ablation (finding 25), and
+Felldude/Ministral-3-8B-Uncensored carries the instruct model's template and 5 to 11 percent of dense change against
+the pretrained base it names (finding 26). The measurements beyond thirty-five: prithivMLmods's two Uncensored-MAX
+copies are the huihui-ai E4B and 26B-A4B copies re-uploaded (finding 9), Jiunsong/supergemma4-e4b-abliterated paired
+no tensor with its original (finding 14), and the richardyoung coder copy is measured twice, against its grandparent
+and against its parent (finding 18).
 
 | Copy | Original | Changed tensors | Outside the changed set |
 | --- | --- | --- | --- |
@@ -55,10 +61,17 @@ thirty-second, Jiunsong/supergemma4-e4b-abliterated, paired no tensor with its o
 | huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2 | google/gemma-4-31B-it | 110 of 1,188 (attention output and down projection in layers 5 to 59) | 0 |
 | huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated | google/gemma-4-26B-A4B-it | 50 of 1,013 (attention output and shared down projection in layers 5 to 29; no expert) | 0 |
 | coder3101/gemma-4-26B-A4B-it-heretic | google/gemma-4-26B-A4B-it | 20 of 1,013 (the attention outputs of layers 10 to 29, the declared range; no expert) | 0 |
+| richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 (the parent) | 52 of 677 (the attention outputs of layers 15 to 47 and the down projections of 24 to 42, the card's list) | 0 |
+| llmfan46/gemma-4-26B-A4B-it-uncensored-heretic | google/gemma-4-26B-A4B-it | 27 of 1,013 (the attention outputs of layers 2 to 29, the declared range less two rewritten near zero; no expert) | 0.00024 |
+| lemuralabs/Gemma-4-12B-uncensored-bf16 | google/gemma-4-12B-it | 553 of 677 (every projection and most normalisations: a third party's fine-tune the card does not name, with the ablation on 87 writers) | 0.00099 |
+| prithivMLmods/gemma-4-26B-A4B-it-Uncensored-MAX | google/gemma-4-26B-A4B-it | the same 50 as the huihui-ai copy, field for field | 0 |
+| Felldude/Ministral-3-8B-Uncensored | mistralai/Ministral-3-8B-Base-2512 | 243 of 531 (the seven projections of every layer, the embedding, the head and the projector: dense training at 5 to 11 percent) | 0.00037 |
+| aifeifei798/Heretic-Scalpel-E2B | google/gemma-4-E2B-it | 179 of 2,011 (the attention outputs of layers 10 to 34 and down projections of 15 to 34, with training at the threshold on 117 others) | 0.000998 |
+| venkycs/Mistral-Small-24B-Instruct-2501-Abliterated | mistralai/Mistral-Small-24B-Instruct-2501 | 78 of 363 (every attention output and down projection of layers 1 to 39) | 0 |
 
-The fair statement of the result is narrow: at the weight level, twenty-nine copies contain the edit or the training
-they claim and no other, one contains an edit its card does not name, and one could not be paired. Weight differences
-alone cannot certify the absence of hidden behaviour, and the census is thirty measured copies.
+The fair statement of the result is narrow: at the weight level, thirty-two copies contain the edit or the training
+they claim and no other, three carry a parent their cards do not name, and one could not be paired. Weight
+differences alone cannot certify the absence of hidden behaviour, and the census is thirty-five measured copies.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -84,7 +97,11 @@ projection leaves a rank-one change and a norm-restored one leaves none; byronev
 its row norms move by up to 0.45. The remaining-fraction measurement added after round 2 reads that weight directly
 (finding 10). Round 12 adds two shared-direction copies at weights 1.5 and 3.0 (huihui-ai, Gemma 4 31B and 26B-A4B,
 finding 21), the per-layer biprojection on all 60 layers of the 31B (TrevorJS, finding 24) and three more arbitrary-rank
-copies (finding 22); each reads as its card says.
+copies (finding 22); each reads as its card says. Round 16 adds a shared projection at weight 1.0 on all 78 residual
+writers of Mistral Small 24B 2501 (venkycs, finding 28), an arbitrary-rank copy on the mixture (llmfan46, finding 22),
+the first ablation with two or three directions per matrix (aifeifei798, finding 27), the row-normalised method
+measured against its parent (richardyoung, finding 18) and two copies whose dense change carries a parent the card
+does not name (lemuralabs and Felldude, findings 25 and 26).
 
 ## 3. The published pass line for "rank one" was a storage artefact
 
@@ -100,7 +117,10 @@ matrix clears 0.99 only when the edit moved it by more than about 1.55 percent o
 
 The pass line that carries between bases is the leftover itself, at most 0.0025 of the weight norm, because it depends
 on the storage type alone. Under it, a second change hiding beside a projection would have to stay below about 0.0014
-to 0.002 of the weight norm to go unseen. Details and the calibration table: `docs/calibration-mistral-small-3.2.md`.
+to 0.002 of the weight norm to go unseen. Details and the calibration table: `docs/calibration-mistral-small-3.2.md`. Round 16's venkycs copy of Mistral Small
+24B 2501 reads the floor again on a base outside that calibration: on its 78 changed matrices (relative change 0.013 to
+0.019) the leftover is 0.00152 to 0.00155 of the weight norm and the first share 0.986 to 0.994, 56 of the 78 under the
+0.99 line and all 78 inside the 0.0025 line (`results/weights/venkycs-Mistral-Small-24B-Instruct-2501-Abliterated.json`).
 
 ## 4. One undisclosed configuration change, with an internal contradiction
 
@@ -186,7 +206,10 @@ equals mistralai/Mistral-7B-Instruct-v0.3's template at `c170c708` byte for byte
 base and instruct share the same `config.json` and `tokenizer.json` checksums, so the template is the one small file
 that tells them apart. The measured footprint fits an abliteration of the instruct model, or of another dense
 fine-tune of the base, described as an abliteration of the base. One further comparison, against the instruct
-weights, would leave only the ablation. Evidence: `results/weights/3MPER0RR-Mistral-7B-v0.3-3MPER0RR-abliterated.json`,
+weights, would leave only the ablation. Round 16's Felldude/Ministral-3-8B-Uncensored repeats the pattern on a second
+family and a second maker (finding 26): a pretrained base named as the original, the instruct repository's template
+byte for byte, and dense change in every language-model matrix. Evidence:
+`results/weights/3MPER0RR-Mistral-7B-v0.3-3MPER0RR-abliterated.json`,
 `results/meta/3MPER0RR-Mistral-7B-v0.3-3MPER0RR-abliterated.json`, the reading
 `docs/cards/3MPER0RR--Mistral-7B-v0.3-3MPER0RR-abliterated-d0ad7aaf.reading.md`, and `docs/census-round-7.md`.
 
@@ -199,8 +222,14 @@ across 2,130 tensors, and the two saved direction files (2,503,680 bytes) are eq
 Google revisions carry one weight file (shard checksum `cfbd3d2f`). The card names the parent and the field names the grandparent, and the
 weight fingerprint shows which is right without a reading. A census that counts copies has to count this one as the huihui
 edit, and a comparison tool can flag two pairs with the same original weights and identical measurements by itself.
-Evidence: `results/weights/prithivMLmods-gemma-4-E4B-it-Uncensored-MAX.json` against
-`results/weights/huihui-ai-Huihui-gemma-4-E4B-it-abliterated.json`; the readings in `docs/cards/`.
+Round 16 measured the same maker's prithivMLmods/gemma-4-26B-A4B-it-Uncensored-MAX, whose card says the same of
+huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated and whose `base_model` field again names Google: every per-tensor
+field of all 1,013 tensors equals the huihui-ai report of round 12, the direction files are equal byte for byte
+(sha256 `2b8bd691`), and the weights went up nine hours after huihui-ai's. Two re-uploads from one maker, both
+counted as the huihui-ai edit. Evidence: `results/weights/prithivMLmods-gemma-4-E4B-it-Uncensored-MAX.json` against
+`results/weights/huihui-ai-Huihui-gemma-4-E4B-it-abliterated.json`,
+`results/weights/prithivMLmods-gemma-4-26B-A4B-it-Uncensored-MAX.json` against
+`results/weights/huihui-ai-Huihui-gemma-4-26B-A4B-it-abliterated.json`; the readings in `docs/cards/`.
 
 ## 10. The weight and the rank of an edit are readable from the weights
 
@@ -228,8 +257,14 @@ fixed amount becomes a weight of twice the direction's squared length, and the t
 same 3.09 to four decimals. Round 12 reads 1.50 on all 110 matrices of huihui-ai's second 31B copy (−0.497 to −0.501)
 and 3.00 on all 50 of its 26B-A4B copy (−1.998 to −2.004), neither in a card, and the searched input-side weights of
 three more arbitrary-rank copies: 1.37 to 3.36 (llmfan46, 31B), 0.51 to 10.18 (coder3101, 31B) and 0.76 to 1.49
-(coder3101, 26B-A4B), the first weights under 1 read on the method.
-Evidence: the eight `results/weights/` reports of round 7, the six of round 12, the five `results/weights/*.pass-2.json` reports and
+(coder3101, 26B-A4B), the first weights under 1 read on the method. Round 16 reads 3.00 again on the 50 matrices of
+prithivMLmods's re-upload of the huihui-ai 26B-A4B copy (−1.998 to −2.004), 1.00 on all 78 of venkycs's Mistral Small
+24B copy (−0.0041 to −0.0020 remaining; the card the maker copied names no weight) and searched input-side weights of
+0.42 to 1.52 on llmfan46's 26B-A4B copy, the smallest on the method. It reads no weight on the two row-normalised
+ablations, richardyoung's against its parent and lemuralabs's, where −0.27 to 0.95 and −0.33 to 0.97 of the original's
+action remain along a rank-one shared direction, and no single weight on aifeifei798's two- and three-direction edits.
+Evidence: the eight `results/weights/` reports of round 7, the six of round 12, the seven of round 16, the five
+`results/weights/*.pass-2.json` reports and
 `docs/census-round-7.md` and `docs/census-round-3.md`.
 
 ## 11. Four configuration values that later libraries omit on save and restore on load (corrected 2026-10-30)
@@ -262,8 +297,12 @@ llmfan46/gemma-4-E4B-it-uncensored-heretic put it the other way. For that hereti
 sits in the input space of each attention output, one over-projected direction per layer at weights 1.27 to 1.79
 (median 1.46), under a weak tail of many directions that each keep 0.90 to 1.03 of the original; no entry in the
 recipe table describes an input-side direction yet. Round 12 adds 73 input-side matrices on three arbitrary-rank copies
-(left above right on all 73) and 280 output-side matrices on three others (left below right on 278). Evidence:
-`results/weights/*.pass-2.json`, the six `results/weights/` reports of round 12,
+(left above right on all 73) and 280 output-side matrices on three others (left below right on 278). Round 16 adds 27
+input-side matrices (llmfan46's 26B-A4B copy, left above right on all 27) and 128 output-side matrices on two shared
+projections (prithivMLmods's re-upload and venkycs's copy, left below right on all 128); the row-normalised edits read a
+side less cleanly (left below right on 20 of richardyoung's 52 matrices against the parent and 29 of lemuralabs's 66
+ablated ones). Evidence:
+`results/weights/*.pass-2.json`, the six `results/weights/` reports of round 12, the seven of round 16,
 `docs/cards/llmfan46--gemma-4-E4B-it-uncensored-heretic-cc7eab73.reading.md` and `docs/census-round-3.md`.
 
 ## 13. A mixture-of-experts abliteration reads expert by expert
@@ -306,7 +345,10 @@ stops at the turn marker only and no longer at `<eos>`. The same loader rewrote 
 string-valued tool arguments (the fixed conversation renders identically) and wrote the global head dimension as a
 per-layer map. None of it is in the card, whose method section the weights confirm in every number. This is the
 second copy with a token-side change made by a tool and a disagreement between files (finding 4 is the first);
-the loader's signature is a pattern the metadata tool should name. Evidence:
+the loader's signature is a pattern the metadata tool should name. aifeifei798/Heretic-Scalpel-E2B (round 16,
+finding 27) carries the same signature with no token moved: no library version, `torch_dtype` beside `dtype`, the
+per-layer head map, the end token repeated in the generation list and the template written into the tokenizer
+configuration as well, with every token id and both templates equal to Google's. Evidence:
 `results/meta/Madras1-Gemma-4-E4B-Abliterated-Uncensored.json` and
 `docs/cards/Madras1--Gemma-4-E4B-Abliterated-Uncensored-6ee6560d.reading.md`.
 
@@ -339,7 +381,7 @@ on at least one side (the lower of the two fractions is at or below 0 on the pro
 biprojected copies) and reads a shared or per-layer direction. Evidence: `results/weights/ccharnkij-Ministral-3-8B-Reasoning-2512-Uncensored.json` and
 `docs/cards/ccharnkij--Ministral-3-8B-Reasoning-2512-Uncensored-da7d421f.reading.md`.
 
-## 18. An ablation on top of a fine-tune, measured against the grandparent, separates but its weight does not
+## 18. An ablation on top of a fine-tune, measured against the grandparent, separates but its weight does not (corrected 2026-10-31)
 
 richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic names yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1,
 a coding fine-tune of google/gemma-4-12B-it, as its parent in the first line of its card and google/gemma-4-12B-it in
@@ -351,14 +393,28 @@ sits on the attention outputs of layers 15 to 47 and the down projections of lay
 to 0.99 there against 0.02 to 0.80 elsewhere, cross-layer agreement 0.90 to 0.998 with the attention outputs of
 layers 0 to 14 at 0.042 at most, within-layer agreement 0.918 to 0.998 where both writers carry it. The card's
 weights (1.24 to 1.28 and 1.47 to 1.48) do not read: along the shared direction the copy keeps −0.10 to 0.95 of
-Google's action, because the fine-tune's own change along that direction adds to the ablation's. The copy's
+Google's action, which round 8 laid on the fine-tune's own change along that direction. The copy's
 `config.json` equals the parent's in every field but the version string, so its eight configuration differences from
 Google are the parent's, and the copy is float16 throughout because the parent was saved so. The comparison that
 would leave only the ablation is against the parent (`237e5d8e`), owed to the next batch with the 3MPER0RR pair of
 finding 8. After the re-upload of finding 9 this is the second copy whose card names a nearer parent than its
-`base_model` field, and the second reason the pin rule should read the card. Evidence:
-`results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json`,
-`results/meta/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json` and the reading in `docs/cards/`.
+`base_model` field, and the second reason the pin rule should read the card.
+
+Round 16 made the parent comparison, and it corrects the explanation. Against yuxinlu1's fine-tune the copy changes
+52 of 677 tensors, the 33 attention outputs and 19 down projections the card lists, and the other 625 read exactly 0;
+the fine-tune is gone from the measurement. The ablation is rank one (first share 0.990 to 0.9999, the first singular
+value 10 to 171 times the second) along one shared direction (cross-layer cosine 0.90 to 0.998), and the kept
+fraction is the same spread as before: −0.09 to 0.95 on the attention outputs (median 0.74), −0.27 to 0.70 on the
+down projections, left below right on 20 of 52, where the card's 1.24 to 1.48 would read −0.24 to −0.48. The spread
+is the edit's own. The maker's `reproduce/config.toml` names two steps the calibrated projection does not have, a
+"full" row normalisation with a rank-3 correction and an orthogonalised direction, and the measurement leaves the
+cause between them; the row norms read 0.0035 to 0.033 off after the restoration. The same shape appears on a second
+tool in the same round (lemuralabs's "ablation 1.3.0", finding 25: −0.19 to 0.97 kept along a rank-one shared
+direction, no weight stated). For a method with a row-normalisation step the remaining fraction reads the side and
+the rank of the edit and no weight, on the parent as on the grandparent. Evidence:
+`results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json` (against Google),
+`results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.parent.json` (against the parent),
+the two `results/meta/` reports of the same names and the two readings in `docs/cards/`.
 
 ## 19. Half of the round's Gemma 4 copies carry a chat template that matches no revision Google published
 
@@ -383,6 +439,15 @@ template with one line changed (llmfan46 31B, finding 23). Of the thirteen Gemma
 the template they were pinned against. Evidence: the six `results/meta/` reports of round 12 and
 `docs/census-round-12.md`.
 
+Round 16 adds four Gemma 4 copies. Two carry the pinned template (lemuralabs 12B, prithivMLmods 26B-A4B, the latter
+pinned to the release commit), one carries it twice, in `chat_template.jinja` and inside `tokenizer_config.json`,
+both Google's byte for byte (aifeifei798 E2B, a loader's save), and llmfan46's 26B-A4B copy carries the maker's
+patched template again: Google's 2026-04-28 template with the same 14-line macro and the same `is iterable` and
+list-typed comparisons as the E2B copy above, without the empty thought block of finding 23, matching none of
+Google's 13 revisions and rendering the fixed conversation identically. Of the seventeen Gemma 4 copies of rounds 8,
+12 and 16, seven carry the template they were pinned against, and the maker's patch is now in three of its five
+copies. Evidence: `results/meta/llmfan46-gemma-4-26B-A4B-it-uncensored-heretic.json` and `docs/census-round-16.md`.
+
 ## 20. A mixture-of-experts abliteration that reaches no expert, and the card says so
 
 huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated changes 50 of 1,013 tensors: the attention output and the shared dense
@@ -397,8 +462,13 @@ tool that edits linear modules reaches the first and not the second. A refusal d
 output and the shared projection of a mixture, and left in all 3,840 expert matrices that write into the same
 residual stream, is a different edit from the one the same word names on a dense model or on another mixture; the
 scorer matched the copy cleanly because its "selected" entry lets a whole kind go unchanged, and it should say when
-the kind left unchanged is the experts. Evidence:
+the kind left unchanged is the experts. Round 16 adds two more edits of this base that reach no expert, llmfan46's
+arbitrary-rank copy on 27 attention outputs (finding 22) and prithivMLmods's re-upload of this copy (finding 9); in
+both the 30 packed expert down tensors, the 30 gate-up tensors and the 30 routers read exactly 0. Of the six
+measurements on this original, TrevorJS's alone changed the experts. Evidence:
 `results/weights/huihui-ai-Huihui-gemma-4-26B-A4B-it-abliterated.json`,
+`results/weights/llmfan46-gemma-4-26B-A4B-it-uncensored-heretic.json`,
+`results/weights/prithivMLmods-gemma-4-26B-A4B-it-Uncensored-MAX.json`,
 `results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and the readings in `docs/cards/`.
 
 ## 21. One maker's shared projection reads three weights on three bases
@@ -428,7 +498,13 @@ declared range and left 23 of them as rounding residues (relative change 0.0013 
 which the energy-share rule flags as failed projections. The two makers differ in one claim and the weights read it
 the same way on every base: coder3101's cards claim row-norm preservation and the rows move by 0.0059 to 0.0080 on all
 75 edited matrices of its three copies, while llmfan46's cards claim none and the rows move by 0.0016 to 0.066. The
-restoration step of the method is an approximation that leaves seven tenths of a percent at every size. Evidence:
+restoration step of the method is an approximation that leaves seven tenths of a percent at every size. Round 16's
+llmfan46/gemma-4-26B-A4B-it-uncensored-heretic is the eighth copy and the second on the mixture: 27 attention outputs
+in layers 2 to 29, input side (left above right on all 27), weights 0.42 to 1.52 with five under 1 (0.42 on layer 3
+is the smallest on the method), no expert touched, and the attention outputs of layers 1 and 5, inside the declared
+range, rewritten at 0.000235 and 0.000127 of their norm, the residue case at a smaller size; the rows moved by 0.0006
+to 0.0079 under no preservation claim. Evidence:
+`results/weights/llmfan46-gemma-4-26B-A4B-it-uncensored-heretic.json`,
 `results/weights/llmfan46-gemma-4-31B-it-uncensored-heretic.json`,
 `results/weights/coder3101-gemma-4-31B-it-heretic.json`, `results/weights/coder3101-gemma-4-26B-A4B-it-heretic.json`,
 the four earlier reports named in findings 10 and 12, and the readings in `docs/cards/`.
@@ -468,6 +544,99 @@ biprojection, and a norm-preserving entry needs its own band. Evidence: `results
 `results/weights/TrevorJS-gemma-4-12B-it-uncensored.json`, `results/weights/TrevorJS-gemma-4-E4B-it-uncensored.json`,
 `results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and the readings in `docs/cards/`.
 
+## 25. A copy whose card names Google as its one parent carries a third party's fine-tune, and the normalisation vectors say whose
+
+lemuralabs/Gemma-4-12B-uncensored-bf16 names google/gemma-4-12B-it in its card ("full-precision (bf16) abliterated
+google/gemma-4-12B-it", a one-step lineage drawing, "no new capabilities were added") and in its `base_model` field.
+Against that original 553 of 677 tensors changed. The reading-side, gate and up projections of every layer moved by
+0.18 to 0.36 percent with first-value shares of 0.001 to 0.024, unrelated directions (cosine 0.00 to 0.42) and 0.99
+to 1.01 of the original kept: training. The 229 normalisation vectors that moved (up to 8.6 percent) have difference
+norms equal to the last digit to round 8's measurement of yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 under
+richardyoung's ablation against the same Google file, as do the 110 that stayed under the threshold in both reports,
+and the token embedding reads 5.3678e-5 in both; richardyoung's ablation leaves every one of those tensors at
+exactly 0 against the fine-tune (finding 18), so the equality is with the fine-tune itself. On the projections the
+fine-tune's change comes through at a quarter of its entries (0.13 to 0.34 of each matrix's entries differ from
+Google's, against 0.89 to 0.97 on richardyoung's float16 copy): the fine-tune was saved in float16, this copy in
+bfloat16, and the recast returns three entries in four to Google's value. The copy's configuration is Google's
+(`max_position_embeddings` 131072 where the fine-tune declares 262144), so the files were assembled from two
+repositories. On top of the fine-tune sits the maker's own ablation, a shared rank-one direction on the attention
+outputs of layers 9 to 47 and the down projections of layers 21 to 47 (first share 0.94 to 0.99, cross-layer cosine
+0.89 to 1.00), which agrees with richardyoung's directions at cosine 0.75 to 0.93 on the layers both edit and is
+smaller than richardyoung's on every one of them, so it was made from the fine-tune and not from the other
+maker's copy. After 3MPER0RR's (finding 8) this is the second copy whose weights carry a parent its card names
+nowhere, and the first where the parent is identified from the census's own reports: a tensor set an ablation does
+not touch, equal to the last digit between two reports on one original, names the fine-tune both copies stand on. A
+comparison tool holding the reports can run that test on every new pair. Evidence:
+`results/weights/lemuralabs-Gemma-4-12B-uncensored-bf16.json` against
+`results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json`,
+`results/meta/lemuralabs-Gemma-4-12B-uncensored-bf16.json` and
+`docs/cards/lemuralabs--Gemma-4-12B-uncensored-bf16-b09ffb4f.reading.md`.
+
+## 26. An "instruct uncensored" copy declared against the pretrained base, with the instruct model's template and 5 to 11 percent of dense change
+
+Felldude/Ministral-3-8B-Uncensored is titled "Ministral 3 8B Instruct Uncensored" and calls itself a full fine-tune;
+its `base_model` field names mistralai/Ministral-3-8B-Base-2512, the pretrained model. Against that base 243 of 531
+tensors changed: the seven projections of all 34 layers at 5.0 to 11.0 percent of their norm, the token embedding
+(6.4 percent, with rows that are zero in the base filled in), the output head (9.6 percent), the two linear maps of
+the multimodal projector (7.7 and 8.1 percent) and one normalisation; the 218 tensors of the vision tower are
+unchanged to 0.000005, the size of the copy's cast to float32. Nothing in the change is rank one or shared across
+layers (first shares 0.001 to 0.070, cosines 0.03 to 0.61), so there is no ablation under it. The base has no chat
+template and the copy carries one of 7,759 bytes equal to mistralai/Ministral-3-8B-Instruct-2512's byte for byte at
+that repository's first three revisions, with `tie_word_embeddings` false, the instruct configuration's key. The
+template is finding 8's marker on a second maker and a second family: the copy stands on the instruct model, or on a
+model made from it, and the 5 to 11 percent against the base is Mistral's instruction tuning and the maker's training
+together, in a proportion only a comparison against the instruct weights can give. The change is four to ten times
+ccharnkij's adapter training on the Reasoning sibling (finding 17) and reaches the embedding, head and projector that
+copy left alone. The copy's tokenizer was re-saved without its `added_tokens_decoder` block and
+`special_tokens_map.json` (1,007 of the card's 1,011 flagged fields; ids and vocabulary unchanged), a re-save and not a
+change. Evidence: `results/weights/Felldude-Ministral-3-8B-Uncensored.json`,
+`results/meta/Felldude-Ministral-3-8B-Uncensored.json` and
+`docs/cards/Felldude--Ministral-3-8B-Uncensored-ad52113f.reading.md`.
+
+## 27. A per-layer ablation with two or three directions per matrix, and a reconstruction claim that reads as no change
+
+aifeifei798/Heretic-Scalpel-E2B's card describes an ablation followed by a "singular value topology surgery" that
+reconstructs the shared key-value projections of layers 15 to 34 and three rounds of fine-tuning. Against
+google/gemma-4-E2B-it 179 of 2,011 tensors changed. The attention outputs of layers 10 to 34 and the down projections
+of layers 15 to 34 carry the ablation: rank one in layers 10 to 13 and 15 to 18 (first share 0.98 to 0.997), two or
+three directions from layer 14 on (first share 0.43 to 0.74 with the first eight at 0.997; singular values 2.33, 1.70
+and 0.10 at layer 15, 2.28, 1.93 and 1.09 at layer 25, 2.49, 2.24 and 1.40 at layer 34), the directions per layer
+(cross-layer cosine 0.03 to 0.71), output side (right above left on 42 of 45), no single weight (−0.38 to 0.67 kept
+along the first direction, −0.37 to 0.04 along the second). The other 117 changed projections and the attention
+outputs and down projections of the lower layers moved by 0.10 to 0.27 percent with 0.99 to 1.01 kept and unrelated
+directions, the small merged change three rounds of fine-tuning leave. The 71 key and value projections and key
+normalisations of layers 15 to 34, the tensors the card's first stage reconstructs, read a relative difference of
+exactly 0: the published file carries Google's values bit for bit, and the key and value projections that did change
+(9 and 15) are all in layers 0 to 14, where the model computes its own. This is the first ablation in the census
+with more than one direction per matrix; the energy-share rule reads its second and third directions as 57
+violations, and a rank per matrix would name it. The copy's files are one loader's save (no library version,
+`torch_dtype` for `dtype`, the resolved per-layer head sizes written out, the end token repeated in the generation
+list, the template written into the tokenizer configuration as well), finding 15's signature with no token moved.
+Evidence: `results/weights/aifeifei798-Heretic-Scalpel-E2B.json`, `results/meta/aifeifei798-Heretic-Scalpel-E2B.json`
+and `docs/cards/aifeifei798--Heretic-Scalpel-E2B-6632ade0.reading.md`.
+
+## 28. A copy that carries the previous model's chat template, under another maker's card
+
+venkycs/Mistral-Small-24B-Instruct-2501-Abliterated's card is huihui-ai's card for
+huihui-ai/Mistral-Small-24B-Instruct-2501-abliterated, copied with its title, its method line and its ollama pull
+command. The weights are that method's shape: 78 of 363 tensors changed, every attention output and down projection of
+layers 1 to 39, one shared direction (cross-layer cosine 0.99999 or more) at weight 1.0 (−0.004 to −0.002 kept on the
+left of all 78), rank one at the storage floor, nothing else moved. huihui-ai's own copy of this base is not measured,
+so whether the two are one file cannot yet be said. The template is the result: the copy's `tokenizer_config.json`
+carries a template of 3,959 bytes that matches none of the 2501 repository's 54 revisions and equals
+mistralai/Mistral-Small-Instruct-2409's byte for byte, the previous model's, with the old `[INST] ... [/INST]`
+spacing and the system message folded into the last user turn where the 2501 model was released with a
+`[SYSTEM_PROMPT]` block and no spaces. The fixed conversation renders differently, so every conversation through this
+copy is formatted as the earlier model's. The maker's tokenizer upload is dated 2025-03-12, two weeks after the
+weights; the copy's five other token-side fields are Mistral's own revision of 41 minutes after the pin. After
+Jiunsong's fixed system text (finding 16) and llmfan46's thought block (finding 23) this is the third template in the
+census that changes what a conversation renders to, and the first by substitution of another model's file; a
+template lookup across the originals the census has cached would have named it, as it would have named 3MPER0RR's
+(finding 8) and Felldude's (finding 26). Evidence:
+`results/weights/venkycs-Mistral-Small-24B-Instruct-2501-Abliterated.json`,
+`results/meta/venkycs-Mistral-Small-24B-Instruct-2501-Abliterated.json` and
+`docs/cards/venkycs--Mistral-Small-24B-Instruct-2501-Abliterated-c4890956.reading.md`.
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -483,7 +652,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Thirty-one copies is a sample; the inventory sample of 30 repositories
+- Population. Thirty-seven copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
