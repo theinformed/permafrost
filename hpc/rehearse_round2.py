@@ -40,6 +40,7 @@ def fixture_kit(directory):
 # hpc-report.sh -- Write local rehearsal cards without a network.
 # Created by Sean Egan 2026-10-14
 # Modified: SDE 2026-10-14  retain the job description and its exit event.
+# Modified: SDE 2026-10-31  the kept originals are read from the round's own folder.
 hpc_job_start() {
     mkdir -p "$HOME/.hpc/jobs"
     printf '{"v":1,"job":"%s","description":"%s","project":"model-audit"}\\n' "$HPC_JOB_ID" "$1" > "$HOME/.hpc/jobs/$HPC_JOB_ID.json"
@@ -229,7 +230,7 @@ class CensusRehearsal(Rehearsal):
         self.expect(sweep['status'] == 'cancelled-invalid-dependency', 'the sweep ran behind a failed compare')
         self.expect(not (self.results / 'measurements/sweep.json').exists(), 'a sweep record exists behind a failed compare')
         wanted = {pair['original']['revision'] for pair in json.loads(Path(self.manifest).read_text())['pairs']}
-        kept = [path for path in (self.work / 'model-audit/originals').iterdir() if path.is_dir()]
+        kept = [path for path in (self.work / 'model-audit/rounds' / str(self.number) / 'originals').iterdir() if path.is_dir()]
         self.expect(len(kept) == len(wanted) and all(any(path.iterdir()) for path in kept),
                     'an original went missing with no sweep')
         self.append('sweep {} dropped behind the failed pair 1; {} originals stay for the refile'.format(

@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-14  separate download inputs from each try's scratch.
 # Modified: SDE 2026-10-15  a login-side check of the download records that reads sizes, not weights.
 # Modified: SDE 2026-10-29  any batch of 1 to 24 pairs; shared originals and the sweep that clears them.
+# Modified: SDE 2026-10-31  originals live under the round folder, out of reach of another round's sweep.
 import hashlib
 import json
 import os
@@ -48,7 +49,9 @@ def paths(number):
     row = pair(number)
     base = row['original']
     key = hashlib.sha256((base['hub_id'] + '@' + base['revision']).encode()).hexdigest()
-    original = Path(os.environ['WORKDIR']) / 'model-audit/originals' / key
+    # Each round keeps its own originals: on Blueback, round 12's sweep cleared the shared folder that
+    # round 14's download had found present, and three of round 14's compares read empty folders.
+    original = Path(os.environ['AUDIT_WORK']) / 'originals' / key
     modified = Path(os.environ['AUDIT_WORK']) / 'inputs' / ('pair-' + str(number))
     return original, modified
 

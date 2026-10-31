@@ -821,6 +821,11 @@ class BatchCountTests(unittest.TestCase):
             self.assertEqual([group['pairs'] for group in groups], [[1, 6], [2, 7], [3, 8], [4, 9], [5]])
             self.assertTrue(census.shares_original(6))
             self.assertFalse(census.shares_original(5))
+            # Round 12's sweep on Blueback deleted originals round 14 still read: the folder was shared across
+            # rounds. An original now lives under its own round's work, where only that round's sweep looks.
+            self.assertEqual(census.paths(1)[0].parent, self.directory / 'r' / 'originals')
+        for path in sorted(ROUND.glob('*.py')) + sorted(ROUND.glob('*.sh')) + sorted(ROUND.glob('jobs/*.sh')):
+            self.assertNotIn("'model-audit/originals'", path.read_text(), path.name)
 
 
 class SweepTests(unittest.TestCase):
