@@ -34,7 +34,7 @@
     ],
     "time_limit": "03:55:00",
     "purge_days": 30,
-    "quota": "show_usage",
+    "quota": "lfs",
     "token_file": "/p/home/sdegan/.hpc/hf-token",
     "image": "optional"
   },

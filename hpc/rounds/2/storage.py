@@ -3,6 +3,7 @@
 # Modified: SDE 2026-10-13  use exact bytes for acceptance and GB for the display.
 # Modified: SDE 2026-10-14  check the census budget and display GB.
 # Modified: SDE 2026-10-29  the quota method comes from the systems table; the size line lives in work.
+# Modified: SDE 2026-10-31  lfs quota without show_storage, and free space when the quota table is unreadable.
 import json
 import os
 from pathlib import Path
@@ -54,11 +55,19 @@ def main():
         free = info.f_bavail * info.f_frsize
         used, limit = 0, free
     else:
-        subprocess.check_call(['show_storage', '-h'])
-        text = subprocess.check_output(['lfs', 'quota', '-u', os.environ['USER'], work], universal_newlines=True)
-        used, limit = quota_numbers(text)
+        # Lustre quota; show_storage is a reading for the log where the center has it (Raider has not).
+        if shutil.which('show_storage'):
+            subprocess.call(['show_storage', '-h'])
+        else:
+            print('show_storage absent on this system; lfs quota alone')
         info = os.statvfs(work)
         free = info.f_bavail * info.f_frsize
+        try:
+            text = subprocess.check_output(['lfs', 'quota', '-u', os.environ['USER'], work], universal_newlines=True)
+            used, limit = quota_numbers(text)
+        except (subprocess.CalledProcessError, OSError, ValueError) as error:
+            print('lfs quota unreadable here ({}); free space alone'.format(error))
+            used, limit = 0, free
     print('Project: {:.1f} GB; requested: {:.1f} GB'.format(own / 1024 ** 3, need / 1024 ** 3))
     print('Work quota remaining: {:.1f} GB; filesystem free: {:.1f} GB'.format((limit - used) / 1024 ** 3, free / 1024 ** 3))
     if own + need > 8 * 1024 ** 4 or min(limit - used, free) < need:

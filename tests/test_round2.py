@@ -894,6 +894,9 @@ class SystemsTableTests(unittest.TestCase):
         self.assertLess(floor.index('AUDIT_REHEARSAL:-0}" = 1'), floor.index('( python_module'))
         module = env[env.index('python_module() {'):env.index('compute_python() {')]
         self.assertIn('module load "$candidate"', module)
+        # Raider and the other Cray systems name the module cray-python
+        self.assertIn("module -t avail python/3.1 cray-python/3.1", module)
+        self.assertIn("grep -E '^(cray-)?python/3\\.1'", module)
         compute = env[env.index('compute_python() {'):]
         self.assertIn('python_module || return 1', compute)
         self.assertNotIn('module load', compute)

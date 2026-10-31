@@ -11,6 +11,7 @@
 # Modified: SDE 2026-10-30  the table's named interpreter stands in for an old system python3.
 # Modified: SDE 2026-10-30  the drop reads the log only after the output pipeline has drained.
 # Modified: SDE 2026-10-30  the verify floor check reads the Python module the jobs load, in a subshell.
+# Modified: SDE 2026-10-31  cray-python modules count; the newest 3.1x of either family is loaded.
 set -euo pipefail
 export HPC_PROJECT=model-audit HPC_SYSTEM=${HPC_SYSTEM:-nautilus}
 ROUND=$(python3 ./census.py round)
@@ -198,10 +199,11 @@ python_module() {
     # Load the Python 3.11 module by name pattern; a caller that wants the login shell untouched runs this in a subshell.
     if ! type module >/dev/null 2>&1 && [ -r /etc/profile.d/modules.sh ]; then . /etc/profile.d/modules.sh; fi
     loaded=""
-    for candidate in python/3.11/3.11 $(module -t avail python/3.1 2>&1 | grep '^python/3\.1' | sed 's/(.*//'); do
+    # Cray systems name theirs cray-python; the newest 3.1x of either family serves.
+    for candidate in python/3.11/3.11 $(module -t avail python/3.1 cray-python/3.1 2>&1 | grep -E '^(cray-)?python/3\.1' | sed 's/(.*//' | sort -t/ -k2 -V -r); do
         if module load "$candidate" >/dev/null 2>&1; then loaded=$candidate; break; fi
     done
-    if [ -z "$loaded" ]; then echo "no Python 3.11 module found (tried python/3.11/3.11 and python/3.1*)"; module -t avail python 2>&1 | head -20; return 1; fi
+    if [ -z "$loaded" ]; then echo "no Python 3.1x module found (tried python/3.11/3.11, python/3.1* and cray-python/3.1*)"; module -t avail python cray-python 2>&1 | head -20; return 1; fi
     echo "Python module: $loaded ($(python3 --version 2>&1))"
 }
 
