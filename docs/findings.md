@@ -3,32 +3,34 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: fifty-nine measurements of fifty-six distinct published copies on twenty-three originals (four
+population is small: sixty-seven measurements of sixty-four distinct published copies on twenty-three originals (eight
 copies are re-uploads of others and one more names an unmeasured copy as its parent, two copies are measured against
 two originals each, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. Forty-seven of the fifty published copies measured so far are what their cards say they are
+## 1. Fifty-one of the fifty-four published copies measured so far are what their cards say they are
 
-Fifty community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
+Fifty-four community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
 Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
 makers on Gemma 4 and Ministral 3 bases (round 8), six from four makers on the two larger Gemma 4 bases (round 12),
 five from five makers on Gemma 4, Ministral 3 and Mistral Small bases (round 16), six from six makers on Gemma 4
 and Magistral Small bases (round 18), eight from seven makers on Gemma 4, Mistral Nemo and Mistral Small bases
-(round 13) and one more on Mistral Small (round 14), have been compared tensor by tensor with their stated
-originals. In forty-seven, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in thirty-nine copies, 0.00008, 0.000006, 0.00024,
-0.00031, 0.000096 and 0.000225 in six others on matrices the method itself weighted near zero or did not name,
+(round 13), one more on Mistral Small (round 14) and four from four makers on the three larger Gemma 4 bases
+(round 19), have been compared tensor by tensor with their stated originals. In fifty-one, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in forty-two copies, 0.00008, 0.000006, 0.00024,
+0.00031, 0.000096, 0.000225 and 0.000999 in seven others on matrices the method itself weighted near zero or did not name,
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, and 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors.
-Forty-five of the forty-seven are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it, as
+Forty-nine of the fifty-one are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it, as
 its card says); two
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
 are training, as their cards say, findings 17 and 18. The three others carry a parent their cards do not name:
 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated changes every matrix in the model (finding 8),
 lemuralabs/Gemma-4-12B-uncensored-bf16 carries a third party's coding fine-tune under its ablation (finding 25), and
 Felldude/Ministral-3-8B-Uncensored carries the instruct model's template and 5 to 11 percent of dense change against
-the pretrained base it names (finding 26). The measurements beyond fifty: prithivMLmods's four Uncensored-MAX
+the pretrained base it names (finding 26). The measurements beyond fifty-four: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
+of TrevorJS's 12B edit, MeFFyLe's of llmfan46's 12B edit and nicoboss's of huihui-ai's Mistral Small 3.2 edit, each
+equal to its parent's report in every field (finding 38); prithivMLmods's four Uncensored-MAX
 copies name huihui-ai copies as their parents, three of them measured as the huihui-ai E4B, 26B-A4B and E2B edits
 field for field and one (31B, round 18) reading as a weight-1.0 shared projection on the layer set the named
 parent's card states, with that parent unmeasured (finding 9); TimelessSoul/Huihui-gemma-4-12B-it-abliterated is
@@ -99,10 +101,19 @@ card names and against the instruct model its weights point to (finding 8).
 | llmfan46/Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | 8 of 585 (attention outputs inside the declared layers 7 to 34; 20 in-range matrices rewritten near zero) | 0.000225 |
 | TimelessSoul/Huihui-gemma-4-12B-it-abliterated | google/gemma-4-12B-it | the same 12 as the huihui-ai copy, shard checksum and every field equal | 0 |
 
-The fair statement of the result is narrow: at the weight level, forty-seven copies contain the edit or the
+| MoonRide/gemma-4-31B-it-heretic-ara-custom | google/gemma-4-31B-it | 48 of 1,188 (the attention outputs of layers 30 to 56 and 21 down projections of 32 to 56, the declared range; 4 of them rounding residues, 6 more under the threshold) | 0.000999 |
+| 3MPER0RR/gemma-4-31b-it-3MPER0RR-abliterated | google/gemma-4-31B-it | 41 of 1,188 (the down projections of layers 39 to 59 and the attention outputs of 40 to 59; the card names nothing) | 0 |
+| SevenOfNine/Gemma-4-26B-A4B-It-Abliterated | google/gemma-4-26B-A4B-it | 40 of 1,013 (the attention outputs of layers 4 to 29 and the shared down projections of 16 to 29; no expert) | 0 |
+| prithivMLmods/gemma-4-12B-it-heretic_decensored | google/gemma-4-12B-it | 56 of 677 (the attention outputs of layers 15 to 47 and the down projections of 25 to 47, one shared direction) | 0 |
+| Iambackup/gemma-4-12B-it-uncensored | google/gemma-4-12B-it | the same 66 as the TrevorJS copy, weight-file checksum and every field equal | 0 |
+| Justbackup/gemma-4-12B-it-uncensored | google/gemma-4-12B-it | the same 66 as the TrevorJS copy, weight-file checksum and every field equal | 0 |
+| MeFFyLe/gemma-4-12B-it-uncensored-heretic | google/gemma-4-12B-it | the same 16 as the llmfan46 copy, weight-file checksum and every field equal | 0 |
+| nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | the same 80 as the huihui-ai copy, ten shard checksums and every field equal; the token files repaired | 0 |
+
+The fair statement of the result is narrow: at the weight level, fifty-one copies contain the edit or the
 training they claim and no other, three carry a parent their cards do not name, one could not be paired and one
 could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-fifty-six distinct copies, fifty of them read.
+sixty-four distinct copies, fifty-four of them read.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -327,6 +338,24 @@ equals round 13's measurement of the source in every field; its `base_model` fie
 `results/weights/TimelessSoul-Huihui-gemma-4-12B-it-abliterated.json` against
 `results/weights/huihui-ai-Huihui-gemma-4-12B-it-abliterated.json`, and the readings in `docs/cards/`.
 
+Round 19 adds four re-uploads in one round, every one made with the hub's duplicate function and named as such in
+its first commit title: Iambackup/gemma-4-12B-it-uncensored and Justbackup/gemma-4-12B-it-uncensored ("Duplicate
+from TrevorJS/gemma-4-12B-it-uncensored", 2026-06-14 and 08-19), MeFFyLe/gemma-4-12B-it-uncensored-heretic
+("Duplicate from llmfan46/gemma-4-12B-it-uncensored-heretic", 09-12) and
+nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed ("Duplicate from huihui-ai/...",
+2025-07-07, followed by one commit that repairs the token files). Each carries its parent's weight files under the
+parent's LFS checksums, its parent's README byte for byte, and so a `base_model` field that names the grandparent;
+each equals its parent's report in every field of every tensor (finding 38). Eight of the census's sixty-four
+distinct copies are now re-uploads, and the parents of all eight are measured. Evidence:
+`results/weights/Iambackup-gemma-4-12B-it-uncensored.json` and
+`results/weights/Justbackup-gemma-4-12B-it-uncensored.json` against
+`results/weights/TrevorJS-gemma-4-12B-it-uncensored.json`,
+`results/weights/MeFFyLe-gemma-4-12B-it-uncensored-heretic.json` against
+`results/weights/llmfan46-gemma-4-12B-it-uncensored-heretic.json`,
+`results/weights/nicoboss-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed.json` against
+`results/weights/huihui-ai-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated.json`, and the readings in
+`docs/cards/`.
+
 ## 10. The weight and the rank of an edit are readable from the weights
 
 The remaining-fraction measurement (how much of the original's action the copy keeps along each leading direction)
@@ -378,6 +407,21 @@ rank-four edit, where the first-four share (0.996 to 0.997) and the gap between 
 values (19 to 195 times) read the rank instead (finding 34), and reads TrevorJS's E2B biprojection as near 0 kept
 on most layers with 0.24 to 0.69 on three.
 
+Round 19 adds two readings and one blank. SevenOfNine's 26B-A4B Heretic copy reads a schedule on the output side: the
+attention outputs keep −0.07 to 0.13 of the original's action on layers 4 to 12 and −0.09 to −0.40 on 13 to 29, the
+shared down projections 0.00 to 0.25 on 16 to 29, a weight of 0.87 rising to 1.40 and the third Heretic kernel the
+census reads from the kept fraction. 3MPER0RR's 31B copy, under a card that names nothing, reads one strength per
+kind on the output side, 1.16 to 1.40 on the down projections of layers 39 to 59 and 0.34 to 0.82 on the attention
+outputs of 40 to 59, where the maker's 12B copy read none. prithivMLmods/gemma-4-12B-it-heretic_decensored reads one
+shared direction (cosine 0.90 to 0.998 across its 56 matrices) at rank one and no weight at all: the kept fraction
+along that direction runs from −0.01 to 0.98 on the attention outputs and −0.28 to 0.77 on the down projections,
+the left below the right on 25 of 56, under a card that prints Heretic's kernel in full (0.81 to 1.18 peaking at
+layer 40, 0.97 to 1.37 peaking at 46), which would read as fractions of 0.19 to −0.18 and 0.03 to −0.37 falling
+smoothly. The second copy that reads no weight and no side on a rank-one shared direction, and the first whose card
+states the numbers the weights do not carry. Evidence: `results/weights/SevenOfNine-Gemma-4-26B-A4B-It-Abliterated.json`,
+`results/weights/3MPER0RR-gemma-4-31b-it-3MPER0RR-abliterated.json`,
+`results/weights/prithivMLmods-gemma-4-12B-it-heretic_decensored.json` and the readings in `docs/cards/`.
+
 ## 11. Four configuration values that later libraries omit on save and restore on load (corrected 2026-10-30)
 
 As first written on 2026-10-30 from round 7, this finding said that igorls/gemma-4-12B-it-heretic-v1's `config.json`
@@ -410,6 +454,22 @@ pinned to July's revision, reads the same field the same way. One field, three c
 (`results/meta/AEON-7-Gemma-4-12B-it-AEON-Abliterated-K4-BF16.json`,
 `results/meta/huihui-ai-Huihui-gemma-4-12B-it-abliterated.json`,
 `results/meta/TimelessSoul-Huihui-gemma-4-12B-it-abliterated.json`).
+
+Round 19 measured four more 12B copies (TrevorJS's file twice under the Iambackup and Justbackup names, saved with
+5.12.0; prithivMLmods's, 5.12.1; llmfan46's under the MeFFyLe name, 5.10.2) against Google's 5.10.0.dev0 file, and
+all four lack the same four fields and write `bfloat16` into the audio and vision sub-configurations where Google's
+file has null. Nine 12B copies now read the six fields the same way, and the reason the metadata tool cannot close
+them at home is now known: the family's top-level `model_type` is `gemma4_unified`, which transformers 5.6.2 (the
+home venv) and 4.56.2 (the cluster pin) do not know, so the class-default lookup returns nothing and neither file
+can be loaded. Under 5.12.0 both files load to 640, 640, 640 and 48, and the fresh class default is still out of
+reach (the unified class leaves its audio and vision sub-configurations empty until given one), so the rule that
+closes them must load both saved files and compare what the library reads: that rule and the null-data-type rule
+were added in round 19 (`audit/compare.py`, `tests/test_resave.py`), close all six fields under 5.12.0 and two
+under 5.6.2, and the committed reports stay the 5.6.2 judgement. Evidence:
+`results/meta/Iambackup-gemma-4-12B-it-uncensored.json`, `results/meta/Justbackup-gemma-4-12B-it-uncensored.json`,
+`results/meta/prithivMLmods-gemma-4-12B-it-heretic_decensored.json`,
+`results/meta/MeFFyLe-gemma-4-12B-it-uncensored-heretic.json` and the two judgements recorded in
+`docs/census-round-19.md`.
 
 ## 12. Which side of a matrix an edit touched is readable, and one method edits the input side
 
@@ -615,6 +675,16 @@ fifteen carry the template they were pinned against byte for byte and one more u
 `results/meta/TimelessSoul-Huihui-gemma-4-12B-it-abliterated.json`, `docs/census-round-13.md` and
 `docs/census-round-14.md`.
 
+Round 19 adds seven Gemma 4 copies. Five carry the template they were pinned against byte for byte (MoonRide 31B,
+3MPER0RR 31B, SevenOfNine 26B-A4B, Iambackup 12B, prithivMLmods 12B). Justbackup's 12B copy is the earlier-revision
+case through a re-upload again (TrevorJS's files of 06-13 with Google's 17,466-byte template of 06-03, under a pin
+of 07-20 whose template is the 18,681-byte file of 07-09; the same file duplicated under the Iambackup name a day
+after the parent reads as pinned). MeFFyLe's 12B copy carries llmfan46's patched 21,488-byte template into a fifth
+repository, one the maker does not own, through a duplicate. Of the thirty-six Gemma 4 copies of rounds 8, 12, 13,
+14, 16, 18 and 19, twenty carry the template they were pinned against byte for byte and one more up to line
+endings. Evidence: `results/meta/Justbackup-gemma-4-12B-it-uncensored.json`,
+`results/meta/MeFFyLe-gemma-4-12B-it-uncensored-heretic.json` and `docs/census-round-19.md`.
+
 ## 20. A mixture-of-experts abliteration that reaches no expert, and the card says so
 
 huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated changes 50 of 1,013 tensors: the attention output and the shared dense
@@ -638,6 +708,12 @@ others left all 3,840 expert matrices alone. Evidence:
 `results/weights/llmfan46-gemma-4-26B-A4B-it-uncensored-heretic.json`,
 `results/weights/prithivMLmods-gemma-4-26B-A4B-it-Uncensored-MAX.json`,
 `results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json` and the readings in `docs/cards/`.
+
+Round 19 adds SevenOfNine/Gemma-4-26B-A4B-It-Abliterated, a Heretic run on the attention outputs of layers 4 to 29
+and the shared down projections of 16 to 29, whose 30 packed expert down tensors, 30 gate-up tensors and 30 routers
+read exactly 0: the fifth maker's copy on this base to leave all 3,840 expert matrices alone, beside the two
+(TrevorJS, WWTCyberLab) that reach them. Evidence:
+`results/weights/SevenOfNine-Gemma-4-26B-A4B-It-Abliterated.json`.
 
 ## 21. One maker's shared projection reads three weights on three bases
 
@@ -711,6 +787,15 @@ edits. Twelve copies, seven bases, all on the input side. Evidence:
 `results/weights/llmfan46-gemma-4-12B-it-uncensored-heretic.json`,
 `results/weights/llmfan46-Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic.json` and the readings in
 `docs/cards/`.
+
+Round 19 adds the thirteenth copy, MoonRide/gemma-4-31B-it-heretic-ara-custom, the third with the down projections
+and the second maker to claim the preservation step: both writers of layers 30 to 56 (the card's range with its
+exclusive end), 44 edits (26 attention outputs, 18 down projections) at searched input-side weights of 0.63 to 2.93,
+and ten in-range matrices rewritten near zero, six under the threshold (0.00077 to 0.000999) and four over it
+(0.0010 to 0.0018), the first residue set that straddles the line; the rows of the 44 edits moved by 0.0059 to
+0.0077, the band coder3101's four copies read. The round also measured llmfan46's 12B copy a second time under the
+MeFFyLe name, a hub duplicate, with the same 16 matrices and weights. Thirteen copies, seven bases, all on the input
+side. Evidence: `results/weights/MoonRide-gemma-4-31B-it-heretic-ara-custom.json` and the reading in `docs/cards/`.
 
 ## 23. A maker's one-line patch to Google's template writes an empty thought block into every earlier model turn
 
@@ -929,6 +1014,19 @@ Evidence: `results/meta/huihui-ai-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abl
 `results/meta/llmfan46-Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic.json` and the readings in
 `docs/cards/`.
 
+Round 19 adds a repair of the first case above. nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-
+llamacppfixed is huihui-ai's copy duplicated (the same ten shards) with one commit on top, "Upload 6 files": a
+`tokenizer.json` of 17,078,037 bytes that the parent lacked and that matches neither unsloth's (17,078,019 bytes) nor
+the one llmfan46's copy carries (17,078,174), a `chat_template.json`, and a rewritten tokenizer configuration and
+special-tokens map in which ids 32 and 33 read `<SPECIAL_32>` and `<SPECIAL_33>` where the parent's files say
+`[ARGS]` and `[CALL_ID]`; the other 998 added-token entries, the configuration, the generation settings and the
+template are the parent's byte for byte. With the file present the token ids resolve (1, 2, 11, 0) where the
+parent's report could not resolve them, and the tool reports 2,025 fields against the parent's 1,025, the extra
+thousand being the table the parent lacked. The repair is what the name claims and touches no weight. Evidence:
+`results/meta/nicoboss-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed.json` against
+`results/meta/huihui-ai-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated.json` and the reading in
+`docs/cards/`.
+
 ## 32. An original whose generation settings were invalid JSON for seventeen days, and what every copy and every strict reader did with it
 
 mistralai/Mistral-Small-3.2-24B-Instruct-2506 shipped a `generation_config.json` of 135 bytes with a trailing comma
@@ -1045,6 +1143,57 @@ comparison run against that, for this copy and for its source. Evidence:
 `results/meta/timfromhcs-Ministral-3-14B-abliterated.json` and
 `docs/cards/timfromhcs--Ministral-3-14B-abliterated-c9f55a6b.reading.md`.
 
+## 38. Four hub duplicates in one round, each readable from its commit title and file checksums before any download
+
+Iambackup/gemma-4-12B-it-uncensored (created 2026-06-14 at 15:38Z), Justbackup/gemma-4-12B-it-uncensored (08-19,
+16:23Z), MeFFyLe/gemma-4-12B-it-uncensored-heretic (09-12, 18:03Z) and
+nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed (2025-07-07, 15:02Z) each begin with
+one commit titled "Duplicate from" and the parent's name (TrevorJS/gemma-4-12B-it-uncensored twice,
+llmfan46/gemma-4-12B-it-uncensored-heretic, huihui-ai/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated), the
+hub's own duplicate function; three of the four have no other commit. The hub's file listing gives the parent's LFS
+checksum on every weight file: `dd7fcab672` on the 23,919,549,408-byte `model.safetensors` of the TrevorJS trio
+(with `a2619fe11b` on the 32,169,780-byte `tokenizer.json`), `4e6ac81d39` on MeFFyLe's and llmfan46's, and the ten
+shards `b6c0aee6ef` to `101361dc32` with `tekken.json` `6e2501687c` on nicoboss's and huihui-ai's. The READMEs are the
+parents' byte for byte (4,929, 36,152 and 7,224 bytes), so each copy's `base_model` field names the grandparent,
+Google or Mistral, as the parent's does, and the pinner paired each with that grandparent. Measured so, every
+per-tensor field of every tensor equals the parent's report (677, 677, 677 and 585 tensors; 66, 66, 16 and 80
+changed) and the flag counts are the parents' (1, 1, 15 and 0). Eight of the census's sixty-four distinct copies are
+re-uploads, six of them with "Duplicate from" as the first commit title, and two accounts named for backing up hold
+the same TrevorJS file, which a count by repository would count three times. The four cost 96 GB of downloads and
+eight compute jobs for results the listing already held. The rule the pinner needs: a first commit titled
+"Duplicate from", or weight files whose LFS checksums equal a measured copy's, pairs the repository with its parent,
+records it as that measurement, and files no comparison. Evidence: the four `results/weights/` reports named in
+finding 9 against their parents', the commit titles and checksums recorded in the four readings in `docs/cards/`,
+and `data/batches/round-19-batch-1.json`.
+
+## 39. A model family the judging library cannot load reads six unexplained configuration fields on every copy
+
+Every Gemma 4 12B copy measured against Google's `config.json` (written by hand under transformers 5.10.0.dev0) and
+saved under a later library reads the same six fields as unexplained: `config.audio_config.audio_samples_per_token`,
+`config.audio_config.hidden_size`, `config.audio_config.output_proj_dims` and `config.vision_config.model_patch_size`
+(640, 640, 640 and 48 in Google's file, absent from the copy's) and `config.audio_config.dtype` and
+`config.vision_config.dtype` (null in Google's file, `bfloat16` in the copy's). Round 19's four (saved under 5.12.0,
+5.12.0, 5.12.1 and 5.10.2) make nine copies in five rounds. The fields are the saving library's doing, as finding 11
+established, and the cards say "unexplained" because of the judging library, not the copy: the family's top-level
+`model_type` is `gemma4_unified`, which neither the cluster's 4.56.2 nor the home venv's 5.6.2 knows, so
+`AutoConfig.for_model` raises "Unrecognized model identifier", the kit's class-default lookup returns nothing, and
+no rule can fire. Loaded under 5.12.0 at home, Google's file and each copy's give 640, 640, 640 and 48, while a
+fresh `gemma4_unified` configuration leaves its audio and vision sub-configurations empty, so a default lookup would
+still fail there; the rule that closes the four has to load both saved files and compare what the library reads.
+Two rules were added in round 19 (`audit/compare.py`, tests in `tests/test_resave.py`): a sub-configuration data
+type written where the other side left it null repeats the top-level declaration, and an absent field that both
+saved configurations load to the same value is a re-save, with the library version in the reason. Under 5.12.0 the
+four pairs close all six fields and two of them read "consistent with re-save noted" (the other two keep a template
+difference); under 5.6.2 they close two, and the committed reports are the 5.6.2 judgement. The same mechanism
+explains the round's two 31B cards: MoonRide's 5.7.0 save adds `text_config.moe_intermediate_size` as null to a
+5.5.0.dev0 file (closed by the 5.6.2 default) and 3MPER0RR's 5.16.1 save moves `global_head_dim` 512 and
+`num_global_key_value_heads` 4 into a `per_layer_config` map under the ten global layers (closed by hand, twice
+now). A metadata card should carry the judging library's version beside the two saved ones, so that "unexplained"
+reads as what it is when the judge cannot load the file. Evidence: the four `results/meta/` reports of round 19's
+12B pairs (the `reclassification` records and the reasons on the closed fields), `results/meta/MoonRide-gemma-4-31B-it-heretic-ara-custom.json`,
+`results/meta/3MPER0RR-gemma-4-31b-it-3MPER0RR-abliterated.json`, the two judgements in `docs/census-round-19.md`
+and the tests.
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -1060,7 +1209,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Fifty-six copies is a sample; the inventory sample of 30 repositories
+- Population. Sixty-four copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
