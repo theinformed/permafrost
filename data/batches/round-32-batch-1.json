@@ -1,0 +1,656 @@
+{
+  "round": 32,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "sh0ck0r/gemma-4-26B-A4B-it-heretic",
+        "maker": "sh0ck0r",
+        "revision": "39023804312b627bb38715498309a58ab08767d0",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B",
+            "maker": "google",
+            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-12T00:38:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-25T02:37:36+00:00",
+        "revision_date": "2026-05-25T08:49:52+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00011.safetensors": "a868d472bf881b63dc35a24e7b2a121b01126684a6b45937864d70cb63499f83",
+          "model-00002-of-00011.safetensors": "a3de0db5c643901359f34e370d6dbaac67aa8579b94222ef31c9ed0b87c3b7c2",
+          "model-00003-of-00011.safetensors": "3e1e2ec1733ed44dcd006f3b1ef86bb0e227e60c5598b1084514b99115ae0ac2",
+          "model-00004-of-00011.safetensors": "c2a309f51116d8d13244b53ffc4e7a8c19f8c83c41868e75c458007afcbe6e7b",
+          "model-00005-of-00011.safetensors": "61c79afc047c15549cb32f44a21d0d6891e42fd0b6b1af88c31c50e2884c2d4b",
+          "model-00006-of-00011.safetensors": "d57e047556b8bf7122014b8a047d983eac9cb63d284a104c9d8f5ecad6d2bc37",
+          "model-00007-of-00011.safetensors": "b3b2ea953016c6b235f8c7df8475dbbc39eb7325e9722a765656d5bba71b7040",
+          "model-00008-of-00011.safetensors": "cdfea62ae58080e2e53dc5ef411c1df87a4e41e6bacdbafa2583f940eace29b7",
+          "model-00009-of-00011.safetensors": "a8dc5f2a5456d49cb6d5986b8ce2b06ee3159081d3fed183fdcd98156d3b7c44",
+          "model-00010-of-00011.safetensors": "cab360d2b457c7476da6acdcf47173656d501a7f76dcbc95c74cfe9ca79296f7",
+          "model-00011-of-00011.safetensors": "2fd64f8c02d7158569521b5f584589f6c386e53ac60e0cec6f81d44990a628f8"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-26B-A4B-it",
+        "maker": "google",
+        "revision": "b2a81a03d25f927590a91d84ba43f96e8ef7349f",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B",
+            "maker": "google",
+            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-12T00:38:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-11T21:25:57+00:00",
+        "revision_date": "2026-05-18T16:25:07+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-05-25T02:37:36+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 13,
+        "original_history_starts": "2026-04-02T10:52:44+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "BinxNet/gemma-4-26B-A4B-it-heretic",
+        "maker": "binxnet",
+        "revision": "0c503aff1b468e5a5d5c25d065838fef1996d1c2",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B",
+            "maker": "google",
+            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-12T00:38:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-21T01:09:50+00:00",
+        "revision_date": "2026-06-21T03:47:35+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00011.safetensors": "a868d472bf881b63dc35a24e7b2a121b01126684a6b45937864d70cb63499f83",
+          "model-00002-of-00011.safetensors": "a3de0db5c643901359f34e370d6dbaac67aa8579b94222ef31c9ed0b87c3b7c2",
+          "model-00003-of-00011.safetensors": "6322f106c515574e3ba97dbcde40e402e49cef43f025da2e17051c5be714e410",
+          "model-00004-of-00011.safetensors": "51298dc9c8dcf7bf422314cc0747e09bf48f4978c76dc455849dfd0342193d40",
+          "model-00005-of-00011.safetensors": "64a1f4b82e6dd4c5d5fb14afe9d26ece1bc89e8d33ebb028353831dc5b9d595c",
+          "model-00006-of-00011.safetensors": "b87b2993da1ee8ca3e540ebe88be7f314e192b88c8b1ec53477386b4ada30c8c",
+          "model-00007-of-00011.safetensors": "e66d634b6244858aae49a20b2f898f07ced1da84083bde00f48171cb1b687423",
+          "model-00008-of-00011.safetensors": "932f98d3610acec23c1af45d1b1af1ec9572588ae7487e53a3dd15e806e37fb5",
+          "model-00009-of-00011.safetensors": "57810d7d39406ce22bbca97abdf3e0bb0257493acbdb7418f480ec0a7b1e1a91",
+          "model-00010-of-00011.safetensors": "e96594bbcc56f2fcc327e943e618d518d55dda554ac5f7ca4b0dbeb2f5bcd011",
+          "model-00011-of-00011.safetensors": "40d63b549faea5caab8af534bcd88008044a8f8608f48199dd27811610749893"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-26B-A4B-it",
+        "maker": "google",
+        "revision": "20da991ab4afab98e8f910c4a2e8f4fbefc404ad",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B",
+            "maker": "google",
+            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-12T00:38:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-11T21:25:57+00:00",
+        "revision_date": "2026-06-03T08:49:38+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-21T01:09:50+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 13,
+        "original_history_starts": "2026-04-02T10:52:44+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "DavidAU/gemma-4-E2B-it-The-DECKARD-HERETIC-UNCENSORED-Thinking",
+        "maker": "davidau",
+        "revision": "5a385da58870904dbbe2509ae41565fa2aa06502",
+        "declared_base_model": [
+          "google/gemma-4-E2B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-E2B-it",
+            "maker": "google",
+            "revision": "3e22461f65e89153144f8adb70e3b8c2cc9845a7",
+            "declared_base_model": [
+              "google/gemma-4-E2B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-E2B",
+                "maker": "google",
+                "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-02T19:59:14+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-02T19:58:09+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-16T11:42:07+00:00",
+        "revision_date": "2026-05-19T02:19:19+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "a71b19b365c319ee54671a61aac181565a92f49d6df3d592e61539387945480d"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-E2B-it",
+        "maker": "google",
+        "revision": "b324173c7d5721c2baba7f3b17b3b9b3d34ab1e9",
+        "declared_base_model": [
+          "google/gemma-4-E2B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-E2B",
+            "maker": "google",
+            "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2026-03-02T19:59:14+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-02T19:58:09+00:00",
+        "revision_date": "2026-05-07T07:39:49+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-05-16T11:42:07+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 12,
+        "original_history_starts": "2026-04-02T10:53:02+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "huihui-ai/Huihui-gemma-4-12B-it-qat-q4_0-unquantized-abliterated",
+        "maker": "huihui-ai",
+        "revision": "5201f48218a327beabb0cf123cb7dfeba16aef03",
+        "declared_base_model": [
+          "google/gemma-4-12B-it-qat-q4_0-unquantized"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+            "maker": "google",
+            "revision": "b6ed86275a6a5735884e208bfed95b445a684ca2",
+            "declared_base_model": [
+              "google/gemma-4-12B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-04T05:20:28+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-08T05:34:21+00:00",
+        "revision_date": "2026-06-09T15:28:16+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "d991fd5681c3c65730a60438a138ae252530b7cfc81c6235491f7a5a31a8c525"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+        "maker": "google",
+        "revision": "58540658b6c08edab2ddc1fbde7f28cc9987ced3",
+        "declared_base_model": [
+          "google/gemma-4-12B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-04T05:20:28+00:00",
+        "revision_date": "2026-06-05T15:48:51+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-08T05:34:21+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2026-06-05T15:48:51+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+        "maker": "mewse",
+        "revision": "5bb23dbe0661e375fe89d4bf4c469803d98cdb16",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-08-19T08:23:17+00:00",
+        "revision_date": "2026-09-13T20:17:14+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "a3012616a942565e68ac25bb85020565c931aa814e6afd7f09d3da4faef02858",
+          "model-00002-of-00002.safetensors": "c2c6ab9a22ea7ef9da4ae455956a604061c7f43c6d19e70c5984428881c7c32f"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+        "maker": "google",
+        "revision": "f1e06dc520982d9b9edd76859fdb7ab209449949",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-29T21:55:52+00:00",
+        "revision_date": "2026-07-20T16:42:45+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-08-19T08:23:17+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2026-06-05T15:48:51+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "coder3101/gemma-4-E2B-it-qat-q4_0-unquantized-heretic",
+        "maker": "coder3101",
+        "revision": "814409581f01802d9f9a4c8c57fb362ac00bd756",
+        "declared_base_model": [
+          "google/gemma-4-E2B-it-qat-q4_0-unquantized"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+            "maker": "google",
+            "revision": "6befbaca7398925921802abd1f277b495b78b738",
+            "declared_base_model": [
+              "google/gemma-4-E2B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-E2B-it",
+                "maker": "google",
+                "revision": "3e22461f65e89153144f8adb70e3b8c2cc9845a7",
+                "declared_base_model": [
+                  "google/gemma-4-E2B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-E2B",
+                    "maker": "google",
+                    "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-02T19:59:14+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-02T19:58:09+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-29T23:37:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-06T17:39:35+00:00",
+        "revision_date": "2026-06-06T17:42:10+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "a1b33e8aad96637216e955562062d35acfbc4f9777177490931d2a53ee78f6cc"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-E2B-it-qat-q4_0-unquantized",
+        "maker": "google",
+        "revision": "d40c88a04b9e3aae9cc9d6f63389e786bd20fba4",
+        "declared_base_model": [
+          "google/gemma-4-E2B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-E2B-it",
+            "maker": "google",
+            "revision": "3e22461f65e89153144f8adb70e3b8c2cc9845a7",
+            "declared_base_model": [
+              "google/gemma-4-E2B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-E2B",
+                "maker": "google",
+                "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-02T19:59:14+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-02T19:58:09+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-29T23:37:13+00:00",
+        "revision_date": "2026-06-05T15:48:50+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-06T17:39:35+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2026-06-05T15:48:50+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "amkkk/Gemma4_E2B_Abliterated_Baked_HF_Ready",
+        "maker": "amkkk",
+        "revision": "9cea12fbe498fe80c6b62b0f605c44e60f961e34",
+        "declared_base_model": [
+          "google/gemma-4-E2B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-E2B-it",
+            "maker": "google",
+            "revision": "3e22461f65e89153144f8adb70e3b8c2cc9845a7",
+            "declared_base_model": [
+              "google/gemma-4-E2B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-E2B",
+                "maker": "google",
+                "revision": "d29ff6b45f081a49ee2733a859c9c9c2d95d1a6f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-02T19:59:14+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-02T19:58:09+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-13T21:18:53+00:00",
+        "revision_date": "2026-04-13T22:23:27+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00003.safetensors": "9ebcea1985a201703cd702b4bb5e3cfc4efddaa4e2b4c58fce3703baa456a11e",
+          "model-00002-of-00003.safetensors": "b07560fd5ae48bc6594433bd2c366ae2df65fd42d7d1adbd2865e169ee3ec8ea",
+          "model-00003-of-00003.safetensors": "14c8d439bca041e25ebbef02f45ddb0b0ca1daabf143629db1548ea90e23031b"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-E2B-it",
+        "maker": "google",
+        "revision": "b4a601102c3d45e2b7b50e2057a6d5ec8ed4adcf",
+        "declared_base_model": null,
+        "base_model_chain": [],
+        "created_at": "2026-03-02T19:58:09+00:00",
+        "revision_date": "2026-04-10T16:35:43+00:00",
+        "publisher_root": true,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-13T21:18:53+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 12,
+        "original_history_starts": "2026-04-02T10:53:02+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+        "maker": "os-software",
+        "revision": "06f527f90639289af523175dd69493207e55ebcf",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-09-07T23:28:48+00:00",
+        "revision_date": "2026-09-07T23:33:38+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00011.safetensors": "3a554a7c721b4c0b89792f858d49377e63074136ce60f68708203526d37913dc",
+          "model-00002-of-00011.safetensors": "d5e7acd370e001e963c626b3cb63e3d1b9491d00c68fa0ba6e65e81b8bb1287b",
+          "model-00003-of-00011.safetensors": "5d2b2f1f0b8baf3146752819ef58ca63ba097e1dc73acaffebe1fd7968fe5da0",
+          "model-00004-of-00011.safetensors": "c8975cdd6b604abbdc3b36f09eea2f9a07c6fb3d4431ef58af656c5fb2c09dec",
+          "model-00005-of-00011.safetensors": "50a52c09e4696ca2d6eeb5306bab909c1d00dafabfb73e6c23c68e0b91f2fa9c",
+          "model-00006-of-00011.safetensors": "0f088a2aa17d8dc1f3fc56e9e7c7bfa7fb424336ca2f79d58f41c46c38f89a53",
+          "model-00007-of-00011.safetensors": "403ded50a5b5a66096e1609685bcbed5ec7b9470d0e4d0b380eef459e5b372dd",
+          "model-00008-of-00011.safetensors": "0a085df0ead01f793a477ad8c57cf1307e29e1ed97e85e09db53e92f9254549c",
+          "model-00009-of-00011.safetensors": "bb7350ae9a763667ac118d73b232ef8e38db4193bebae200eb8c24a6a797fd5b",
+          "model-00010-of-00011.safetensors": "8e6c73a5f66da7c3fd2d252643cfc9941257034354d641c594bfc2d05017fb0c",
+          "model-00011-of-00011.safetensors": "4c7ea2c1d6bc49ec58ac3131249e04dc88969b82c204c98fea26984a746db333"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+        "maker": "google",
+        "revision": "f1e06dc520982d9b9edd76859fdb7ab209449949",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-29T21:55:52+00:00",
+        "revision_date": "2026-07-20T16:42:45+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-09-07T23:28:48+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2026-06-05T15:48:51+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-01T00:35:30.292200+00:00",
+  "note": "Round 32, for Nautilus on the kit whose printed messages fit 100 columns. Eight Gemma 4 copies at the sizes with the fewest measurements, with the first pairs on the QAT-unquantized originals, which held no measurement before this round. sh0ck0r and BinxNet are 26B-A4B heretic exports named after the instruct model but carded to the pretrained base, pinned against the instruct model as round 30 did for OS-Software and TheUmbraWalker. DavidAU's E2B is the most downloaded unmeasured E2B copy, a fine-tune carrying a heretic edit. amkkk's E2B is a shared-KV export whose 60 original-only k_norm names the kit lists. huihui-ai's 12B is the most downloaded unmeasured Gemma 4 copy and the first on its QAT original. coder3101's E2B is the first on the E2B QAT original. mewse's and OS-Software's 26B-A4B copies are the first two on the 26B-A4B QAT original; mewse's card names the instruct model, so the pair is pinned against the QAT checkpoint its name cites. The pinner refused seven re-uploads of measured copies, each with the same weight files as a measured copy. gsting and botp 26B-A4B match huihui-ai in round 12. benbird316 and Abess E2B match TrevorJS in round 13. WaveCut 26B-A4B matches coder3101 in round 12. lessans 26B-A4B matches TrevorJS in round 2. p-e-w's E4B heretic REPRODUCED matches p-e-w's own E4B heretic, so one measurement will serve both when that pair enters. Held. tvall43/gemma-4-E2B-it-heretic-v1 drops 160 vision-tower weights and adds 32 input_max tensors, so the rehearsal refused it. Kooten/gemma-4-31b-abliterated-v1.1 renames inside the vision tower, which the scorer has no rule for. The Ministral 3 Instruct heretic and abliterated exports (nchapman, s3nh, hrktos-37, 0utsideness, realoperator42) stand on float8 originals, as do the Mistral Small 4 and Devstral 2 copies. coder3101's Mistral Small 3.2 heretic keeps several checkpoints under one name. grimjim's 8bit abliterations are quantised copies. The Gemma 2, Gemma 3 and MedGemma copies wait on gated originals. Left for room, all pinnable and rehearsed where tried. callmegrr 31B. p-e-w, sh0ck0r, JokeHer and BinxNet E4B. BinxNet 12B. yuna1126 E2B, whose live card names the instruct model where the inventory recorded the pretrained base. ScottzillaSystems/supergemma4-e4b-abliterated, admitted since the swapped-wrapper rule. lhca521 and tutuchen2000 Huihui 26B-A4B re-uploads, untried after two of that edit's re-uploads were refused. The remaining qat-unquantized copies (igorls, llmfan46, wnfldchen, eadx, liskasYR, prithivMLmods, xdavxd, smashingtags)."
+}
