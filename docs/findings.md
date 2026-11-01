@@ -3,34 +3,37 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: sixty-seven measurements of sixty-four distinct published copies on twenty-three originals (eight
-copies are re-uploads of others and one more names an unmeasured copy as its parent, two copies are measured against
+population is small: seventy-five measurements of seventy-two distinct published copies on twenty-four originals (eleven
+copies are re-uploads of others, one of them the only measurement of its parent, and one more names an unmeasured copy as its parent, two copies are measured against
 two originals each, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. Fifty-one of the fifty-four published copies measured so far are what their cards say they are
+## 1. Fifty-six of the fifty-nine published copies measured so far are what their cards say they are
 
-Fifty-four community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
+Fifty-nine community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
 Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
 makers on Gemma 4 and Ministral 3 bases (round 8), six from four makers on the two larger Gemma 4 bases (round 12),
 five from five makers on Gemma 4, Ministral 3 and Mistral Small bases (round 16), six from six makers on Gemma 4
 and Magistral Small bases (round 18), eight from seven makers on Gemma 4, Mistral Nemo and Mistral Small bases
-(round 13), one more on Mistral Small (round 14) and four from four makers on the three larger Gemma 4 bases
-(round 19), have been compared tensor by tensor with their stated originals. In fifty-one, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in forty-two copies, 0.00008, 0.000006, 0.00024,
-0.00031, 0.000096, 0.000225 and 0.000999 in seven others on matrices the method itself weighted near zero or did not name,
+(round 13), one more on Mistral Small (round 14), four from four makers on the three larger Gemma 4 bases
+(round 19) and five from five makers on Gemma 4 E4B, Ministral 3 and DiffusionGemma bases (round 30, one of them
+through a re-upload of the maker's file), have been compared tensor by tensor with their stated originals. In fifty-six, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in forty-six copies, 0.00008, 0.000006, 0.00024,
+0.00031, 0.000096, 0.000225, 0.000999 and 0.00095 in eight others on matrices the method itself weighted near zero or did not name,
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, and 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors.
-Forty-nine of the fifty-one are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it, as
+Fifty-four of the fifty-six are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it, as
 its card says); two
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
 are training, as their cards say, findings 17 and 18. The three others carry a parent their cards do not name:
 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated changes every matrix in the model (finding 8),
 lemuralabs/Gemma-4-12B-uncensored-bf16 carries a third party's coding fine-tune under its ablation (finding 25), and
 Felldude/Ministral-3-8B-Uncensored carries the instruct model's template and 5 to 11 percent of dense change against
-the pretrained base it names (finding 26). The measurements beyond fifty-four: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
+the pretrained base it names (finding 26). The measurements beyond fifty-nine: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
 of TrevorJS's 12B edit, MeFFyLe's of llmfan46's 12B edit and nicoboss's of huihui-ai's Mistral Small 3.2 edit, each
-equal to its parent's report in every field (finding 38); prithivMLmods's four Uncensored-MAX
+equal to its parent's report in every field (finding 38); three more in round 30, sitten1's and erunda337's copies
+of TrevorJS's 26B-A4B edit, equal to its second pass in every field but the sketch's last digits, and nnnxnsn's
+of edwixx's DiffusionGemma edit, equal to FredyRivera-dev's upload of the same file in every field (finding 38); prithivMLmods's four Uncensored-MAX
 copies name huihui-ai copies as their parents, three of them measured as the huihui-ai E4B, 26B-A4B and E2B edits
 field for field and one (31B, round 18) reading as a weight-1.0 shared projection on the layer set the named
 parent's card states, with that parent unmeasured (finding 9); TimelessSoul/Huihui-gemma-4-12B-it-abliterated is
@@ -109,11 +112,19 @@ card names and against the instruct model its weights point to (finding 8).
 | Justbackup/gemma-4-12B-it-uncensored | google/gemma-4-12B-it | the same 66 as the TrevorJS copy, weight-file checksum and every field equal | 0 |
 | MeFFyLe/gemma-4-12B-it-uncensored-heretic | google/gemma-4-12B-it | the same 16 as the llmfan46 copy, weight-file checksum and every field equal | 0 |
 | nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | the same 80 as the huihui-ai copy, ten shard checksums and every field equal; the token files repaired | 0 |
+| OS-Software/gemma-4-E4B-it-uncensored-heretic | google/gemma-4-E4B-it | 20 of 2,076 (the attention outputs and down projections of layers 18 to 27, the card's window; rank four exactly) | 0 |
+| TheUmbraWalker/gemma-4-E4B-it-2-heretic | google/gemma-4-E4B-it | 73 of 2,076 (the attention outputs of layers 4 to 41 and the down projections of 7 to 41, the reach of the first card's kernels; two directions where the second card's overlap) | 0 |
+| AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic | mistralai/Ministral-3-8B-Reasoning-2512 | 45 of 531 (the down projections of layers 8 to 33 and the attention outputs of 15 to 33, the card's kernels to the layer and the weight) | 0 |
+| Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16 | google/diffusiongemma-26B-A4B-it | 20 of 1,047 (the attention outputs and down projections of layers 7 to 16, the card's 20; five at the floor) | 0 |
+| FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored (edwixx's file) | google/diffusiongemma-26B-A4B-it | 67 of 1,047 (the attention outputs of layers 5 to 29, the down projections of 7 to 29 and all 128 experts of 11 to 29; 20 at the floor) | 0.00095 |
+| sitten1/gemma-4-26B-A4B-it-uncensored | google/gemma-4-26B-A4B-it | the same 90 as the TrevorJS copy, two shard checksums and every field equal | 0 |
+| erunda337/gemma-4-26B-A4B-it-uncensored | google/gemma-4-26B-A4B-it | the same 90 as the TrevorJS copy, two shard checksums and every field equal | 0 |
+| nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored | google/diffusiongemma-26B-A4B-it | the same 67 as the FredyRivera-dev upload, eleven shard checksums and every field equal | 0.00095 |
 
-The fair statement of the result is narrow: at the weight level, fifty-one copies contain the edit or the
+The fair statement of the result is narrow: at the weight level, fifty-six copies contain the edit or the
 training they claim and no other, three carry a parent their cards do not name, one could not be paired and one
 could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-sixty-four distinct copies, fifty-four of them read.
+seventy-two distinct copies, fifty-nine of them read.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -355,6 +366,24 @@ distinct copies are now re-uploads, and the parents of all eight are measured. E
 `results/weights/nicoboss-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed.json` against
 `results/weights/huihui-ai-Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated.json`, and the readings in
 `docs/cards/`.
+
+Round 30 adds three re-uploads and one parent measured through them. sitten1/gemma-4-26B-A4B-it-uncensored and
+erunda337/gemma-4-26B-A4B-it-uncensored are one commit each ("Duplicate from TrevorJS/gemma-4-26B-A4B-it-uncensored",
+2026-04-08 and 04-12), carry TrevorJS's two shards under the parent's checksums (`4b988df4e5`, `3d2388e809`) and
+equal round 3's second pass of the parent in every field that does not depend on the randomised sketch, with the
+sketched fields within 2.3 × 10⁻⁶ and the same 31 flags; the two equal each other in every field.
+nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored is one commit ("Duplicate from
+edwixx/diffusiongemma-26B-A4B-it-HERETIC-Uncensored", 06-22) and FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored
+is an upload by hand (06-29) of the same eleven shards under edwixx's checksums (`3b78a288` to `f86b80dd`) with a
+processor configuration added and a README that says "All credit to edwixx"; the two equal each other in every
+field of all 1,047 tensors, and since edwixx's own repository has not been measured, pair 7 stands as the
+measurement of that edit (finding 40). Eleven of the census's seventy-two distinct copies are re-uploads, and the
+parents of all eleven are measured, one of them only through its re-uploads. Evidence:
+`results/weights/sitten1-gemma-4-26B-A4B-it-uncensored.json` and
+`results/weights/erunda337-gemma-4-26B-A4B-it-uncensored.json` against
+`results/weights/TrevorJS-gemma-4-26B-A4B-it-uncensored.pass-2.json`,
+`results/weights/nnnxnsn-diffusiongemma-26B-A4B-it-HERETIC-Uncensored.json` against
+`results/weights/FredyRivera-dev-diffusiongemma-26B-A4B-it-HERETIC-Uncensored.json`, and the readings in `docs/cards/`.
 
 ## 10. The weight and the rank of an edit are readable from the weights
 
@@ -715,6 +744,13 @@ and the shared down projections of 16 to 29, whose 30 packed expert down tensors
 read exactly 0: the fifth maker's copy on this base to leave all 3,840 expert matrices alone, beside the two
 (TrevorJS, WWTCyberLab) that reach them. Evidence:
 `results/weights/SevenOfNine-Gemma-4-26B-A4B-It-Abliterated.json`.
+
+Round 30 adds two measurements of TrevorJS's file under other names (sitten1 and erunda337, finding 38), each
+reading all 128 experts of every layer changed as the parent did, and the first edits of the diffusion variant of
+this mixture (finding 40): edwixx's reaches all 128 experts of layers 11 to 29 by iterating the packed tensor's
+slices, Goodoldjam's reaches none. Evidence: `results/weights/sitten1-gemma-4-26B-A4B-it-uncensored.json`,
+`results/weights/FredyRivera-dev-diffusiongemma-26B-A4B-it-HERETIC-Uncensored.json` and
+`results/weights/Goodoldjam-DiffusionGemma-26B-E38-Abliterated-BF16.json`.
 
 ## 21. One maker's shared projection reads three weights on three bases
 
@@ -1167,6 +1203,19 @@ records it as that measurement, and files no comparison. Evidence: the four `res
 finding 9 against their parents', the commit titles and checksums recorded in the four readings in `docs/cards/`,
 and `data/batches/round-19-batch-1.json`.
 
+Round 30 adds three more, two of them before the rule was written down and one after: sitten1 (created 2026-04-08
+at 20:36Z) and erunda337 (04-12, 04:58Z), "Duplicate from TrevorJS/gemma-4-26B-A4B-it-uncensored", with TrevorJS's
+49,323,334,202-byte and 2,288,675,130-byte shards under `4b988df4e5` and `3d2388e809` and TrevorJS's 4,523-byte
+README of that week; and nnnxnsn (06-22, 09:09Z), "Duplicate from edwixx/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+with edwixx's eleven shards under `3b78a288` to `f86b80dd` and edwixx's README of that day. A fourth repository in
+the round, FredyRivera-dev's (06-29), is not the duplicate function (an initial commit and an upload by the
+large-folder tool) and carries the same eleven checksums with one file added, which the checksum half of the rule
+catches where the title half does not. Measured, the three duplicates equal their parents' measurements in every
+field and the counts are the parents' (31, 31 and 86 flags); they cost 155 GB of downloads and three compare jobs.
+Eleven of seventy-two distinct copies are re-uploads, nine of them with "Duplicate from" as the first commit title.
+Evidence: the three `results/weights/` reports named in finding 9 against their parents', the commit titles and
+checksums in the four readings in `docs/cards/`, and `data/batches/round-30-batch-1.json`.
+
 ## 39. A model family the judging library cannot load reads six unexplained configuration fields on every copy
 
 Every Gemma 4 12B copy measured against Google's `config.json` (written by hand under transformers 5.10.0.dev0) and
@@ -1203,6 +1252,107 @@ reads as what it is when the judge cannot load the file. Evidence: the four `res
 `results/meta/3MPER0RR-gemma-4-31b-it-3MPER0RR-abliterated.json`, the two judgements in `docs/census-round-19.md`
 and the tests.
 
+Round 30's two E4B copies, judged under 5.22.1, follow the 31B pattern: TheUmbraWalker's 5.6.2 save adds
+`text_config.moe_intermediate_size` as null and closes by the default rule, moving the card to "consistent with
+re-save noted"; OS-Software's 5.16.1 save closes the same field and keeps the `per_layer_config` form, the third
+copy on it, closed by hand. Evidence: `results/meta/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json` and
+`results/meta/OS-Software-gemma-4-E4B-it-uncensored-heretic.json`.
+
+## 40. The diffusion variant of a mixture carries the same language stack under another prefix, and its first two edits reach the experts and miss them
+
+google/diffusiongemma-26B-A4B-it is the block-diffusion form of Gemma 4 26B-A4B: `DiffusionGemmaForBlockDiffusion`,
+a 256-token canvas, a denoising schedule in the generation settings (48 steps, times 0.4 to 0.8), and the same
+30-layer mixture (hidden size 2,816, shared feed-forward 2,112, 128 experts of 704, global head dimension 512)
+saved as 1,047 tensors: the instruct original's 1,013 language tensors under `model.decoder.` instead of
+`model.language_model.`, four `self_conditioning` projections on the decoder, a `layer_scalar` on each of 30
+encoder layers, and no audio tower; the chat template is the 26B-A4B's 17,466-byte file. The compare tool's naming
+table did not list the prefix, so the two cluster reports read every changed tensor as kind "other" and ranked
+nothing (21 and 68 flags of "unexpected change"); with `decoder.` in the table the home score reads the roles and
+the real flags appear (40 and 86). The two edits measured differ in reach. edwixx's Heretic run (measured through
+FredyRivera-dev's upload and nnnxnsn's duplicate, finding 9) changes 67 tensors: the attention outputs of layers 5
+to 29, the down projections of 7 to 29 and the packed expert down tensor of layers 11 to 29, all 128 experts of
+each, rank one along one direction per layer on the 47 edited (first share 0.957 to 0.989 on the dense matrices,
+0.989 to 0.992 at the median expert), output side with weights of 0.87 to 1.31 on the down projections and 0.62 to
+0.99 at the median expert, expert rows within 0.0013 and 20 dense matrices at the bfloat16 floor of a merge that
+touched them without an edit. The card says the packed `[128, 2816, 704]` parameter was edited slice by slice
+because the tool skips it by default, which is the first time a Heretic card reaches the experts of a Gemma 4
+mixture (finding 20 has every other Heretic copy of this base leaving all 3,840 expert matrices alone).
+Goodoldjam's E38 changes the 20 tensors its card names (attention outputs and down projections of layers 7 to 16,
+largest absolute difference 0.2019, the card's `max_abs_delta` to its last digit) and no expert: five of the 20 are at the floor (relative
+change 0.0014 to 0.0017, kept fractions 1.00 on both sides) and the fifteen edited are several directions per
+matrix (first share 0.49 to 0.97, eighth 0.95 to 0.98) on the input side of the attention outputs (right-side
+weights 1.15 to 1.95) with per-matrix directions unrelated across the two writers of a layer, under a card that
+calls the edit "Heretic-based" and prints no kernel; the shape fits a composition of several search trials better
+than any single kernel measured. Evidence:
+`results/weights/FredyRivera-dev-diffusiongemma-26B-A4B-it-HERETIC-Uncensored.json`,
+`results/weights/nnnxnsn-diffusiongemma-26B-A4B-it-HERETIC-Uncensored.json`,
+`results/weights/Goodoldjam-DiffusionGemma-26B-E38-Abliterated-BF16.json` (each with the cluster's count in its
+`rescoring` block), the layout notes in the three readings in `docs/cards/`, `audit/recipes.json` and
+`tests/test_weights.py`.
+
+## 41. A Heretic kernel reads back from the weights to the third decimal on every layer, under a card whose token files drop a thousand declarations
+
+AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic prints a Heretic 1.2 card: attention output weight 0.90 at
+position 26.35 falling to 0.88 at distance 12.34, down projection 1.25 at 25.09 falling to 1.20 at distance 17.83,
+per-layer directions. The weights carry every number. 45 of 531 tensors changed, the down projections of layers 8
+to 33 and the attention outputs of 15 to 33, which are the layers the two kernels reach on a 34-layer model and
+nothing else (486 tensors equal, the largest change outside exactly 0); each change is rank one (first share 0.989
+to 0.996); the left kept fraction is below the right on 45 of 45; the two writers of a layer share one direction
+(cosine 0.99998 to 1.0, the tightest in the census) that drifts across layers (0.35 to 0.86); and one minus the
+left kept fraction reproduces the kernel on every layer, 0.882 to 0.903 to 0.891 on the attention outputs against
+the card's 0.882 to 0.900 to 0.889 and 1.205 to 1.248 to 1.229 on the down projections against 1.202 to 1.250 to
+1.228, within 0.004 everywhere. The one flag is a first share of 0.9893 against the entry's 0.99 floor. The token
+side reads 1,003 unexplained fields that are one omission: the copy's 407-byte `tokenizer_config.json` carries no
+`added_tokens_decoder` map (the original's declares 1,000 entries) and no `additional_special_tokens` list, while
+`tokenizer.json` and the template are byte-equal on both sides and the fixed conversation renders identically; the
+scorer has a rule for declarations that move between files and none for declarations that disappear while the
+token file is shared. This is the second copy measured on the Ministral 3 8B Reasoning original (ccharnkij's merged
+adapter, finding 17, is the first) and the first ablation of it. Evidence:
+`results/weights/AISafety-Student-Ministral-3-8B-Reasoning-2512-heretic.json`,
+`results/meta/AISafety-Student-Ministral-3-8B-Reasoning-2512-heretic.json`, the kernel column in
+`docs/cards/AISafety-Student--Ministral-3-8B-Reasoning-2512-heretic-b0a973c9.reading.md` and the direction file in the
+pull copy (`wheat30/measurements/pair-5/weights.directions.safetensors`).
+
+## 42. A rank-four transport edit reads as exactly rank four on the input side, with unrelated directions per matrix
+
+OS-Software/gemma-4-E4B-it-uncensored-heretic prints a Heretic "v2.0.0.dev0+custom" card with a parameter table the
+census had not seen: `start_layer_index` 18, `end_layer_index` 28, `transport` gaussian, `transport_rank` 4,
+`row_normalization` none, targets `attn.o_proj` and `mlp.down_proj`, with five regularisation and weighting
+numbers. The weights carry the shape numbers. 20 of 2,076 tensors changed, the attention outputs and down
+projections of layers 18 to 27 (the window, end excluded) and nothing else; each change is rank four exactly, the
+fourth cumulative share 0.999 to 1.000 and the fifth singular value 0, where the first share alone is 0.59 to 0.88;
+the left kept fraction is above the right on all 20 (input side), with right-side weights of 1.08 to 2.26 on the
+down projections rising with depth and 0.50 to 2.02 on the attention outputs; the two writers of a layer take
+unrelated directions (cosine 0.005 to 0.147) and the layers agree at 0.21 to 0.42; the rows moved by 0.012 to
+0.098 with no restoration. It is the third rank-stated subspace edit after null-space's eight directions (finding
+29) and AEON-7's four (finding 34), and differs from both: those were output-side, norm-preserving and shared one
+subspace across layers, this one is input-side, unrestored and per matrix, and its rank is a hard cut where
+AEON-7's singular values dropped by 19 to 195 times. The scoring rules written for one direction count it as 40
+flags; a first-k share with k read from the singular values and no within-layer constraint would count none.
+Evidence: `results/weights/OS-Software-gemma-4-E4B-it-uncensored-heretic.json`, the per-layer table in
+`docs/cards/OS-Software--gemma-4-E4B-it-uncensored-heretic-d5bcffe8.reading.md` and the direction file in the pull copy
+(`wheat30/measurements/pair-3/weights.directions.safetensors`).
+
+## 43. Two Heretic passes on one base: both kernels' windows read back to the layer, and the leading direction reads neither strength
+
+TheUmbraWalker/gemma-4-E4B-it-2-heretic carries two Heretic 1.3 cards, the second run on the first's output. The
+first card's kernels (attention output 1.31 at 27.47 falling to 0.82 at distance 24.19, down projection 1.42 at
+28.35 falling to 1.38 at distance 22.01) reach layers 4 to 41 and 7 to 41 on a 42-layer model, and those are the
+73 changed tensors exactly (38 attention outputs, 35 down projections; 2,003 tensors equal, the largest change
+outside exactly 0). The second card's kernels (1.49 at 25.80 falling to 1.40 at distance 8.12; 1.04 at 38.45
+falling to 0.53 at distance 10.11) reach layers 18 to 33 and 29 to 41, and those are exactly the matrices that read
+two directions: first share 0.50 to 0.70 on the attention outputs of 18 to 33 and 0.68 to 0.86 on the down
+projections of 29 to 41, with the second singular value 0.40 to 0.99 of the first, where every other changed matrix
+is rank one (first share 0.994 to 0.999) with the two writers of a layer on one direction (cosine 0.96 to 1.00).
+The strengths do not read back: two projections at different weights along different directions sum to a rank-two
+difference whose leading direction belongs to neither, so one minus the kept fraction gives 0.28 to 0.97 on the
+rank-one attention outputs where the first card implies 0.83 to 1.02, and reads on the wrong side on ten of the 73.
+The leading-direction measure that reads a single Heretic kernel to the third decimal (finding 41) reads a stacked
+pair's windows and not its weights; a per-matrix rank-two decomposition reporting two directions and two kept
+fractions would read both cards. Evidence: `results/weights/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json`, the
+two-kernel column in `docs/cards/TheUmbraWalker--gemma-4-E4B-it-2-heretic-0cbd2368.reading.md` and the direction file
+in the pull copy (`wheat30/measurements/pair-4/weights.directions.safetensors`).
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -1218,7 +1368,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Sixty-four copies is a sample; the inventory sample of 30 repositories
+- Population. Seventy-two copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
