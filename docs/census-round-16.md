@@ -79,7 +79,8 @@ default, as on round 12's pairs 1 and 2) and the rest close by hand, each pair i
   restores (finding 11's rule; the parent fine-tune's configuration, saved under 5.10.2, omits the same four). The
   copy's configuration otherwise equals Google's, `max_position_embeddings` 131072 included where the fine-tune it
   carries declares 262144: the configuration was written from Google's files and the weights from the fine-tune's.
-  The template is Google's and renders identically.
+  The template is Google's and renders identically. Judged again under transformers 5.22.1 after the home environment
+  moved, the four close and the report reads "consistent with re-save noted" (finding 39).
 - A loader's save, pair 6: no `transformers_version`, `torch_dtype` for `dtype` at every level, `per_layer_config`
   written out with the resolved head sizes, the end token repeated in the generation list, the 24 control tokens
   written into an `added_tokens_decoder` block, and the template written a second time into `tokenizer_config.json`:

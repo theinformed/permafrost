@@ -81,7 +81,9 @@ by pair, with what each is:
   three makers under three library versions. Round 7 read the igorls copy the other way (its configuration "loads
   1024 for the hidden size, 1536 for the output projection"); those are the defaults of the library's other Gemma 4
   class, and under the class the copy's `model_type` selects it loads 640, 640, 640 and 48. Finding 11 is corrected
-  accordingly.
+  accordingly. Judged again under transformers 5.22.1 after the home environment moved, the four close on both pairs;
+  pair 6's report reads "consistent with re-save noted" and pair 7's keeps its sub-configuration data types open
+  (finding 39).
 - Data types repeated into sub-configurations where the original wrote null (pairs 6 and 7, audio and vision) or
   `float16` throughout (pair 7, inherited from its parent's configuration, which the copy's equals in every field
   but the version string). Re-save effects; the tool's repetition rule covers an absent original and should cover a

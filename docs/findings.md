@@ -465,7 +465,8 @@ can be loaded. Under 5.12.0 both files load to 640, 640, 640 and 48, and the fre
 reach (the unified class leaves its audio and vision sub-configurations empty until given one), so the rule that
 closes them must load both saved files and compare what the library reads: that rule and the null-data-type rule
 were added in round 19 (`audit/compare.py`, `tests/test_resave.py`), close all six fields under 5.12.0 and two
-under 5.6.2, and the committed reports stay the 5.6.2 judgement. Evidence:
+under 5.6.2; the home environment has since moved to transformers 5.22.1 and the committed reports of all twelve 12B
+pairings were judged again under it (finding 39). Evidence:
 `results/meta/Iambackup-gemma-4-12B-it-uncensored.json`, `results/meta/Justbackup-gemma-4-12B-it-uncensored.json`,
 `results/meta/prithivMLmods-gemma-4-12B-it-heretic_decensored.json`,
 `results/meta/MeFFyLe-gemma-4-12B-it-uncensored-heretic.json` and the two judgements recorded in
@@ -1173,9 +1174,10 @@ saved under a later library reads the same six fields as unexplained: `config.au
 `config.audio_config.hidden_size`, `config.audio_config.output_proj_dims` and `config.vision_config.model_patch_size`
 (640, 640, 640 and 48 in Google's file, absent from the copy's) and `config.audio_config.dtype` and
 `config.vision_config.dtype` (null in Google's file, `bfloat16` in the copy's). Round 19's four (saved under 5.12.0,
-5.12.0, 5.12.1 and 5.10.2) make nine copies in five rounds. The fields are the saving library's doing, as finding 11
+5.12.0, 5.12.1 and 5.10.2) make twelve reports in six rounds, counting igorls's, lemuralabs's and richardyoung's round 8
+pairing (saved under 5.10.1, 5.10.1 and 5.12.1), which read the same four absent fields. The fields are the saving library's doing, as finding 11
 established, and the cards say "unexplained" because of the judging library, not the copy: the family's top-level
-`model_type` is `gemma4_unified`, which neither the cluster's 4.56.2 nor the home venv's 5.6.2 knows, so
+`model_type` is `gemma4_unified`, which neither the cluster's 4.56.2 nor the home venv's 5.6.2 of the time knows, so
 `AutoConfig.for_model` raises "Unrecognized model identifier", the kit's class-default lookup returns nothing, and
 no rule can fire. Loaded under 5.12.0 at home, Google's file and each copy's give 640, 640, 640 and 48, while a
 fresh `gemma4_unified` configuration leaves its audio and vision sub-configurations empty, so a default lookup would
@@ -1184,7 +1186,14 @@ Two rules were added in round 19 (`audit/compare.py`, tests in `tests/test_resav
 type written where the other side left it null repeats the top-level declaration, and an absent field that both
 saved configurations load to the same value is a re-save, with the library version in the reason. Under 5.12.0 the
 four pairs close all six fields and two of them read "consistent with re-save noted" (the other two keep a template
-difference); under 5.6.2 they close two, and the committed reports are the 5.6.2 judgement. The same mechanism
+difference); under 5.6.2 they close two. The home venv now runs transformers 5.22.1, and every 12B report with the four
+fields open (twelve, in six rounds: igorls in round 7, TrevorJS and richardyoung's round 8 pairing, AEON-7 and llmfan46
+in 13, lemuralabs in 16, coder3101 and 3MPER0RR in 18, and round 19's four) was judged again under it: the four fields
+close on all twelve, six reports move to "consistent with re-save noted" (TrevorJS, coder3101, igorls, lemuralabs,
+prithivMLmods and Iambackup) and six keep one other open field (the template on Justbackup's, MeFFyLe's and llmfan46's,
+the `per_layer_config` map on 3MPER0RR's, `max_position_embeddings` on AEON-7's and the sub-configuration data types on
+richardyoung's round 8 pairing). The committed reports carry that judgement, with the library version in each closed
+field's reason. The same mechanism
 explains the round's two 31B cards: MoonRide's 5.7.0 save adds `text_config.moe_intermediate_size` as null to a
 5.5.0.dev0 file (closed by the 5.6.2 default) and 3MPER0RR's 5.16.1 save moves `global_head_dim` 512 and
 `num_global_key_value_heads` 4 into a `per_layer_config` map under the ten global layers (closed by hand, twice

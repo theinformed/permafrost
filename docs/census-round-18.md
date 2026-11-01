@@ -85,7 +85,9 @@ pair 3's card moves to "consistent with re-save noted", and the rest close by ha
   configuration's `global_head_dim` 512 and `num_global_key_value_heads` 1 moved into a `per_layer_config` map under
   the global layers' indices. The per-layer head map finding 15 met on a loader's save is also the newer library's
   own form, with no `unsloth_fixed` beside it. The template is the pinned one byte for byte. The map could not be
-  loaded at home (transformers 5.6.2 has no `gemma4_unified` class).
+  loaded at home (transformers 5.6.2 has no `gemma4_unified` class). Judged again under transformers 5.22.1 after the
+  home environment moved, the four defaults close on both pairs; pair 1's report reads "consistent with re-save noted"
+  and pair 2's keeps the map open (finding 39).
 - A re-save of the release files, pair 3: two version strings and the tool-closed field; the template is Google's
   release file, which is the pin.
 - The earlier-revision case, pair 6: the template (11,926 bytes) equals Google's E2B release template of 2026-04-02

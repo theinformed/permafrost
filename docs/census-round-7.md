@@ -65,7 +65,8 @@ differences" by tool and close by hand, each field with its evidence:
   copy's gives 1024, 1536 and nothing for the rest; a 5.10.1 re-save of the original writes all four back. The copy's
   `config.json` dropped them, and the copy ships the audio embedding projection unchanged at shape [3840, 640], the
   original's geometry. The card's text-only use is unaffected; audio input through that configuration is untested
-  here.
+  here. Judged again under transformers 5.22.1 after the home environment moved, the four close as values both saved
+  configurations load to, and the report reads "consistent with re-save noted" (finding 39).
 
 ## What the scorer learned
 

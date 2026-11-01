@@ -72,7 +72,9 @@ noted"; the rest close by hand:
 - The class defaults and a revision, pair 3: the six class-default fields of finding 11 under one 5.10.0.dev0 save,
   and `text_config.max_position_embeddings` 131,072 at the pin against 262,144 in the copy. The copy's own
   history carries that change (its commit of 06-07, "Restore native 256k context") three days after Google's commit
-  `5926caa4` made the same one; the copy's pin is the revision before Google's change.
+  `5926caa4` made the same one; the copy's pin is the revision before Google's change. Judged again under transformers
+  5.22.1 after the home environment moved, the six class-default fields close on pairs 3 and 8; `max_position_embeddings`
+  stays pair 3's one open field and pair 8 keeps its template (finding 39).
 - The earlier-revision case, pair 4: the one unexplained field is the same `max_position_embeddings`, read the
   other way, because the copy's configuration is Google's `66bc78a7` file of 06-03 byte for byte and the pin rule
   chose `5926caa4` of 06-04 from the copy's squashed history of 06-07.

@@ -8,14 +8,10 @@ Revisions: modified `355963e1f4b06f8aa7b2f7cd01bbc790974f07ac`; original `5926ca
 
 Changed fields:
 
-- `config.audio_config.audio_samples_per_token` (unexplained)
 - `config.audio_config.dtype` (unexplained)
-- `config.audio_config.hidden_size` (unexplained)
-- `config.audio_config.output_proj_dims` (unexplained)
 - `config.dtype` (unexplained)
 - `config.text_config.dtype` (unexplained)
 - `config.vision_config.dtype` (unexplained)
-- `config.vision_config.model_patch_size` (unexplained)
 
 ## Explained by re-save: `generation.transformers_version`
 
@@ -25,6 +21,30 @@ Modified file: `generation_config.json`.
 
 The saved version string changed.
 
+## Explained by re-save: `config.audio_config.audio_samples_per_token`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1.
+
+## Explained by re-save: `config.audio_config.hidden_size`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1.
+
+## Explained by re-save: `config.audio_config.output_proj_dims`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1.
+
 ## Explained by re-save: `config.transformers_version`
 
 Original file: `config.json`.
@@ -32,6 +52,14 @@ Original file: `config.json`.
 Modified file: `config.json`.
 
 The saved version string changed.
+
+## Explained by re-save: `config.vision_config.model_patch_size`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1.
 
 The fixed conversation renders identically with the `default` template.
 

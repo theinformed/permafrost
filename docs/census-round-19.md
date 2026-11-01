@@ -11,7 +11,8 @@ chain; the parcel was rebuilt with bounded pip steps and wheels staged per syste
 pulled the measurements home. The eight measurements were re-scored at home with the recipe table as committed and
 the saved direction vectors, and no flag count moved. Every metadata report was judged again at home under
 transformers 5.6.2 with the originals' commit histories, and once more under 5.12.0 in a scratch environment to
-test the two rules added this round. Each pair has a card (the tool's Stage 1 text after the home judgement, with
+test the two rules added this round. Once the home environment moved to transformers 5.22.1, the four 12B reports
+were judged again under it and the committed reports carry that judgement. Each pair has a card (the tool's Stage 1 text after the home judgement, with
 the Stage 2 line) and a reading note in `docs/cards/`; the measurements are in `results/weights/` and
 `results/meta/`, and the direction vectors stay in the pull copy
 (`/opt/ai/hpc-packages/pulls/model-audit/nautilus19/measurements/pair-N/`).
@@ -93,7 +94,8 @@ reasons:
   cannot be loaded at all. Loaded under 5.12.0, both sides give 640, 640, 640 and 48, and the second rule added
   this round (an absent field that both saved configurations load to the same value, with the version recorded)
   closes them; under that library pairs 4 and 6 read "consistent with re-save noted" and pairs 5 and 7 keep their
-  template as the one open field. The committed reports are the 5.6.2 judgement, as every earlier round's are.
+  template as the one open field. The committed reports carried the 5.6.2 judgement until the home environment moved
+  to transformers 5.22.1; judged again under it, the four reports read as the 5.12.0 trial did.
 - Two templates, pairs 5 and 7. Pair 5's is Google's 17,466-byte file of 06-03, the parent's pin, under a pin
   (07-20) whose template is the 18,681-byte "Canonical" file of 07-09: the earlier-revision case through a
   re-upload, as TimelessSoul's 12B copy in round 14, and the sixth earlier-revision case in the census. Pair 7's is
@@ -148,8 +150,9 @@ Added this round, in `audit/compare.py` with tests in `tests/test_resave.py`: a 
 where the other side left it null closes as the repeat of the top-level declaration (pairs 4 to 7, two fields each,
 under any library); an absent field that both saved configurations load to the same value closes with the library
 version recorded (pairs 4 to 7, four fields each, under a library that has the family's class; inert under 5.6.2).
-What remains: the kit's own library, which cannot load the 12B family at all, so that every 12B copy's four defaults
-stay open on the committed reports until the home environment moves past 5.10; the 5.16 `per_layer_config` form as
+What remains: the cluster kit's own library, which cannot load the 12B family at all (the home environment now runs
+transformers 5.22.1, and the twelve 12B reports with the four defaults open were judged again under it: six move to
+"consistent with re-save noted" and six keep one other open field); the 5.16 `per_layer_config` form as
 the library's own save (pair 2, the second time); the duplicate check above, which belongs in the pinner before a
 pair is filed; a conversion lookup that names unsloth's files for pair 8's three unchanged ones and reports the
 added `tokenizer.json` as new; and a rendering comparison between a copy and its named parent when the original

@@ -1425,9 +1425,18 @@
       "path": "config.audio_config.audio_samples_per_token",
       "original": 640,
       "modified": null,
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": true,
-      "modified_present": false
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
     },
     {
       "path": "config.audio_config.dtype",
@@ -1441,17 +1450,35 @@
       "path": "config.audio_config.hidden_size",
       "original": 640,
       "modified": null,
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": true,
-      "modified_present": false
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
     },
     {
       "path": "config.audio_config.output_proj_dims",
       "original": 640,
       "modified": null,
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": true,
-      "modified_present": false
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
     },
     {
       "path": "config.dtype",
@@ -1498,9 +1525,18 @@
       "path": "config.vision_config.model_patch_size",
       "original": 48,
       "modified": null,
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": true,
-      "modified_present": false
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
     }
   ],
   "missing": [],
@@ -1513,7 +1549,12 @@
   "limitation": "This metadata audit does not certify the absence of hidden behavior.",
   "verdict": "unexplained differences",
   "reclassification": {
-    "changed_paths": [],
+    "changed_paths": [
+      "config.audio_config.audio_samples_per_token",
+      "config.audio_config.hidden_size",
+      "config.audio_config.output_proj_dims",
+      "config.vision_config.model_patch_size"
+    ],
     "verdict_before": "unexplained differences"
   }
 }
