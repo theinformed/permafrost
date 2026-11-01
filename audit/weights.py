@@ -219,6 +219,14 @@ def core_name(name, recipes):
     return name
 
 
+def bare_name(name, recipes):
+    """The name without its wrappers and without any segment an export may drop inside a tower."""
+    name = core_name(name, recipes)
+    for segment in recipes["tensor_kinds"].get("infixes", []):
+        name = name.replace('.' + segment + '.', '.')
+    return name
+
+
 def wrapper_mapping(original_names, modified_names, recipes):
     """Pair tensor names across an export that nested the model under one more wrapper, or dropped one.
 

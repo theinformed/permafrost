@@ -725,3 +725,16 @@ class RecipeRules(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class BareNames(unittest.TestCase):
+    def test_bare_name_drops_wrappers_and_in_tower_segments(self):
+        from audit.weights import bare_name, recipe_table
+        table = recipe_table()
+        kept = 'model.vision_tower.encoder.layers.3.self_attn.q_proj.weight'
+        dropped = 'model.vision_tower.encoder.layers.3.self_attn.q_proj.linear.weight'
+        self.assertEqual(bare_name(kept, table), bare_name(dropped, table))
+        self.assertEqual(bare_name('model.language_model.layers.0.mlp.down_proj.weight', table),
+                         bare_name('language_model.model.layers.0.mlp.down_proj.weight', table))
+        self.assertNotIn('.linear.', bare_name(dropped, table))
+
