@@ -3,6 +3,8 @@
 # Modified: SDE 2026-10-13  cover moved declarations, template text and saved versions.
 # Modified: SDE 2026-10-29  cover added fields that load as the default or repeat a declared value.
 # Modified: SDE 2026-10-29  cover a template the original repository published later.
+# Modified: SDE  cover a sub-configuration data type filled where the other side left it null.
+# Modified: SDE  cover an absent field that both saved configurations load to the same value.
 import copy
 import hashlib
 import json
@@ -264,6 +266,45 @@ class AddedFieldTests(unittest.TestCase):
         modified["config.json"]["text_config"]["torch_dtype"] = "float16"
         found, _, _ = changes(modified, original)
         self.assertEqual(found["config.text_config.torch_dtype"]["class"], "unexplained")
+
+    def test_sub_configuration_dtype_filled_where_the_other_side_left_it_null(self):
+        original, modified = self.nested()
+        original["config.json"]["text_config"]["dtype"] = None
+        modified["config.json"]["text_config"]["dtype"] = "bfloat16"
+        found, _, _ = changes(modified, original)
+        change = found["config.text_config.dtype"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertIn("null", change["reason"])
+        self.assertEqual(change["files"], {"original": ["config.json"], "modified": ["config.json"]})
+        modified["config.json"]["text_config"]["dtype"] = "float16"
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.dtype"]["class"], "unexplained")
+        original["config.json"]["text_config"]["dtype"] = "bfloat16"
+        modified["config.json"]["text_config"]["dtype"] = None
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.dtype"]["class"], RESAVE)
+
+    def test_absent_field_both_sides_load_to_the_same_value(self):
+        original, modified = self.nested()
+        modified["config.json"]["text_config"]["vocab_size"] = 262208
+        with patch("audit.compare.library_default", return_value=None):
+            found, _, _ = changes(modified, original)
+        change = found["config.text_config.vocab_size"]
+        self.assertEqual(change["class"], RESAVE)
+        self.assertIn("both saved configurations load", change["reason"])
+        self.assertIn("transformers ", change["reason"])
+        modified["config.json"]["text_config"]["vocab_size"] = 262209
+        with patch("audit.compare.library_default", return_value=None):
+            found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.vocab_size"]["class"], "unexplained")
+
+    def test_absent_field_with_an_unknown_model_type_stays_unexplained(self):
+        original, modified = self.nested()
+        for side in (original, modified):
+            side["config.json"]["model_type"] = "no_such_model_type"
+        modified["config.json"]["text_config"]["vocab_size"] = 262208
+        found, _, _ = changes(modified, original)
+        self.assertEqual(found["config.text_config.vocab_size"]["class"], "unexplained")
 
     def test_sub_configuration_repeating_the_generation_settings(self):
         original, modified = self.nested()

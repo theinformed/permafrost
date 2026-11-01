@@ -3,6 +3,8 @@
 # Modified: SDE 2026-10-13  classify metadata changes with a short exception table.
 # Modified: SDE 2026-10-13  check token and template content before noting a re-save.
 # Modified: SDE 2026-10-29  explain added fields that load as the library default or repeat a declared value.
+# Modified: SDE  explain a sub-configuration data type written where the other side left it null.
+# Modified: SDE  explain an absent field that both saved configurations load to the same value.
 import difflib
 import json
 import re
@@ -140,6 +142,36 @@ def library_default(path, documents):
         return None
 
 
+def loaded_values(path, present, absent):
+    """Load both sides' saved configurations with the installed library and read the field from each."""
+    try:
+        import transformers
+    except ImportError:
+        return None
+    parts = path.split(".")
+    try:
+        transformers.utils.logging.set_verbosity_error()
+        values = {}
+        for side, documents in (("present", present), ("absent", absent)):
+            if parts[0] == "generation":
+                holder = transformers.GenerationConfig(**documents.get("generation_config.json", {}))
+            else:
+                config = dict(documents.get("config.json", {}))
+                model_type = config.pop("model_type", None)
+                if not isinstance(model_type, str):
+                    return None
+                holder = transformers.AutoConfig.for_model(model_type, **config)
+            for key in parts[1:-1]:
+                holder = getattr(holder, key)
+            if not hasattr(holder, parts[-1]):
+                return None
+            values[side] = plain(getattr(holder, parts[-1]))
+        values["version"] = transformers.__version__
+        return values
+    except Exception:
+        return None
+
+
 def added_field_explanation(path, value, present, absent):
     """Explain a field one side lacks when the other side's value changes nothing on loading."""
     parts = path.split(".")
@@ -148,6 +180,11 @@ def added_field_explanation(path, value, present, absent):
     if default is not None and same_value(default["value"], value):
         return ([filename], f"The field is absent on the other side and loads as this same default "
                 f"in transformers {default['version']}.")
+    loaded = loaded_values(path, present, absent)
+    if (loaded is not None and same_value(loaded["present"], value)
+            and same_value(loaded["absent"], value)):
+        return ([filename], f"The field is absent on the other side, and both saved configurations load "
+                f"it as this same value in transformers {loaded['version']}.")
     if parts[0] != "config" or len(parts) < 3:
         return None
     key = parts[-1]
@@ -165,6 +202,24 @@ def added_field_explanation(path, value, present, absent):
         return (["generation_config.json"], "The sub-configuration repeats the value the generation "
                 "settings already declare.")
     return None
+
+def filled_dtype_explanation(path, change, documents):
+    """Explain a sub-configuration data type written where the other side left it null."""
+    parts = path.split(".")
+    if parts[0] != "config" or len(parts) < 3 or parts[-1] not in ("dtype", "torch_dtype"):
+        return None
+    values = {side: change.get(side) for side in ("original", "modified")}
+    empty = [side for side, value in values.items() if value is None]
+    if len(empty) != 1:
+        return None
+    filled = "modified" if empty[0] == "original" else "original"
+    config = documents[empty[0]].get("config.json", {})
+    declared = [config[name] for name in ("dtype", "torch_dtype") if name in config]
+    if declared and all(same_value(item, values[filled]) for item in declared):
+        return ("The sub-configuration repeats the data type the top-level configuration already "
+                "declares, where the other side left it null.")
+    return None
+
 
 def explain_resaves(differences, original, modified, rendered):
     """Mark the three re-save cases only after their counterparts agree."""
@@ -205,6 +260,9 @@ def explain_resaves(differences, original, modified, rendered):
                 filename = "config.json" if path.startswith("config.") else "generation_config.json"
                 files = {present: [filename], absent: counterpart}
                 explain(change, files["original"], files["modified"], reason)
+        elif (path.startswith("config.") and change.get("original_present") and change.get("modified_present")
+              and filled_dtype_explanation(path, change, docs)):
+            explain(change, ["config.json"], ["config.json"], filled_dtype_explanation(path, change, docs))
         elif path in ("template_source.tokenizer_config", "template.default") and relocation:
             explain(change, relocation["original"], relocation["modified"],
                     "The template moved; line endings and trailing whitespace normalize equally, "
