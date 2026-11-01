@@ -48,7 +48,11 @@ if command -v sacctmgr >/dev/null 2>&1; then
 fi
 ended=$(date -u +%FT%TZ)
 mkdir -p "${AUDIT_MEASUREMENT%/*}"
-printf '{"job": "%s", "host": "%s", "python": "%s", "standalone_python": "%s", "user_namespaces": "%s", "image": "%s", "hub_http": "%s", "pypi_http": "%s", "started": "%s", "ended": "%s"}\n' \
-    "$(job_id_env)" "$(hostname -s)" "$(python3 --version 2>&1 | tr -d '"')" "$standalone" "$namespaces" "$image" "$hub" "$pypi" "$started" "$ended" > "$AUDIT_MEASUREMENT"
+cat > "$AUDIT_MEASUREMENT" <<EOF
+{"job": "$(job_id_env)", "host": "$(hostname -s)",
+ "python": "$(python3 --version 2>&1 | tr -d '"')", "standalone_python": "$standalone",
+ "user_namespaces": "$namespaces", "image": "$image", "hub_http": "$hub", "pypi_http": "$pypi",
+ "started": "$started", "ended": "$ended"}
+EOF
 echo "probe: image $image hub $hub namespaces $namespaces pypi $pypi python $standalone"
 echo 'VERDICT probe OK'

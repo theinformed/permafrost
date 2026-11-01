@@ -43,7 +43,8 @@ case ${1:-} in
     --only|--from) [ $# = 2 ] || exit 2; mode=${1#--}; at=${2#./} ;;
     timing|probe) [ $# = 1 ] || exit 2; mode=only; at=$1 ;;  # the bare word keeps a desk card short
     probe-compute) [ $# = 1 ] || exit 2; mode=only; at=probe; export AUDIT_PROBE_PIECE=probe-compute ;;  # the same probe on the compute queue
-    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP | timing | probe | probe-compute]'; exit 2 ;;
+    *) echo 'usage: ./round.sh [projection [PIECE]] [--list | --only STEP | --from STEP]'
+       echo '       ./round.sh timing | probe | probe-compute'; exit 2 ;;
 esac
 todo=()
 if [ "$mode" = all ]; then todo=("${steps[@]}")
