@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  reruns accept cluster evidence that lacks the GGUF flags.
 # Modified: SDE 2026-10-29  reclassify a saved report's differences from its stored snapshots.
 # Modified: SDE 2026-10-29  explain a template the original repository itself published later.
+# Modified: SDE  keep the Stage 2 line of a card when its report is judged again.
 import json
 import hashlib
 import re
@@ -315,13 +316,20 @@ def reclassify(report, hub=None):
     return report
 
 
+def card_with_weights(text, previous):
+    """Carry the Stage 2 line the comparison appended to a card through a Stage 1 rewrite."""
+    kept = [line for line in previous.splitlines() if line.startswith("Weights: ")]
+    return text + "".join(f"\n{line}\n" for line in kept)
+
+
 def metadata_reclassify(args):
     """Rewrite a saved report and its card after the rules changed; the evidence stays as recorded."""
     hub = Hub(getattr(args, "delay", 0.2), max_seconds=45) if getattr(args, "later_revisions", False) else None
     report = reclassify(json.loads(Path(args.report).read_text()), hub)
     write_json(args.out or args.report, report)
     card = Path("docs/cards") / (safe_name(report["modified"]["repo"]) + ".md")
-    card.write_text(card_text(report))
+    previous = card.read_text() if card.exists() else ""
+    card.write_text(card_with_weights(card_text(report), previous))
     note = report["reclassification"]
     print(f"{report['modified']['repo']}: {note['verdict_before']} -> {report['verdict']}; "
           f"{len(note['changed_paths'])} field(s) reclassified")

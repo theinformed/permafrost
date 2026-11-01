@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-29  leftover, row-norm, precedence, optional-kind and MTP-head checks.
 # Modified: SDE 2026-10-29  per-layer directions, reader kinds, and rescoring from the saved vectors.
 # Modified: SDE 2026-10-29  remaining fractions along the leading directions and packed-expert measures.
+# Modified: SDE  the decoder stack of a diffusion export carries the same roles.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -167,6 +168,17 @@ class TensorMeasures(unittest.TestCase):
             self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.down_proj"), "expert_down")
             self.assertEqual(tensor_kind(f"{prefix}layers.2.experts.gate_up_proj"), "expert_gate_up")
         self.assertEqual(tensor_kind("model.layers.2.mlp.experts.3.up_proj.weight"), "feed_forward_up")
+
+    def test_diffusion_decoder_stack_keeps_its_roles(self):
+        # A block-diffusion export names the language stack under a decoder wrapper and keeps the packed experts.
+        self.assertEqual(tensor_kind("model.decoder.layers.2.self_attn.o_proj.weight"), "attention_output")
+        self.assertEqual(tensor_kind("model.decoder.layers.2.mlp.down_proj.weight"), "feed_forward_down")
+        self.assertEqual(tensor_kind("model.decoder.layers.2.experts.down_proj"), "expert_down")
+        self.assertEqual(tensor_kind("model.decoder.layers.2.experts.gate_up_proj"), "expert_gate_up")
+        self.assertEqual(tensor_kind("model.decoder.embed_tokens.weight"), "embedding")
+        # The self-conditioning block and the encoder's layer scalars have no role in the recipe table.
+        self.assertEqual(tensor_kind("model.decoder.self_conditioning.down_proj.weight"), "other")
+        self.assertEqual(tensor_kind("model.encoder.language_model.layers.2.layer_scalar"), "other")
 
     def test_multi_token_prediction_head_takes_ordinary_kinds(self):
         # Qwen3.5 names its multi-token-prediction head under mtp., beside the language model.

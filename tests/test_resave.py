@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  cover a template the original repository published later.
 # Modified: SDE  cover a sub-configuration data type filled where the other side left it null.
 # Modified: SDE  cover an absent field that both saved configurations load to the same value.
+# Modified: SDE  cover the Stage 2 line a judged-again card keeps.
 import copy
 import hashlib
 import json
@@ -17,7 +18,7 @@ from unittest.mock import patch
 import requests
 
 from audit.compare import RESAVE, compare_documents, resave_template
-from audit.metadata import card_text, collect, explain_later_templates, metadata_diff, reclassify, verdict
+from audit.metadata import card_text, card_with_weights, collect, explain_later_templates, metadata_diff, metadata_reclassify, reclassify, verdict
 
 
 def documents():
@@ -363,6 +364,48 @@ class AddedFieldTests(unittest.TestCase):
         self.assertEqual(report["reclassification"],
                          {"changed_paths": ["config.text_config.cache_implementation"],
                           "verdict_before": "unexplained differences"})
+
+
+class WeightsLineTests(unittest.TestCase):
+    """The comparison appends one line to a card; judging the report again must not drop it."""
+
+    LINE = "Weights: recipe_violations. Nearest recipe: single-projection."
+
+    def test_line_is_carried_and_absent_lines_add_nothing(self):
+        text = "# Stage 1: a/changed\n\nVerdict: **consistent**\n"
+        self.assertEqual(card_with_weights(text, text), text)
+        kept = card_with_weights(text, f"# Stage 1: a/changed\n\nold text\n\n{self.LINE}\n")
+        self.assertEqual(kept, text + f"\n{self.LINE}\n")
+
+    def test_reclassify_command_rewrites_the_card_with_the_line(self):
+        original = documents()
+        modified = copy.deepcopy(original)
+        modified["config.json"]["transformers_version"] = "2.0"
+        differences, missing, rendered = compare_documents(modified, original)
+        from audit.compare import snapshot
+        from audit.hub import safe_name
+        report = {"original": {"repo": "a/base", "sha": "o" * 40, "snapshot": snapshot(original)},
+                  "modified": {"repo": "a/changed", "sha": "m" * 40, "snapshot": snapshot(modified)},
+                  "differences": differences, "missing": missing, "rendered": rendered,
+                  "verdict": "consistent with re-save noted"}
+        import os
+        before = os.getcwd()
+        with tempfile.TemporaryDirectory() as directory:
+            os.chdir(directory)
+            try:
+                saved = Path(directory) / "report.json"
+                saved.write_text(json.dumps(report))
+                card = Path("docs/cards") / (safe_name("a/changed") + ".md")
+                card.parent.mkdir(parents=True)
+                card.write_text(f"stale card\n\n{self.LINE}\n")
+                metadata_reclassify(Namespace(report=str(saved), out=None, later_revisions=False, delay=0.2))
+                text = card.read_text()
+            finally:
+                os.chdir(before)
+        self.assertTrue(text.startswith("# Stage 1: a/changed"))
+        self.assertNotIn("stale card", text)
+        self.assertTrue(text.endswith(f"\n{self.LINE}\n"))
+        self.assertEqual(text.count("Weights: "), 1)
 
 
 class LaterTemplateTests(unittest.TestCase):
