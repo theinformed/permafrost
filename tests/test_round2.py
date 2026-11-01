@@ -896,6 +896,23 @@ class BatchCountTests(unittest.TestCase):
             census.count()
         self.assertEqual(screen(bigger_manifest(25), ROOT / 'hpc/banned-makers.txt'), 25)
 
+    def test_a_copy_keeps_its_input_folder_when_a_refile_renumbers_it(self):
+        census = module('census')
+        with patch.dict(os.environ, {'WORKDIR': str(self.directory), 'AUDIT_WORK': str(self.directory / 'r')}):
+            self.write(bigger_manifest(9))
+            before = {number: census.paths(number)[1] for number in (1, 2, 7)}
+            refiled = bigger_manifest(9)
+            refiled['pairs'] = [refiled['pairs'][index] for index in (0, 1, 6, 7)]
+            self.write(refiled)
+            # Batch 2 of round 31 put the seventh copy at number 3, where the withdrawn first chain had left the
+            # third copy's download; the folder now follows the copy, not the number.
+            self.assertEqual(census.paths(3)[1], before[7])
+            self.assertEqual(census.paths(1)[1], before[1])
+            self.assertEqual(census.paths(2)[1], before[2])
+            self.assertEqual(census.paths(3)[1].parent, self.directory / 'r' / 'inputs')
+            self.assertNotIn('pair-', census.paths(3)[1].name)
+            self.assertEqual(len({census.paths(number)[1] for number in (1, 2, 3, 4)}), 4)
+
     def test_shared_originals_group_their_pairs(self):
         census = module('census')
         self.write(bigger_manifest(9))

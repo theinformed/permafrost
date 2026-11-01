@@ -48,12 +48,19 @@ def pair(number):
 def paths(number):
     row = pair(number)
     base = row['original']
-    key = hashlib.sha256((base['hub_id'] + '@' + base['revision']).encode()).hexdigest()
+    key = identity(base['hub_id'], base['revision'])
     # Each round keeps its own originals: on Blueback, round 12's sweep cleared the shared folder that
     # round 14's download had found present, and three of round 14's compares read empty folders.
     original = Path(os.environ['AUDIT_WORK']) / 'originals' / key
-    modified = Path(os.environ['AUDIT_WORK']) / 'inputs' / ('pair-' + str(number))
+    # The modified copy's folder carries its identity too: a refiled batch numbers its pairs afresh, and a
+    # pair-numbered folder left by a withdrawn chain held another copy's download record.
+    copy = row['modified']
+    modified = Path(os.environ['AUDIT_WORK']) / 'inputs' / identity(copy['hub_id'], copy['revision'])
     return original, modified
+
+
+def identity(hub_id, revision):
+    return hashlib.sha256((hub_id + '@' + revision).encode()).hexdigest()
 
 
 def originals():
