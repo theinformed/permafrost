@@ -1120,7 +1120,7 @@
           "rms_norm_eps": 1e-06,
           "rope_parameters": {
             "rope_theta": 100.0,
-            "rope_type": "default"
+            "rope_type": "axial"
           },
           "standardize": false,
           "use_clipped_linears": true
@@ -1838,7 +1838,7 @@
           "rms_norm_eps": 1e-06,
           "rope_parameters": {
             "rope_theta": 100.0,
-            "rope_type": "default"
+            "rope_type": "axial"
           },
           "standardize": false,
           "use_clipped_linears": true
@@ -1859,9 +1859,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:1",
@@ -1874,9 +1883,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:100",
@@ -1889,9 +1907,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:101",
@@ -1904,9 +1931,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:105",
@@ -1919,9 +1955,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:106",
@@ -1934,9 +1979,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:2",
@@ -1949,9 +2003,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:255999",
@@ -1964,9 +2027,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:256000",
@@ -1979,9 +2051,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:258880",
@@ -1994,9 +2075,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:258881",
@@ -2009,9 +2099,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:258882",
@@ -2024,9 +2123,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:258883",
@@ -2039,9 +2147,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:258884",
@@ -2054,9 +2171,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:3",
@@ -2069,9 +2195,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:4",
@@ -2084,9 +2219,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:46",
@@ -2099,9 +2243,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:47",
@@ -2114,9 +2267,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:48",
@@ -2129,9 +2291,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:49",
@@ -2144,9 +2315,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:50",
@@ -2159,9 +2339,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:51",
@@ -2174,9 +2363,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:52",
@@ -2189,9 +2387,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "special_tokens.added_tokens_decoder:98",
@@ -2204,9 +2411,18 @@
         "normalized": false,
         "special": true
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": false,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
     },
     {
       "path": "added_tokens.decoder",
@@ -2405,9 +2621,18 @@
           "special": true
         }
       },
-      "class": "unexplained",
+      "class": "explained by re-save",
       "original_present": true,
-      "modified_present": true
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "Every entry of the map repeats an added-token record of the tokenizer.json both sides share."
     },
     {
       "path": "generation.eos_token_id",
@@ -2636,7 +2861,32 @@
   "verdict": "unexplained differences",
   "reclassification": {
     "changed_paths": [
-      "config.text_config.moe_intermediate_size"
+      "config.text_config.moe_intermediate_size",
+      "special_tokens.added_tokens_decoder:0",
+      "special_tokens.added_tokens_decoder:1",
+      "special_tokens.added_tokens_decoder:100",
+      "special_tokens.added_tokens_decoder:101",
+      "special_tokens.added_tokens_decoder:105",
+      "special_tokens.added_tokens_decoder:106",
+      "special_tokens.added_tokens_decoder:2",
+      "special_tokens.added_tokens_decoder:255999",
+      "special_tokens.added_tokens_decoder:256000",
+      "special_tokens.added_tokens_decoder:258880",
+      "special_tokens.added_tokens_decoder:258881",
+      "special_tokens.added_tokens_decoder:258882",
+      "special_tokens.added_tokens_decoder:258883",
+      "special_tokens.added_tokens_decoder:258884",
+      "special_tokens.added_tokens_decoder:3",
+      "special_tokens.added_tokens_decoder:4",
+      "special_tokens.added_tokens_decoder:46",
+      "special_tokens.added_tokens_decoder:47",
+      "special_tokens.added_tokens_decoder:48",
+      "special_tokens.added_tokens_decoder:49",
+      "special_tokens.added_tokens_decoder:50",
+      "special_tokens.added_tokens_decoder:51",
+      "special_tokens.added_tokens_decoder:52",
+      "special_tokens.added_tokens_decoder:98",
+      "added_tokens.decoder"
     ],
     "verdict_before": "unexplained differences"
   }

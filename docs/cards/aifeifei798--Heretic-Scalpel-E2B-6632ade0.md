@@ -8,37 +8,28 @@ Revisions: modified `49bd7340128e22f99f985106c8408ec80962ba2c`; original `3e2246
 
 Changed fields:
 
-- `special_tokens.added_tokens_decoder:0` (unexplained)
-- `special_tokens.added_tokens_decoder:1` (unexplained)
-- `special_tokens.added_tokens_decoder:100` (unexplained)
-- `special_tokens.added_tokens_decoder:101` (unexplained)
-- `special_tokens.added_tokens_decoder:105` (unexplained)
-- `special_tokens.added_tokens_decoder:106` (unexplained)
-- `special_tokens.added_tokens_decoder:2` (unexplained)
-- `special_tokens.added_tokens_decoder:255999` (unexplained)
-- `special_tokens.added_tokens_decoder:256000` (unexplained)
-- `special_tokens.added_tokens_decoder:258880` (unexplained)
-- `special_tokens.added_tokens_decoder:258881` (unexplained)
-- `special_tokens.added_tokens_decoder:258882` (unexplained)
-- `special_tokens.added_tokens_decoder:258883` (unexplained)
-- `special_tokens.added_tokens_decoder:258884` (unexplained)
-- `special_tokens.added_tokens_decoder:3` (unexplained)
-- `special_tokens.added_tokens_decoder:4` (unexplained)
-- `special_tokens.added_tokens_decoder:46` (unexplained)
-- `special_tokens.added_tokens_decoder:47` (unexplained)
-- `special_tokens.added_tokens_decoder:48` (unexplained)
-- `special_tokens.added_tokens_decoder:49` (unexplained)
-- `special_tokens.added_tokens_decoder:50` (unexplained)
-- `special_tokens.added_tokens_decoder:51` (unexplained)
-- `special_tokens.added_tokens_decoder:52` (unexplained)
-- `special_tokens.added_tokens_decoder:98` (unexplained)
-- `added_tokens.decoder` (unexplained)
 - `generation.eos_token_id` (unexplained)
 - `config.dtype` (unexplained)
 - `config.text_config.per_layer_config` (unexplained)
 - `config.torch_dtype` (unexplained)
 - `config.transformers_version` (unexplained)
 - `template_source.tokenizer_config` (unexplained)
+
+## Explained by re-save: `special_tokens.added_tokens_decoder (24 entries)`
+
+Original file: `tokenizer.json`.
+
+Modified file: `tokenizer_config.json`.
+
+The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share.
+
+## Explained by re-save: `added_tokens.decoder`
+
+Original file: `tokenizer.json`.
+
+Modified file: `tokenizer_config.json`.
+
+Every entry of the map repeats an added-token record of the tokenizer.json both sides share.
 
 ## Explained by re-save: `generation.transformers_version`
 

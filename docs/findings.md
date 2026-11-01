@@ -1305,8 +1305,9 @@ the card's 0.882 to 0.900 to 0.889 and 1.205 to 1.248 to 1.229 on the down proje
 side reads 1,003 unexplained fields that are one omission: the copy's 407-byte `tokenizer_config.json` carries no
 `added_tokens_decoder` map (the original's declares 1,000 entries) and no `additional_special_tokens` list, while
 `tokenizer.json` and the template are byte-equal on both sides and the fixed conversation renders identically; the
-scorer has a rule for declarations that move between files and none for declarations that disappear while the
-token file is shared. This is the second copy measured on the Ministral 3 8B Reasoning original (ccharnkij's merged
+scorer had a rule for declarations that move between files and none for declarations that disappear while the
+token file is shared, and the rule written for the case (finding 44) closes all 1,003, so the committed card reads
+"consistent with re-save noted". This is the second copy measured on the Ministral 3 8B Reasoning original (ccharnkij's merged
 adapter, finding 17, is the first) and the first ablation of it. Evidence:
 `results/weights/AISafety-Student-Ministral-3-8B-Reasoning-2512-heretic.json`,
 `results/meta/AISafety-Student-Ministral-3-8B-Reasoning-2512-heretic.json`, the kernel column in
@@ -1352,6 +1353,35 @@ pair's windows and not its weights; a per-matrix rank-two decomposition reportin
 fractions would read both cards. Evidence: `results/weights/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json`, the
 two-kernel column in `docs/cards/TheUmbraWalker--gemma-4-E4B-it-2-heretic-0cbd2368.reading.md` and the direction file
 in the pull copy (`wheat30/measurements/pair-4/weights.directions.safetensors`).
+
+## 44. A tokenizer configuration that drops a thousand declarations the shared token file still carries, and the rule that reads it
+
+Two copies in the census write a `tokenizer_config.json` whose added-token declarations differ from the original's
+while their `tokenizer.json` is the original's under one SHA-256. AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic
+(round 30, pair 5) saves a 407-byte configuration with no `added_tokens_decoder` map where the original's declares
+1,000 entries and no `additional_special_tokens` list, beside no `special_tokens_map.json`, over a
+17,078,110-byte `tokenizer.json` equal to the original's (`57757562`). aifeifei798/Heretic-Scalpel-E2B (round 16, pair 6) goes the
+other way: it writes the 24 control tokens of Gemma 4 into an `added_tokens_decoder` block that Google's
+configuration does not carry, over Google's 32,169,626-byte `tokenizer.json` (`cc8d3a0c`). The scorer counted each
+entry as an unexplained field, 1,003 on the first card and 25 on the second, because its rules explained
+declarations that move between files and not declarations that one side lacks. The rule added for the case
+triggers only when both manifests record `tokenizer.json` under one checksum. It then reads each declaration
+present on one side against the shared file's own added-token records: a decoder entry must repeat the record
+under its ID with every flag it writes, and a whole map must consist of such entries; each token in an
+`additional_special_tokens` list must be declared special in the shared file under the same ID. A declaration
+present on both sides with different content stays unexplained, as does the whole family when the token file
+differs. Judged again, the first card closes all 1,003 fields and reads "consistent with re-save noted" (its edit
+is the weights, finding 41); the second closes its 25 and keeps six configuration and template fields open. Eight
+other reports carry the same dropped map and stay as they were, because the rule's first condition fails: in five
+the two sides' `tokenizer.json` differ (3MPER0RR's two reports, DuoNeural's, Felldude's, timfromhcs's), so a
+dropped map cannot be read against a file the sides do not share, and in three one side ships no `tokenizer.json`
+at all (grayarea's, huihui-ai's Mistral Small 3.2, nicoboss's). What the rule says about loading: a fast tokenizer
+built from `tokenizer.json` carries these added tokens whether or not the configuration repeats them, so the
+dropped entries change no ID and no flag; what a configuration with fewer declarations still changes is the
+Python-side `additional_special_tokens` attribute, which is why the rule records the fields as explained by re-save
+rather than as no difference. Evidence: `results/meta/AISafety-Student-Ministral-3-8B-Reasoning-2512-heretic.json`
+with `results/meta/aifeifei798-Heretic-Scalpel-E2B.json`, whose `reclassification` blocks name the fields; the rule
+in `audit/metadata.py` (`explain_shared_declarations`); its tests in `tests/test_resave.py`.
 
 ## What the second pass settled
 

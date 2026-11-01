@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-29  reclassify a saved report's differences from its stored snapshots.
 # Modified: SDE 2026-10-29  explain a template the original repository itself published later.
 # Modified: SDE  keep the Stage 2 line of a card when its report is judged again.
+# Modified: SDE  explain added-token declarations one side drops while both sides share one tokenizer.json.
 import json
 import hashlib
 import re
@@ -173,6 +174,83 @@ def compare_gguf(header, original):
     return differences, missing, rendered
 
 
+def shared_tokenizer(original, modified):
+    """Both sides recorded a tokenizer.json under one checksum."""
+    files = [side.get("manifest", {}).get("tokenizer.json") for side in (original, modified)]
+    return all(files) and files[0]["sha256"] == files[1]["sha256"]
+
+
+def same_record(declaration, record):
+    """A declaration repeats the file's record when its content and every flag it writes agree."""
+    if not isinstance(declaration, dict) or record is None or declaration.get("content") != record.get("content"):
+        return False
+    return all(key in record and record[key] == value
+               for key, value in declaration.items() if key not in ("content", "id"))
+
+
+def explain_shared_declarations(differences, original, modified):
+    """Explain added-token declarations one side's files lack when both sides carry one tokenizer.json."""
+    if not shared_tokenizer(original, modified):
+        return
+    records = [side.get("snapshot", {}).get("added_tokens", {}).get("tokenizer") for side in (original, modified)]
+    if not records[0] or records[0] != records[1]:
+        return
+    by_id = {record["id"]: record for record in records[0]}
+    by_content = {record["content"]: record for record in records[0]}
+
+    def explain(change, present, filename, reason):
+        """The present side's file against the token file both sides share."""
+        absent = "modified" if present == "original" else "original"
+        files = {present: [filename], absent: ["tokenizer.json"]}
+        change.update({"class": RESAVE, "files": {"original": files["original"], "modified": files["modified"]},
+                       "reason": reason})
+
+    def entry(identifier, token):
+        """A decoder entry against the shared file's record under the same ID."""
+        return str(identifier).isdigit() and same_record(token, by_id.get(int(identifier)))
+
+    for change in differences:
+        path = change["path"]
+        if change["class"] in ("expected", RESAVE):
+            continue
+        absent = [side for side in ("original", "modified") if not change.get(side + "_present", True)]
+        present = "modified" if absent == ["original"] else "original" if absent == ["modified"] else None
+        if path.startswith("special_tokens.added_tokens_decoder:"):
+            if present and entry(path.split(":", 1)[1], change[present]):
+                explain(change, present, "tokenizer_config.json",
+                        "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json "
+                        "both sides share.")
+        elif path == "added_tokens.decoder":
+            maps = {side: change.get(side) for side in ("original", "modified")}
+            written = {side: mapping for side, mapping in maps.items() if mapping is not None}
+            if not written or not all(isinstance(mapping, dict) and mapping and all(
+                    entry(identifier, token) for identifier, token in mapping.items()) for mapping in written.values()):
+                continue
+            reason = "Every entry of the map repeats an added-token record of the tokenizer.json both sides share."
+            if len(written) == 1:
+                explain(change, next(iter(written)), "tokenizer_config.json", reason)
+            else:
+                both = ["tokenizer_config.json", "tokenizer.json"]
+                change.update({"class": RESAVE, "files": {"original": both, "modified": both}, "reason": reason})
+        elif path.endswith(":additional_special_tokens") and path.startswith("special_tokens."):
+            declaration = change.get(present) if present else None
+            if not isinstance(declaration, dict) or not isinstance(declaration.get("value"), list) or not declaration["value"]:
+                continue
+            identifiers = declaration.get("ids") or []
+            tokens = declaration["value"]
+            if len(identifiers) != len(tokens):
+                continue
+            if all(isinstance(token_content(token), str) and type(identifier) is int
+                   and by_content.get(token_content(token), {}).get("id") == identifier
+                   and by_content[token_content(token)].get("special") is True
+                   and (not isinstance(token, dict) or same_record(token, by_content[token_content(token)]))
+                   for token, identifier in zip(tokens, identifiers)):
+                filename = path.removeprefix("special_tokens.").split(":", 1)[0]
+                explain(change, present, filename,
+                        "Each listed token is declared special, under the same ID, in the tokenizer.json both "
+                        "sides share.")
+
+
 def verdict(differences, missing):
     """Known unexplained changes take precedence over incomplete coverage."""
     if any(d["class"] not in ("expected", RESAVE) for d in differences):
@@ -180,6 +258,29 @@ def verdict(differences, missing):
     if missing:
         return "undecided"
     return "consistent with re-save noted" if any(d["class"] == RESAVE for d in differences) else "consistent"
+
+
+DECODER_PREFIX = "special_tokens.added_tokens_decoder:"
+
+
+def folded_resaves(differences):
+    """Print the decoder entries one rule explained under one heading; a thousand headings read as none."""
+    groups, result = {}, []
+    for change in differences:
+        if change["class"] == RESAVE and change["path"].startswith(DECODER_PREFIX):
+            key = (change["reason"], json.dumps(change["files"], sort_keys=True))
+            if key in groups:
+                groups[key]["ids"].append(change["path"].removeprefix(DECODER_PREFIX))
+                continue
+            groups[key] = {**change, "ids": [change["path"].removeprefix(DECODER_PREFIX)]}
+            result.append(groups[key])
+        else:
+            result.append(change)
+    for group in groups.values():
+        count = len(group.pop("ids"))
+        if count > 1:
+            group["path"] = f"{DECODER_PREFIX.rstrip(':')} ({count:,} entries)"
+    return result
 
 
 def card_text(report):
@@ -197,7 +298,7 @@ def card_text(report):
         lines.append("")
     elif not differences:
         lines.extend(["No compared field differs.", ""])
-    for change in differences:
+    for change in folded_resaves(differences):
         if change["class"] == RESAVE:
             lines.extend([f"## Explained by re-save: `{change['path']}`", ""])
             for side in ("original", "modified"):
@@ -302,6 +403,7 @@ def reclassify(report, hub=None):
     # Changes already explained keep their recorded rule and library version.
     pending = [change for change in report["differences"] if change["class"] != RESAVE]
     explain_resaves(pending, documents["original"], documents["modified"], report.get("rendered", {}))
+    explain_shared_declarations(pending, report["original"], report["modified"])
     if hub is not None:
         notes = explain_later_templates(pending, report.get("rendered", {}), report["original"],
                                         report["modified"].get("manifest", {}), hub)
@@ -370,6 +472,7 @@ def metadata_diff(args):
     # the measured fields and checksums, not another copy of every token string.
     evidence = [{**{k: v for k, v in side.items() if k != "documents"},
                  "snapshot": snapshot(side["documents"])} for side in (modified, original)]
+    explain_shared_declarations(differences, evidence[1], evidence[0])
     report = {"schema_version": 1, "modified": evidence[0], "original": evidence[1],
               "differences": differences, "missing": sorted(set(missing)), "rendered": rendered,
               "limitation": LIMITATION}

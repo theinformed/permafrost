@@ -6,6 +6,7 @@
 # Modified: SDE  cover a sub-configuration data type filled where the other side left it null.
 # Modified: SDE  cover an absent field that both saved configurations load to the same value.
 # Modified: SDE  cover the Stage 2 line a judged-again card keeps.
+# Modified: SDE  cover declarations one side drops while both sides share one tokenizer.json.
 import copy
 import hashlib
 import json
@@ -18,7 +19,8 @@ from unittest.mock import patch
 import requests
 
 from audit.compare import RESAVE, compare_documents, resave_template
-from audit.metadata import card_text, card_with_weights, collect, explain_later_templates, metadata_diff, metadata_reclassify, reclassify, verdict
+from audit.metadata import (card_text, card_with_weights, collect, explain_later_templates, explain_shared_declarations,
+                            metadata_diff, metadata_reclassify, reclassify, verdict)
 
 
 def documents():
@@ -364,6 +366,104 @@ class AddedFieldTests(unittest.TestCase):
         self.assertEqual(report["reclassification"],
                          {"changed_paths": ["config.text_config.cache_implementation"],
                           "verdict_before": "unexplained differences"})
+
+
+class SharedTokenizerTests(unittest.TestCase):
+    """Declarations one side drops carry no change only while both sides hold the same tokenizer.json."""
+
+    def sides(self, original, modified, shared=True):
+        """Collected sides with the snapshots and the token file checksums a report records."""
+        from audit.compare import snapshot
+        digests = ("a" * 64, "a" * 64 if shared else "b" * 64)
+        return [{"repo": name, "snapshot": snapshot(docs),
+                 "manifest": {"tokenizer.json": {"bytes": 1, "sha256": digest}}}
+                for name, docs, digest in (("o/base", original, digests[0]), ("m/changed", modified, digests[1]))]
+
+    def dropped(self):
+        """The copy's configuration keeps the roles and the template and nothing about the added tokens."""
+        original = documents()
+        original["special_tokens_map.json"] = {"additional_special_tokens": ["<end>"]}
+        modified = copy.deepcopy(original)
+        del modified["special_tokens_map.json"]
+        del modified["tokenizer_config.json"]["added_tokens_decoder"]
+        del modified["tokenizer_config.json"]["additional_special_tokens"]
+        return original, modified
+
+    def judged(self, original, modified, shared=True):
+        """Compare, then apply the shared-file rule as the command does."""
+        differences, missing, rendered = compare_documents(modified, original)
+        left, right = self.sides(original, modified, shared)
+        explain_shared_declarations(differences, left, right)
+        return {d["path"]: d for d in differences}, missing
+
+    def test_dropped_declarations_close_against_the_shared_file(self):
+        found, missing = self.judged(*self.dropped())
+        self.assertFalse(missing)
+        open_paths = {"special_tokens.added_tokens_decoder:1", "added_tokens.decoder",
+                      "special_tokens.tokenizer_config.json:additional_special_tokens",
+                      "special_tokens.special_tokens_map.json:additional_special_tokens"}
+        self.assertEqual({path for path, d in found.items() if d["class"] != RESAVE}, set())
+        self.assertTrue(open_paths <= set(found))
+        entry = found["special_tokens.added_tokens_decoder:1"]
+        self.assertEqual(entry["files"], {"original": ["tokenizer_config.json"], "modified": ["tokenizer.json"]})
+        self.assertIn("tokenizer.json both sides share", entry["reason"])
+        self.assertEqual(found["special_tokens.special_tokens_map.json:additional_special_tokens"]["files"],
+                         {"original": ["special_tokens_map.json"], "modified": ["tokenizer.json"]})
+        self.assertEqual(verdict(list(found.values()), missing), "consistent with re-save noted")
+
+    def test_nothing_closes_when_the_token_files_differ(self):
+        found, _ = self.judged(*self.dropped(), shared=False)
+        self.assertEqual(found["special_tokens.added_tokens_decoder:1"]["class"], "unexplained")
+        self.assertEqual(found["added_tokens.decoder"]["class"], "unexplained")
+        self.assertEqual(found["special_tokens.tokenizer_config.json:additional_special_tokens"]["class"], "unexplained")
+
+    def test_a_declaration_that_disagrees_with_the_shared_file_stays_open(self):
+        original, modified = self.dropped()
+        original["tokenizer_config.json"]["added_tokens_decoder"]["1"]["special"] = False
+        found, _ = self.judged(original, modified)
+        self.assertEqual(found["added_tokens.decoder"]["class"], "unexplained")
+        original, modified = self.dropped()
+        original["tokenizer_config.json"]["additional_special_tokens"] = ["<end>", "word"]
+        found, _ = self.judged(original, modified)
+        self.assertEqual(found["special_tokens.tokenizer_config.json:additional_special_tokens"]["class"], "unexplained")
+
+    def test_declarations_added_by_the_copy_close_the_same_way(self):
+        modified, original = self.dropped()
+        found, _ = self.judged(original, modified)
+        self.assertEqual(found["special_tokens.added_tokens_decoder:1"]["files"],
+                         {"original": ["tokenizer.json"], "modified": ["tokenizer_config.json"]})
+        self.assertEqual(found["added_tokens.decoder"]["class"], RESAVE)
+
+    def test_saved_report_closes_from_its_manifests_and_snapshots(self):
+        original, modified = self.dropped()
+        differences, missing, rendered = compare_documents(modified, original)
+        left, right = self.sides(original, modified)
+        report = {"original": left, "modified": right, "differences": differences, "missing": missing,
+                  "rendered": rendered, "verdict": "unexplained differences"}
+        reclassify(report)
+        self.assertEqual(report["verdict"], "consistent with re-save noted")
+        self.assertIn("added_tokens.decoder", report["reclassification"]["changed_paths"])
+        self.assertIn("special_tokens.added_tokens_decoder:1", report["reclassification"]["changed_paths"])
+
+    def test_card_folds_the_explained_entries_under_one_heading(self):
+        original, modified = self.dropped()
+        for identifier in (2, 3):
+            token = {"content": f"<t{identifier}>", "id": identifier, "special": True, "lstrip": False,
+                     "rstrip": False, "single_word": False, "normalized": False}
+            for docs in (original, modified):
+                docs["tokenizer.json"]["added_tokens"].append(token)
+                docs["tokenizer.json"]["model"]["vocab"][token["content"]] = identifier
+            original["tokenizer_config.json"]["added_tokens_decoder"][str(identifier)] = {
+                k: v for k, v in token.items() if k != "id"}
+        found, missing = self.judged(original, modified)
+        report = {"modified": {"repo": "m/changed", "sha": "m"}, "original": {"repo": "o/base", "sha": "o"},
+                  "verdict": "consistent with re-save noted", "differences": list(found.values()),
+                  "missing": missing, "rendered": {}}
+        card = card_text(report)
+        self.assertIn("## Explained by re-save: `special_tokens.added_tokens_decoder (3 entries)`", card)
+        self.assertNotIn("added_tokens_decoder:1`", card)
+        self.assertEqual(card.count("added_tokens_decoder"), 1)
+        self.assertIn("## Explained by re-save: `added_tokens.decoder`", card)
 
 
 class WeightsLineTests(unittest.TestCase):

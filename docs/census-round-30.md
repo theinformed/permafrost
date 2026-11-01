@@ -57,8 +57,10 @@ printed, for these reasons:
   this form; closed by hand.
 - Pair 5: 1,003 fields that are one omission. The copy's 407-byte `tokenizer_config.json` carries no
   `added_tokens_decoder` where the original's declares 1,000 entries, and no `additional_special_tokens` list, while
-  the two sides share the same `tokenizer.json` and template byte for byte. The scorer has a rule for declarations
-  that move between files and none for declarations that disappear while the token file is shared. Closed by hand.
+  the two sides share the same `tokenizer.json` and template byte for byte. The scorer had a rule for declarations
+  that move between files and none for declarations that disappear while the token file is shared. Closed by hand
+  at the read-out; the rule written for the case afterwards (finding 44) closes all 1,003 against the shared
+  `tokenizer.json`, and the committed card now reads "consistent with re-save noted".
 
 Pairs 1, 7 and 8 differ from their originals in the two version strings and nothing else; pair 6's configuration,
 generation settings and token files are the original's field for field, with a `model_index.json` and a scheduler
@@ -103,8 +105,9 @@ cards.
 
 Added this round: the reclassify command keeps the Stage 2 line of a card it rewrites (`audit/metadata.py`,
 `card_with_weights`, with tests in `tests/test_resave.py`), so a judged-again card no longer loses the weights
-line that was appended by hand after each round. What remains: a rule for a tokenizer configuration that drops
-its `added_tokens_decoder` map while `tokenizer.json` is byte-equal (pair 5, 1,003 fields); the 5.16
+line that was appended by hand after each round. Added since: the rule for a tokenizer configuration that drops
+its `added_tokens_decoder` map while `tokenizer.json` is shared under one checksum (pair 5's 1,003 fields, closed
+by the re-judging tool; finding 44). What remains: the 5.16
 `per_layer_config` form as the library's own save (pair 3, the third time); the earlier-revision template through
 a re-upload (pair 2, the seventh time), which needs the pinner to pair a duplicate with its parent; and the
 duplicate check itself, which this round would have spared two 51 GB downloads and three compare jobs. To the

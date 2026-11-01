@@ -108,7 +108,9 @@ reasons:
   a `chat_template.json`, and rewrites the configuration and map so that ids 32 and 33 read `<SPECIAL_32>` and
   `<SPECIAL_33>` where the parent says `[ARGS]` and `[CALL_ID]`; 998 of the 1,000 added-token entries are the
   parent's. The ids now resolve (1, 2, 11, 0). The tool counts 2,025 fields against the parent's 1,025, the extra
-  thousand being the table the parent lacked; none is a change the original can be compared on.
+  thousand being the table the parent lacked; none is a change the original can be compared on. The rule added
+  after round 30 for declarations one side drops (finding 44) does not reach this pair: it reads them against a
+  `tokenizer.json` both sides record under one checksum, and the original ships none.
 
 Five of the seven Gemma 4 copies carry the template they were pinned against byte for byte (pairs 1, 2, 3, 4 and 6);
 no template is blank-line-normalised or patched by its own maker this round, and the one patched template (pair 7)

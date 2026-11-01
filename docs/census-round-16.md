@@ -85,7 +85,9 @@ default, as on round 12's pairs 1 and 2) and the rest close by hand, each pair i
   written out with the resolved head sizes, the end token repeated in the generation list, the 24 control tokens
   written into an `added_tokens_decoder` block, and the template written a second time into `tokenizer_config.json`:
   finding 15's loader signature, on a copy where it moved no token. Both templates equal Google's pinned one byte for
-  byte and the fixed conversation renders identically.
+  byte and the fixed conversation renders identically. Judged again with the rule added after round 30 (finding 44),
+  the 24 decoder entries and the block close against Google's `tokenizer.json`, which the copy carries under the
+  same checksum; the six configuration and template fields stay open.
 - A patched Google template, pair 2: the copy's `chat_template.jinja` (17,344 bytes) matches none of Google's 13
   revisions and is Google's 2026-04-28 template (`4c55b528`, 16,934 bytes) with the maker's tool-declaration edits: a
   14-line `format_type_argument` macro prepended, five `is sequence` tests changed to `is iterable`, and four type

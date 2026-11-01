@@ -30,11 +30,16 @@ outside the search sample contribute their catalog download count when a sampled
 download count contributes zero. Format and term counts can overlap.
 
 The comparison records both values for each changed field. The exception table permits changes to the model type and
-name strings. A second class, explained by re-save, covers three content checks:
+name strings. A second class, explained by re-save, covers these content checks:
 
 - A special-token declaration moves between the tokenizer config and the special-token map, or the map repeats a
   declaration from the config. The ordered token strings, IDs and declared flags must agree. An added-token file must
   repeat the complete mapping already present in the internal added-token records. Conflicting IDs stay unexplained.
+- An added-token declaration that one side's tokenizer config or special-token map lacks, while both sides record
+  `tokenizer.json` under one SHA-256. An `added_tokens_decoder` entry must repeat the shared file's record under its
+  ID with every flag it writes; a whole map must consist of such entries; each token in an `additional_special_tokens`
+  list must be declared special in the shared file under the same ID. A declaration present on both sides with
+  different content, or a token file that differs between the sides, stays unexplained.
 - A template moves between the tokenizer config and a separate template file. Its source must match after converting
   line endings and removing trailing whitespace, and the fixed conversation must render identically. Spaces inside
   text and changes to unused branches still count as content changes.
@@ -87,7 +92,7 @@ When a rule changes, a saved report is judged again from the configurations it s
 python -m audit metadata-reclassify --report data/meta/pair.json
 ```
 
-The report gains a `reclassification` block naming the fields whose class changed and the verdict before, and its card is rewritten. Rules that need the token files keep their recorded result; the configuration rules can change it, and with `--later-revisions` so can the template rule below.
+The report gains a `reclassification` block naming the fields whose class changed and the assessment before, and its card is rewritten. Rules that need the token files' text keep their recorded result. The configuration rules can change it; so can the shared-token-file rule, which reads the recorded checksums and added-token records; with `--later-revisions` so can the template rule below. A card prints the explained `added_tokens_decoder` entries of one rule under one heading with their count.
 
 A changed template is explained by re-save when it equals, byte for byte, the template the original repository itself published at a later commit and the fixed conversation renders identically. The comparison reads the original's commit history after the pinned revision (at most twenty commits) and the template file at each, caching them under the original's cache folder. The record names the first matching commit, its date and title, and every matching commit.
 
