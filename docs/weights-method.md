@@ -68,7 +68,12 @@ entries cannot match.
 
 Tensor roles are regular-expression patterns in `audit/recipes.json`. The
 optional `model.`, `model.language_model.`, or `transformer.` wrapper is stripped
-before matching. Residual writers include full-attention `self_attn.o_proj`,
+before matching. An export that saves the same tensors under one wrapper more
+or fewer, under one wrapper swapped for another, or without the `linear`
+segment inside a tower (the table's `infixes`) is paired by name before the
+comparison; each rule is accepted only when it pairs every modified name with
+exactly one original, and the report names the wrapper and the side that wrote
+it. Residual writers include full-attention `self_attn.o_proj`,
 linear-attention `linear_attn.out_proj`, dense `mlp.down_proj`, and expert or
 shared-expert down projections. Each has a separate kind in the report.
 

@@ -7,6 +7,7 @@
 # Modified: SDE 2026-10-29  per-layer directions, reader kinds, and rescoring from the saved vectors.
 # Modified: SDE 2026-10-29  remaining fractions along the leading directions and packed-expert measures.
 # Modified: SDE  the decoder stack of a diffusion export carries the same roles.
+# Modified: SDE  cover an export that renamed its vision tower inside, without the linear wrapper.
 """Small analytic checks for the checkpoint comparison."""
 
 import gc
@@ -23,7 +24,8 @@ from safetensors import safe_open
 from safetensors.torch import save_file
 
 from audit.weights import (TensorStore, compare_weights, direction_agreement, layer_of, match_recipes, measure_tensor,
-                           reader_kinds, recipe_table, remaining_fractions, resolve_checkpoint, rescore_weights, tensor_kind)
+                           reader_kinds, recipe_table, remaining_fractions, resolve_checkpoint, rescore_weights, tensor_kind,
+                           wrapper_mapping)
 
 
 class TensorMeasures(unittest.TestCase):
@@ -526,6 +528,50 @@ class CheckpointComparison(unittest.TestCase):
         # Two originals that would map onto one export name leave the plain comparison in place.
         self.put(self.base, {**base, "language_model.model.embed_tokens.weight": torch.ones(2, 2)})
         self.assertIsNone(self.compare()["name_mapping"])
+
+    def test_an_export_without_a_wrapper_inside_the_tower_is_paired_by_name(self):
+        # One copy saves its vision projections as q_proj.weight where the original has q_proj.linear.weight;
+        # the rows keep the original's names and the report records the segment and the side that wrote it.
+        base = {"model.language_model.layers.0.mlp.down_proj.weight": torch.ones(2, 2),
+                "model.vision_tower.encoder.layers.0.self_attn.q_proj.linear.weight": torch.ones(2, 2),
+                "model.vision_tower.encoder.layers.0.self_attn.q_proj.linear.bias": torch.ones(2)}
+        renamed = {"model.language_model.layers.0.mlp.down_proj.weight": torch.ones(2, 2) * 2,
+                   "model.vision_tower.encoder.layers.0.self_attn.q_proj.weight": torch.ones(2, 2),
+                   "model.vision_tower.encoder.layers.0.self_attn.q_proj.bias": torch.ones(2)}
+        self.put(self.base, base)
+        self.put(self.modified, renamed)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"], {"prefix": ".linear.", "carried_by": "original", "renamed": 2})
+        self.assertEqual((report["original_only"], report["modified_only"]), ([], []))
+        self.assertEqual(sorted(report["tensors"]), sorted(base))
+        self.assertTrue(report["tensors"]["model.language_model.layers.0.mlp.down_proj.weight"]["changed"])
+        self.assertFalse(report["tensors"]["model.vision_tower.encoder.layers.0.self_attn.q_proj.linear.weight"]["changed"])
+        self.put(self.base, renamed)
+        self.put(self.modified, base)
+        report = self.compare()
+        self.assertEqual(report["name_mapping"], {"prefix": ".linear.", "carried_by": "modified", "renamed": 2})
+        self.assertEqual(sorted(report["tensors"]), sorted(renamed))
+        # An export that keeps both spellings of one name has two partners for it: no mapping.
+        self.put(self.base, base)
+        self.put(self.modified, {**renamed, "model.vision_tower.encoder.layers.0.self_attn.q_proj.linear.bias": torch.ones(2)})
+        report = self.compare()
+        self.assertIsNone(report["name_mapping"])
+        self.assertEqual(len(report["modified_only"]), 2)
+
+    def test_the_renamed_vision_tower_of_a_published_copy_pairs_completely(self):
+        # The published header names of Kooten's 31B copy against its original's: 189 vision tensors
+        # without the linear wrapper, every one paired, nothing left on either side.
+        fixtures = Path(__file__).with_name("fixtures") / "round2"
+        copy = json.loads((fixtures / "4b215fada4eb.json").read_text())
+        original = json.loads((fixtures / "842da3794eaa.json").read_text())
+        self.assertEqual((copy["hub_id"], original["hub_id"]), ("Kooten/gemma-4-31b-abliterated-v1.1", "google/gemma-4-31B-it"))
+        mapping = wrapper_mapping(original["tensors"].keys(), copy["tensors"].keys(), recipe_table())
+        self.assertEqual({key: mapping[key] for key in ("prefix", "carried_by", "renamed")},
+                         {"prefix": ".linear.", "carried_by": "original", "renamed": 189})
+        self.assertEqual(set(mapping["names"]), set(original["tensors"]))
+        self.assertEqual(set(mapping["names"].values()), set(copy["tensors"]))
+        self.assertTrue(all(original["tensors"][name]["shape"] == copy["tensors"][other]["shape"]
+                            for name, other in mapping["names"].items()))
 
     def test_named_streaming_and_missing_names(self):
         self.put(self.base, {"z": torch.ones(3), "original_only": torch.ones(2)}, "one.safetensors")

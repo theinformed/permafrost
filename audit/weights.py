@@ -9,6 +9,7 @@
 # Modified: SDE 2026-10-29  measure direction agreement within each layer for the per-layer recipes.
 # Modified: SDE 2026-10-29  remaining fraction along each leading direction; per-expert measures on packed tensors.
 # Modified: SDE 2026-10-31  an export without the shared-KV layers' own key and value tensors is listed, not scored as a violation.
+# Modified: SDE  pair names across an export that dropped, or added, one wrapper inside a tower.
 """Stream checkpoint pairs, measure their differences, and write a recipe report."""
 
 import hashlib
@@ -248,7 +249,52 @@ def wrapper_mapping(original_names, modified_names, recipes):
                 renamed = sum(1 for name, other in names.items() if name != other)
                 if renamed:
                     return {"prefix": prefix, "carried_by": side, "renamed": renamed, "names": names}
-    return swapped_wrapper_mapping(original_names, modified_names, recipes)
+    return (swapped_wrapper_mapping(original_names, modified_names, recipes)
+            or infix_mapping(original_names, modified_names, recipes))
+
+
+def infix_mapping(original_names, modified_names, recipes):
+    """Pair names across an export that dropped, or added, one wrapper inside a tower.
+
+    One Gemma 4 copy saves its vision tower's projections as q_proj.weight where
+    the original has q_proj.linear.weight: a rename inside the tower that no
+    prefix rule reaches, on tensors of the same shape. The infix is accepted
+    when removing it from one side's names pairs every modified name with
+    exactly one original; the report carries it in the prefix field with the
+    side that wrote it."""
+    original_names, modified_names = set(original_names), set(modified_names)
+    for segment in recipes["tensor_kinds"].get("infixes", []):
+        infix = "." + segment + "."
+
+        def stripped(name):
+            """The name with its first wrapper segment removed."""
+            return name.replace(infix, ".", 1)
+
+        for side in ("original", "modified"):
+            names = {}
+            if side == "modified":
+                # An export that added the segment: index its names by the name they came from.
+                added = {}
+                for name in modified_names:
+                    if infix in name:
+                        added.setdefault(stripped(name), set()).add(name)
+            for name in original_names:
+                partners = {name}
+                if side == "original" and infix in name:
+                    partners.add(stripped(name))
+                elif side == "modified":
+                    partners.update(added.get(name, ()))
+                present = partners & modified_names
+                if len(present) > 1:
+                    names = None
+                    break
+                if present:
+                    names[name] = present.pop()
+            if names and set(names.values()) == modified_names and len(set(names.values())) == len(names):
+                renamed = sum(1 for name, other in names.items() if name != other)
+                if renamed:
+                    return {"prefix": infix, "carried_by": side, "renamed": renamed, "names": names}
+    return None
 
 
 def swapped_wrapper_mapping(original_names, modified_names, recipes):
