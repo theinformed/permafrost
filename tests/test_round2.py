@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  the shared table names packed experts and audit.hub loads under the pins.
 # Modified: SDE 2026-10-29  batches of any size, parallel compares and the sweep, systems table, PBS.
 # Modified: SDE 2026-10-30  a copy pinned against its stated parent, itself a copy, passes the screen.
+# Modified: SDE  the pin stubs take the listing flag the duplicate check passes.
 import ast
 from datetime import datetime, timezone
 import hashlib
@@ -113,7 +114,7 @@ class PinTests(unittest.TestCase):
         history = [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 1, 1, tzinfo=timezone.utc)),
                    SimpleNamespace(commit_id='b' * 40, created_at=datetime(2026, 1, 3, tzinfo=timezone.utc))]
         class API:
-            def model_info(self, repo, revision=None):
+            def model_info(self, repo, revision=None, **kwargs):
                 card = {'base_model': 'publisher/base'} if repo == 'owner/copy' else {}
                 return SimpleNamespace(sha=revision or 'c' * 40, created_at=created,
                                        card_data=SimpleNamespace(to_dict=lambda: card))
@@ -138,7 +139,7 @@ class PinTests(unittest.TestCase):
         history = [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 6, 3, 21, 14, tzinfo=timezone.utc)),
                    SimpleNamespace(commit_id='b' * 40, created_at=datetime(2026, 6, 20, tzinfo=timezone.utc))]
         class API:
-            def model_info(self, repo, revision=None):
+            def model_info(self, repo, revision=None, **kwargs):
                 card = {'base_model': 'publisher/base'} if repo == 'owner/copy' else {}
                 return SimpleNamespace(sha=revision or 'c' * 40, created_at=created,
                                        card_data=SimpleNamespace(to_dict=lambda: card))
@@ -159,7 +160,7 @@ class PinTests(unittest.TestCase):
                  'maker/model-it': ['maker/model'], 'own/copy-v2': 'own/copy-v1'}
 
         class API:
-            def model_info(self, repo, revision=None):
+            def model_info(self, repo, revision=None, **kwargs):
                 card = {'base_model': cards[repo]} if repo in cards else {}
                 return SimpleNamespace(sha=revision or 'c' * 40, created_at=created,
                                        card_data=SimpleNamespace(to_dict=lambda: card))

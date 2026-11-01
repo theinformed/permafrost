@@ -9,6 +9,8 @@
 #   copy's revision date and says so in the record.
 # Modified: SDE 2026-10-31  a quantised original and a repository of several weight files with no index are refused
 #   at the names step.
+# Modified: SDE  a copy whose weight files the census has already measured is refused before it is pinned;
+#   a hub duplicate with later edits is pinned with its parent noted.
 import argparse
 from datetime import datetime, timezone
 import json
@@ -18,6 +20,74 @@ import struct
 import sys
 import tempfile
 from huggingface_hub import HfApi
+
+ROOT = Path(__file__).resolve().parent.parent
+DUPLICATE = 'Duplicate from'
+
+
+class Duplicate(ValueError):
+    """The copy's weight files are a measurement the census already holds."""
+
+
+def duplicate_source(history):
+    """The parent the hub's duplicate function named in the repository's first commit title, or None."""
+    first = min(history, key=lambda row: row.created_at)
+    title = (getattr(first, 'title', None) or '').strip()
+    if title.startswith(DUPLICATE):
+        return title[len(DUPLICATE):].strip() or None
+    return None
+
+
+def lfs_weights(info):
+    """The LFS sha256 of every safetensors file in a repository listing, before any byte is downloaded."""
+    weights = {}
+    for item in getattr(info, 'siblings', None) or []:
+        if not item.rfilename.endswith('.safetensors'):
+            continue
+        lfs = getattr(item, 'lfs', None)
+        digest = lfs.get('sha256') if isinstance(lfs, dict) else getattr(lfs, 'sha256', None)
+        if digest:
+            weights[item.rfilename] = digest
+    return weights
+
+
+def measured_copies(root=ROOT):
+    """Every copy whose weight files are measured at home, then every pair pinned with its hub checksums."""
+    root = Path(root)
+    rows = []
+    for path in sorted((root / 'results/weights').glob('*.json')):
+        report = json.loads(path.read_text())
+        modified = report.get('modified') or {}
+        shards = modified.get('shards_sha256') or {}
+        if not shards:
+            continue
+        census = (report.get('census') or {}).get('modified') or {}
+        match = re.search(r'/rounds/([0-9]+)/', modified.get('source') or '')
+        rows.append({'hub_id': census.get('hub_id') or path.stem, 'state': 'measured',
+                     'round': int(match.group(1)) if match else None, 'sha256': set(shards.values())})
+    for path in sorted((root / 'data/batches').glob('*.json')):
+        record = json.loads(path.read_text())
+        for row in record['pairs']:
+            shards = row['modified'].get('weight_files_sha256') or {}
+            if shards:
+                rows.append({'hub_id': row['modified']['hub_id'], 'state': 'pinned',
+                             'round': record.get('round'), 'sha256': set(shards.values())})
+    return rows
+
+
+def same_weights(weights, known):
+    """The measured or pinned copy whose weight files carry exactly these checksums, if any."""
+    digests = set(weights.values())
+    if not digests:
+        return None
+    matches = [row for row in known if row['sha256'] == digests]
+    # The earliest measurement names the copy: a third upload of one file points at the first, not the second.
+    return min(matches, key=lambda row: (row['round'] is None, row['round'] or 0)) if matches else None
+
+
+def describe(match):
+    where = 'in round {}'.format(match['round']) if match['round'] is not None else 'at home'
+    return '{} {} {}'.format(match['hub_id'], match['state'], where)
 
 
 def declared(info):
@@ -55,11 +125,20 @@ def settle_roots(copy, base):
     walk(base)
 
 
-def pin(api, modified, original):
-    """Choose the newest original commit no later than the copy's creation."""
-    copy = api.model_info(modified)
+def pin(api, modified, original, known=(), allow_duplicate=False):
+    """Choose the newest original commit no later than the copy's creation.
+
+    A copy whose weight files carry the checksums of a copy already measured (or pinned) is its
+    parent's measurement and is refused before the lineage is read, unless the caller allows it; a
+    repository the hub duplicated whose weights since changed is pinned with its parent recorded."""
+    copy = api.model_info(modified, files_metadata=True)
     copy_history = api.list_repo_commits(modified)
     copy_commit = next(row for row in copy_history if row.commit_id == copy.sha)
+    weights = lfs_weights(copy)
+    source = duplicate_source(copy_history)
+    match = same_weights(weights, known)
+    if match and not allow_duplicate:
+        raise Duplicate('same weight files as ' + describe(match))
     history = api.list_repo_commits(original)
     cutoff, rule = copy.created_at, 'latest commit at or before modified repository creation'
     eligible = [row for row in history if row.created_at <= cutoff]
@@ -98,6 +177,12 @@ def pin(api, modified, original):
     if not node['base_model_chain']:
         raise ValueError('modified base unknown: ' + modified)
     node['revision_date'] = copy_commit.created_at.isoformat()
+    node['weight_files_sha256'] = weights
+    if source:
+        node['duplicate_of'] = source
+    if match:
+        node['same_weights_as'] = {'hub_id': match['hub_id'], 'round': match['round'], 'state': match['state']}
+        node['allow_duplicate'] = True
     base = lineage(original, commit.commit_id)
     base['revision_date'] = commit.created_at.isoformat()
     settle_roots(node, base)
@@ -263,12 +348,24 @@ def main():
     parser.add_argument('--pair', nargs=2, required=True)
     parser.add_argument('--round', type=int, help='for a new manifest')
     parser.add_argument('--batch', type=int, help='for a new manifest')
+    parser.add_argument('--allow-duplicate', action='store_true',
+                        help='pin a copy whose weight files the census has already measured')
     args = parser.parse_args()
     path = Path(args.manifest)
     record = json.loads(path.read_text()) if path.exists() else new_record(path, args)
     if any(row['modified']['hub_id'] == args.pair[0] for row in record['pairs']):
         raise ValueError('pair already pinned: ' + args.pair[0])
-    record['pairs'].append(pin(HfApi(), *args.pair))
+    try:
+        row = pin(HfApi(), *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
+    except Duplicate as error:
+        print('refused {}: {}'.format(args.pair[0], error))
+        sys.exit(1)
+    copy = row['modified']
+    if copy.get('same_weights_as'):
+        print('pinned as allowed: {} has the {}'.format(args.pair[0], 'same weight files as ' + describe(copy['same_weights_as'])))
+    elif copy.get('duplicate_of'):
+        print('note: {} was duplicated from {} and its weight files differ; pinned'.format(args.pair[0], copy['duplicate_of']))
+    record['pairs'].append(row)
     record['pinned_at'] = datetime.now(timezone.utc).isoformat()
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(record, indent=2) + '\n')
