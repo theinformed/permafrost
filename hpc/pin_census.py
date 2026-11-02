@@ -18,6 +18,7 @@
 #   that size when the hub has one, with the card's field kept beside a note.
 # Modified: SDE  a repository the card's first heading or sentence names, other than the field's, is recorded as
 #   card_parent with a warning; the pinned original does not change for it.
+# Modified: SDE  a copy or original whose hub id carries a restricted maker's model name is refused before any hub call.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -43,6 +44,80 @@ def audit_root():
 
 class Duplicate(ValueError):
     """The copy's weight files are a measurement the census already holds."""
+
+
+class Restricted(ValueError):
+    """A hub id carries a restricted maker's model name; the home gate would refuse the manifest."""
+
+
+RESTRICTED = None
+GATE = '/opt/ai/hpc-desk/banned.py'
+MAKERS = ROOT / 'hpc' / 'banned-makers.txt'
+
+
+def _literals(text):
+    """Every r"..." or "..." literal in a statement, in order."""
+    found = []
+    index = 0
+    while index < len(text):
+        quote = text.find('"', index)
+        if quote < 0:
+            break
+        end = quote + 1
+        while end < len(text) and text[end] != '"':
+            end += 2 if text[end] == '\\' else 1
+        found.append(text[quote + 1:end])
+        index = end + 1
+    return found
+
+
+def restricted_patterns(path=GATE):
+    """The gate's banned-name patterns, or the maker list when the gate cannot be read."""
+    global RESTRICTED
+    if RESTRICTED is not None and path == GATE:
+        return RESTRICTED
+    try:
+        text = Path(path).read_text()
+    except (OSError, UnicodeDecodeError):
+        text = None
+    patterns = []
+    if text is not None:
+        start = text.find('BANNED_PATTERNS')
+        if start < 0:
+            start = text.find('BANNED')
+        if start >= 0:
+            opening = text.find('(', start)
+            closing = text.find('\n)', opening)
+            if opening >= 0 and closing > opening:
+                for literal in _literals(text[opening:closing]):
+                    try:
+                        patterns.append(re.compile(literal, re.IGNORECASE))
+                    except re.error:
+                        continue
+    if not patterns:
+        try:
+            lines = MAKERS.read_text().splitlines()
+        except (OSError, UnicodeDecodeError):
+            lines = []
+        for line in lines:
+            word = line.split('#', 1)[0].strip()
+            if word:
+                patterns.append(re.compile(re.escape(word.lower())))
+    if path == GATE:
+        RESTRICTED = patterns
+    return patterns
+
+
+def restricted_name(hub_id, patterns=None):
+    """The restricted word a hub id carries, or None."""
+    if patterns is None:
+        patterns = restricted_patterns()
+    text = (hub_id or '').lower()
+    for pattern in patterns:
+        match = pattern.search(text)
+        if match:
+            return match.group(0)
+    return None
 
 
 def duplicate_source(history):
@@ -261,7 +336,12 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
 
     A copy whose weight files carry the checksums of a copy already measured (or pinned) is its
     parent's measurement and is refused before the lineage is read, unless the caller allows it; a
-    repository the hub duplicated whose weights since changed is pinned with its parent recorded."""
+    repository the hub duplicated whose weights since changed is pinned with its parent recorded.
+    A hub id carrying a restricted maker's model name is refused before any hub call."""
+    for hub_id in (modified, original):
+        word = restricted_name(hub_id)
+        if word:
+            raise Restricted("name carries a restricted model name '{}'".format(word))
     copy = api.model_info(modified, files_metadata=True)
     copy_history = api.list_repo_commits(modified)
     copy_commit = next(row for row in copy_history if row.commit_id == copy.sha)
@@ -656,7 +736,7 @@ def main():
         raise ValueError('pair already pinned: ' + args.pair[0])
     try:
         row = pin(HfApi(), *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
-    except Duplicate as error:
+    except (Duplicate, Restricted) as error:
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     copy = row['modified']
