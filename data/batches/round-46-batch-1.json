@@ -1,0 +1,1543 @@
+{
+  "round": 46,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "chulcher/gemma-4-e4b-abliterated",
+        "maker": "chulcher",
+        "revision": "627232c914a3b14eff301937af73ef70e4a9ea86",
+        "declared_base_model": "google/gemma-4-e4b-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-e4b-it",
+            "maker": "google",
+            "revision": "ee0ef6023621cff504d758262d4e04895a5af4a2",
+            "declared_base_model": [
+              "google/gemma-4-E4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-E4B",
+                "maker": "google",
+                "revision": "411aa17b749aa952df1359d2dcea73917a544d9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-02T19:57:53+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-02T19:57:40+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-05T22:28:21+00:00",
+        "revision_date": "2026-04-05T22:42:35+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "4ede376d5f2ef6e75afcd8309e910771063a2ee95c70c2a03e48d5225c46a4d9"
+        },
+        "measured_in": {
+          "round": 39
+        },
+        "allow_duplicate": true,
+        "same_weights_as": {
+          "hub_id": "chulcher/gemma-4-e4b-abliterated",
+          "round": 39,
+          "state": "measured"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "google/gemma-4-E4B",
+        "maker": "google",
+        "revision": "7aa32e6889efd6300124851b164f8b364314c3d8",
+        "declared_base_model": null,
+        "base_model_chain": [],
+        "created_at": "2026-03-02T19:57:53+00:00",
+        "revision_date": "2026-04-02T16:14:15+00:00",
+        "publisher_root": true,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-05T22:28:21+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 6,
+        "original_history_starts": "2026-04-02T10:53:09+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "513525a58f8dcb5de7f2c24ea10f2b34f04f81a0",
+        "declared_base_model": [
+          "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1-GGUF",
+            "maker": "yuxinlu1",
+            "revision": "1380be1796e559fca96b4107599285cab3ddbb92",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-10T07:24:02+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-21T21:30:50+00:00",
+        "revision_date": "2026-06-21T23:54:30+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "a74bbc0a38ad53c2ea9278456befa1ce7db2a1cbb38fc7bff11705f5a2a1561d",
+          "model-00002-of-00005.safetensors": "f94830996a2f8c870a10d33eb57d0cb38121224ecf39f95823cee4a376e3d0b4",
+          "model-00003-of-00005.safetensors": "e70f87222f67a8fc351ab6625a20721a6573251988f28bf88f7a206ee32d27c1",
+          "model-00004-of-00005.safetensors": "8d977c3187ce322a3cbfcd5f7b49f851e91513f06bc3caeb6c747e84ed974cd2",
+          "model-00005-of-00005.safetensors": "feef210c4e7b3998b2f9e8de76b1dbcd6361b575f2a1e2a9cb2b43203f0bf048"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+        "maker": "yuxinlu1",
+        "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+        "declared_base_model": "google/gemma-4-12B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-17T01:23:44+00:00",
+        "revision_date": "2026-06-18T02:09:38+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-21T21:30:50+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 3,
+        "original_history_starts": "2026-06-17T01:23:44+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "76e6ccb37dc8cd448f7ecd0f1429d254b545cc41",
+        "declared_base_model": [
+          "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-GGUF"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-GGUF",
+            "maker": "yuxinlu1",
+            "revision": "190a31365a6b80a692349be34ccdac730cad4fe4",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-19T00:06:07+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-30T18:04:16+00:00",
+        "revision_date": "2026-06-30T18:33:09+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "d04bfda4a59af19de1845aade51183522cc3c4653913dd298d7005fa909c2f82",
+          "model-00002-of-00005.safetensors": "e953588ab3d6db5d77302c15bc1a9d217303f461b6fadfe20f1e700cd997a83f",
+          "model-00003-of-00005.safetensors": "d00e85261750b0ea27efb7cf3a04de5a99ce0daabef6fc5708e06020e10133d5",
+          "model-00004-of-00005.safetensors": "531c8750381c46e26193f317ac752a1b14295ab7f26e8ba87015fc94eac9a2d5",
+          "model-00005-of-00005.safetensors": "5d25a1c971a41cf329a0b494536ce9bc8d61ae323d6ad1c9e06ef74f6c26274e"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+        "maker": "yuxinlu1",
+        "revision": "af644ab1c593a95a994257343b04b99546f431b2",
+        "declared_base_model": "google/gemma-4-12B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-28T04:49:06+00:00",
+        "revision_date": "2026-06-30T01:18:55+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-30T18:04:16+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2026-06-28T04:49:06+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5-abliterated",
+        "maker": "tpls",
+        "revision": "0b752c7b6c5155e57b4afc354fa8b43901d23188",
+        "declared_base_model": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5",
+        "base_model_chain": [
+          {
+            "hub_id": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5",
+            "maker": "tpls",
+            "revision": "4f53a038a3d84fce28732af410f61e2fa0870230",
+            "declared_base_model": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+            "base_model_chain": [
+              {
+                "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+                "maker": "yuxinlu1",
+                "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+                "declared_base_model": "google/gemma-4-12B-it",
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B-it",
+                    "maker": "google",
+                    "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                    "declared_base_model": [
+                      "google/gemma-4-12B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-12B",
+                        "maker": "google",
+                        "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-05-23T02:43:54+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-05-23T01:17:15+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-06-17T01:23:44+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-25T04:30:46+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-26T00:00:47+00:00",
+        "revision_date": "2026-06-26T13:58:54+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "0232f9ea5cc65f51e916349586bb52a025f07be6c53d8c7b0554eeafd7b7e14d",
+          "model-00002-of-00005.safetensors": "24922f35750304166437f1aa90112596a6cb3bd073afd020909654a4fb5f64cc",
+          "model-00003-of-00005.safetensors": "eb48594965c683178af780676f7f3fa386e332976a895643ba2ae6869d53d84f",
+          "model-00004-of-00005.safetensors": "bb649f9d7d5b85db836c8226e5d037d704c03b8a14d2e3e7e9065047b5d968ad",
+          "model-00005-of-00005.safetensors": "79ed0666355d899eb0f26df4dc0d63e86fa8a028c5192e5b2fd4055969daeb23"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5",
+        "maker": "tpls",
+        "revision": "3cd205a21876c8c8584e5b80bb9d4c1ec4502b32",
+        "declared_base_model": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+            "maker": "yuxinlu1",
+            "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-17T01:23:44+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-25T04:30:46+00:00",
+        "revision_date": "2026-06-25T16:18:51+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-26T00:00:47+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 14,
+        "original_history_starts": "2026-06-25T04:30:46+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "EldritchLabs/MN-12B-Mag-Mell-R1-Uncensored-Scale1.2",
+        "maker": "eldritchlabs",
+        "revision": "d6f3e11ab0bae7b7879ed448e4d1ac512de35ce7",
+        "declared_base_model": [
+          "inflatebot/MN-12B-Mag-Mell-R1"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "inflatebot/MN-12B-Mag-Mell-R1",
+            "maker": "inflatebot",
+            "revision": "b5f9f348c2e43dc8c862b2d4ab1521e3256696fc",
+            "declared_base_model": [
+              "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+              "nbeerbower/mistral-nemo-bophades-12B",
+              "nbeerbower/mistral-nemo-wissenschaft-12B",
+              "elinas/Chronos-Gold-12B-1.0",
+              "Fizzarolli/MN-12b-Sunrose",
+              "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+              "anthracite-org/magnum-12b-v2.5-kto"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+                "maker": "intervitensinc",
+                "revision": "2b9f382d96d56e33b8ae92d981afdf7fc0dda290",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-27T00:31:46+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-bophades-12B",
+                "maker": "nbeerbower",
+                "revision": "d2941d4198b38d337a588ab7e748f7266835382b",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Instruct-2407"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                    "maker": "mistralai",
+                    "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-07-17T17:26:49+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-13T03:25:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-wissenschaft-12B",
+                "maker": "nbeerbower",
+                "revision": "2b6df0c588713611c4bbf554504cb865e18ae166",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Instruct-2407"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                    "maker": "mistralai",
+                    "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-07-17T17:26:49+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-12T16:06:34+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "elinas/Chronos-Gold-12B-1.0",
+                "maker": "elinas",
+                "revision": "e9df8ef161314c517a403333219d68799af3a0eb",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-21T04:20:31+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Fizzarolli/MN-12b-Sunrose",
+                "maker": "fizzarolli",
+                "revision": "e1f03697805104d02cf3df4da37d9335dcf4b11b",
+                "declared_base_model": [
+                  "Fizzarolli/MN-12b-Rosier-v1",
+                  "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "Fizzarolli/MN-12b-Rosier-v1",
+                    "maker": "fizzarolli",
+                    "revision": "80d36494ff42641cd0c8c207ca3dc923fe45b1a7",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-04T01:49:35+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base",
+                    "maker": "fizzarolli",
+                    "revision": "18aa3bb5691b8b8f4b7a5a455fdb1abfa2009f81",
+                    "declared_base_model": [
+                      "mistralai/Mistral-Nemo-Base-2407",
+                      "crestf411/nemo-sunfall-v0.6.1"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      },
+                      {
+                        "hub_id": "crestf411/nemo-sunfall-v0.6.1",
+                        "maker": "crestf411",
+                        "revision": "85968a8a389c536d1212cccc680c89533b3d5448",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-08-01T14:17:14+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-08-16T23:55:53+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-17T01:22:53+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+                "maker": "nbeerbower",
+                "revision": "c6de37f2e26d8abe487a5df8c5391ed82fa80d05",
+                "declared_base_model": [
+                  "TheDrummer/Rocinante-12B-v1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "TheDrummer/Rocinante-12B-v1",
+                    "maker": "thedrummer",
+                    "revision": "74a4ae2584d45655298995198d5ab3e660364a1a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-14T15:21:34+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-22T15:42:29+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "anthracite-org/magnum-12b-v2.5-kto",
+                "maker": "anthracite-org",
+                "revision": "aee0374e5a43e950c9977b0004dede1c57be2999",
+                "declared_base_model": "anthracite-org/magnum-12b-v2",
+                "base_model_chain": [
+                  {
+                    "hub_id": "anthracite-org/magnum-12b-v2",
+                    "maker": "anthracite-org",
+                    "revision": "cedd0eda15987d813299d49d6db742cbb057f6b0",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-08-03T07:36:41+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-12T04:18:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-09-16T00:38:49+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-05T09:07:53+00:00",
+        "revision_date": "2026-03-05T12:19:24+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "4e0233fbb4f45ff4463dd18339e4a160fa1c99c6dcbd11f92de05d20401a90ad",
+          "model-00002-of-00005.safetensors": "44e7a60ad23a92e1d8336a0c55c3e1c6d32f58e983788ac06601883d70794b54",
+          "model-00003-of-00005.safetensors": "5fd5de670e664e087cfa9a1a9b5f4b67c0bdc0b4aa444b08fd0067440f2551c4",
+          "model-00004-of-00005.safetensors": "29ae24eb9f1cf06c35bb3097b86caeab9278a5420444dbe94bd8869ef8486c02",
+          "model-00005-of-00005.safetensors": "2de839e7ca879210cd93100a24f8b9ce7f567f2c3c18938832cdad42afaa7dd9"
+        },
+        "card_parent": "Naphula/MN-12B-Mag-Mell-R1-Uncensored",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "inflatebot/MN-12B-Mag-Mell-R1",
+        "maker": "inflatebot",
+        "revision": "b5f9f348c2e43dc8c862b2d4ab1521e3256696fc",
+        "declared_base_model": [
+          "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+          "nbeerbower/mistral-nemo-bophades-12B",
+          "nbeerbower/mistral-nemo-wissenschaft-12B",
+          "elinas/Chronos-Gold-12B-1.0",
+          "Fizzarolli/MN-12b-Sunrose",
+          "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+          "anthracite-org/magnum-12b-v2.5-kto"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+            "maker": "intervitensinc",
+            "revision": "2b9f382d96d56e33b8ae92d981afdf7fc0dda290",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-27T00:31:46+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-bophades-12B",
+            "maker": "nbeerbower",
+            "revision": "d2941d4198b38d337a588ab7e748f7266835382b",
+            "declared_base_model": [
+              "mistralai/Mistral-Nemo-Instruct-2407"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                "maker": "mistralai",
+                "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-07-17T17:26:49+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-13T03:25:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-wissenschaft-12B",
+            "maker": "nbeerbower",
+            "revision": "2b6df0c588713611c4bbf554504cb865e18ae166",
+            "declared_base_model": [
+              "mistralai/Mistral-Nemo-Instruct-2407"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                "maker": "mistralai",
+                "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-07-17T17:26:49+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-12T16:06:34+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "elinas/Chronos-Gold-12B-1.0",
+            "maker": "elinas",
+            "revision": "e9df8ef161314c517a403333219d68799af3a0eb",
+            "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                "maker": "mistralai",
+                "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-18T10:26:55+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-21T04:20:31+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Fizzarolli/MN-12b-Sunrose",
+            "maker": "fizzarolli",
+            "revision": "e1f03697805104d02cf3df4da37d9335dcf4b11b",
+            "declared_base_model": [
+              "Fizzarolli/MN-12b-Rosier-v1",
+              "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Fizzarolli/MN-12b-Rosier-v1",
+                "maker": "fizzarolli",
+                "revision": "80d36494ff42641cd0c8c207ca3dc923fe45b1a7",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-08-04T01:49:35+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base",
+                "maker": "fizzarolli",
+                "revision": "18aa3bb5691b8b8f4b7a5a455fdb1abfa2009f81",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Base-2407",
+                  "crestf411/nemo-sunfall-v0.6.1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "crestf411/nemo-sunfall-v0.6.1",
+                    "maker": "crestf411",
+                    "revision": "85968a8a389c536d1212cccc680c89533b3d5448",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-01T14:17:14+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-16T23:55:53+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-17T01:22:53+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+            "maker": "nbeerbower",
+            "revision": "c6de37f2e26d8abe487a5df8c5391ed82fa80d05",
+            "declared_base_model": [
+              "TheDrummer/Rocinante-12B-v1"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "TheDrummer/Rocinante-12B-v1",
+                "maker": "thedrummer",
+                "revision": "74a4ae2584d45655298995198d5ab3e660364a1a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-08-14T15:21:34+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-22T15:42:29+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "anthracite-org/magnum-12b-v2.5-kto",
+            "maker": "anthracite-org",
+            "revision": "aee0374e5a43e950c9977b0004dede1c57be2999",
+            "declared_base_model": "anthracite-org/magnum-12b-v2",
+            "base_model_chain": [
+              {
+                "hub_id": "anthracite-org/magnum-12b-v2",
+                "maker": "anthracite-org",
+                "revision": "cedd0eda15987d813299d49d6db742cbb057f6b0",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-03T07:36:41+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-12T04:18:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2024-09-16T00:38:49+00:00",
+        "revision_date": "2025-04-03T00:43:44+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-05T09:07:53+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 30,
+        "original_history_starts": "2024-09-16T00:38:49+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Naphula/MN-12B-Mag-Mell-R1-Uncensored",
+        "maker": "naphula",
+        "revision": "4987a8f5333d19d08589fc6f9dc12d541d226f1d",
+        "declared_base_model": [
+          "inflatebot/MN-12B-Mag-Mell-R1"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "inflatebot/MN-12B-Mag-Mell-R1",
+            "maker": "inflatebot",
+            "revision": "b5f9f348c2e43dc8c862b2d4ab1521e3256696fc",
+            "declared_base_model": [
+              "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+              "nbeerbower/mistral-nemo-bophades-12B",
+              "nbeerbower/mistral-nemo-wissenschaft-12B",
+              "elinas/Chronos-Gold-12B-1.0",
+              "Fizzarolli/MN-12b-Sunrose",
+              "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+              "anthracite-org/magnum-12b-v2.5-kto"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+                "maker": "intervitensinc",
+                "revision": "2b9f382d96d56e33b8ae92d981afdf7fc0dda290",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-27T00:31:46+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-bophades-12B",
+                "maker": "nbeerbower",
+                "revision": "d2941d4198b38d337a588ab7e748f7266835382b",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Instruct-2407"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                    "maker": "mistralai",
+                    "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-07-17T17:26:49+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-13T03:25:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-wissenschaft-12B",
+                "maker": "nbeerbower",
+                "revision": "2b6df0c588713611c4bbf554504cb865e18ae166",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Instruct-2407"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                    "maker": "mistralai",
+                    "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-07-17T17:26:49+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-12T16:06:34+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "elinas/Chronos-Gold-12B-1.0",
+                "maker": "elinas",
+                "revision": "e9df8ef161314c517a403333219d68799af3a0eb",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-21T04:20:31+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Fizzarolli/MN-12b-Sunrose",
+                "maker": "fizzarolli",
+                "revision": "e1f03697805104d02cf3df4da37d9335dcf4b11b",
+                "declared_base_model": [
+                  "Fizzarolli/MN-12b-Rosier-v1",
+                  "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "Fizzarolli/MN-12b-Rosier-v1",
+                    "maker": "fizzarolli",
+                    "revision": "80d36494ff42641cd0c8c207ca3dc923fe45b1a7",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-04T01:49:35+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base",
+                    "maker": "fizzarolli",
+                    "revision": "18aa3bb5691b8b8f4b7a5a455fdb1abfa2009f81",
+                    "declared_base_model": [
+                      "mistralai/Mistral-Nemo-Base-2407",
+                      "crestf411/nemo-sunfall-v0.6.1"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      },
+                      {
+                        "hub_id": "crestf411/nemo-sunfall-v0.6.1",
+                        "maker": "crestf411",
+                        "revision": "85968a8a389c536d1212cccc680c89533b3d5448",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-08-01T14:17:14+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-08-16T23:55:53+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-17T01:22:53+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+                "maker": "nbeerbower",
+                "revision": "c6de37f2e26d8abe487a5df8c5391ed82fa80d05",
+                "declared_base_model": [
+                  "TheDrummer/Rocinante-12B-v1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "TheDrummer/Rocinante-12B-v1",
+                    "maker": "thedrummer",
+                    "revision": "74a4ae2584d45655298995198d5ab3e660364a1a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-14T15:21:34+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-22T15:42:29+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "anthracite-org/magnum-12b-v2.5-kto",
+                "maker": "anthracite-org",
+                "revision": "aee0374e5a43e950c9977b0004dede1c57be2999",
+                "declared_base_model": "anthracite-org/magnum-12b-v2",
+                "base_model_chain": [
+                  {
+                    "hub_id": "anthracite-org/magnum-12b-v2",
+                    "maker": "anthracite-org",
+                    "revision": "cedd0eda15987d813299d49d6db742cbb057f6b0",
+                    "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                        "maker": "mistralai",
+                        "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-07-18T10:26:55+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-08-03T07:36:41+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-12T04:18:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-09-16T00:38:49+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-12-02T03:57:23+00:00",
+        "revision_date": "2026-05-25T08:11:35+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "cf65be210bc0f6c14d345d9a794f046d3830add9dba1d533052079c2a242ca1c",
+          "model-00002-of-00005.safetensors": "54f1611ffa607f65609a9c2deb70bd3fad4545082e8565e49d12f9dad1acfcbb",
+          "model-00003-of-00005.safetensors": "abd29d307155efa999f1cec44ca10b8edf3c778a08a0a6b1fd46738c4d22c101",
+          "model-00004-of-00005.safetensors": "aac75589019f4aaeb3eaea32e39821f493f0046fcb5b1fdf06dce20dbc6ff8d8",
+          "model-00005-of-00005.safetensors": "3d4634bb485f3335923a32459d05ceec1f2bac5d7423530e1f60201f5b714544"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "inflatebot/MN-12B-Mag-Mell-R1",
+        "maker": "inflatebot",
+        "revision": "b5f9f348c2e43dc8c862b2d4ab1521e3256696fc",
+        "declared_base_model": [
+          "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+          "nbeerbower/mistral-nemo-bophades-12B",
+          "nbeerbower/mistral-nemo-wissenschaft-12B",
+          "elinas/Chronos-Gold-12B-1.0",
+          "Fizzarolli/MN-12b-Sunrose",
+          "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+          "anthracite-org/magnum-12b-v2.5-kto"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "IntervitensInc/Mistral-Nemo-Base-2407-chatml",
+            "maker": "intervitensinc",
+            "revision": "2b9f382d96d56e33b8ae92d981afdf7fc0dda290",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-27T00:31:46+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-bophades-12B",
+            "maker": "nbeerbower",
+            "revision": "d2941d4198b38d337a588ab7e748f7266835382b",
+            "declared_base_model": [
+              "mistralai/Mistral-Nemo-Instruct-2407"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                "maker": "mistralai",
+                "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-07-17T17:26:49+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-13T03:25:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-wissenschaft-12B",
+            "maker": "nbeerbower",
+            "revision": "2b6df0c588713611c4bbf554504cb865e18ae166",
+            "declared_base_model": [
+              "mistralai/Mistral-Nemo-Instruct-2407"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                "maker": "mistralai",
+                "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-07-17T17:26:49+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-12T16:06:34+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "elinas/Chronos-Gold-12B-1.0",
+            "maker": "elinas",
+            "revision": "e9df8ef161314c517a403333219d68799af3a0eb",
+            "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                "maker": "mistralai",
+                "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-18T10:26:55+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-21T04:20:31+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Fizzarolli/MN-12b-Sunrose",
+            "maker": "fizzarolli",
+            "revision": "e1f03697805104d02cf3df4da37d9335dcf4b11b",
+            "declared_base_model": [
+              "Fizzarolli/MN-12b-Rosier-v1",
+              "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Fizzarolli/MN-12b-Rosier-v1",
+                "maker": "fizzarolli",
+                "revision": "80d36494ff42641cd0c8c207ca3dc923fe45b1a7",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-08-04T01:49:35+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Fizzarolli/nemo-sunfall-v0.6.1-adapter-on-base",
+                "maker": "fizzarolli",
+                "revision": "18aa3bb5691b8b8f4b7a5a455fdb1abfa2009f81",
+                "declared_base_model": [
+                  "mistralai/Mistral-Nemo-Base-2407",
+                  "crestf411/nemo-sunfall-v0.6.1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "crestf411/nemo-sunfall-v0.6.1",
+                    "maker": "crestf411",
+                    "revision": "85968a8a389c536d1212cccc680c89533b3d5448",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-08-01T14:17:14+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-16T23:55:53+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-17T01:22:53+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "nbeerbower/mistral-nemo-gutenberg-12B-v4",
+            "maker": "nbeerbower",
+            "revision": "c6de37f2e26d8abe487a5df8c5391ed82fa80d05",
+            "declared_base_model": [
+              "TheDrummer/Rocinante-12B-v1"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "TheDrummer/Rocinante-12B-v1",
+                "maker": "thedrummer",
+                "revision": "74a4ae2584d45655298995198d5ab3e660364a1a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-08-14T15:21:34+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-22T15:42:29+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "anthracite-org/magnum-12b-v2.5-kto",
+            "maker": "anthracite-org",
+            "revision": "aee0374e5a43e950c9977b0004dede1c57be2999",
+            "declared_base_model": "anthracite-org/magnum-12b-v2",
+            "base_model_chain": [
+              {
+                "hub_id": "anthracite-org/magnum-12b-v2",
+                "maker": "anthracite-org",
+                "revision": "cedd0eda15987d813299d49d6db742cbb057f6b0",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-08-03T07:36:41+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-08-12T04:18:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2024-09-16T00:38:49+00:00",
+        "revision_date": "2025-04-03T00:43:44+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-12-02T03:57:23+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 30,
+        "original_history_starts": "2024-09-16T00:38:49+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "EldritchLabs/Mistral-Nemo-Instruct-2407-heretic-noslop-MPOA",
+        "maker": "eldritchlabs",
+        "revision": "f43ce1c4d248bfe64ba39e240e117c5a2200cdba",
+        "declared_base_model": "p-e-w/Mistral-Nemo-Instruct-2407-heretic-noslop",
+        "base_model_chain": [
+          {
+            "hub_id": "p-e-w/Mistral-Nemo-Instruct-2407-heretic-noslop",
+            "maker": "p-e-w",
+            "revision": "8e9a40f6a31f3a255803fbed57d84e0ed82f8bc0",
+            "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                "maker": "mistralai",
+                "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-18T10:26:55+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-01-11T10:52:46+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-05T06:30:45+00:00",
+        "revision_date": "2026-03-06T04:07:50+00:00",
+        "weight_files_sha256": {
+          "LoRA/adapter_model.safetensors": "1ae3fbe7ff593f6e0cb76987a4937eb0493a8190499a479243f8a5a725e286c6",
+          "model-00001-of-00005.safetensors": "553ae5ffc87f0fb48b0083eb1021a6ce29db0c1333baa62e71793928efdbe8d8",
+          "model-00002-of-00005.safetensors": "35fb85bbd19cf94e580d7f6c54a24bfe7688bf52b45f37081632f078f2ff7f0c",
+          "model-00003-of-00005.safetensors": "1edecfbfca40ba673be321b67eec04bfeb45aeb53001ebdbe4b9ba7815950c85",
+          "model-00004-of-00005.safetensors": "bd1ca343cf4962b8b3e3825b47d6eac0b9d8860b363632390d37ee87ab26ff81",
+          "model-00005-of-00005.safetensors": "882c3bdc6e9a56ef9ccc4b2ec0d27476b910cb6c85cae5d3ddef28bac81678dc"
+        },
+        "card_parent": "mistralai/Mistral-Nemo-Instruct-2407",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "p-e-w/Mistral-Nemo-Instruct-2407-heretic-noslop",
+        "maker": "p-e-w",
+        "revision": "8e9a40f6a31f3a255803fbed57d84e0ed82f8bc0",
+        "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+            "maker": "mistralai",
+            "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-18T10:26:55+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-01-11T10:52:46+00:00",
+        "revision_date": "2026-01-11T12:51:08+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-05T06:30:45+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 6,
+        "original_history_starts": "2026-01-11T10:52:46+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "SicariusSicariiStuff/Impish_Bloodmoon_12B_Abliterated",
+        "maker": "sicariussicariistuff",
+        "revision": "06527e1a1952bbd66da587209f3ae46bce2eecc5",
+        "declared_base_model": [
+          "SicariusSicariiStuff/Impish_Bloodmoon_12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "SicariusSicariiStuff/Impish_Bloodmoon_12B",
+            "maker": "sicariussicariistuff",
+            "revision": "e9d665ad108ead70fa70d4b6d7b736a24899a505",
+            "declared_base_model": [
+              "mistralai/Mistral-Nemo-Instruct-2407"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                "maker": "mistralai",
+                "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                    "maker": "mistralai",
+                    "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-07-18T10:26:55+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-07-17T17:26:49+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-09-01T09:40:43+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-02-05T10:44:06+00:00",
+        "revision_date": "2026-02-10T04:48:56+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "d1ea396dc8bda1684983826c6f677669b85467027389644d64bd8a3d79595e07",
+          "model-00002-of-00005.safetensors": "8517f923ed9716b2260216883659d37c6c0d8f0b5eb577adfd98b74f1035005f",
+          "model-00003-of-00005.safetensors": "f0a39824dff9d8fd0dafc6aced1d0b7571cf2a1a727108b2ceeab0a852acf5b4",
+          "model-00004-of-00005.safetensors": "775521a824fff9c213010fa6a0669e7cecde2f6437a4e433c1ae072c80f2374d",
+          "model-00005-of-00005.safetensors": "f11cf1d1c7426dba11038ee9b04972c23a295f8d272812c4a378f0a96a2d5879"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "SicariusSicariiStuff/Impish_Bloodmoon_12B",
+        "maker": "sicariussicariistuff",
+        "revision": "e9d665ad108ead70fa70d4b6d7b736a24899a505",
+        "declared_base_model": [
+          "mistralai/Mistral-Nemo-Instruct-2407"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+            "maker": "mistralai",
+            "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+            "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                "maker": "mistralai",
+                "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-07-18T10:26:55+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-07-17T17:26:49+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-09-01T09:40:43+00:00",
+        "revision_date": "2025-12-30T00:14:25+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-02-05T10:44:06+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 14,
+        "original_history_starts": "2025-09-01T09:40:43+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-02T09:26:09.651549+00:00",
+  "note": "Round 46, for Nautilus on the CPU census: the re-pin of chulcher's E4B copy against google/gemma-4-E4B, the pretrained checkpoint round 39 found it standing on (finding 100), allowed as a duplicate of its round 39 measurement; then the third Nautilus round from the second-generation pool, abliteration and heretic edits of community fine-tunes and of measured copies, each measured against the parent its card names: llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic, llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic, tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5-abliterated, EldritchLabs/MN-12B-Mag-Mell-R1-Uncensored-Scale1.2, Naphula/MN-12B-Mag-Mell-R1-Uncensored, EldritchLabs/Mistral-Nemo-Instruct-2407-heretic-noslop-MPOA, SicariusSicariiStuff/Impish_Bloodmoon_12B_Abliterated. Two pairs share inflatebot's Mag-Mell parent, and EldritchLabs's Scale1.2 copy names Naphula's edit in its card where its base_model field names inflatebot, so the pair is pinned against inflatebot and the read-out compares it with Naphula's. EldritchLabs's noslop copy stands on p-e-w's measured Nemo edit. Left out on the way: SOMEHOTMEAL's Gemma 3 12B Janus pass, whose token embedding carries 262,145 rows against its parent's 262,208 (a resized vocabulary no pairing rule covers yet). No measured pair is repeated except the re-pin, and no copy duplicates a measured weight file by checksum."
+}
