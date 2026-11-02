@@ -3,12 +3,12 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: one hundred and ninety-one measurements of one hundred and eighty-four distinct published copies on thirty-three originals (thirty-one
-copies are re-uploads of others, eight of them the only measurement of their parent, and three more name an unmeasured copy as their parent, five copies are measured against
+population is small: one hundred and ninety-eight measurements of one hundred and ninety-one distinct published copies on thirty-four originals (thirty-two
+copies are re-uploads of others, nine of them the only measurement of their parent, and three more name an unmeasured copy as their parent, five copies are measured against
 two originals each (three of them measured again in round 35 against the parent their cards name, which adds a measurement and no copy), one is measured twice against one original, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. One hundred and forty-two of the one hundred and fifty-two published copies measured so far are what their cards say they are
+## 1. One hundred and forty-eight of the one hundred and fifty-eight published copies measured so far are what their cards say they are
 
 Eighty-five community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
 Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
@@ -33,15 +33,16 @@ checkpoints (round 36, measured before round 37 and read after it) and seven fro
 26B-A4B, E4B, 12B and E2B bases (round 38, beside a hub duplicate of an unmeasured edit) and seven from five makers on
 Gemma 4 26B-A4B, E4B and E2B bases (round 39, beside a hub duplicate of an unmeasured edit) and seven from seven makers on
 Gemma 4 31B, 26B-A4B, E4B and E2B bases (round 40, beside a hub duplicate of an unmeasured edit whose parent the hub no
-longer serves), have
-been compared tensor by tensor with their stated originals. In one hundred and forty-two, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in one hundred and eighteen copies, 0.00008, 0.000006, 0.00024,
+longer serves) and six from six makers on Gemma 4 12B, E4B and E2B bases and the function-calling Gemma 3 270m
+checkpoint (round 41, beside a hub duplicate of an unmeasured export that survives only in its parent's history), have
+been compared tensor by tensor with their stated originals. In one hundred and forty-eight, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in one hundred and twenty-four copies, 0.00008, 0.000006, 0.00024,
 0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098, 0.00091, 0.000195, 0.000898, 0.000086, 0.000673 and 0.000983 in twenty others on matrices the method itself weighted near zero or did not name,
 0.0000011 in the jokernifty E4B copy and in Ilya626's, whose float16 saves round the smallest values of untouched tensors,
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors, and 0.000998
 in the Dingdust E4B copy, whose parent fine-tune sits at the threshold on 189 tensors.
-One hundred and forty of the one hundred and forty-two are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
+One hundred and forty-six of the one hundred and forty-eight are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
 and one, DavidAU's E2B copy, with a fine-tune laid over it, as their cards say; one, sh0ck0r's Artemis copy, is
 measured against the grandparent its `base_model` field names and reads its named parent's 4-bit round trip under
 the edit, finding 45, and measured again against that parent in round 35 reads the edit alone, finding 77; one, Dingdust's ContextPilot copy, is measured against the grandparent its field names and
@@ -84,7 +85,7 @@ huihui-ai's second 31B version, claymorecrystal's of TrevorJS's 26B-A4B edit and
 edit, each equal to its parent's report in every field (findings 38 and 56); nguyenthilaitrieulong's duplicate of
 WWTCyberLab's unmeasured 31B edit in round 31, measured as that edit (finding 64); eadx's duplicate of huihui-ai's unmeasured
 QAT 26B-A4B edit in round 34, whose parent repository the hub no longer serves, measured as that edit (finding 73); Dzluck's re-upload of huihui-ai's unmeasured E2B second version and enkato64bit's duplicate of
-Jiunsong's unmeasured SuperGemma 12B edit in round 35, each measured as that edit (findings 80 and 81); Himanshuoo8's duplicate of DavidAU's unmeasured E4B fine-tune over coder3101's edit in round 38, measured as that edit (finding 97); Paul691's duplicate of OpenYourMind's unmeasured 12B projection over yuxinlu1's coder fine-tune in round 39, measured as that copy, whose card names Google as its one parent (finding 101); germlag's duplicate of coder3101's unmeasured second 31B export in round 40, whose parent repository the hub no longer serves, measured as that edit (finding 105); the huihui-ai E2B edit measured a second time in round 22, equal to its round 13
+Jiunsong's unmeasured SuperGemma 12B edit in round 35, each measured as that edit (findings 80 and 81); Himanshuoo8's duplicate of DavidAU's unmeasured E4B fine-tune over coder3101's edit in round 38, measured as that edit (finding 97); Paul691's duplicate of OpenYourMind's unmeasured 12B projection over yuxinlu1's coder fine-tune in round 39, measured as that copy, whose card names Google as its one parent (finding 101); germlag's duplicate of coder3101's unmeasured second 31B export in round 40, whose parent repository the hub no longer serves, measured as that edit (finding 105); jcxu97's duplicate of wangzhang's unmeasured first 31B export in round 41, the export its parent's head replaced and the hub's history still holds, measured as that export (finding 111); the huihui-ai E2B edit measured a second time in round 22, equal to its round 13
 report to the last digit (finding 50); TimelessSoul/Huihui-gemma-4-12B-it-abliterated is
 huihui-ai's 12B file under another name, shard checksum and every field equal (finding 9);
 Jiunsong/supergemma4-e4b-abliterated paired no tensor with its original (finding 14);
@@ -287,11 +288,18 @@ and Felldude's E4B copy (finding 78).
 | DuoNeural/Gemma4-31B-IT-Abliterated | google/gemma-4-31B-it | 120 of 1,188 (one direction per layer on the output side of both writers of all 60 layers at the card's alphas of 0.4 and 0.8 to two decimals, the maker's own at 0.28 to TrevorJS's where the maker's 26B-A4B copy stood at 1.000, finding 107) | 0 |
 | NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn | google/gemma-4-E4B-it | 31 of 2,130 (both writers of layers 21 to 36 under a card naming the attention outputs alone and a window to 41, fifteen down projections edited on the input side at weights 1.00 to 1.60, at 0.995 to the maker's Refusals8-attn of four minutes later, finding 109) | 0.00038 |
 | tvall43/gemma-4-E2B-it-heretic-v0 | google/gemma-4-E2B-it | 19 of 1,947 (the attention outputs of layers 12 to 30, the card's kernel position and distance to the layer, one direction on the output side at 1.85 to 4.84 in the kernel's shape, at 0.95 to huihui-ai's E2B family and 0.04 to the maker's v1, 64 range scalars dropped, finding 110) | 0 |
+| RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals4 | google/gemma-4-12B-it | 26 of 677 (both writers of layers 24 to 36, the card's window, 21 edits on the input side at weights 0.47 to 1.71 with rows in the band and five residues, the maker's Refusals2 and Refusals9 directions at 0.96 and 0.94, finding 116) | 0 |
+| Roman0/functiongemma-270m-it-heretic | google/functiongemma-270m-it | 19 of 236 (the down projections of layers 8 to 17 and the attention outputs of 9 to 17, the card's kernels to the layer and the second decimal, one direction per layer on the output side at 1.40 to 1.45 and 0.85 to 1.29, two token flags changed, finding 113) | 0 |
+| NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals3 | google/gemma-4-E4B-it | 26 of 2,130 (both writers of layers 19 to 31, every matrix edited on the input side at weights 0.73 to 1.43 with rows through and over the band, the window six layers short of the card's, the maker's Refusals8 direction at 0.98, finding 116) | 0 |
+| ImanolSuarez/gemma-4-E4B-it-heretic-seguridadDeLaInformacion | google/gemma-4-E4B-it | 37 of 2,076 (the down projections of layers 17 to 35 and the attention outputs of 18 to 35, the card's kernels at their lower ends and six layers short at their upper, one direction on the output side under a full row normalisation at rank 3, at 0.75 to p-e-w's on the tool's English prompt sets under a Spanish name, finding 114) | 0 |
+| MoonRide/gemma-4-E2B-it-heretic | google/gemma-4-E2B-it | 44 of 2,011 (the down projections of layers 11 to 34 and the attention outputs of 15 to 34, the card's kernels to the layer and the second decimal, one direction on the output side at 1.14 to 1.38, the E2B single direction at 0.96 to 0.98 to three makers, finding 115) | 0 |
+| Sabomako/gemma-4-12B-it-heretic | google/gemma-4-12B-it | 31 of 677 (both writers of layers 18 to 23 and 34 to 39 and the down projections of 24 to 30, one direction per layer on the output side at 6.2 to 6.5 on three down projections and under 1.1 elsewhere with every row restored within 0.0003, at 0.986 to TrevorJS's directions with the bytes 0.10 apart, finding 112) | 0 |
+| jcxu97/gemma-4-31B-it-abliterated | google/gemma-4-31B-it | 120 of 1,188 (wangzhang's unmeasured first export under the hub's duplicate function: one direction per layer on the attention outputs, down projections, keys, queries and values of layers 27 to 59 at weights to 5.5 with every row restored, at 1.000 to the parent's measured head with other weights and the bytes byte-equal to the parent's history, finding 111) | 0 |
 
-The fair statement of the result is narrow: at the weight level, one hundred and forty-two copies contain the edit or the
+The fair statement of the result is narrow: at the weight level, one hundred and forty-eight copies contain the edit or the
 training they claim and no other, ten carry a parent or a change their cards do not name, one could not be paired
 and one could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-one hundred and eighty-four distinct copies, one hundred and fifty-two of them read.
+one hundred and ninety-one distinct copies, one hundred and fifty-eight of them read.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -1146,7 +1154,7 @@ Round 34 adds four arbitrary-rank copies: coder3101's 12B QAT edit reads the mak
 input-side weights 1.10 to 1.70 on twelve attention outputs; Umranz's edit of the diffusion variant reads fifteen
 residues and 23 projections with the band (0.0043 to 0.0079) under no claim (finding 76); and wnfldchen's LoRA-rank
 fork reads rank one with a direction per matrix, input side at 0.95 to 1.90 with two attention outputs at 4.14 and
-5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82). Round 37 reads it on MoonRide's two April edits (0.0059 to 0.0077 on 36 matrices, 0.0051 to 0.0078 on 26, finding 86), at or under it on OS-Software's two LoRA-adapter exports (finding 83), and reads the first claim that holds on no matrix, wnfldchen's 31B export at a preservation weight of 0.1182 with rows 0.014 to 0.75 on all 30 (finding 84). Round 36 reads the band on coder3101's two QAT edits under the claim (0.0068 to 0.0079 on 17 attention outputs of the 31B checkpoint, 0.0067 to 0.0077 on 9 of the 26B-A4B's), 0.0023 to 0.052 on llmfan46's 31B QAT edit under no claim, then the largest row movement the census has read on a 12B under no claim, 0.21 on one attention output of OS-Software's first Japanese export (findings 89 and 93). Round 38 reads the band on SassyDiffusion's E4B edit (0.0068 to 0.0078 on all 21), on RumiaChannel's Refusals2 (0.0052 to 0.0079 on all 37 edits) and through DavidAU's fine-tune on coder3101's attention outputs (0.0071 to 0.0079, finding 97), and reads a reparameterised claim that holds to the row on Bahushruth's E2B copy (0.0001 to 0.0004, finding 99). Round 39 reads the band on MoonRide's two E2B exports (0.0065 to 0.0078 on twelve edits, 0.0060 to 0.0078 on 35) and at and under it on NullpoLab's Refusals8 (0.0011 to 0.0096), none of the three cards naming the preservation (finding 104). Round 40 reads the band on Jim-darby's 31B search (0.0050 to 0.0078 on 32 edits, under a card that says "Row normalization: none") and through and over it on NullpoLab's Refusals6-attn (0.0015 to 0.0131), findings 108 and 109.
+5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82). Round 37 reads it on MoonRide's two April edits (0.0059 to 0.0077 on 36 matrices, 0.0051 to 0.0078 on 26, finding 86), at or under it on OS-Software's two LoRA-adapter exports (finding 83), and reads the first claim that holds on no matrix, wnfldchen's 31B export at a preservation weight of 0.1182 with rows 0.014 to 0.75 on all 30 (finding 84). Round 36 reads the band on coder3101's two QAT edits under the claim (0.0068 to 0.0079 on 17 attention outputs of the 31B checkpoint, 0.0067 to 0.0077 on 9 of the 26B-A4B's), 0.0023 to 0.052 on llmfan46's 31B QAT edit under no claim, then the largest row movement the census has read on a 12B under no claim, 0.21 on one attention output of OS-Software's first Japanese export (findings 89 and 93). Round 38 reads the band on SassyDiffusion's E4B edit (0.0068 to 0.0078 on all 21), on RumiaChannel's Refusals2 (0.0052 to 0.0079 on all 37 edits) and through DavidAU's fine-tune on coder3101's attention outputs (0.0071 to 0.0079, finding 97), and reads a reparameterised claim that holds to the row on Bahushruth's E2B copy (0.0001 to 0.0004, finding 99). Round 39 reads the band on MoonRide's two E2B exports (0.0065 to 0.0078 on twelve edits, 0.0060 to 0.0078 on 35) and at and under it on NullpoLab's Refusals8 (0.0011 to 0.0096), none of the three cards naming the preservation (finding 104). Round 40 reads the band on Jim-darby's 31B search (0.0050 to 0.0078 on 32 edits, under a card that says "Row normalization: none") and through and over it on NullpoLab's Refusals6-attn (0.0015 to 0.0131), findings 108 and 109. Round 41 reads the band on RumiaChannel's Refusals4 (0.0049 to 0.0079 on 21 edits, 0.0007 to 0.0008 on five residues) and through and over it on NullpoLab's Refusals3 (0.0011 to 0.0184), the maker's fifth export to read so (finding 116).
 
 ## 23. A maker's one-line patch to Google's template writes an empty thought block into every earlier model turn
 
@@ -1192,7 +1200,7 @@ E4B file and claymorecrystal's of the 26B-A4B shards, each equal to the parent's
 The E2B file now stands in three repositories and the 26B-A4B shards in four. Round 34 reads the fingerprint from
 a second maker on a second checkpoint: xdavxd's run of the method on the 26B-A4B QAT checkpoint keeps a median 0.014 to
 0.18 per expert tensor on 28 of 30 layers, rows within 0.0004 on the dense matrices and 0.0009 per packed expert,
-and its directions stand at 0.97 to TrevorJS's own (finding 74). Round 38 reads the fingerprint on a copy that is neither a re-upload of TrevorJS's file nor an independent run: DuoNeural's 26B-A4B copy, its directions at 1.000 to his on all 90 names and its tensors within 0.0006 of his by byte range, under a card that names a method of the maker's own (finding 95). Round 40 adds a second independent run on the 26B-A4B, Rootkit7's expert-granular pass, at 0.93 to TrevorJS's family on all 48 shared names and 0.91 to xdavxd's run of the same method on the QAT checkpoint (finding 107).
+and its directions stand at 0.97 to TrevorJS's own (finding 74). Round 38 reads the fingerprint on a copy that is neither a re-upload of TrevorJS's file nor an independent run: DuoNeural's 26B-A4B copy, its directions at 1.000 to his on all 90 names and its tensors within 0.0006 of his by byte range, under a card that names a method of the maker's own (finding 95). Round 40 adds a second independent run on the 26B-A4B, Rootkit7's expert-granular pass, at 0.93 to TrevorJS's family on all 48 shared names and 0.91 to xdavxd's run of the same method on the QAT checkpoint (finding 107). Round 41 adds Sabomako's 12B at 0.986 to TrevorJS's 12B directions on all 31 shared names with the rows restored within 0.0003, the weights the maker's own and the bytes 0.10 apart at layer 21, where the maker's 31B stood at 0.90 to 0.94 to TrevorJS's 31B (finding 112).
 
 ## 25. A copy whose card names Google as its one parent carries a third party's fine-tune, and the normalisation vectors say whose
 
@@ -1611,7 +1619,7 @@ copy's own and no measured field is shared. The rule compares every weight file:
 all of its checksums equal a measured copy's, and a shared subset is the library's shard layout (finding 71).
 Round 34's pinner refused liskasYR/gemma-4-12B-it-qat-q4_0-unquantized-heretic, one commit "Duplicate from" igorls's
 QAT copy with igorls's shards, and admitted eadx's one-commit duplicate of huihui-ai's QAT 26B-A4B edit because the
-parent was never measured and the hub no longer serves it (finding 73). Round 38 adds another case read from the commit title and the checksum before any download: Himanshuoo8's one commit "Duplicate from DavidAU/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking", the weight file byte-equal to DavidAU's unmeasured fine-tune over coder3101's E4B edit, measured as that edit (finding 97). Round 39 adds Paul691's one commit "Duplicate from OpenYourMind/gemma-4-12B-it-abliterated-uncensored", every file byte-equal to the unmeasured parent, measured as that copy (finding 101). Round 40 adds germlag's one commit "Duplicate from coder3101/gemma-4-31B-it-heretic-v2", the parent gone from the hub and the batch note recording that its files differ from coder3101's first export, measured as the second export (finding 105).
+parent was never measured and the hub no longer serves it (finding 73). Round 38 adds another case read from the commit title and the checksum before any download: Himanshuoo8's one commit "Duplicate from DavidAU/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking", the weight file byte-equal to DavidAU's unmeasured fine-tune over coder3101's E4B edit, measured as that edit (finding 97). Round 39 adds Paul691's one commit "Duplicate from OpenYourMind/gemma-4-12B-it-abliterated-uncensored", every file byte-equal to the unmeasured parent, measured as that copy (finding 101). Round 40 adds germlag's one commit "Duplicate from coder3101/gemma-4-31B-it-heretic-v2", the parent gone from the hub and the batch note recording that its files differ from coder3101's first export, measured as the second export (finding 105). Round 41 adds jcxu97's one commit "Duplicate from wangzhang/gemma-4-31B-it-abliterated", the batch note recording that its files differ from the parent's head and the hub's file listings placing them at the parent's revisions of 04-10 and 04-11 by object id, measured as that earlier export (finding 111).
 
 ## 39. A model family the judging library cannot load reads six unexplained configuration fields on every copy
 
@@ -1817,7 +1825,7 @@ The leading-direction measure that reads a single Heretic kernel to the third de
 pair's windows and not its weights; a per-matrix rank-two decomposition reporting two directions and two kept
 fractions would read both cards. Evidence: `results/weights/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json`, the
 two-kernel column in `docs/cards/TheUmbraWalker--gemma-4-E4B-it-2-heretic-0cbd2368.reading.md` and the direction file
-in the pull copy (`wheat30/measurements/pair-4/weights.directions.safetensors`). Round 39 reads tvall43's E2B windows to the layer from the card's peaks and minimum distances (finding 103) and places chulcher's two kernels by byte range, the reads inside the card's windows changed and the reads outside byte-equal to the base (finding 100). Round 40 reads coder3101's second 31B export's windows from its kernels to the layer (49.63 less 23.83 and 57.33 less 29.21 give 26 and 28; the edits open at 26 and 29) with the maxima 1.31 and 1.46 at the printed layers, and tvall43's E2B v0 window, 20.70 less and plus 9.37, as layers 12 to 30 (findings 105 and 110).
+in the pull copy (`wheat30/measurements/pair-4/weights.directions.safetensors`). Round 39 reads tvall43's E2B windows to the layer from the card's peaks and minimum distances (finding 103) and places chulcher's two kernels by byte range, the reads inside the card's windows changed and the reads outside byte-equal to the base (finding 100). Round 40 reads coder3101's second 31B export's windows from its kernels to the layer (49.63 less 23.83 and 57.33 less 29.21 give 26 and 28; the edits open at 26 and 29) with the maxima 1.31 and 1.46 at the printed layers, and tvall43's E2B v0 window, 20.70 less and plus 9.37, as layers 12 to 30 (findings 105 and 110). Round 41 reads three more windows from their cards: Roman0's functiongemma kernels (12.22 less 4.97 and 12.65 less 4.36 give 8 and 9; the edits open at 8 and 9, both windows ending at the eighteen-layer stack's last layer), MoonRide's E2B kernels (26.14 less 15.83 and 24.75 less 10.31 give 11 and 15; the edits open at 11 and 15), and ImanolSuarez's E4B kernels, whose lower ends read to the layer (17 and 18) and whose upper ends reach 41 where the edits stop at 35 (findings 113, 114 and 115).
 
 ## 44. A tokenizer configuration that drops a thousand declarations the shared token file still carries, and the rule that reads it
 
@@ -1938,7 +1946,7 @@ attention heights at 1.09 to 1.19 on layers 24 to 27 and 0.29 to 0.67 on 18, 32,
 to 1.36 (`results/weights/prithivMLmods-gemma-4-E4B-it-qat-heretic_decensored.json`). Five 12B copies now read the scatter against Vampelium's, which
 reads its heights, and two Google checkpoints of the 12B behave alike, so the open question of this finding is about
 the 12B's weights and the tool together rather than the base alone. Evidence: `results/weights/BinxNet-gemma-4-12B-it-heretic.json`,
-`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`. TheUmbraWalker's first E4B pass (round 37) reads the same way, one direction per layer and kept fractions with no kernel shape, under a card that prints two kernels (finding 85). Round 36 reads the scatter twice more: JJaguar's kernel pass of the 12B QAT checkpoint keeps -0.24 to 0.89 on the left and -0.05 to 0.86 on the right under kernels of 1.20 to 1.43 (finding 91), and Mitchins's transferred kernel on the 26B-A4B QAT checkpoint reads no kernel on the attention outputs, the dense down projections or the experts (finding 92). Round 38 reads a weight where the 12B passes read none: DuoNeural's E2B copy, one direction on both writers at one minus the left kept fraction of 0.75 to 1.43 on the down projections and 1.03 to 1.32 on the attention outputs, two kernels the card does not print, under a clean read of the single-projection entry (finding 96). Round 39 reads p-e-w's reproduction's two kernels in shape on the output side (0.47 to 1.34 to 0.86 under a printed 1.47) with the right side scattered 0.03 to 0.85 (finding 102), and tvall43's two passes at the largest weights the census has read on a kernel pass, a flat 4.1 and a climbing 3.3 to 4.5, with none of the kernels' shape (finding 103). Round 40 reads the kernels' shape on three passes: coder3101's second 31B export rising to 1.31 and 1.46 at the card's layers, Vampelium's to 1.16 and 1.45 under a card with no table, and tvall43's E2B v0 from 2.05 to 4.84 and back to 1.85, three times its card's maximum (findings 105 and 110).
+`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`. TheUmbraWalker's first E4B pass (round 37) reads the same way, one direction per layer and kept fractions with no kernel shape, under a card that prints two kernels (finding 85). Round 36 reads the scatter twice more: JJaguar's kernel pass of the 12B QAT checkpoint keeps -0.24 to 0.89 on the left and -0.05 to 0.86 on the right under kernels of 1.20 to 1.43 (finding 91), and Mitchins's transferred kernel on the 26B-A4B QAT checkpoint reads no kernel on the attention outputs, the dense down projections or the experts (finding 92). Round 38 reads a weight where the 12B passes read none: DuoNeural's E2B copy, one direction on both writers at one minus the left kept fraction of 0.75 to 1.43 on the down projections and 1.03 to 1.32 on the attention outputs, two kernels the card does not print, under a clean read of the single-projection entry (finding 96). Round 39 reads p-e-w's reproduction's two kernels in shape on the output side (0.47 to 1.34 to 0.86 under a printed 1.47) with the right side scattered 0.03 to 0.85 (finding 102), and tvall43's two passes at the largest weights the census has read on a kernel pass, a flat 4.1 and a climbing 3.3 to 4.5, with none of the kernels' shape (finding 103). Round 40 reads the kernels' shape on three passes: coder3101's second 31B export rising to 1.31 and 1.46 at the card's layers, Vampelium's to 1.16 and 1.45 under a card with no table, and tvall43's E2B v0 from 2.05 to 4.84 and back to 1.85, three times its card's maximum (findings 105 and 110). Round 41 reads the kernel's heights to the second decimal on two passes, Roman0's functiongemma (1.40 to 1.45 and 0.85 to 1.29 under printed maxima of 1.46 and 1.33) and MoonRide's E2B (1.17 to 1.38 and 1.14 to 1.21 under 1.38 and 1.21), and reads no kernel in the kept fractions of ImanolSuarez's pass under a full row normalisation, where the relative change carries the shape instead (findings 113, 114 and 115).
 
 ## 47. An ablation whose parameters are written into the configuration reads back from the weights to the third decimal on four writers
 
@@ -2126,7 +2134,7 @@ moved 0.005 to 0.052, and 0.83 and 1.05 on layer 34). An entry that names the fo
 a scale per writer or per layer would read both copies with no flag; the table counts 136 and 48. How to
 reproduce: `results/weights/WWTCyberLab-gemma-4-E2B-it-abliterated.json` against
 `results/weights/amkkk-Gemma4_E2B_Abliterated_Baked_HF_Ready.json` (the changed-tensor sets, the
-`remaining_along_direction` values by layer), and the readings in `docs/cards/`. Round 39 adds tvall43's E2B pass to the family at 0.99 to anlord's and 0.98 to TrevorJS's directions, its windows inside the 24 (finding 103). Round 40 places the maker's first E2B pass of the same evening outside the family, at 0.95 to huihui-ai's single direction and 0.08 to TrevorJS's, where his second pass stood at 0.98 (finding 110).
+`remaining_along_direction` values by layer), and the readings in `docs/cards/`. Round 39 adds tvall43's E2B pass to the family at 0.99 to anlord's and 0.98 to TrevorJS's directions, its windows inside the 24 (finding 103). Round 40 places the maker's first E2B pass of the same evening outside the family, at 0.95 to huihui-ai's single direction and 0.08 to TrevorJS's, where his second pass stood at 0.98 (finding 110). Round 41 adds MoonRide's first E2B export to the single-direction side at 0.98 to tvall43's v0, 0.97 to huihui-ai's and 0.96 to DuoNeural's, and at 0.06 to the maker's own arbitrary-rank searches that followed it by six hours and a day (finding 115).
 
 ## 54. A README that carries two cards: the field names Google, the second card names the fine-tune the weights carry, and the Heretic windows read to the layer under it
 
@@ -2248,7 +2256,7 @@ leave; both are what a fork or a solver leaves behind and a card does not say. T
 numbers to look for when either tool publishes. How to reproduce:
 `results/weights/NullpoLab-gemma-4-E4B-it-Heretic-ARA-Refusals5.json` (the `relative_difference` of the seven down
 projections under 0.001, `energy_shares` on the 29) and `results/weights/alphakek-gemma-4-E4B-it-heretic-mythos-v1.json`
-(layers 16 and 20 of the down projections), and the readings in `docs/cards/`. Round 38 adds RumiaChannel's Refusals2: three down projections of layers 25, 27 and 32 rewritten by 0.0013 to 0.0017 without a direction beside 37 edits in the band (finding 99). Round 39 adds MoonRide's two E2B exports: four down projections (17, 19, 21, 22) on the first and the layer 29 attention output with both writers of 31 on the second, rewritten by 0.0013 to 0.0018 without a direction (finding 104). Round 40 adds Jim-darby's 31B search: the attention outputs of layers 27, 28, 29, 32 and 35 and the down projection of 37, rewritten by 0.0012 to 0.0018 without a direction, with two more down projections under the threshold (finding 108).
+(layers 16 and 20 of the down projections), and the readings in `docs/cards/`. Round 38 adds RumiaChannel's Refusals2: three down projections of layers 25, 27 and 32 rewritten by 0.0013 to 0.0017 without a direction beside 37 edits in the band (finding 99). Round 39 adds MoonRide's two E2B exports: four down projections (17, 19, 21, 22) on the first and the layer 29 attention output with both writers of 31 on the second, rewritten by 0.0013 to 0.0018 without a direction (finding 104). Round 40 adds Jim-darby's 31B search: the attention outputs of layers 27, 28, 29, 32 and 35 and the down projection of 37, rewritten by 0.0012 to 0.0018 without a direction, with two more down projections under the threshold (finding 108). Round 41 adds RumiaChannel's Refusals4: the down projections of layers 25, 27, 30, 32 and 34 rewritten by 0.0012 to 0.0018 without a direction, both kept fractions at 1.00, inside a window every other matrix of which is an edit (finding 116).
 
 ## 59. Three more kernel records read back from the weights: one shipped as a file to the third decimal, two printed on cards to the second
 
@@ -2451,7 +2459,7 @@ on layer 34's attention output and layer 31's down projection is reversed and mu
 layers of sixty is the narrowest window on this base; and the card prints none of it. The maker reports a KL of
 0.081, ten times the Heretic exports measured beside it, which is the price such weights would predict. How to
 reproduce: `results/weights/Sabomako-gemma-4-31B-it-heretic.json` (`remaining_along_direction` left and right on the
-eight changed tensors, `row_norms.max_relative_error`) and the reading in `docs/cards/`.
+eight changed tensors, `row_norms.max_relative_error`) and the reading in `docs/cards/`. Round 41 measures the maker's 12B export under the same card form: one direction per layer on 31 matrices in three bands, 6.29, 6.52 and 6.16 on the down projections of layers 21 to 23 and 0.06 to 1.08 elsewhere, every row restored within 0.0003, at 0.986 to TrevorJS's 12B directions on all 31 names where this copy stands at 0.90 to 0.94 to his 31B (finding 112).
 
 ## 66. A translation fine-tune over a Heretic edit the title names only by method: the parent placed from the saved direction vectors, and a halved context length
 
@@ -2481,7 +2489,7 @@ igorls's repository, where the training will read alone. How to reproduce:
 then the cosine of the two `weights.directions.safetensors` files' `.left` vectors on those names (the pull copies
 under `wheat31/measurements/pair-1/` and `blueback7/measurements/pair-3/`), and
 `results/meta/AlekseyCalvin-Lyrical_Translator_ru2en_on_Gemma4_12b_heretic_SFT_Run2.json` for the context field.
-The reading is in `docs/cards/`. Round 38 is the check's strongest result: DuoNeural's 26B-A4B copy stands at 1.000 to TrevorJS's saved vectors on all 90 names where an independent run of the method stands at 0.97, and the comparison, not the card or the recipe table, named the parent (finding 95). Round 39 names two parents from the saved vectors: Google's instruction tuning under chulcher's copy (1.000 to Felldude's pretrained-base measurement on 347 names) and yuxinlu1's fine-tune under OpenYourMind's (1.000 to lemuralabs's on 228 readers), both confirmed byte for byte afterwards (findings 100 and 101). Round 40 placed its eight edits by two hundred and twenty-two comparisons and read the check's limit: four makers' per-layer 31B passes at 1.000 to each other with the bytes 0.0005 to 0.010 apart (finding 105), beside cosmicoptima's direction at 0.034 or less to every 31B edit (finding 106) and DuoNeural's 31B copy at 0.28 to TrevorJS's where the maker's 26B-A4B copy stood at 1.000 (finding 107).
+The reading is in `docs/cards/`. Round 38 is the check's strongest result: DuoNeural's 26B-A4B copy stands at 1.000 to TrevorJS's saved vectors on all 90 names where an independent run of the method stands at 0.97, and the comparison, not the card or the recipe table, named the parent (finding 95). Round 39 names two parents from the saved vectors: Google's instruction tuning under chulcher's copy (1.000 to Felldude's pretrained-base measurement on 347 names) and yuxinlu1's fine-tune under OpenYourMind's (1.000 to lemuralabs's on 228 readers), both confirmed byte for byte afterwards (findings 100 and 101). Round 40 placed its eight edits by two hundred and twenty-two comparisons and read the check's limit: four makers' per-layer 31B passes at 1.000 to each other with the bytes 0.0005 to 0.010 apart (finding 105), beside cosmicoptima's direction at 0.034 or less to every 31B edit (finding 106) and DuoNeural's 31B copy at 0.28 to TrevorJS's where the maker's 26B-A4B copy stood at 1.000 (finding 107). Round 41 reads 1.000 between jcxu97's hub duplicate and the census's measurement of its parent's head on all 73 shared names, and the byte-range step placed the duplicate's bytes in the parent's history, an earlier trial of the same search with other weights (finding 111); Sabomako's 12B stands at 0.986 to TrevorJS's with the bytes 0.10 apart, and ImanolSuarez's E4B pass at 0.75 to p-e-w's on the same prompt sets under a later version of the tool (findings 112 and 114).
 
 ## 67. Six of eight Heretic exports in one round name the pretrained base in their `base_model` field, because the tool's card carries the original's header
 
@@ -2510,7 +2518,7 @@ google/gemma-4-12B-it, then `results/weights/callmegrr-gemma-4-31B-it-heretic-z.
 round-33 reports (`summary.max_relative_change_outside_changed` is 0 on each). The readings are in `docs/cards/`.
 Round 34's eight copies all name their true original in the field, the four Heretic exports among them: on a QAT
 checkpoint the inherited header names the QAT checkpoint, so the tool's habit misleads only where the original's own
-card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82). Round 37's TheUmbraWalker first pass names the pretrained base, as the maker's second copy does, and its six other Heretic exports name their true originals (finding 85). Round 36's eight copies all stand on QAT checkpoints: coder3101's two with llmfan46's and Mitchins's name the QAT checkpoint in the field, and OS-Software's three Heretic v1 and v2 cards and JJaguar's v1 card name the instruct model, the inheritance of finding 48 (finding 90). Round 39's p-e-w reproduction carries the same inherited field and stands on the instruct model, while chulcher's copy carries the maker's own card naming the instruct model and stands on the pretrained checkpoint (findings 100 and 102).
+card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82). Round 37's TheUmbraWalker first pass names the pretrained base, as the maker's second copy does, and its six other Heretic exports name their true originals (finding 85). Round 36's eight copies all stand on QAT checkpoints: coder3101's two with llmfan46's and Mitchins's name the QAT checkpoint in the field, and OS-Software's three Heretic v1 and v2 cards and JJaguar's v1 card name the instruct model, the inheritance of finding 48 (finding 90). Round 39's p-e-w reproduction carries the same inherited field and stands on the instruct model, while chulcher's copy carries the maker's own card naming the instruct model and stands on the pretrained checkpoint (findings 100 and 102). Round 41 adds ImanolSuarez's E4B export, Heretic 1.3.0's card with `google/gemma-4-E4B` in the field over instruct-model weights, and the batch note's CyborgPaloma case, a card declaring `google/gemma-4-E4B-base`, a repository that does not exist (finding 114).
 
 ## 68. An arbitrary-rank edit at right-side weights to 30, with one matrix rewritten to its own size and its rows put back
 
@@ -2611,7 +2619,7 @@ sets in the corresponding `results/weights/` reports. Round 34 adds three shared
 second 26B-A4B shard equal to mewse's, wnfldchen's first 12B shard equal to igorls's, Umranz's shards 8 to 11 equal
 to the diffusion original's and Goodoldjam's) and one that crosses Google's releases: the E4B vision-tower shard
 `8080cb1a` is the QAT checkpoint's as well as the instruct model's (finding 75). Round 35's pinner saw enkato64bit's duplicate of Jiunsong's unmeasured 12B edit as carrying different weight files, because the only
-Jiunsong file it could compare was the measured E4B export; the rule has to read the named source's hub listing (finding 81). Round 37 adds the 12B QAT layout shard `513abfa9`, shared by OS-Software's, wnfldchen's and igorls's exports, and a second shard byte-equal between TheUmbraWalker's two copies because the second pass did not touch it (finding 85). Round 38 reads the E2B layout on DuoNeural's first two shards and the 26B-A4B layout on SassyDiffusion's second shard, equal to WWTCyberLab's for the tensors neither edit touches, and reads DuoNeural's 26B-A4B shards equal to nothing while its tensors stand within 0.0006 of TrevorJS's (finding 95). Round 39 reads the layout on p-e-w's reproduction's first and fourth shards, equal to the first export's, with the second and third differing where the edited tensors stand 0.0001 apart (finding 102). Round 40 reads the layout twice more: Rootkit7's second 26B-A4B shard byte-equal to SassyDiffusion's and WWTCyberLab's, and Vampelium's first seven 31B shards byte-equal to 3MPER0RR's, neither export touching a layer below 34 (findings 105 and 107).
+Jiunsong file it could compare was the measured E4B export; the rule has to read the named source's hub listing (finding 81). Round 37 adds the 12B QAT layout shard `513abfa9`, shared by OS-Software's, wnfldchen's and igorls's exports, and a second shard byte-equal between TheUmbraWalker's two copies because the second pass did not touch it (finding 85). Round 38 reads the E2B layout on DuoNeural's first two shards and the 26B-A4B layout on SassyDiffusion's second shard, equal to WWTCyberLab's for the tensors neither edit touches, and reads DuoNeural's 26B-A4B shards equal to nothing while its tensors stand within 0.0006 of TrevorJS's (finding 95). Round 39 reads the layout on p-e-w's reproduction's first and fourth shards, equal to the first export's, with the second and third differing where the edited tensors stand 0.0001 apart (finding 102). Round 40 reads the layout twice more: Rootkit7's second 26B-A4B shard byte-equal to SassyDiffusion's and WWTCyberLab's, and Vampelium's first seven 31B shards byte-equal to 3MPER0RR's, neither export touching a layer below 34 (findings 105 and 107). Round 41 reads the E4B layout shard a tenth time, ImanolSuarez's fourth shard byte-equal to the nine, and meets the rule's other case: jcxu97's two shards match no measured file and are the parent's earlier revision by the hub's object ids, so the duplicate rule needs the parent's history beside its head (findings 111 and 114).
 
 ## 72. Five edits of one QAT checkpoint sort into pairs by method, and four makers' QAT edits stand on their own instruct edits' directions
 
@@ -2675,7 +2683,7 @@ Evidence: `results/weights/eadx-Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-a
 (`remaining_along_direction` left on all 60 changed tensors, `summary.direction_agreement`),
 `results/meta/eadx-Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated.json`, the hub's commit listing for
 the copy (one commit, two authors) and the 404 on the parent, and the reading in `docs/cards/`. Round 35 reads two more unmeasured edits through re-uploads, huihui-ai's E2B second version through Dzluck's repository and Jiunsong's
-SuperGemma 12B through enkato64bit's duplicate (findings 80 and 81). Round 40 adds germlag's duplicate of coder3101's second 31B export, the parent repository answering "not found", measured as that export at 1.000 to three other makers' passes (finding 105).
+SuperGemma 12B through enkato64bit's duplicate (findings 80 and 81). Round 40 adds germlag's duplicate of coder3101's second 31B export, the parent repository answering "not found", measured as that export at 1.000 to three other makers' passes (finding 105). Round 41 adds jcxu97's duplicate of wangzhang's first 31B export, the parent repository present and its head replaced by a later trial, measured as the earlier export at 1.000 to the head's directions and byte-equal to the history's bytes (finding 111).
 
 ## 74. A norm-preserving biprojection with an expert pass reaches all 3,840 experts, restores the rows within 0.0009 and reads TrevorJS's directions on a second checkpoint
 
@@ -2704,7 +2712,7 @@ Evidence: `results/weights/xdavxd-gemma-4-26B-A4B-it-qat-heretic-ega.json` (`exp
 with `remaining_first_direction`, `direction_agreement` and `first_singular_energy_share` over 128 experts,
 `row_norms.max_relative_error`), `results/meta/xdavxd-gemma-4-26B-A4B-it-qat-heretic-ega.json`, the direction
 file under `nautilus34/measurements/pair-5/` against `nautilus3/measurements/pair-4/`, and the reading in
-`docs/cards/`. Round 38 puts the 0.97 beside a 1.000: DuoNeural's 26B-A4B copy, under a card that names the expert-granular method as its own, stands at 1.000 to TrevorJS's directions on all 90 names, so the method's independent re-run and the copy of a run are now both measured (finding 95). Round 40 reads the method's second independent run, Rootkit7's on the 26B-A4B instruct checkpoint, at 0.93 to TrevorJS's family and 0.91 to xdavxd's, the rows within 0.0012 on all 48 matrices (finding 107).
+`docs/cards/`. Round 38 puts the 0.97 beside a 1.000: DuoNeural's 26B-A4B copy, under a card that names the expert-granular method as its own, stands at 1.000 to TrevorJS's directions on all 90 names, so the method's independent re-run and the copy of a run are now both measured (finding 95). Round 40 reads the method's second independent run, Rootkit7's on the 26B-A4B instruct checkpoint, at 0.93 to TrevorJS's family and 0.91 to xdavxd's, the rows within 0.0012 on all 48 matrices (finding 107). Round 41 reads two more restorations: jcxu97's duplicate of wangzhang's Abliterix export within 0.0011 on 120 matrices of five kinds, and Sabomako's 12B within 0.0003 on 31 under a card that names no norm, the second time the maker's custom method restored every row (finding 112).
 
 ## 75. Seven more copies stand on QAT-unquantized checkpoints, every field names them, Google's QAT revisions share one weight file per size and the E4B QAT vision tower is the instruct model's
 
@@ -2967,7 +2975,7 @@ per matrix, input side, rows unrestored.
 Evidence: `results/weights/coder3101-gemma-4-E4B-it-qat-q4_0-unquantized-heretic.json`,
 `results/weights/igorls-gemma-4-E4B-it-qat-q4_0-unquantized-heretic.json`, the two `results/meta/` reports, the
 direction files under `wheat35/measurements/pair-7/` and `pair-8/` against twenty E4B edits, and the readings in
-`docs/cards/`. Round 37 places MoonRide's April edits as the earliest members of both families, the E4B at 0.99 to Refusals5 and coder3101's and the 31B at 0.97 to llmfan46's, and NullpoLab's Refusals8-attn at 0.99 to coder3101's (findings 86 and 87). Round 38 adds SassyDiffusion's two exports to the families, the 26B-A4B at 0.98 to llmfan46's and coder3101's and the E4B at 0.98 to coder3101's and 0.99 to alphakek's and MoonRide's (finding 98). Round 39 adds NullpoLab's Refusals8 at 0.99 to Refusals8-attn, 0.94 to coder3101's and Refusals5 and 0.82 to 0.93 to the rest, and reads the E2B's arbitrary-rank searches as a looser family, MoonRide's two exports a day apart at 0.51 to each other and 0.80 to 0.87 to llmfan46's and coder3101's (finding 104). Round 40 adds NullpoLab's Refusals6-attn at 0.995 to Refusals8-attn and coder3101's, 0.985 to Refusals5 and Refusals8, and 0.96 to llmfan46's and MoonRide's (finding 109).
+`docs/cards/`. Round 37 places MoonRide's April edits as the earliest members of both families, the E4B at 0.99 to Refusals5 and coder3101's and the 31B at 0.97 to llmfan46's, and NullpoLab's Refusals8-attn at 0.99 to coder3101's (findings 86 and 87). Round 38 adds SassyDiffusion's two exports to the families, the 26B-A4B at 0.98 to llmfan46's and coder3101's and the E4B at 0.98 to coder3101's and 0.99 to alphakek's and MoonRide's (finding 98). Round 39 adds NullpoLab's Refusals8 at 0.99 to Refusals8-attn, 0.94 to coder3101's and Refusals5 and 0.82 to 0.93 to the rest, and reads the E2B's arbitrary-rank searches as a looser family, MoonRide's two exports a day apart at 0.51 to each other and 0.80 to 0.87 to llmfan46's and coder3101's (finding 104). Round 40 adds NullpoLab's Refusals6-attn at 0.995 to Refusals8-attn and coder3101's, 0.985 to Refusals5 and Refusals8, and 0.96 to llmfan46's and MoonRide's (finding 109). Round 41 adds NullpoLab's Refusals3, the maker's first export, at 0.98 to Refusals8, 0.95 to Refusals6-attn and Refusals8-attn, 0.93 to Refusals5, 0.87 to coder3101's and 0.86 to llmfan46's (finding 116).
 
 ## 83. One maker's arbitrary-rank exports searched on Japanese prompt sets, on two QAT checkpoints through the tool's LoRA-adapter branch, read both writers on the input side with the rows held and find directions the English searches do not
 
@@ -3064,7 +3072,7 @@ is the instruct model and the weights stand on it. The token side is the instruc
 version strings, `moe_intermediate_size` closed by the home judgement. Evidence:
 `results/weights/TheUmbraWalker-gemma-4-E4B-it-heretic.json`, `results/weights/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json`,
 the direction files under `wheat37/measurements/pair-4/` and `wheat30/measurements/pair-4/`, and the readings in
-`docs/cards/`. Round 39 reads 1.000 a third way: the tool author's own reproduction of his E4B export, every number equal to four digits and the bytes 0.0001 apart (finding 102). Round 40 reads 1.000 a fourth way, the one that limits the signature: four makers' per-layer passes on the 31B at 1.000 to each other on every shared name, with four windows, four weights and the bytes 0.0005 to 0.010 apart (finding 105).
+`docs/cards/`. Round 39 reads 1.000 a third way: the tool author's own reproduction of his E4B export, every number equal to four digits and the bytes 0.0001 apart (finding 102). Round 40 reads 1.000 a fourth way, the one that limits the signature: four makers' per-layer passes on the 31B at 1.000 to each other on every shared name, with four windows, four weights and the bytes 0.0005 to 0.010 apart (finding 105). Round 41 reads 1.000 a fifth way: a hub duplicate against its parent's measured head, two trials of one search with one direction and two sets of weights, the duplicate's bytes byte-equal to the parent's history and 0.003 to 0.074 from its head (finding 111); and it reads 0.986 between Sabomako's 12B and TrevorJS's with the bytes 0.10 apart and the weights different, an independent run in the one-direction family (finding 112).
 
 ## 86. One maker's two April arbitrary-rank edits are the earliest members of the 31B and E4B families, each a selection inside its window with the rows in the band and the skipped matrices left as traces
 
@@ -3098,7 +3106,7 @@ E4B save leaves out the 54 shared-key-value tensors (finding 71). Both token sid
 newer version strings, `moe_intermediate_size` closed by the home judgement. Evidence:
 `results/weights/MoonRide-gemma-4-31B-it-heretic-ara.json`, `results/weights/MoonRide-gemma-4-E4B-it-heretic-ara.json`,
 the two `results/meta/` reports, the direction files under `wheat37/measurements/pair-5/` and `pair-6/` against
-twenty measurements of the 31B and thirty-four of the E4B, and the readings in `docs/cards/`.
+twenty measurements of the 31B and thirty-four of the E4B, and the readings in `docs/cards/`. Round 41 adds NullpoLab's Refusals3, every matrix of layers 19 to 31 edited under a card to 37, the fourth of the maker's five exports to end short of its `end_layer_index`, and RumiaChannel's Refusals4, whose window is the card's to the layer with five down projections inside it left as residues (finding 116).
 
 ## 87. A card that names one writer, measured on both: the down projections are edited, on this copy and by byte range on its sibling, and the writer count the weights give is the check on the card
 
@@ -3439,7 +3447,7 @@ re-run (finding 74) and the 1.000 of a copy (finding 95).
 
 Evidence: `results/weights/DuoNeural-Gemma-4-E2B-Heretic.json`, `results/meta/DuoNeural-Gemma-4-E2B-Heretic.json`,
 the direction file under `nautilus38/measurements/pair-6/` against huihui-ai's measurement of the E2B, and the reading in
-`docs/cards/`. Round 40 reads the same direction from another maker: tvall43's E2B v0, one direction across nineteen attention outputs at 0.95 to huihui-ai's and 0.94 to this copy, at a kernel-shaped weight of 1.85 to 4.84 (finding 110).
+`docs/cards/`. Round 40 reads the same direction from another maker: tvall43's E2B v0, one direction across nineteen attention outputs at 0.95 to huihui-ai's and 0.94 to this copy, at a kernel-shaped weight of 1.85 to 4.84 (finding 110). Round 41 reads the same direction from a fourth maker: MoonRide's E2B pass of 04-08, one direction on both writers of layers 11 to 34 at 0.96 to this copy, 0.97 to huihui-ai's and 0.98 to tvall43's v0, at the card's kernel weights to the second decimal (finding 115).
 
 ## 97. A hub duplicate of an unmeasured E4B copy reads coder3101's Heretic edit under an Unsloth fine-tune, the parent named in the configuration's `model_name` before the weights named it
 
@@ -3522,7 +3530,7 @@ rows that hold.
 
 Evidence: `results/weights/RumiaChannel-gemma-4-12B-it-uncensored-ara-Refusals2.json`,
 `results/weights/Bahushruth-gemma-4-E2B-it-abliterated.json`, the `results/meta/` reports, the direction files under
-`nautilus38/measurements/pair-3/` and `pair-7/`, and the readings in `docs/cards/`. Round 40 adds the 31B: Jim-darby's Japanese-weighted search stands at 0.41 to 0.64 to the English-prompted 31B searches, which stand at 0.87 to 0.97 to each other (finding 108).
+`nautilus38/measurements/pair-3/` and `pair-7/`, and the readings in `docs/cards/`. Round 40 adds the 31B: Jim-darby's Japanese-weighted search stands at 0.41 to 0.64 to the English-prompted 31B searches, which stand at 0.87 to 0.97 to each other (finding 108). Round 41 adds the maker's third search, Refusals4, at 0.96 and 0.94 to Refusals2 and Refusals9 on all 26 names and at 0.55 and 0.54 to llmfan46's and coder3101's 12B edits (finding 116).
 
 ## 100. A copy whose card, field and links name the instruct E4B stands on the pretrained checkpoint: the saved directions at 1.000 to the census's one measurement on that checkpoint, nine byte-range reads byte-equal to it, and the token ids its own
 
@@ -3556,7 +3564,7 @@ checkpoint's included, belongs at the pinner's names step.
 Evidence: `results/weights/chulcher-gemma-4-e4b-abliterated.json`, the `results/meta/` report, the direction file
 under `wheat39/measurements/pair-2/` against `blueback29/measurements/pair-8/`, the byte-range reads recorded in
 the reading, the repository's `refusal_test_results.json` and `abliteration_metadata.json`, google/gemma-4-E4B's
-token files at `a24c9379`, and the reading in `docs/cards/`.
+token files at `a24c9379`, and the reading in `docs/cards/`. Round 41's six Gemma 4 pairs carry the instruct checkpoint's ids, and its functiongemma pair carries the original's own (`eos_token_id` `[1, 50]`) with two special flags changed and the ids equal (finding 113).
 
 ## 101. A hub duplicate of an unmeasured 12B copy reads a single-direction projection at 0.40 on both writers of all 48 layers over the coder fine-tune of finding 25, its 228 readers equal to lemuralabs's to the last digit, under a card that dropped a healing claim four minutes after upload
 
@@ -3623,7 +3631,7 @@ further.
 Evidence: `results/weights/p-e-w-gemma-4-E4B-it-heretic-REPRODUCED-2.json` against
 `results/weights/p-e-w-gemma-4-E4B-it-heretic.json`, the `results/meta/` report, the direction file under
 `wheat39/measurements/pair-3/` against `wheat33/measurements/pair-2/`, the byte-range reads recorded in the
-reading, the first export's `reproduce/` folder, and the reading in `docs/cards/`. Round 40 revises the scale: four makers' per-layer passes on the 31B stand at 1.000 to each other with the bytes 0.0005 to 0.010 apart, so on the 31B the tool's per-layer direction alone does not separate a copy from an independent pass, and the bytes do (finding 105).
+reading, the first export's `reproduce/` folder, and the reading in `docs/cards/`. Round 40 revises the scale: four makers' per-layer passes on the 31B stand at 1.000 to each other with the bytes 0.0005 to 0.010 apart, so on the 31B the tool's per-layer direction alone does not separate a copy from an independent pass, and the bytes do (finding 105). Round 41 reads another maker's run of the tool's 1.3.0 on the same English prompt sets at 0.75 to this copy and its reproduction on all 37 shared names, with an orthogonalised direction and a full row normalisation in its record and the bytes as far from p-e-w's as from Google's (finding 114).
 
 ## 103. One maker's two kernel passes on one evening read one direction per layer at output-side weights of 3.3 to 4.5, the windows to the layer and the kernels' shape absent, and the E2B save drops the vision encoder's 128 range scalars
 
@@ -3656,7 +3664,7 @@ range scalars without touching a weight, which the comparison now names apart fr
 
 Evidence: `results/weights/tvall43-gemma-4-E2B-it-heretic-v1.json`,
 `results/weights/tvall43-gemma-4-26B-A4B-it-heretic.json` (`dropped_statistics` in the first), the `results/meta/`
-reports, the direction files under `wheat39/measurements/pair-4/` and `pair-1/`, and the readings in `docs/cards/`. Round 40 measures the maker's first E2B pass of the evening, v0, thirty-four minutes before v1: one direction across the window at 1.85 to 4.84, at 0.04 to v1's directions, dropping 64 of the range scalars v1 drops 128 of (finding 110).
+reports, the direction files under `wheat39/measurements/pair-4/` and `pair-1/`, and the readings in `docs/cards/`. Round 40 measures the maker's first E2B pass of the evening, v0, thirty-four minutes before v1: one direction across the window at 1.85 to 4.84, at 0.04 to v1's directions, dropping 64 of the range scalars v1 drops 128 of (finding 110). Round 41 reads the same sequence from MoonRide on the E2B: a kernel pass at 16:28Z on 04-08 carrying the single direction at 0.98 to tvall43's v0, then the arbitrary-rank search of finding 104 at 22:10Z carrying another at 0.06 to it (finding 115).
 
 ## 104. Three arbitrary-rank exports from the branch's pull request read the window exactly with the rows in the band, two by one maker a day apart with a custom system prompt between them agreeing at 0.51 where the E4B family agrees at 0.9
 
@@ -3687,7 +3695,7 @@ and on none of NullpoLab's, the search's own choice of which matrices to leave.
 Evidence: `results/weights/MoonRide-gemma-4-E2B-it-heretic-ara.json`,
 `results/weights/MoonRide-gemma-4-E2B-it-heretic-ara-custom.json`,
 `results/weights/NullpoLab-gemma-4-E4B-it-Heretic-ARA-Refusals8.json`, the `results/meta/` reports, the direction
-files under `wheat39/measurements/pair-5/`, `pair-7/` and `pair-8/`, and the readings in `docs/cards/`. Round 40 adds two more exports of the branch: Jim-darby's 31B search with six residues and the rows in the band, and NullpoLab's Refusals6-attn, both writers under an attention-only card (findings 108 and 109).
+files under `wheat39/measurements/pair-5/`, `pair-7/` and `pair-8/`, and the readings in `docs/cards/`. Round 40 adds two more exports of the branch: Jim-darby's 31B search with six residues and the rows in the band, and NullpoLab's Refusals6-attn, both writers under an attention-only card (findings 108 and 109). Round 41 adds two more exports of the branch: RumiaChannel's Refusals4 with five residues and the rows in the band, and NullpoLab's Refusals3 with every matrix edited, the window six layers short of the card and the rows through and over the band (finding 116).
 
 ## 105. Four makers' per-layer Heretic passes on the 31B stand at 1.000 to each other on every shared matrix with four windows, four weights and the bytes 0.0005 to 0.010 apart, one of them a hub duplicate whose parent the hub no longer serves
 
@@ -3725,7 +3733,7 @@ Evidence: `results/weights/germlag-gemma-4-31B-it-heretic-v2.json`,
 `results/weights/Vampelium-gemma-4-31B-it-heretic.json`, the `results/meta/` reports, the direction files under
 `nautilus40/measurements/pair-1/` and `pair-4/` against `nautilus19/measurements/pair-2/` (3MPER0RR) and
 `wheat33/` (callmegrr), the byte-range reads listed in `docs/census-round-40.md`, the batch note in
-`data/batches/round-40-batch-1.json`, and the readings in `docs/cards/`.
+`data/batches/round-40-batch-1.json`, and the readings in `docs/cards/`. Round 41 reads 1.000 on the 31B between a hub duplicate and its parent's measured head, two trials of one Abliterix search, where the kept fractions differ on every shared matrix and the bytes place the duplicate in the parent's history (finding 111).
 
 ## 106. A 31B projection whose direction is not a refusal direction reads its card exactly and stands at 0.034 or less to every measured 31B edit
 
@@ -3871,7 +3879,222 @@ the model.
 Evidence: `results/weights/tvall43-gemma-4-E2B-it-heretic-v0.json`, the `results/meta/` report, the direction
 file under `nautilus40/measurements/pair-8/` against `wheat39/measurements/pair-4/` (v1), `blueback13/` and
 `blueback22/` (huihui-ai's) and the other measured E2B copies, the byte-range reads listed in
-`docs/census-round-40.md`, and the reading in `docs/cards/`.
+`docs/census-round-40.md`, and the reading in `docs/cards/`. Round 41 adds MoonRide's E2B pass of six days later at 0.98 to this copy's direction on all 16 shared names, on both writers at the card's kernel weights, the fourth maker carrying the single direction (finding 115).
+
+## 111. A hub duplicate holds the export its parent's head replaced: one direction per layer on five components of the 31B at 1.000 to the parent's measured trial with other weights on every shared matrix, the bytes byte-equal to the parent's history and 0.003 to 0.074 from its head
+
+jcxu97's gemma-4-31B-it-abliterated is one commit of 04-12, "Duplicate from wangzhang/gemma-4-31B-it-abliterated".
+The parent is measured (round 2, repeated in round 3) at its head, `d7431183`, which is "Update Gemma 4 31B
+abliterated to trial 40" of 04-29 and two card commits of 08-29 over it; the duplicate copied the state of 04-11
+(`90a225e3`), the export of 04-10 with Google's template and tokenizer configuration synced the next day, under
+the card of 04-10 byte for byte (Abliterix on "attention Q/K/V/O projections and MLP down projections (5
+steerable components per layer)", "norm-preserving row magnitude restoration", 18 refusals in 100 after "20/80
+(warmup phase only)" trials). The batch note had read "its weight files differ" from the parent's by checksum,
+and the hub's file listings give the duplicate's two shards the object ids of the parent's `2a9b26cd` and
+`90a225e3`. Measured against the 31B's revision `439edf56`, it is 120 of 1,188 tensors, exactly 0 outside: the
+attention outputs of layers 29 to 59, the down projections of 29 to 58, the keys of 27 to 53, the queries of 31
+to 47 and the values of 42 to 58, one direction per layer shared by all five kinds (within a layer at 1.000),
+rank one on every matrix, the writers on the output side at 1.38 to 1.95 and 1.86 to 5.33 and the readers on the
+input side at 3.6 to 4.3, 3.9 to 5.54 and 1.41 to 1.72, every row restored within 0.0011. Against the saved
+vectors the directions stand at 1.000 on both sides to the parent's measured head on all 73 shared names (29
+attention outputs, 13 keys, 17 queries, 14 values), and the kept fractions differ on every one of them (the
+layer 29 attention output at a weight of 1.38 here and 3.48 there; the layer 30 key at 3.77 and 1.11), the head
+touching no down projection where the duplicate edits thirty. By byte range the duplicate is byte-equal to the
+parent's `90a225e3` on the layer 41 attention output, query projection and down projection and the layer 10
+query projection, and 0.0295, 0.0032 and 0.0740 from the head's trial 40 on the three edited tensors, the head's
+layer 41 down projection byte-equal to Google's. To the other 31B edits it stands at 0.84 to 0.89 (the
+per-layer passes of finding 105, Sabomako's 31B, ressl's and TrevorJS's) and at 0.52 or less to the rest.
+
+Why it matters: finding 105 read 1.000 between per-layer Heretic passes on the 31B as one tool on one base and
+one prompt set, and asked for the bytes before any copy reading; here the bytes were read and found the copy
+in a place the direction check could not name, the parent's own history. Two trials of one Abliterix search
+share their direction and differ in every weight and in which components they touch, so 1.000 to a measured
+repository means the repository's search and not its measured file. The hub's duplicate function preserves a
+revision its parent later replaced, which the census had not seen in eight earlier duplicates (findings 38 and
+73): the batch note's checksum step saw the difference, and the pinner's duplicate rule should read the
+parent's commit history and name the revision the duplicate holds. The export itself reads its card exactly,
+and the population counts it as the ninth hub duplicate and the one measurement of that export.
+
+Evidence: `results/weights/jcxu97-gemma-4-31B-it-abliterated.json`, the `results/meta/` report, the direction
+file under `wheat41/measurements/pair-7/` against `nautilus3/measurements/pair-1/` (wangzhang's head) and the
+twenty-three other 31B measurements, the byte-range reads and the hub listings described in
+`docs/census-round-41.md`, the batch note in `data/batches/round-41-batch-1.json`, and the reading in
+`docs/cards/`.
+
+## 112. One maker's second custom projection reads its 31B signature on the 12B: three down projections at 6.2 to 6.5 among 31 matrices under 1.1, every row restored within 0.0003, at 0.986 to TrevorJS's directions on all 31 names with the bytes 0.10 apart
+
+Sabomako's gemma-4-12B-it-heretic was created on 06-18 under a 674-byte card ("Heretic v1.3.0 with custom ORBA
+abliteration method", an LLM judge, a KL divergence of 0.0545, 0 refusals in 100 against 98), the same form as
+the maker's 31B of finding 65. The weights are the same signature on a wider window: 31 of 677 tensors, both
+writers of layers 18 to 23 and 34 to 39 and the down projections alone of 24 to 30, exactly 0 outside; rank one
+on every matrix and one direction per layer (the two writers at 0.984 to 1.000); on the output side one minus
+the left kept fraction is 6.29, 6.52 and 6.16 on the down projections of layers 21, 22 and 23 (relative changes
+0.121 to 0.128), 0.60 to 1.08 on those of 18 to 20, 0.07 to 0.14 on 24 to 30, 0.98 falling to 0.21 on 34 to 39,
+and 0.06 to 0.39 on the twelve attention outputs; the rows moved 0.00007 to 0.00026 on all 31. The 31B of round
+31 was four layers to 5.4 with the rows restored. Against the saved vectors the directions stand at 0.986 on the
+left and 0.989 on the right to TrevorJS's 12B edit and its four re-uploads on all 31 shared names (minimum
+0.952), at 0.61 to Carlosian's and 0.60 to Paul691's duplicate, and at 0.27 or less to the kernel passes and the
+arbitrary-rank searches; the maker's 31B stands at 0.90 to 0.94 to TrevorJS's 31B on its 8 names. By byte range
+the layer 21 down projection is 0.1208 from Google's and 0.1025 from TrevorJS's (his 0.0191 from Google's), the
+layer 21 attention output 0.0064 from Google's and 0.0119 from TrevorJS's, and the layer 30 down projection
+0.0015 from Google's and 0.0176 from TrevorJS's.
+
+Why it matters: finding 65 read one export; a second from the same maker on another base reads the same three
+marks (a few down projections pushed past 5 while the rest of the window stays under 1, exact row restoration,
+a card with no table), so the "custom ORBA" is a method with a fingerprint and not one run's setting. The
+direction is the one-direction family's at 0.986, inside the 0.98 to 0.99 at which independent runs on the same
+prompt sets stand (findings 85 and 103) and short of the 1.000 of a copy, and the weights and the bytes say
+whose run it is: the maker's. It is the fourth time the census reads a maker's method from the weights across
+two bases (findings 24, 74 and 103 are the others).
+
+Evidence: `results/weights/Sabomako-gemma-4-12B-it-heretic.json`, the `results/meta/` report, the direction file
+under `wheat41/measurements/pair-6/` against `blueback8/measurements/pair-6/` (TrevorJS's 12B) and the
+twenty-seven other 12B measurements, `results/weights/Sabomako-gemma-4-31B-it-heretic.json` (finding 65), the
+byte-range reads listed in `docs/census-round-41.md`, and the reading in `docs/cards/`.
+
+## 113. The first copy of a function-calling original reads a per-layer kernel pass to the layer and the second decimal on an eighteen-layer stack, and marks the function-response token special where the original does not
+
+Roman0's functiongemma-270m-it-heretic was created on 2025-12-19, the day after Google released
+functiongemma-270m-it, a 270-million-parameter Gemma 3 text model tuned for function calling (18 layers, 236
+tensors, one shard), the census's thirty-fourth original and its smallest. The card is Heretic 1.1.0's table
+with a direction index "per layer", `attn.o_proj` at a maximum of 1.33 at position 12.65 and a minimum of 0.85
+at a distance of 4.36, `mlp.down_proj` at 1.46 at 12.22 and 1.40 at 4.97, a KL divergence of 0.2617 and 2
+refusals in 100 against 100. The weights are the card: 19 of 236 tensors, the down projections of layers 8 to 17
+and the attention outputs of 9 to 17 (12.22 less 4.97 and 12.65 less 4.36 give 8 and 9; both windows end at
+the stack's last layer), exactly 0 outside, rank one on every matrix, one direction per layer (the writers at
+1.000, the layers at 0.29 to 0.86 to layer 13), on the output side at 1.41 rising to 1.45 at layers 12 and 13
+and falling to 1.40 on the down projections and 0.93 rising to 1.29 at 13 and falling to 0.85 on the attention
+outputs, within 0.04 of the printed heights at the printed layers, rows 0.019 to 0.489 unrestored. The token
+side is the one of the round the home judgement cannot close: in `tokenizer_config.json` and `tokenizer.json`
+the copy marks token 50, `<start_function_response>`, and token 255999, `<start_of_image>`, as special where
+the original marks neither, and ships no `added_tokens.json` where the original's holds `<end_of_image>` and
+`<image_soft_token>`; the ids are equal (`eos_token_id` `[1, 50]`, generation `[1, 50, 106]`) and the version
+strings the same 4.57.3. By byte range the layer 12 down projection is 0.0700 from Google's and holds one value
+in ten thousand at exactly zero where Google's holds none, the projection's smallest results under the bfloat16
+floor.
+
+Why it matters: the census had read Heretic's kernels on stacks of 30 to 60 layers; on eighteen the kernel still
+reads to the layer and to the second decimal, and the two windows run to the stack's end, which the kernel's
+positions and distances predict. The special flag is what a decoder that skips special tokens uses to drop a
+token from its text, and the token the copy changed is the one a function-calling model emits around a tool's
+result, so the one token-side difference in the round sits on exactly the behaviour the original exists for;
+the weights say nothing about it and the metadata tool has no line for it yet. The population now has an
+original outside the Gemma 4 and Mistral families.
+
+Evidence: `results/weights/Roman0-functiongemma-270m-it-heretic.json`, `results/meta/Roman0-functiongemma-270m-it-heretic.json`
+(the seven token fields), the direction file under `wheat41/measurements/pair-2/`, the byte-range reads listed
+in `docs/census-round-41.md`, and the reading in `docs/cards/`.
+
+## 114. An E4B pass from the tool's 1.3.0 under a Spanish name records the tool's English prompt sets, stops six layers short of its kernels' reach, reads no kernel in its kept fractions under a full row normalisation, and stands at 0.75 to the author's export on the same prompts
+
+ImanolSuarez's gemma-4-E4B-it-heretic-seguridadDeLaInformacion was created on 05-23 with a `reproduce/` folder
+beside the weights: the configuration names `google/gemma-4-E4B-it` at `d6436b3d`, mlabonne's English
+`harmless_alpaca` and `harmful_behaviors` at `train[:400]` for the directions and `test[:100]` for the
+evaluation, the system prompt "You are a helpful assistant.", `row_normalization` "full" at a LoRA rank of 3,
+`orthogonalize_direction` true, trial 92 of 200, one RTX 5080 under Windows 11, Heretic 1.3.0 and transformers
+5.9.0. The name promises an information-security run and the record shows the tool's default search. The card
+is 1.3.0's table (`direction_index` 29.08; `attn.o_proj` 1.30 at 30.63, minimum 0.47 at 13.10; `mlp.down_proj`
+1.34 at 33.43, minimum 0.72 at 17.07; 6 refusals in 100 against 99) under `google/gemma-4-E4B` in its
+`base_model` field, finding 67's inherited header over instruct-model weights. The weights are 37 of 2,076
+tensors, the down projections of layers 17 to 35 and the attention outputs of 18 to 35, exactly 0 outside: the
+kernels' lower ends (16.4 and 17.5) read to the layer and their upper ends reach past the stack's last layer,
+41, where both writers of layers 36 to 41 are exactly 0, twelve matrices the kernels cover and the weights do
+not touch. One direction for the window (the layers at 0.94 to 1.00, the writers at 0.91 to 1.00), rank one
+(first shares 0.978 to 0.997); on the output side the kept fractions do not trace the kernels (0.65 at 17
+rising to 1.02 at 31 and falling to 0.81 on the down projections under a printed 1.34; 0.16 to 0.91 with no
+order on the attention outputs under 1.30), while the relative change rises along the window from 0.010 to
+0.029 as a kernel would; rows 0.0039 to 0.0112, rising with the layer. The direction stands at 0.755 to
+p-e-w's E4B export and his reproduction on all 37 shared names (minimum 0.724), 0.71 to sh0ck0r's and 0.69 to
+BinxNet's, and at 0.40 or less to every other E4B edit; by byte range the layer 26 attention output is 0.0165
+from p-e-w's and 0.0191 from Google's, the layer 26 down projection 0.0243 from p-e-w's and 0.0223 from
+Google's. The fourth shard is the E4B layout shard (finding 71). The template differs from the pin's in line
+endings alone, the Windows save.
+
+Why it matters: a repository's name is the first thing anyone sees and the record under it says the prompts
+were the tool's English defaults, so the name is a label; the census reads the record and the weights, and the
+two agree with each other and not with the name. The run stands at 0.75 to the tool author's own export on the
+same prompt sets, outside the 0.96 to 0.98 at which independent runs of the earlier versions stand (findings 85
+and 102) and above the 0.4 to 0.6 of a changed prompt set (findings 83, 93 and 99); what the record shows
+changed is the tool's version with its orthogonalised direction and full row normalisation, the two settings
+that also leave the kept fractions without the kernel's shape and the window six layers short of the kernels'
+reach. The 1.3.0 pass is a different signature from the 1.1 and 1.2 passes the census has read, and the next
+copies from that version will say whether the short window and the shapeless kept fractions are the version's
+or this run's.
+
+Evidence: `results/weights/ImanolSuarez-gemma-4-E4B-it-heretic-seguridadDeLaInformacion.json`, the
+`results/meta/` report, the direction file under `wheat41/measurements/pair-4/` against
+`wheat33/measurements/pair-2/` (p-e-w's) and the thirty-eight other measurements on the E4B base, the repository's
+reproduction record under `reproduce/` as read on 2026-11-02, the byte-range reads listed in
+`docs/census-round-41.md`, and the reading in `docs/cards/`.
+
+## 115. One maker's first E2B export carries the single direction at 0.96 to 0.98 to three makers' passes at the card's kernel weights to the second decimal, six hours before the maker's arbitrary-rank search carried another at 0.06
+
+MoonRide's gemma-4-E2B-it-heretic was created at 16:28Z on 04-08 under Heretic 1.2.0's table (`direction_index`
+16.97; `attn.o_proj` 1.21 at 24.75, minimum 1.14 at 10.31; `mlp.down_proj` 1.38 at 26.14, minimum 1.16 at 15.83;
+a KL divergence of 0.2056, 9 refusals in 100 against 99); the maker's arbitrary-rank E2B search of finding 104
+was created at 22:10Z the same evening and the custom-prompt one the next afternoon. The weights are the card: 44
+of 2,011 tensors, the down projections of layers 11 to 34 and the attention outputs of 15 to 34 (26.14 less
+15.83 and 24.75 less 10.31 give 11 and 15; the far ends past the stack's last layer, 34), exactly 0 outside, rank
+one on every matrix, one direction on all 44 (1.000 across layers and kinds), on the output side at 1.17 rising
+to 1.38 at layer 26 and falling to 1.27 on the down projections and 1.14 rising to 1.21 at 25 and falling to
+1.15 on the attention outputs, the printed maxima to the second decimal at the printed layers, rows 0.0055 to
+0.034 unrestored. The direction stands at 0.982 to tvall43's v0 on all 16 shared names, 0.970 to huihui-ai's E2B
+edit, its second measurement and its two re-uploads on all 44, and 0.960 to DuoNeural's on all 44, and at 0.063
+and 0.047 to the maker's own two searches of that evening and the next day; by byte range the layer 21 attention
+output is 0.0105 from huihui-ai's, 0.0294 from Google's and 0.0921 from tvall43's v0.
+
+Why it matters: findings 96 and 110 read the E2B's single direction from huihui-ai, DuoNeural and tvall43; a
+fourth maker carries it at the same 0.96 to 0.98, which fixes the number for an independent kernel pass of the
+tool on this base, and finding 110's sequence repeats in the maker's own repositories: a kernel pass first,
+then an arbitrary-rank search with a direction at 0.06 to it, six hours apart where tvall43's were
+thirty-four minutes. The kernel reads to the layer and to the second decimal on both writers, so the card's
+table is the weights' table on this pass, as on tvall43's v0 and not on his v1.
+
+Evidence: `results/weights/MoonRide-gemma-4-E2B-it-heretic.json`, the `results/meta/` report, the direction file
+under `wheat41/measurements/pair-5/` against `nautilus40/measurements/pair-8/` (tvall43's v0),
+`blueback13/measurements/pair-2/` (huihui-ai's), `nautilus38/measurements/pair-6/` (DuoNeural's) and
+`wheat39/measurements/pair-5/` and `pair-7/` (the maker's searches), the byte-range reads listed in
+`docs/census-round-41.md`, and the reading in `docs/cards/`.
+
+## 116. Two further arbitrary-rank exports read as their siblings: one maker's third 12B search at 0.96 and 0.94 to its two with five residues and the rows in the band, and another maker's first E4B export at 0.93 to 0.98 to its four with every matrix edited and the window six layers short of the card
+
+RumiaChannel's gemma-4-12B-it-uncensored-ara-Refusals4 was created at 06:36Z on 06-05, between the maker's
+Refusals2 (06:29Z, finding 99) and Refusals9 (06:44Z, round 25), under Heretic 1.2.0's arbitrary-rank branch
+with `start_layer_index` 24 and `end_layer_index` 37, 4 refusals in 100 against 91. The weights are the branch:
+26 of 677 tensors, both writers of layers 24 to 36, exactly 0 outside; 21 edits on the input side at weights
+0.47 to 1.71 with a few directions each and rows 0.0049 to 0.0079, finding 22's band; five down projections
+(layers 25, 27, 30, 32 and 34) rewritten by 0.0012 to 0.0018 with both kept fractions at 1.00, finding 58's
+residues. The directions stand at 0.957 and 0.937 on the left to Refusals2 and Refusals9 on all 26 names (0.98
+and 0.96 on the attention outputs) and at 0.55 and 0.54 to llmfan46's and coder3101's 12B edits; by byte range
+the layer 30 attention output is 0.0075 and 0.0094 from the siblings', which stand 0.0046 apart. The template is
+Google's 07-15 revision, carried in by a 07-21 update of the template and tokenizer configuration six weeks
+after the weights. NullpoLab's gemma-4-E4B-it-Heretic-ARA-Refusals3 was created at 13:57Z on 04-04, the
+maker's first export, twelve minutes before Refusals5 and thirteen before Refusals8, under the branch's pull
+request 211 at commit `3b70fe5` with `start_layer_index` 19 and `end_layer_index` 37. The weights are the
+branch: 26 of 2,130 tensors, both writers of layers 19 to 31, every matrix an edit on the input side at 0.73 to
+1.43 with first shares of 0.24 to 0.95, no residue, exactly 0 outside, the layers 32 to 36 inside the card's
+window untouched, as three of the maker's four other exports ended short of theirs; rows 0.0025 to 0.0184 on
+the attention outputs and 0.0011 to 0.0068 on the down projections, through and over the band as the maker's
+other exports read. The directions stand at 0.982 to Refusals8, 0.955 to Refusals6-attn, 0.949 to
+Refusals8-attn and 0.929 to Refusals5, at 0.87 to coder3101's and 0.86 to llmfan46's, and at 0.093 to
+ImanolSuarez's 1.3.0 pass of the same base; by byte range the layer 29 attention output is 0.0175 from
+Refusals8's. The template is Google's 04-28 revision, carried in by the 04-29 upload as on the maker's other
+exports.
+
+Why it matters: both makers' families now have every export measured (RumiaChannel's three 12B searches,
+NullpoLab's five E4B exports), and each new one reads as its siblings did: the same window form, the same rows,
+directions at 0.93 to 0.98 within the maker and 0.55 to 0.87 to the English-prompted family. The two makers
+differ in one habit the weights keep: RumiaChannel's windows are the card's to the layer with residues inside,
+NullpoLab's end short of the card with every matrix inside them edited. Neither card says either, and both
+read without a prompt.
+
+Evidence: `results/weights/RumiaChannel-gemma-4-12B-it-uncensored-ara-Refusals4.json`,
+`results/weights/NullpoLab-gemma-4-E4B-it-Heretic-ARA-Refusals3.json`, the `results/meta/` reports, the
+direction files under `wheat41/measurements/pair-1/` and `pair-3/` against `nautilus38/measurements/pair-3/`
+and `blueback22/measurements/pair-3/` (Refusals2 and Refusals9) and `wheat39/measurements/pair-8/`,
+`blueback29/measurements/pair-5/`, `nautilus40/measurements/pair-7/` and `wheat37/measurements/pair-8/`
+(NullpoLab's four), the byte-range reads listed in `docs/census-round-41.md`, and the readings in
+`docs/cards/`.
 
 ## What the second pass settled
 
@@ -3888,7 +4111,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. One hundred and eighty-four copies is a sample; the inventory sample of 30 repositories
+- Population. One hundred and ninety-one copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
