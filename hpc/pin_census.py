@@ -11,7 +11,10 @@
 #   at the names step.
 # Modified: SDE  a copy whose weight files the census has already measured is refused before it is pinned;
 #   a hub duplicate with later edits is pinned with its parent noted.
+# Modified: SDE  a pair whose tensor names no pairing rule matches is refused at the names step, with the
+#   counts, before the rehearsal reads an empty comparison.
 import argparse
+from collections import Counter
 from datetime import datetime, timezone
 import json
 from pathlib import Path
@@ -23,6 +26,13 @@ from huggingface_hub import HfApi
 
 ROOT = Path(__file__).resolve().parent.parent
 DUPLICATE = 'Duplicate from'
+
+
+def audit_root():
+    """Make the audit package importable from the kit's own folder."""
+    root = str(ROOT)
+    if root not in sys.path:
+        sys.path.insert(0, root)
 
 
 class Duplicate(ValueError):
@@ -280,12 +290,68 @@ def scale_tensors(tensors):
     return sorted(name for name in tensors if SCALE.search(name))
 
 
+def wrappers(names):
+    """How many names start under each first segment, the most common first."""
+    counts = Counter(name.split('.')[0] + '.' for name in names)
+    return ', '.join('{:,} under {}'.format(count, wrapper) for wrapper, count in counts.most_common(3))
+
+
+def pairing(original_names, modified_names):
+    """Pair the two sides' tensor names as the comparison will: one wrapper rule, else the plain match.
+
+    The rules each pair every modified name or nothing, so a modified name left over is one the
+    comparison would never read; the counts say how far the layouts are apart."""
+    audit_root()
+    from audit.weights import recipe_table, wrapper_mapping
+    original_names, modified_names = set(original_names), set(modified_names)
+    mapping = wrapper_mapping(original_names, modified_names, recipe_table())
+    names = mapping['names'] if mapping else {name: name for name in original_names & modified_names}
+    return {'paired': len(names), 'original_only': sorted(original_names - set(names)),
+            'modified_only': sorted(modified_names - set(names.values())),
+            'mapping': {key: mapping[key] for key in ('prefix', 'carried_by', 'renamed')} if mapping else None}
+
+
+def unpaired(original, modified):
+    """The refusal for two fixtures whose names the comparison cannot pair, or None when it can.
+
+    One diffusion copy saves 1,674 tensors under decoder. and encoder. where the original saves
+    1,047 under model.; no rule pairs them, and the rehearsal read an empty changed set. The names
+    step says so first, with the counts on both sides."""
+    result = pairing(original['tensors'], modified['tensors'])
+    if not result['modified_only']:
+        return None
+    return ('tensor names cannot be paired: {:,} of {:,} modified names pair with the {:,} original names '
+            '(modified {}; original {}); {:,} modified and {:,} original names unpaired: {} against {}').format(
+        result['paired'], len(modified['tensors']), len(original['tensors']), wrappers(modified['tensors']),
+        wrappers(original['tensors']), len(result['modified_only']), len(result['original_only']),
+        modified['hub_id'], original['hub_id'])
+
+
+def fixture_path(out, model):
+    return Path(out) / (model['revision'][:12] + '.json')
+
+
+def unpaired_pairs(pairs, out):
+    """Every pair in the batch whose two fixtures are on disk and whose names cannot be paired."""
+    refused = []
+    for number, row in enumerate(pairs, 1):
+        paths = [fixture_path(out, row[side]) for side in ('original', 'modified')]
+        if not all(path.exists() for path in paths):
+            continue
+        original, modified = (json.loads(path.read_text()) for path in paths)
+        reason = unpaired(original, modified)
+        if reason:
+            refused.append('pair {} names: {}'.format(number, reason))
+    return refused
+
+
 def names(manifest, out, hub=None):
-    """Write one fixture per pinned checkpoint in the batch, both sides, skipping ones on disk."""
+    """Write one fixture per pinned checkpoint in the batch, both sides, skipping ones on disk.
+
+    A pair whose two fixtures the comparison cannot pair by name is refused here, before the
+    rehearsal, with the counts on both sides."""
     if hub is None:
-        root = str(Path(__file__).resolve().parent.parent)
-        if root not in sys.path:
-            sys.path.insert(0, root)
+        audit_root()
         from audit.hub import Hub
         hub = Hub()
     out = Path(out)
@@ -293,10 +359,11 @@ def names(manifest, out, hub=None):
     written = []
     refused = []
     seen = set()
-    for number, row in enumerate(json.loads(Path(manifest).read_text())['pairs'], 1):
+    pairs = json.loads(Path(manifest).read_text())['pairs']
+    for number, row in enumerate(pairs, 1):
         for side in ('original', 'modified'):
             model = row[side]
-            target = out / (model['revision'][:12] + '.json')
+            target = fixture_path(out, model)
             if model['revision'] in seen or target.exists():
                 continue
             seen.add(model['revision'])
@@ -321,6 +388,9 @@ def names(manifest, out, hub=None):
             Path(stream.name).replace(target)
             written.append(target)
             print('{}: {} tensors, {}'.format(target.name, len(record['tensors']), model['hub_id']))
+    for reason in unpaired_pairs(pairs, out):
+        refused.append(reason)
+        print('refused ' + reason)
     print('fixtures written: {}'.format(len(written)))
     if refused:
         raise ValueError('{} checkpoint(s) refused; '.format(len(refused)) + '; '.join(refused))

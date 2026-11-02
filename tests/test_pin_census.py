@@ -1,5 +1,6 @@
 # test_pin_census.py -- Check the pinner's duplicate check against a stubbed hub listing.
 # Created by Sean Egan
+# Modified: SDE  the names step refuses a pair whose tensor names no rule pairs, with the counts.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -14,7 +15,9 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
-from pin_census import Duplicate, measured_copies, pin, same_weights
+from pin_census import Duplicate, measured_copies, names, pin, pairing, same_weights, unpaired
+
+FIXTURES = ROOT / 'tests/fixtures/round2'
 
 CREATED = datetime(2026, 1, 2, tzinfo=timezone.utc)
 SHA_A = 'a' * 64
@@ -121,6 +124,81 @@ class DuplicateCheckTests(unittest.TestCase):
             record = json.loads(manifest.read_text())
             self.assertEqual(record['pairs'][0]['modified']['duplicate_of'], 'first/copy')
             self.assertNotIn('allow_duplicate', record['pairs'][0]['modified'])
+
+
+def record(hub_id, revision, tensors):
+    """A names fixture as the names step writes it, with one shape for every tensor."""
+    return {'hub_id': hub_id, 'revision': revision, 'config': {},
+            'tensors': {name: {'dtype': 'BF16', 'file': 'model.safetensors', 'shape': [4, 4]} for name in tensors}}
+
+
+LAYERS = ['layers.{}.{}.weight'.format(layer, part) for layer in range(3) for part in ('self_attn.o_proj', 'mlp.down_proj')]
+ORIGINAL = ['model.language_model.' + name for name in LAYERS] + ['model.vision_tower.patch.weight']
+# A layout no rule reaches: the same tensors twice, under two wrappers, as one diffusion copy saves them.
+SPLIT = ['decoder.' + name for name in LAYERS] + ['encoder.' + name for name in LAYERS]
+
+
+class NamePairingTests(unittest.TestCase):
+    def test_names_the_rules_pair_pass_whatever_the_original_keeps_besides(self):
+        exact = pairing(ORIGINAL, ORIGINAL)
+        self.assertEqual((exact['paired'], exact['modified_only'], exact['mapping']), (7, [], None))
+        swapped = pairing(ORIGINAL, ['language_model.model.' + name for name in LAYERS])
+        self.assertEqual((swapped['paired'], swapped['modified_only'], len(swapped['original_only'])), (6, [], 1))
+        self.assertEqual(swapped['mapping']['carried_by'], 'swap')
+        self.assertIsNone(unpaired(record('maker/base', 'a' * 40, ORIGINAL),
+                                   record('owner/copy', 'b' * 40, ['language_model.model.' + name for name in LAYERS])))
+
+    def test_a_modified_name_no_rule_reaches_refuses_the_pair_with_the_counts(self):
+        reason = unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, SPLIT))
+        self.assertEqual(reason, 'tensor names cannot be paired: 0 of 12 modified names pair with the 7 original names '
+                                 '(modified 6 under decoder., 6 under encoder.; original 7 under model.); '
+                                 '12 modified and 7 original names unpaired: owner/copy against maker/base')
+        one_more = unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, ORIGINAL + ['lm_head.weight']))
+        self.assertIn('7 of 8 modified names pair with the 7 original names', one_more)
+        self.assertIn('1 modified and 0 original names unpaired', one_more)
+
+    def test_the_diffusion_copy_is_refused_on_its_committed_fixtures(self):
+        original = json.loads((FIXTURES / 'f7f5b7f5fa82.json').read_text())
+        copy = json.loads((FIXTURES / 'ddbe96533046.json').read_text())
+        reason = unpaired(original, copy)
+        self.assertTrue(reason.startswith('tensor names cannot be paired: 0 of 1,674 modified names pair with the 1,047 original names '
+                                          '(modified 1,013 under encoder., 661 under decoder.; original 1,047 under model.)'), reason)
+        self.assertTrue(reason.endswith('DuoNeural/diffusiongemma-26B-A4B-it-abliterated against google/diffusiongemma-26B-A4B-it'))
+        heretic = json.loads((FIXTURES / 'e4b182fe68a5.json').read_text())
+        self.assertIsNone(unpaired(original, heretic))
+
+    def test_the_names_step_writes_every_fixture_then_refuses_the_unpaired_pair(self):
+        records = {'a' * 40: record('maker/base', 'a' * 40, ORIGINAL),
+                   'b' * 40: record('owner/copy', 'b' * 40, ORIGINAL),
+                   'c' * 40: record('owner/other', 'c' * 40, SPLIT),
+                   'd' * 40: record('maker/eight-bit', 'd' * 40, ORIGINAL),
+                   'e' * 40: record('owner/third', 'e' * 40, SPLIT)}
+
+        def fixture(hub, model):
+            if model['hub_id'] == 'maker/eight-bit':
+                raise ValueError('original is quantised (quantization_config): maker/eight-bit')
+            return records[model['revision']]
+
+        def side(hub_id, revision):
+            return {'hub_id': hub_id, 'revision': revision}
+        manifest = {'round': 40, 'pairs': [
+            {'original': side('maker/base', 'a' * 40), 'modified': side('owner/copy', 'b' * 40)},
+            {'original': side('maker/base', 'a' * 40), 'modified': side('owner/other', 'c' * 40)},
+            {'original': side('maker/eight-bit', 'd' * 40), 'modified': side('owner/third', 'e' * 40)}]}
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'round-40-batch-1.json'
+            path.write_text(json.dumps(manifest))
+            out = io.StringIO()
+            with patch.object(pin_census, 'fixture', fixture), contextlib.redirect_stdout(out), \
+                    self.assertRaises(ValueError) as stop:
+                names(path, Path(temporary) / 'names', hub=object())
+            written = sorted(item.name for item in (Path(temporary) / 'names').iterdir())
+        self.assertEqual(written, ['aaaaaaaaaaaa.json', 'bbbbbbbbbbbb.json', 'cccccccccccc.json', 'eeeeeeeeeeee.json'])
+        message = str(stop.exception)
+        self.assertTrue(message.startswith('2 checkpoint(s) refused; pair 3 original: original is quantised'), message)
+        self.assertIn('; pair 2 names: tensor names cannot be paired: 0 of 12 modified names pair with the 7 original names', message)
+        self.assertNotIn('pair 3 names', message)
+        self.assertIn('refused pair 2 names: tensor names cannot be paired', out.getvalue())
 
 
 if __name__ == '__main__':

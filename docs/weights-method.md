@@ -142,4 +142,13 @@ rejected before downloading. Generated checkpoints and reports stay under
 `data/`; this control uses about 1.3 GB. Copies can be deleted after their
 reports and checksums are retained; the prompt lists remain versioned.
 
+## Pinning a pair
+
+`hpc/pin_census.py` records each pair before a round: the copy at its current revision, the newest
+original commit no later than the copy's creation, with both lineages. Its `names` step writes the
+published tensor names of both sides and refuses a pair whose names no pairing rule of the comparison
+reaches (the exact name, one wrapper added or dropped, two wrappers swapped, one segment inside a
+tower), naming the counts on both sides, so the refusal comes before the rehearsal rather than from
+an empty changed set.
+
 Weight differences alone cannot certify the absence of hidden behavior.
