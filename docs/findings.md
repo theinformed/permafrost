@@ -3,12 +3,12 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: two hundred and fourteen measurements of two hundred and seven distinct published copies on thirty-four originals (thirty-three
-copies are re-uploads of others, ten of them the only measurement of their parent, and three more name an unmeasured copy as their parent, sixteen are measured against the community parent their cards name and not against a publisher's original (round 42: six fine-tunes or merges of a Google checkpoint and two unmeasured first edits; round 43: two fine-tunes of a Google checkpoint and six fine-tunes or merges of Mistral Nemo 12B; the parents counted as neither originals nor copies), five copies are measured against
+population is small: two hundred and twenty-two measurements of two hundred and fifteen distinct published copies on thirty-four originals (thirty-five
+copies are re-uploads of others, eleven of them the only measurement of their parent and one of them its own parent's files under a second name, and three more name an unmeasured copy as their parent, twenty-four are measured against the community parent their cards name and not against a publisher's original (round 42: six fine-tunes or merges of a Google checkpoint and two unmeasured first edits; round 43: two fine-tunes of a Google checkpoint and six fine-tunes or merges of Mistral Nemo 12B; round 45: three edits of two Gemma 4 12B fine-tunes, a merge over a first edit of Ministral 3 14B, an edit and a re-upload of two Dolphin fine-tunes of Mistral Small 24B, a pass over unsloth's re-upload of Nemo Instruct, whose shards are Mistral's, and an edit of a Gemma 4 31B fine-tune; the parents counted as neither originals nor copies, finding 117), five copies are measured against
 two originals each (three of them measured again in round 35 against the parent their cards name, which adds a measurement and no copy), one is measured twice against one original, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. One hundred and sixty-four of the one hundred and seventy-four published copies measured so far are what their cards say they are
+## 1. One hundred and seventy-one of the one hundred and eighty-two published copies measured so far are what their cards say they are
 
 Eighty-five community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
 Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
@@ -37,15 +37,16 @@ longer serves) and six from six makers on Gemma 4 12B, E4B and E2B bases and the
 checkpoint (round 41, beside a hub duplicate of an unmeasured export that survives only in its parent's history) and eight from seven makers
 measured against the community fine-tunes, merges and first edits their cards name on Gemma 4 31B and 26B-A4B and Gemma 3 27B and 4B bases
 (round 42, the first second-generation round, beside a hub duplicate of an unmeasured fine-tune) and eight from three makers
-measured against the community fine-tunes and merges their cards name on Gemma 4 26B-A4B and 31B and Mistral Nemo 12B bases (round 43, the second second-generation round, six of them one maker's passes on six Nemo fine-tunes), have
-been compared tensor by tensor with their stated originals or, in rounds 42 and 43, their stated parents. In one hundred and sixty-four, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in one hundred and thirty-six copies, 0.00008, 0.000006, 0.00024,
-0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098, 0.00091, 0.000195, 0.000898, 0.000086, 0.000673, 0.000983, 0.000003, 0.000987 and 0.000994 in twenty-three others on matrices the method itself weighted near zero or did not name,
+measured against the community fine-tunes and merges their cards name on Gemma 4 26B-A4B and 31B and Mistral Nemo 12B bases (round 43, the second second-generation round, six of them one maker's passes on six Nemo fine-tunes) and eight from seven makers
+measured against the community fine-tunes, first edits and re-uploads their cards name on Gemma 4 12B and 31B, Ministral 3 14B, Mistral Small 24B and Mistral Nemo 12B bases (round 45, the third second-generation round, read before round 44, beside a hub duplicate of an unmeasured edit and a re-upload of its parent's files), have
+been compared tensor by tensor with their stated originals or, in rounds 42, 43 and 45, their stated parents. In one hundred and seventy-one, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in one hundred and forty-one copies, 0.00008, 0.000006, 0.00024,
+0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098, 0.00091, 0.000195, 0.000898, 0.000086, 0.000673, 0.000983, 0.000003, 0.000987, 0.000994 and 0.000116 in twenty-four others on matrices the method itself weighted near zero or did not name,
 0.0000011 in the jokernifty E4B copy and in Ilya626's, whose float16 saves round the smallest values of untouched tensors,
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors, and 0.000998
-in the Dingdust E4B copy, whose parent fine-tune sits at the threshold on 189 tensors, and 0.000995 in Justbackup's duplicate of DavidAU's 27B fine-tune over coder3101's edit, whose training sits at the threshold on the normalisation vectors (round 42).
-One hundred and sixty of the one hundred and sixty-four are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
+in the Dingdust E4B copy, whose parent fine-tune sits at the threshold on 189 tensors, and 0.000995 in Justbackup's duplicate of DavidAU's 27B fine-tune over coder3101's edit, whose training sits at the threshold on the normalisation vectors (round 42), and 0.00097 in tpls's 12B coder edit, whose bfloat16 save of a float16 parent puts 263 matrices moved by the recast alone inside the changed set beside the edit's 59 (round 45, finding 127).
+One hundred and sixty-six of the one hundred and seventy-one are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
 and one, DavidAU's E2B copy, with a fine-tune laid over it, as their cards say; one, sh0ck0r's Artemis copy, is
 measured against the grandparent its `base_model` field names and reads its named parent's 4-bit round trip under
 the edit, finding 45, and measured again against that parent in round 35 reads the edit alone, finding 77; one, Dingdust's ContextPilot copy, is measured against the grandparent its field names and
@@ -54,7 +55,7 @@ copy, is measured against the grandparent its field names and reads the fine-tun
 kernels, finding 61, and against that parent reads the kernels alone, finding 77; one, AlekseyCalvin's translation copy, is measured against the grandparent its field names and
 reads igorls's 12B Heretic edit under the training, the parent placed from the saved direction vectors, finding 66); four
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic, and in round 42 Justbackup's duplicate of DavidAU's 27B fine-tune and DavidAU's 4B fine-tune, each measured against the unmeasured Heretic edit its card names)
-are training, as their cards say, findings 17, 18 and 121. The ten others carry a parent or a change their cards do not name:
+are training, as their cards say, findings 17, 18 and 121; and one, AskVenice/venice-uncensored, is its parent's files byte for byte, the Dolphin fine-tune its card names (finding 132). The eleven others carry a parent or a change their cards do not name:
 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated changes every matrix in the model (finding 8),
 lemuralabs/Gemma-4-12B-uncensored-bf16 carries a third party's coding fine-tune under its ablation (finding 25), and
 Felldude/Ministral-3-8B-Uncensored carries the instruct model's template and 5 to 11 percent of dense change against
@@ -72,7 +73,7 @@ own (finding 95), and chulcher/gemma-4-e4b-abliterated stands on the pretrained 
 links that name the instruct model, its saved directions at 1.000 to the census's measurement on that checkpoint on all 347
 shared names and nine byte-range reads byte-equal to it (finding 100), and NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn, made four minutes
 before its sibling of finding 87, edits fifteen down projections under a card that says the attention outputs were its one target
-(finding 109). The measurements beyond one hundred and fifty-two: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
+(finding 109), and SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF is the merge its card prints made over Mistral's float8 codes read as weights, three entries in ten of every language matrix the raw codes, with no scale beside them (finding 129). The measurements beyond one hundred and fifty-two: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
 of TrevorJS's 12B edit, MeFFyLe's of llmfan46's 12B edit and nicoboss's of huihui-ai's Mistral Small 3.2 edit, each
 equal to its parent's report in every field (finding 38); three more in round 30, sitten1's and erunda337's copies
 of TrevorJS's 26B-A4B edit, equal to its second pass in every field but the sketch's last digits, and nnnxnsn's
@@ -88,12 +89,12 @@ huihui-ai's second 31B version, claymorecrystal's of TrevorJS's 26B-A4B edit and
 edit, each equal to its parent's report in every field (findings 38 and 56); nguyenthilaitrieulong's duplicate of
 WWTCyberLab's unmeasured 31B edit in round 31, measured as that edit (finding 64); eadx's duplicate of huihui-ai's unmeasured
 QAT 26B-A4B edit in round 34, whose parent repository the hub no longer serves, measured as that edit (finding 73); Dzluck's re-upload of huihui-ai's unmeasured E2B second version and enkato64bit's duplicate of
-Jiunsong's unmeasured SuperGemma 12B edit in round 35, each measured as that edit (findings 80 and 81); Himanshuoo8's duplicate of DavidAU's unmeasured E4B fine-tune over coder3101's edit in round 38, measured as that edit (finding 97); Paul691's duplicate of OpenYourMind's unmeasured 12B projection over yuxinlu1's coder fine-tune in round 39, measured as that copy, whose card names Google as its one parent (finding 101); germlag's duplicate of coder3101's unmeasured second 31B export in round 40, whose parent repository the hub no longer serves, measured as that edit (finding 105); jcxu97's duplicate of wangzhang's unmeasured first 31B export in round 41, the export its parent's head replaced and the hub's history still holds, measured as that export (finding 111); Justbackup's duplicate of DavidAU's unmeasured 27B fine-tune over coder3101's unmeasured first edit in round 42, the twelve shards the parent's at three revisions by object id, measured as that fine-tune against the first edit its card names (finding 121); the huihui-ai E2B edit measured a second time in round 22, equal to its round 13
+Jiunsong's unmeasured SuperGemma 12B edit in round 35, each measured as that edit (findings 80 and 81); Himanshuoo8's duplicate of DavidAU's unmeasured E4B fine-tune over coder3101's edit in round 38, measured as that edit (finding 97); Paul691's duplicate of OpenYourMind's unmeasured 12B projection over yuxinlu1's coder fine-tune in round 39, measured as that copy, whose card names Google as its one parent (finding 101); germlag's duplicate of coder3101's unmeasured second 31B export in round 40, whose parent repository the hub no longer serves, measured as that edit (finding 105); jcxu97's duplicate of wangzhang's unmeasured first 31B export in round 41, the export its parent's head replaced and the hub's history still holds, measured as that export (finding 111); Justbackup's duplicate of DavidAU's unmeasured 27B fine-tune over coder3101's unmeasured first edit in round 42, the twelve shards the parent's at three revisions by object id, measured as that fine-tune against the first edit its card names (finding 121); SAIFIINDUSTRIES's duplicate of saukko's unmeasured Dolphin 3.0 R1 edit in round 45, every file saukko's at every revision by object id, measured as that edit against the fine-tune its card names (finding 131); AskVenice's upload of the ten shards of dphn's Venice Edition in round 45, measured against that parent and unchanged on every tensor (finding 132); the huihui-ai E2B edit measured a second time in round 22, equal to its round 13
 report to the last digit (finding 50); TimelessSoul/Huihui-gemma-4-12B-it-abliterated is
 huihui-ai's 12B file under another name, shard checksum and every field equal (finding 9);
 Jiunsong/supergemma4-e4b-abliterated paired no tensor with its original (finding 14);
 timfromhcs/Ministral-3-14B-abliterated was compared against an original published in float8 and read nothing but
-the quantisation (findings 7 and 37); the richardyoung coder copy is measured twice, against its grandparent and
+the quantisation (findings 7 and 37), its source read by byte range in round 45 against Mistral's bfloat16 release, which its first shard matches by object id (finding 130); the richardyoung coder copy is measured twice, against its grandparent and
 against its parent (finding 18); 3MPER0RR's Mistral 7B copy is measured twice, against the pretrained base its
 card names and against the instruct model its weights point to (finding 8); and three copies first measured against a grandparent
 were measured again in round 35 against the parent their cards name, sh0ck0r's Artemis copy and Pranavz's Hearthfire copy (finding 77)
@@ -314,11 +315,19 @@ and Felldude's E4B copy (finding 78).
 | Sorihon/NemoMix-Unleashed-12B-Heretic | MarinaraSpaghetti/NemoMix-Unleashed-12B | 67 of 363 (the down projections of layers 6 to 39 and the attention outputs of 7 to 39 over MarinaraSpaghetti's five-source Nemo merge, one shared direction on the output side, the down kernel 0.35 to 0.83 and the attention weights scattered 0.09 to 1.03, at 0.90 to the maker's DARKNESS edit, finding 123) | 0 |
 | Sorihon/MN-12B-Celeste-V1.9-Heretic | nothingiisreal/MN-12B-Celeste-V1.9 | 35 of 363 (the attention outputs of layers 18 to 39 and the down projections of 22 to 34 over nothingiisreal's Nemo fine-tune, one direction per layer on the output side at 0.59 to 1.31 and a down kernel peaking at 1.15 at layer 28, at 0.73 to the maker's Dans edit, finding 123) | 0 |
 | Sorihon/EtherealAurora-12B-v2-Heretic | yamatazen/EtherealAurora-12B-v2 | 68 of 363 (the attention outputs of layers 4 to 39 and the down projections of 8 to 39 over yamatazen's merge, which already carries natong19's abliteration, one direction per layer on the output side scattered 0.12 to 1.27 on the attention outputs and 0.19 to 0.81 on the down projections, at 0.70 to the maker's Celeste edit and 0.09 to DuoNeural's projection, finding 123) | 0 |
+| tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | 322 of 677 (the down projections of layers 9 to 47 and the attention outputs of 24 to 43, one shared direction with the kept fractions scattered, at 0.957 to richardyoung's Heretic edit of the same parent, beside 263 matrices moved only by the bfloat16 recast of the float16 parent, finding 127) | 0.00097 |
+| huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | 12 of 677 (both writers of layers 23 to 28 at weight 1.00 with the direction of the maker's Google 12B edit, 1.000 on all 12 names, finding 128) | 0 |
+| SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF | jenerallee78/Ministral-3-14B-abliterated | 280 of 585 (every linear map of all 40 layers at 460 to 4,593 times the parent's norm: the card's DARE merge over Mistral's float8 codes read as weights, finding 129) | 0 |
+| SAIFIINDUSTRIES/Abliterated-Dolphin3.0-R1-Mistral-24B | dphn/Dolphin3.0-R1-Mistral-24B | 81 of 363 (saukko's unmeasured edit under the hub's duplicate function: one direction projected out of the token embedding and both writers of all 40 layers at weight 1.00, finding 131) | 0 |
+| AskVenice/venice-uncensored | dphn/Dolphin-Mistral-24B-Venice-Edition | 0 of 363 (the parent's ten shards by object id, finding 132) | 0 |
+| 0xA50C1A1/Mistral-Nemo-Instruct-2407-Heretic-v2 | unsloth/Mistral-Nemo-Instruct-2407 | 63 of 363 (the attention outputs of layers 12 to 39 and the down projections of 5 to 39, the card's kernel reaches, one shared direction on the output side, at 0.90 to Sorihon's DARKNESS edit, finding 133) | 0 |
+| llmfan46/Gemma-4-Garnet-V2-31B-it-ultra-uncensored-heretic | ConicCat/Gemma4-GarnetV2-31B | 20 of 1,188 (the attention outputs of layers 25 to 45 under a card to 46, layer 29 rewritten below the threshold, input-side weights 1.31 to 2.66 with no component amplified, at 0.78 to 0.88 to the maker's other 31B searches, finding 134) | 0.000116 |
+| huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated | yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2 | 12 of 677 (both writers of layers 23 to 28 at weight 1.00, the direction found again at 0.978 to the maker's Google edit, finding 128) | 0 |
 
-The fair statement of the result is narrow: at the weight level, one hundred and sixty-four copies contain the edit or the
-training they claim and no other, ten carry a parent or a change their cards do not name, one could not be paired
+The fair statement of the result is narrow: at the weight level, one hundred and seventy-one copies contain the edit or the
+training they claim and no other, eleven carry a parent or a change their cards do not name, one could not be paired
 and one could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-two hundred and seven distinct copies, one hundred and seventy-four of them read.
+two hundred and fifteen distinct copies, one hundred and eighty-two of them read.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -912,7 +921,7 @@ direction, no weight stated). For a method with a row-normalisation step the rem
 the rank of the edit and no weight, on the parent as on the grandparent. Evidence:
 `results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.json` (against Google),
 `results/weights/richardyoung-gemma-4-12B-coder-fable5-composer2.5-v1-heretic.parent.json` (against the parent),
-the two `results/meta/` reports of the same names and the two readings in `docs/cards/`.
+the two `results/meta/` reports of the same names and the two readings in `docs/cards/`. Round 45 measures two more edits of the same parent against it: tpls's direction stands at 0.957 to this copy's on all 39 shared names and its kept fractions scatter on both sides as this copy's do, and huihui-ai's projection at weight 1.00 stands at 0.50 to it (findings 127 and 128).
 
 ## 19. Half of the round's Gemma 4 copies carry a chat template that matches no revision Google published
 
@@ -1173,7 +1182,7 @@ Round 34 adds four arbitrary-rank copies: coder3101's 12B QAT edit reads the mak
 input-side weights 1.10 to 1.70 on twelve attention outputs; Umranz's edit of the diffusion variant reads fifteen
 residues and 23 projections with the band (0.0043 to 0.0079) under no claim (finding 76); and wnfldchen's LoRA-rank
 fork reads rank one with a direction per matrix, input side at 0.95 to 1.90 with two attention outputs at 4.14 and
-5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82). Round 37 reads it on MoonRide's two April edits (0.0059 to 0.0077 on 36 matrices, 0.0051 to 0.0078 on 26, finding 86), at or under it on OS-Software's two LoRA-adapter exports (finding 83), and reads the first claim that holds on no matrix, wnfldchen's 31B export at a preservation weight of 0.1182 with rows 0.014 to 0.75 on all 30 (finding 84). Round 36 reads the band on coder3101's two QAT edits under the claim (0.0068 to 0.0079 on 17 attention outputs of the 31B checkpoint, 0.0067 to 0.0077 on 9 of the 26B-A4B's), 0.0023 to 0.052 on llmfan46's 31B QAT edit under no claim, then the largest row movement the census has read on a 12B under no claim, 0.21 on one attention output of OS-Software's first Japanese export (findings 89 and 93). Round 38 reads the band on SassyDiffusion's E4B edit (0.0068 to 0.0078 on all 21), on RumiaChannel's Refusals2 (0.0052 to 0.0079 on all 37 edits) and through DavidAU's fine-tune on coder3101's attention outputs (0.0071 to 0.0079, finding 97), and reads a reparameterised claim that holds to the row on Bahushruth's E2B copy (0.0001 to 0.0004, finding 99). Round 39 reads the band on MoonRide's two E2B exports (0.0065 to 0.0078 on twelve edits, 0.0060 to 0.0078 on 35) and at and under it on NullpoLab's Refusals8 (0.0011 to 0.0096), none of the three cards naming the preservation (finding 104). Round 40 reads the band on Jim-darby's 31B search (0.0050 to 0.0078 on 32 edits, under a card that says "Row normalization: none") and through and over it on NullpoLab's Refusals6-attn (0.0015 to 0.0131), findings 108 and 109. Round 41 reads the band on RumiaChannel's Refusals4 (0.0049 to 0.0079 on 21 edits, 0.0007 to 0.0008 on five residues) and through and over it on NullpoLab's Refusals3 (0.0011 to 0.0184), the maker's fifth export to read so (finding 116). Round 42 reads the band on four edits over community parents (Vortex5's two merges at 0.0064 to 0.0077 and 0.0058 to 0.0078, coder3101's body under SubMaroon's merge at 0.0061 to 0.0080) and through and over it on llmfan46's two edits of 31B fine-tunes (0.0009 to 0.0245 and 0.0006 to 0.197, the layer 50 row under a component multiplied by 6.71), findings 118, 119 and 120. Round 43 reads the band's opposite on densenet's 31B edit, rows 0.019 to 0.777 on 36 matrices under a card claiming row-norm preservation (finding 124), and reads under it on llmfan46's 26B-A4B edit, 0.0005 to 0.0055 on eleven attention outputs (finding 125).
+5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82). Round 37 reads it on MoonRide's two April edits (0.0059 to 0.0077 on 36 matrices, 0.0051 to 0.0078 on 26, finding 86), at or under it on OS-Software's two LoRA-adapter exports (finding 83), and reads the first claim that holds on no matrix, wnfldchen's 31B export at a preservation weight of 0.1182 with rows 0.014 to 0.75 on all 30 (finding 84). Round 36 reads the band on coder3101's two QAT edits under the claim (0.0068 to 0.0079 on 17 attention outputs of the 31B checkpoint, 0.0067 to 0.0077 on 9 of the 26B-A4B's), 0.0023 to 0.052 on llmfan46's 31B QAT edit under no claim, then the largest row movement the census has read on a 12B under no claim, 0.21 on one attention output of OS-Software's first Japanese export (findings 89 and 93). Round 38 reads the band on SassyDiffusion's E4B edit (0.0068 to 0.0078 on all 21), on RumiaChannel's Refusals2 (0.0052 to 0.0079 on all 37 edits) and through DavidAU's fine-tune on coder3101's attention outputs (0.0071 to 0.0079, finding 97), and reads a reparameterised claim that holds to the row on Bahushruth's E2B copy (0.0001 to 0.0004, finding 99). Round 39 reads the band on MoonRide's two E2B exports (0.0065 to 0.0078 on twelve edits, 0.0060 to 0.0078 on 35) and at and under it on NullpoLab's Refusals8 (0.0011 to 0.0096), none of the three cards naming the preservation (finding 104). Round 40 reads the band on Jim-darby's 31B search (0.0050 to 0.0078 on 32 edits, under a card that says "Row normalization: none") and through and over it on NullpoLab's Refusals6-attn (0.0015 to 0.0131), findings 108 and 109. Round 41 reads the band on RumiaChannel's Refusals4 (0.0049 to 0.0079 on 21 edits, 0.0007 to 0.0008 on five residues) and through and over it on NullpoLab's Refusals3 (0.0011 to 0.0184), the maker's fifth export to read so (finding 116). Round 42 reads the band on four edits over community parents (Vortex5's two merges at 0.0064 to 0.0077 and 0.0058 to 0.0078, coder3101's body under SubMaroon's merge at 0.0061 to 0.0080) and through and over it on llmfan46's two edits of 31B fine-tunes (0.0009 to 0.0245 and 0.0006 to 0.197, the layer 50 row under a component multiplied by 6.71), findings 118, 119 and 120. Round 43 reads the band's opposite on densenet's 31B edit, rows 0.019 to 0.777 on 36 matrices under a card claiming row-norm preservation (finding 124), and reads under it on llmfan46's 26B-A4B edit, 0.0005 to 0.0055 on eleven attention outputs (finding 125). Round 45 reads the band through and over on every edit it measures: 0.0003 to 0.0377 on llmfan46's Garnet search (finding 134), 0.0009 to 0.0165 on tpls's 12B edit, 0.0017 to 0.0151 on saukko's Dolphin projection, 0.0038 to 0.0163 on 0xA50C1A1's Nemo pass and 0.016 to 0.079 on huihui-ai's two 12B projections, every one of their 24 matrices over the band (findings 127, 128, 131 and 133).
 
 ## 23. A maker's one-line patch to Google's template writes an empty thought block into every earlier model turn
 
@@ -1540,7 +1549,7 @@ published scripts; this copy's rows moved by 0.004 to 0.032, the leftover of a p
 Whether the "BP" in the name is the biprojection without its norm step or an earlier form of it, the card does not
 say, and the weights read the difference: three directions, one weight, no restoration. Evidence:
 `results/weights/grimjim-mistralai-Mistral-Nemo-Instruct-2407-extensive-BP-abliteration-12B.json` and
-`docs/cards/grimjim--mistralai-Mistral-Nemo-Instruct-2407-extensive-BP-abliteration-12B-0c30f0e3.reading.md`.
+`docs/cards/grimjim--mistralai-Mistral-Nemo-Instruct-2407-extensive-BP-abliteration-12B-0c30f0e3.reading.md`. Round 45 reads the same leftover on a second edit that names the maker's norm-preserving biprojection, jenerallee78's Ministral 3 14B edit, its rows moved by up to 0.0184 on the three writers read against Mistral's bfloat16 release (finding 130).
 
 ## 37. A float8 original compared raw reads 280 rewritten matrices and 921 flags, and the pair is still unmeasured
 
@@ -1557,7 +1566,7 @@ pair needs is the original dequantised once at home (560 scales applied, saved i
 comparison run against that, for this copy and for its source. Evidence:
 `results/weights/timfromhcs-Ministral-3-14B-abliterated.json` (the `original_only` list and the 280 matrices),
 `results/meta/timfromhcs-Ministral-3-14B-abliterated.json` and
-`docs/cards/timfromhcs--Ministral-3-14B-abliterated-c9f55a6b.reading.md`.
+`docs/cards/timfromhcs--Ministral-3-14B-abliterated-c9f55a6b.reading.md`. Round 45 finds the original the pair needs on the hub: jenerallee78's first shard is mistralai/Ministral-3-14B-Instruct-2512-BF16's first shard by object id, its query projections are byte-equal to that release, and its writers read a rank-one projection at weight 1.00 against it (finding 130).
 
 ## 38. Four hub duplicates in one round, each readable from its commit title and file checksums before any download
 
@@ -1638,7 +1647,7 @@ copy's own and no measured field is shared. The rule compares every weight file:
 all of its checksums equal a measured copy's, and a shared subset is the library's shard layout (finding 71).
 Round 34's pinner refused liskasYR/gemma-4-12B-it-qat-q4_0-unquantized-heretic, one commit "Duplicate from" igorls's
 QAT copy with igorls's shards, and admitted eadx's one-commit duplicate of huihui-ai's QAT 26B-A4B edit because the
-parent was never measured and the hub no longer serves it (finding 73). Round 38 adds another case read from the commit title and the checksum before any download: Himanshuoo8's one commit "Duplicate from DavidAU/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking", the weight file byte-equal to DavidAU's unmeasured fine-tune over coder3101's E4B edit, measured as that edit (finding 97). Round 39 adds Paul691's one commit "Duplicate from OpenYourMind/gemma-4-12B-it-abliterated-uncensored", every file byte-equal to the unmeasured parent, measured as that copy (finding 101). Round 40 adds germlag's one commit "Duplicate from coder3101/gemma-4-31B-it-heretic-v2", the parent gone from the hub and the batch note recording that its files differ from coder3101's first export, measured as the second export (finding 105). Round 41 adds jcxu97's one commit "Duplicate from wangzhang/gemma-4-31B-it-abliterated", the batch note recording that its files differ from the parent's head and the hub's file listings placing them at the parent's revisions of 04-10 and 04-11 by object id, measured as that earlier export (finding 111). Round 42 adds Justbackup's one commit "Duplicate from DavidAU/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning", the batch note recording that its files differ and the hub's object ids placing all twelve shards in the parent at its head and two earlier revisions, measured as that fine-tune against the first edit its card names (finding 121).
+parent was never measured and the hub no longer serves it (finding 73). Round 38 adds another case read from the commit title and the checksum before any download: Himanshuoo8's one commit "Duplicate from DavidAU/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking", the weight file byte-equal to DavidAU's unmeasured fine-tune over coder3101's E4B edit, measured as that edit (finding 97). Round 39 adds Paul691's one commit "Duplicate from OpenYourMind/gemma-4-12B-it-abliterated-uncensored", every file byte-equal to the unmeasured parent, measured as that copy (finding 101). Round 40 adds germlag's one commit "Duplicate from coder3101/gemma-4-31B-it-heretic-v2", the parent gone from the hub and the batch note recording that its files differ from coder3101's first export, measured as the second export (finding 105). Round 41 adds jcxu97's one commit "Duplicate from wangzhang/gemma-4-31B-it-abliterated", the batch note recording that its files differ from the parent's head and the hub's file listings placing them at the parent's revisions of 04-10 and 04-11 by object id, measured as that earlier export (finding 111). Round 42 adds Justbackup's one commit "Duplicate from DavidAU/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning", the batch note recording that its files differ and the hub's object ids placing all twelve shards in the parent at its head and two earlier revisions, measured as that fine-tune against the first edit its card names (finding 121). Round 45 adds SAIFIINDUSTRIES's duplicate of saukko's Dolphin 3.0 R1 edit, every file saukko's at all five revisions by object id under a batch note that again recorded a difference, and AskVenice's upload of the Venice Edition's ten shards under a first commit that is not the duplicate function, which the checksum half of the rule catches and the title half does not (findings 131 and 132).
 
 ## 39. A model family the judging library cannot load reads six unexplained configuration fields on every copy
 
@@ -1965,7 +1974,7 @@ attention heights at 1.09 to 1.19 on layers 24 to 27 and 0.29 to 0.67 on 18, 32,
 to 1.36 (`results/weights/prithivMLmods-gemma-4-E4B-it-qat-heretic_decensored.json`). Five 12B copies now read the scatter against Vampelium's, which
 reads its heights, and two Google checkpoints of the 12B behave alike, so the open question of this finding is about
 the 12B's weights and the tool together rather than the base alone. Evidence: `results/weights/BinxNet-gemma-4-12B-it-heretic.json`,
-`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`. TheUmbraWalker's first E4B pass (round 37) reads the same way, one direction per layer and kept fractions with no kernel shape, under a card that prints two kernels (finding 85). Round 36 reads the scatter twice more: JJaguar's kernel pass of the 12B QAT checkpoint keeps -0.24 to 0.89 on the left and -0.05 to 0.86 on the right under kernels of 1.20 to 1.43 (finding 91), and Mitchins's transferred kernel on the 26B-A4B QAT checkpoint reads no kernel on the attention outputs, the dense down projections or the experts (finding 92). Round 38 reads a weight where the 12B passes read none: DuoNeural's E2B copy, one direction on both writers at one minus the left kept fraction of 0.75 to 1.43 on the down projections and 1.03 to 1.32 on the attention outputs, two kernels the card does not print, under a clean read of the single-projection entry (finding 96). Round 39 reads p-e-w's reproduction's two kernels in shape on the output side (0.47 to 1.34 to 0.86 under a printed 1.47) with the right side scattered 0.03 to 0.85 (finding 102), and tvall43's two passes at the largest weights the census has read on a kernel pass, a flat 4.1 and a climbing 3.3 to 4.5, with none of the kernels' shape (finding 103). Round 40 reads the kernels' shape on three passes: coder3101's second 31B export rising to 1.31 and 1.46 at the card's layers, Vampelium's to 1.16 and 1.45 under a card with no table, and tvall43's E2B v0 from 2.05 to 4.84 and back to 1.85, three times its card's maximum (findings 105 and 110). Round 41 reads the kernel's heights to the second decimal on two passes, Roman0's functiongemma (1.40 to 1.45 and 0.85 to 1.29 under printed maxima of 1.46 and 1.33) and MoonRide's E2B (1.17 to 1.38 and 1.14 to 1.21 under 1.38 and 1.21), and reads no kernel in the kept fractions of ImanolSuarez's pass under a full row normalisation, where the relative change carries the shape instead (findings 113, 114 and 115). Round 42 reads the kernel's shape and peak under that same row normalisation on a 1.4.0 pass, bgg1996's down projections at 1.03 to 1.21 at layer 43 under a printed 1.22 at 43.01 and its attention outputs rising with scatter to 1.41 at layers 51 to 53 under 1.45 at 51.65, the lower end at 0.31 under a printed 0.93 (finding 122). Round 43 reads the scatter on a Mistral base for the first time: four of Sorihon's six Nemo passes keep -0.28 to 0.93 on the attention outputs beside down kernels readable to the layer (finding 123).
+`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`. TheUmbraWalker's first E4B pass (round 37) reads the same way, one direction per layer and kept fractions with no kernel shape, under a card that prints two kernels (finding 85). Round 36 reads the scatter twice more: JJaguar's kernel pass of the 12B QAT checkpoint keeps -0.24 to 0.89 on the left and -0.05 to 0.86 on the right under kernels of 1.20 to 1.43 (finding 91), and Mitchins's transferred kernel on the 26B-A4B QAT checkpoint reads no kernel on the attention outputs, the dense down projections or the experts (finding 92). Round 38 reads a weight where the 12B passes read none: DuoNeural's E2B copy, one direction on both writers at one minus the left kept fraction of 0.75 to 1.43 on the down projections and 1.03 to 1.32 on the attention outputs, two kernels the card does not print, under a clean read of the single-projection entry (finding 96). Round 39 reads p-e-w's reproduction's two kernels in shape on the output side (0.47 to 1.34 to 0.86 under a printed 1.47) with the right side scattered 0.03 to 0.85 (finding 102), and tvall43's two passes at the largest weights the census has read on a kernel pass, a flat 4.1 and a climbing 3.3 to 4.5, with none of the kernels' shape (finding 103). Round 40 reads the kernels' shape on three passes: coder3101's second 31B export rising to 1.31 and 1.46 at the card's layers, Vampelium's to 1.16 and 1.45 under a card with no table, and tvall43's E2B v0 from 2.05 to 4.84 and back to 1.85, three times its card's maximum (findings 105 and 110). Round 41 reads the kernel's heights to the second decimal on two passes, Roman0's functiongemma (1.40 to 1.45 and 0.85 to 1.29 under printed maxima of 1.46 and 1.33) and MoonRide's E2B (1.17 to 1.38 and 1.14 to 1.21 under 1.38 and 1.21), and reads no kernel in the kept fractions of ImanolSuarez's pass under a full row normalisation, where the relative change carries the shape instead (findings 113, 114 and 115). Round 42 reads the kernel's shape and peak under that same row normalisation on a 1.4.0 pass, bgg1996's down projections at 1.03 to 1.21 at layer 43 under a printed 1.22 at 43.01 and its attention outputs rising with scatter to 1.41 at layers 51 to 53 under 1.45 at 51.65, the lower end at 0.31 under a printed 0.93 (finding 122). Round 43 reads the scatter on a Mistral base for the first time: four of Sorihon's six Nemo passes keep -0.28 to 0.93 on the attention outputs beside down kernels readable to the layer (finding 123). Round 45 reads it on Nemo Instruct itself: 0xA50C1A1's Heretic 1.2.0 pass keeps 0.09 to 1.06 on the attention outputs under a printed kernel of 1.08 to 1.29, beside a down kernel readable to the layer from 0.83 to 1.39 (finding 133).
 
 ## 47. An ablation whose parameters are written into the configuration reads back from the weights to the third decimal on four writers
 
@@ -2508,7 +2517,7 @@ igorls's repository, where the training will read alone. How to reproduce:
 then the cosine of the two `weights.directions.safetensors` files' `.left` vectors on those names (the pull copies
 under `wheat31/measurements/pair-1/` and `blueback7/measurements/pair-3/`), and
 `results/meta/AlekseyCalvin-Lyrical_Translator_ru2en_on_Gemma4_12b_heretic_SFT_Run2.json` for the context field.
-The reading is in `docs/cards/`. Round 38 is the check's strongest result: DuoNeural's 26B-A4B copy stands at 1.000 to TrevorJS's saved vectors on all 90 names where an independent run of the method stands at 0.97, and the comparison, not the card or the recipe table, named the parent (finding 95). Round 39 names two parents from the saved vectors: Google's instruction tuning under chulcher's copy (1.000 to Felldude's pretrained-base measurement on 347 names) and yuxinlu1's fine-tune under OpenYourMind's (1.000 to lemuralabs's on 228 readers), both confirmed byte for byte afterwards (findings 100 and 101). Round 40 placed its eight edits by two hundred and twenty-two comparisons and read the check's limit: four makers' per-layer 31B passes at 1.000 to each other with the bytes 0.0005 to 0.010 apart (finding 105), beside cosmicoptima's direction at 0.034 or less to every 31B edit (finding 106) and DuoNeural's 31B copy at 0.28 to TrevorJS's where the maker's 26B-A4B copy stood at 1.000 (finding 107). Round 41 reads 1.000 between jcxu97's hub duplicate and the census's measurement of its parent's head on all 73 shared names, and the byte-range step placed the duplicate's bytes in the parent's history, an earlier trial of the same search with other weights (finding 111); Sabomako's 12B stands at 0.986 to TrevorJS's with the bytes 0.10 apart, and ImanolSuarez's E4B pass at 0.75 to p-e-w's on the same prompt sets under a later version of the tool (findings 112 and 114). Round 42 places six second-generation edits from the saved vectors with the Google-rooted families standing in for the community parents: SubMaroon's body at 1.000 to coder3101's 26B-A4B edit, Vortex5's two merge edits at 0.95 to 0.99 to the 26B-A4B searches, llmfan46's two fine-tune edits at 0.89 to 0.99 to the 31B searches and the maker's own, and bgg1996's pass at 0.92 to the per-layer 31B passes, while the two fine-tunes over unmeasured first edits carry no direction (findings 117 to 122). Round 43 asks the check a new question, whether the direction is the base's or the fine-tune's: six passes by one maker on six Nemo fine-tunes stand at 0.33 to 0.90 to each other and 0.39 to 0.68 to grimjim's pass on Nemo Instruct (finding 123).
+The reading is in `docs/cards/`. Round 38 is the check's strongest result: DuoNeural's 26B-A4B copy stands at 1.000 to TrevorJS's saved vectors on all 90 names where an independent run of the method stands at 0.97, and the comparison, not the card or the recipe table, named the parent (finding 95). Round 39 names two parents from the saved vectors: Google's instruction tuning under chulcher's copy (1.000 to Felldude's pretrained-base measurement on 347 names) and yuxinlu1's fine-tune under OpenYourMind's (1.000 to lemuralabs's on 228 readers), both confirmed byte for byte afterwards (findings 100 and 101). Round 40 placed its eight edits by two hundred and twenty-two comparisons and read the check's limit: four makers' per-layer 31B passes at 1.000 to each other with the bytes 0.0005 to 0.010 apart (finding 105), beside cosmicoptima's direction at 0.034 or less to every 31B edit (finding 106) and DuoNeural's 31B copy at 0.28 to TrevorJS's where the maker's 26B-A4B copy stood at 1.000 (finding 107). Round 41 reads 1.000 between jcxu97's hub duplicate and the census's measurement of its parent's head on all 73 shared names, and the byte-range step placed the duplicate's bytes in the parent's history, an earlier trial of the same search with other weights (finding 111); Sabomako's 12B stands at 0.986 to TrevorJS's with the bytes 0.10 apart, and ImanolSuarez's E4B pass at 0.75 to p-e-w's on the same prompt sets under a later version of the tool (findings 112 and 114). Round 42 places six second-generation edits from the saved vectors with the Google-rooted families standing in for the community parents: SubMaroon's body at 1.000 to coder3101's 26B-A4B edit, Vortex5's two merge edits at 0.95 to 0.99 to the 26B-A4B searches, llmfan46's two fine-tune edits at 0.89 to 0.99 to the 31B searches and the maker's own, and bgg1996's pass at 0.92 to the per-layer 31B passes, while the two fine-tunes over unmeasured first edits carry no direction (findings 117 to 122). Round 43 asks the check a new question, whether the direction is the base's or the fine-tune's: six passes by one maker on six Nemo fine-tunes stand at 0.33 to 0.90 to each other and 0.39 to 0.68 to grimjim's pass on Nemo Instruct (finding 123). Round 45 reads a 1.000 across two parents for the first time: huihui-ai's edit of a 12B fine-tune stands at 1.000 to the maker's edit of Google's 12B on every name, the bytes confirming the base direction carried over unchanged, while the maker's edit of the same fine-tuner's other 12B stands at 0.978, and tpls's edit of the coder fine-tune at 0.957 to richardyoung's of the same parent (findings 127 and 128).
 
 ## 67. Six of eight Heretic exports in one round name the pretrained base in their `base_model` field, because the tool's card carries the original's header
 
@@ -2537,7 +2546,7 @@ google/gemma-4-12B-it, then `results/weights/callmegrr-gemma-4-31B-it-heretic-z.
 round-33 reports (`summary.max_relative_change_outside_changed` is 0 on each). The readings are in `docs/cards/`.
 Round 34's eight copies all name their true original in the field, the four Heretic exports among them: on a QAT
 checkpoint the inherited header names the QAT checkpoint, so the tool's habit misleads only where the original's own
-card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82). Round 37's TheUmbraWalker first pass names the pretrained base, as the maker's second copy does, and its six other Heretic exports name their true originals (finding 85). Round 36's eight copies all stand on QAT checkpoints: coder3101's two with llmfan46's and Mitchins's name the QAT checkpoint in the field, and OS-Software's three Heretic v1 and v2 cards and JJaguar's v1 card name the instruct model, the inheritance of finding 48 (finding 90). Round 39's p-e-w reproduction carries the same inherited field and stands on the instruct model, while chulcher's copy carries the maker's own card naming the instruct model and stands on the pretrained checkpoint (findings 100 and 102). Round 41 adds ImanolSuarez's E4B export, Heretic 1.3.0's card with `google/gemma-4-E4B` in the field over instruct-model weights, and the batch note's CyborgPaloma case, a card declaring `google/gemma-4-E4B-base`, a repository that does not exist (finding 114). Round 42 adds a third form of the inherited header: two fine-tune cards that print the parent edit's refusal table as their own (coder3101's 0.07 and 9 of 100 on DavidAU's 27B, the Extreme's 0.38 and 2 of 100 on DavidAU's 4B) over weights the training changed on every layer (finding 121). Round 43's six Nemo edits carry no table at all, three printing a refusal count and a KL line and three an image, with Heretic named in the repository names alone (finding 126).
+card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82). Round 37's TheUmbraWalker first pass names the pretrained base, as the maker's second copy does, and its six other Heretic exports name their true originals (finding 85). Round 36's eight copies all stand on QAT checkpoints: coder3101's two with llmfan46's and Mitchins's name the QAT checkpoint in the field, and OS-Software's three Heretic v1 and v2 cards and JJaguar's v1 card name the instruct model, the inheritance of finding 48 (finding 90). Round 39's p-e-w reproduction carries the same inherited field and stands on the instruct model, while chulcher's copy carries the maker's own card naming the instruct model and stands on the pretrained checkpoint (findings 100 and 102). Round 41 adds ImanolSuarez's E4B export, Heretic 1.3.0's card with `google/gemma-4-E4B` in the field over instruct-model weights, and the batch note's CyborgPaloma case, a card declaring `google/gemma-4-E4B-base`, a repository that does not exist (finding 114). Round 42 adds a third form of the inherited header: two fine-tune cards that print the parent edit's refusal table as their own (coder3101's 0.07 and 9 of 100 on DavidAU's 27B, the Extreme's 0.38 and 2 of 100 on DavidAU's 4B) over weights the training changed on every layer (finding 121). Round 43's six Nemo edits carry no table at all, three printing a refusal count and a KL line and three an image, with Heretic named in the repository names alone (finding 126). Round 45's batch note left out SOMEHOTMEAL's Gemma 3 12B Janus pass, whose card declares google/gemma-3-12b, a repository the hub does not serve, the CyborgPaloma case a second time; the pinner now keeps such a name in the chain as a leaf marked `missing` with a note at pin time (`docs/weights-method.md`).
 
 ## 68. An arbitrary-rank edit at right-side weights to 30, with one matrix rewritten to its own size and its rows put back
 
@@ -3125,7 +3134,7 @@ E4B save leaves out the 54 shared-key-value tensors (finding 71). Both token sid
 newer version strings, `moe_intermediate_size` closed by the home judgement. Evidence:
 `results/weights/MoonRide-gemma-4-31B-it-heretic-ara.json`, `results/weights/MoonRide-gemma-4-E4B-it-heretic-ara.json`,
 the two `results/meta/` reports, the direction files under `wheat37/measurements/pair-5/` and `pair-6/` against
-twenty measurements of the 31B and thirty-four of the E4B, and the readings in `docs/cards/`. Round 41 adds NullpoLab's Refusals3, every matrix of layers 19 to 31 edited under a card to 37, the fourth of the maker's five exports to end short of its `end_layer_index`, and RumiaChannel's Refusals4, whose window is the card's to the layer with five down projections inside it left as residues (finding 116). Round 42 adds the maker's two 31B edits over other makers' fine-tunes, the Queen edit at 0.993 to this copy's April 31B edit on all 18 shared names and the MeroMero edit at 0.89, each with one layer's component amplified rather than removed (finding 120). Round 43 adds llmfan46's 26B-A4B edit, layers 15 to 25 under a card to 26, and densenet's 31B edit, 30 to 47 under a card to 48, both ending one layer short of the card's `end_layer_index` (findings 124 and 125).
+twenty measurements of the 31B and thirty-four of the E4B, and the readings in `docs/cards/`. Round 41 adds NullpoLab's Refusals3, every matrix of layers 19 to 31 edited under a card to 37, the fourth of the maker's five exports to end short of its `end_layer_index`, and RumiaChannel's Refusals4, whose window is the card's to the layer with five down projections inside it left as residues (finding 116). Round 42 adds the maker's two 31B edits over other makers' fine-tunes, the Queen edit at 0.993 to this copy's April 31B edit on all 18 shared names and the MeroMero edit at 0.89, each with one layer's component amplified rather than removed (finding 120). Round 43 adds llmfan46's 26B-A4B edit, layers 15 to 25 under a card to 26, and densenet's 31B edit, 30 to 47 under a card to 48, both ending one layer short of the card's `end_layer_index` (findings 124 and 125). Round 45 adds llmfan46's Garnet search, layers 25 to 45 under a card to 46 with layer 29 rewritten below the threshold, and 0xA50C1A1's Nemo pass, whose two windows are its kernels' reaches to the layer (findings 133 and 134).
 
 ## 87. A card that names one writer, measured on both: the down projections are edited, on this copy and by byte range on its sibling, and the writer count the weights give is the check on the card
 
@@ -3583,7 +3592,7 @@ checkpoint's included, belongs at the pinner's names step.
 Evidence: `results/weights/chulcher-gemma-4-e4b-abliterated.json`, the `results/meta/` report, the direction file
 under `wheat39/measurements/pair-2/` against `blueback29/measurements/pair-8/`, the byte-range reads recorded in
 the reading, the repository's `refusal_test_results.json` and `abliteration_metadata.json`, google/gemma-4-E4B's
-token files at `a24c9379`, and the reading in `docs/cards/`. Round 41's six Gemma 4 pairs carry the instruct checkpoint's ids, and its functiongemma pair carries the original's own (`eos_token_id` `[1, 50]`) with two special flags changed and the ids equal (finding 113). Round 42's six Gemma 4 pairs carry the instruct checkpoint's ids through their community parents, two of them Unsloth saves with `eos_token_id` 106 alone and no generation file, and its two Gemma 3 pairs carry `[1, 106]` on both sides (findings 117 and 119). Round 43's two Gemma 4 pairs carry the instruct ids through their parents (`[1, 106]` on llmfan46's, 106 through densenet's Unsloth parent) and its six Nemo pairs carry Mistral's (`bos_token_id` 1, `eos_token_id` 2) on every side, with a pad token added or changed on four (finding 126).
+token files at `a24c9379`, and the reading in `docs/cards/`. Round 41's six Gemma 4 pairs carry the instruct checkpoint's ids, and its functiongemma pair carries the original's own (`eos_token_id` `[1, 50]`) with two special flags changed and the ids equal (finding 113). Round 42's six Gemma 4 pairs carry the instruct checkpoint's ids through their community parents, two of them Unsloth saves with `eos_token_id` 106 alone and no generation file, and its two Gemma 3 pairs carry `[1, 106]` on both sides (findings 117 and 119). Round 43's two Gemma 4 pairs carry the instruct ids through their parents (`[1, 106]` on llmfan46's, 106 through densenet's Unsloth parent) and its six Nemo pairs carry Mistral's (`bos_token_id` 1, `eos_token_id` 2) on every side, with a pad token added or changed on four (finding 126). Round 45's eight pairs carry their parents' ids: the instruct checkpoint's on the three 12B pairs and the 31B pair, Mistral's on the Ministral, Nemo and Venice pairs (pad 11 written into the Ministral merge's text configuration from its parent's generation file), and Dolphin R1's `[2, 131072]` on both sides of saukko's edit, with no table resized (findings 127 to 134).
 
 ## 101. A hub duplicate of an unmeasured 12B copy reads a single-direction projection at 0.40 on both writers of all 48 layers over the coder fine-tune of finding 25, its 228 readers equal to lemuralabs's to the last digit, under a card that dropped a healing claim four minutes after upload
 
@@ -3752,7 +3761,7 @@ Evidence: `results/weights/germlag-gemma-4-31B-it-heretic-v2.json`,
 `results/weights/Vampelium-gemma-4-31B-it-heretic.json`, the `results/meta/` reports, the direction files under
 `nautilus40/measurements/pair-1/` and `pair-4/` against `nautilus19/measurements/pair-2/` (3MPER0RR) and
 `wheat33/` (callmegrr), the byte-range reads listed in `docs/census-round-40.md`, the batch note in
-`data/batches/round-40-batch-1.json`, and the readings in `docs/cards/`. Round 41 reads 1.000 on the 31B between a hub duplicate and its parent's measured head, two trials of one Abliterix search, where the kept fractions differ on every shared matrix and the bytes place the duplicate in the parent's history (finding 111). Round 42 reads 0.92 between bgg1996's 1.4.0 pass over a 31B fine-tune and the four passes of this finding, with the bytes 0.013 from Vampelium's and germlag's and 0.018 from the copy's own parent at layer 44 (finding 122).
+`data/batches/round-40-batch-1.json`, and the readings in `docs/cards/`. Round 41 reads 1.000 on the 31B between a hub duplicate and its parent's measured head, two trials of one Abliterix search, where the kept fractions differ on every shared matrix and the bytes place the duplicate in the parent's history (finding 111). Round 42 reads 0.92 between bgg1996's 1.4.0 pass over a 31B fine-tune and the four passes of this finding, with the bytes 0.013 from Vampelium's and germlag's and 0.018 from the copy's own parent at layer 44 (finding 122). Round 45 reads the 1.000 between two parents: huihui-ai's projection of a 12B fine-tune and of Google's 12B stand at 1.000 on all 12 names, and by byte range the copy is its parent projected along the Google edit's direction to within the bfloat16 rounding, the bytes 0.0058 apart because the parents are (finding 128).
 
 ## 106. A 31B projection whose direction is not a refusal direction reads its card exactly and stands at 0.034 or less to every measured 31B edit
 
@@ -3842,7 +3851,7 @@ close (rounds 31, 35 and 39), and the first where the copy postdates the pin's r
 
 Evidence: `results/weights/Jim-darby-gemma-4-31B-it-heretic-ara-ja80en20.json`, the `results/meta/` report, the
 direction file under `nautilus40/measurements/pair-5/` against the twenty-six 31B measurements, the template
-checks listed in `docs/census-round-40.md`, and the reading in `docs/cards/`. Round 42 adds two English-prompted searches over other makers' 31B fine-tunes at 0.89 to 0.99 to this family and 0.887 to each other, and at 0.51 and 0.56 to the Japanese-weighted search (finding 120). Round 43 adds a third English-prompted search beside the two, llmfan46's 26B-A4B search at 0.67 and 0.59 to OS-Software's two Japanese-weighted searches and 0.92 to 0.98 to the English-prompted family (finding 125).
+checks listed in `docs/census-round-40.md`, and the reading in `docs/cards/`. Round 42 adds two English-prompted searches over other makers' 31B fine-tunes at 0.89 to 0.99 to this family and 0.887 to each other, and at 0.51 and 0.56 to the Japanese-weighted search (finding 120). Round 43 adds a third English-prompted search beside the two, llmfan46's 26B-A4B search at 0.67 and 0.59 to OS-Software's two Japanese-weighted searches and 0.92 to 0.98 to the English-prompted family (finding 125). Round 45 adds llmfan46's Garnet search at 0.78 to 0.88 to the English-prompted family and 0.55 to Jim-darby's Japanese-weighted search (finding 134).
 
 ## 109. A second attention-only card from one maker, four minutes before the first, measures on both writers: fifteen down projections edited to layer 36 under a card naming the attention outputs to layer 41, at 0.995 to the sibling with the bytes 0.0097 apart
 
@@ -4153,7 +4162,7 @@ the pair reads only what the maker added, and the pinner has to queue the parent
 Evidence: the eight `results/weights/` and `results/meta/` reports of round 42, the direction files under
 `nautilus42/measurements/pair-1/` to `pair-8/` against the thirty measurements of the 31B, twenty-nine of the
 26B-A4B and one of the 27B, the byte-range reads listed in `docs/census-round-42.md`, the batch note in
-`data/batches/round-42-batch-1.json`, and the readings in `docs/cards/`. Round 43 reads eight more against the parents their cards name, all eight exactly 0 outside the changed set, and takes the check to a base whose fine-tunes carry their own directions (findings 123 to 126).
+`data/batches/round-42-batch-1.json`, and the readings in `docs/cards/`. Round 43 reads eight more against the parents their cards name, all eight exactly 0 outside the changed set, and takes the check to a base whose fine-tunes carry their own directions (findings 123 to 126). Round 45 reads eight more against the parents their cards name, six of them first measurements, one a hub duplicate measured as its source and one its parent's files unchanged, and applies the rule to a parent that is a re-upload of a publisher's checkpoint (unsloth's Nemo Instruct, Mistral's shards by object id) and to a parent that is a first edit whose own original only the bytes name (findings 127 to 134).
 
 ## 118. A merge whose card names a measured edit as its body stands at 1.000 to that edit on all 20 shared matrices with the bytes byte-equal, its queries and keys nine tenths of the way to the donor the card names, and its `lm_head` the parent's, each component read against a different repository
 
@@ -4266,7 +4275,7 @@ files under `nautilus42/measurements/pair-3/` and `pair-2/` against `blueback12/
 April edit), `blueback12/measurements/pair-2/` (coder3101's), `wheat37/measurements/pair-5/` (MoonRide's) and the
 twenty-seven other 31B measurements, the byte-range reads and template matches listed in
 `docs/census-round-42.md`, the template history of `llmfan46/gemma-4-31B-it-uncensored-heretic` as read on
-2026-11-02, and the readings in `docs/cards/`. Round 43 adds the maker's 26B-A4B edit at 0.94 to the maker's own April edit of that checkpoint, with no layer amplified and a fourth template (finding 125), and densenet's 31B edit at 0.91 on the left and 0.45 on the right to the maker's April edit (finding 124).
+2026-11-02, and the readings in `docs/cards/`. Round 43 adds the maker's 26B-A4B edit at 0.94 to the maker's own April edit of that checkpoint, with no layer amplified and a fourth template (finding 125), and densenet's 31B edit at 0.91 on the left and 0.45 on the right to the maker's April edit (finding 124). Round 45 adds the maker's Garnet search over ConicCat's 31B fine-tune at 0.78 to the April edit and 0.80 to the Queen and MeroMero edits, with input-side weights to 2.66 and no kept fraction above 1, so neither the fine-tuned parent nor the "ultra" in the name brings the amplification back (finding 134).
 
 ## 121. Two Unsloth fine-tunes over unmeasured Heretic first edits read training on every linear map of every layer and no direction, one of them a hub duplicate whose shards the hub's object ids place in its parent at three revisions, under cards that print the parent edit's table
 
@@ -4408,7 +4417,7 @@ scatter is not the base's either.
 Evidence: the six `results/weights/Sorihon-*.json` reports and their `results/meta/` reports, the direction files
 under `wheat43/measurements/pair-3/` to `pair-8/` against each other and against the DuoNeural and grimjim
 measurements under `blueback13/measurements/pair-7/` and `pair-6/`, the byte-range reads listed in
-`docs/census-round-43.md`, and the readings in `docs/cards/`.
+`docs/census-round-43.md`, and the readings in `docs/cards/`. Round 45 measures the base side: a Heretic pass on Nemo Instruct itself stands at 0.898 and 0.854 to the passes on the DARKNESS and NemoMix merges, 0.574 to the pass on Magnum and 0.39 to 0.43 to the three per-layer passes, so the agreement follows the method at least as much as the parent (finding 133).
 
 ## 124. An arbitrary-rank edit of a 31B fine-tune whose card claims row-norm preservation moves the rows 0.019 to 0.777 on both writers of layers 30 to 47, the largest in the census, at input-side weights to 4.36 over a parent whose layers are Google's bytes
 
@@ -4513,7 +4522,264 @@ reading.
 
 Evidence: the six `results/meta/Sorihon-*.json` reports and their home re-judgements, the hub's file listings and
 object ids of the six copies and six parents, the template bytes compared at home, and the readings in
+`docs/cards/`. Round 45 reads a seventh Nemo token side, a 5.3.0 save of a 4.49.0.dev0 parent whose template carries the assistant-mask tag of a trainer, which the tool's renderer cannot parse and which renders through transformers with one newline added (finding 133).
+
+## 127. Two makers' edits of one coding fine-tune read two methods: one stands at 0.957 to a third maker's Heretic edit of the same checkpoint inside a bfloat16 recast of every linear map, the other at 0.49 to it, and neither is a duplicate of the other
+
+Round 45 measured two edits of yuxinlu1's coding fine-tune of Gemma 4 12B, the checkpoint richardyoung's Heretic
+edit was measured against in round 16 (finding 18), against that fine-tune: tpls's
+gemma-4-12B-coder-fable5-composer2.5-v1-abliterated (created 2026-06-23, the weights in one commit titled
+"abliterated bf16 ... KL_MAX=0.2", a card that names "refusal-direction ablation" and no tool, layer or weight) and
+huihui-ai's Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated (created 06-21, Sumandora's
+remove-refusals-with-transformers named as the method). The fine-tune is saved in float16. tpls's copy is five
+bfloat16 shards: 322 of 677 tensors changed, 263 of them by the recast alone (the query, key, value, gate and up
+projections of every layer, 27 attention outputs and four down projections at relative changes of 0.0011 to 0.0016,
+the layer 5 query projection by byte range the parent's matrix rounded to bfloat16 on every entry), six more just
+under the threshold (0.00087 to 0.00097), and the edit on the other 59: the down projections of layers 9 to 47 and
+the attention outputs of 24 to 43, one direction on the left side of all 59 (0.981 to their common direction at
+the median, the two writers of a layer at 0.978), first shares 0.56 to 0.995, the kept fractions scattered on both
+sides (left -0.16 to 0.98, right -0.02 to 0.98, the left below the right on 24 of 59), rows moved 0.0009 to 0.0165.
+huihui-ai's copy is one file in the parent's float16 with twelve matrices in bfloat16: the attention outputs and
+down projections of layers 23 to 28 at weight 1.00 on the output side, rows 0.016 to 0.079, exactly 0 elsewhere.
+Restricted to tpls's edited matrices, its direction stands at 0.957 on the left and 0.936 on the right to
+richardyoung's Heretic edit of the same parent on all 39 shared names (minimum 0.940), 0.921 to BinxNet's Heretic
+pass of Google's 12B, 0.86 to 0.87 to 3MPER0RR's, prithivMLmods's and MoonRide's, 0.863 to lemuralabs's ablation over
+this fine-tune and 0.49 and 0.40 to huihui-ai's edit (11 shared names); by byte range at layer 25 the leading
+direction of tpls's change stands at 0.958 and 0.963 to richardyoung's on the attention output and the down
+projection and at 0.488 and 0.487 to huihui-ai's. The two copies share no weight file at any revision of either
+repository (the template, the processor file and `tokenizer.json` are the parent's on both), and their matrices
+stand 0.0217, 0.0329 and 0.0176 apart on the layer 25 attention output, the layer 25 down projection and the layer
+30 attention output, where tpls's stands 0.0183, 0.0133 and 0.0108 from richardyoung's. Both token sides carry the
+instruct checkpoint's ids through the parent; tpls's differs in the four `dtype` fields the recast sets.
+
+Why it matters: this is the first direct test since the Google originals of two tools on one checkpoint, and the
+saved vectors separate them on the fine-tune as they do on the base: tpls's edit lands in the Heretic family at
+0.92 to 0.96, with the scattered kept fractions that finding 18 read on richardyoung's pass of the same parent,
+and huihui-ai's lands where the maker's projection of Google's checkpoint lands (finding 128), the two at 0.49 to
+each other where huihui-ai's Google edit stands at 0.43 to 0.46 to the Heretic passes of Google's 12B. The coding
+fine-tune now sits under five makers' edits in the census (richardyoung's, lemuralabs's, OpenYourMind's through
+Paul691's duplicate, tpls's and huihui-ai's), and on tpls's copy the save precision moves more matrices than the
+edit does: a measurement that reads every untouched matrix against the parent rounded
+to the copy's storage type would leave the 59.
+
+Evidence: `results/weights/tpls-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated.json`,
+`results/weights/huihui-ai-Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated.json`, the two
+`results/meta/` reports, the direction files under `wheat45/measurements/pair-1/` and `pair-2/` against
+`nautilus16/measurements/pair-1/` (richardyoung's against the parent) and the forty other 12B measurements, the
+byte-range reads listed in `docs/census-round-45.md`, the hub's histories and file listings of both repositories
+at every revision, and the readings in `docs/cards/`.
+
+## 128. One maker's projection of a fine-tune carries the direction the maker found on the base checkpoint, 1.000 on all 12 matrices and reproduced from the parent to the bfloat16 rounding, while the same maker's projection of the same fine-tuner's other 12B finds the direction again at 0.978
+
+huihui-ai's Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated (round 45 pair 2) and
+Huihui-gemma-4-12B-agentic-fable5-abliterated (pair 8, created 2026-07-11 over yuxinlu1's agentic fine-tune of
+06-30) read the maker's first-generation 12B edit (round 13, measured against google/gemma-4-12B-it) on the same
+twelve matrices: the attention outputs and down projections of layers 23 to 28, one direction on layers 24 to 27
+with layers 23 and 28 apart from it at 0.47 to 0.49 and 0.74, weight 1.00 on the output side (left kept fraction
+-0.003 to 0.005), first shares 0.991 to 0.997, rows moved 0.016 to 0.079, both clean matches to
+`directional-per-layer-selected` with 0 flags and exactly 0 outside the changed set. The saved vectors of the coder
+edit stand at 1.000 on the left and the right to the maker's Google edit on all 12 names, minimum 1.000. By byte
+range at layer 25 the leading direction of the coder edit's change from its parent stands at 0.99998 to the leading
+direction of the Google edit's change from Google's, and the parent projected along the Google edit's direction
+reproduces the copy to within 0.0016 of the matrix (0.06 to 0.07 of the change), the bfloat16 rounding of the
+twelve edited matrices in a float16 file; the two edits' matrices stand 0.0058 and 0.0067 apart, the distance
+between the fine-tune and Google's (0.0055 and 0.0063). The agentic edit stands at 0.978 on the left and 0.982 on
+the right to both (minimum 0.976); at layer 25 the parent projected along the Google direction leaves 0.32 and 0.33
+of its change unexplained and projected along its own leading direction 0.07 and 0.08, so its direction was
+computed again on that fine-tune. The two fine-tunes stand 0.0049 and 0.0057 apart at layer 25 and 0.0055 to 0.0087
+from Google's. Both token sides are the parents' to the field.
+
+Why it matters: findings 123 and 133 ask whether the direction a tool finds is the base's or the fine-tune's, and
+for this maker's tool on Gemma 4 the answer is one of each: on one fine-tune the direction measured on the base
+was applied unchanged, which a card saying "an uncensored version of" the fine-tune does not say, and on the other
+it was found again and lands at 0.978, near the 0.96 to 0.99 that independent runs of one tool have read
+(findings 102 and 112). A 1.000 between
+edits of two different parents is a reading of a reused direction, read here to the bytes, and the pinner's
+duplicate rule does not see it because no file is shared.
+
+Evidence: `results/weights/huihui-ai-Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated.json`,
+`results/weights/huihui-ai-Huihui-gemma-4-12B-agentic-fable5-abliterated.json`, the `results/meta/` reports, the
+direction files under `wheat45/measurements/pair-2/` and `pair-8/` against `blueback13/measurements/pair-4/` (the
+maker's Google edit), the byte-range reads listed in `docs/census-round-45.md`, and the readings in `docs/cards/`.
+
+## 129. A merge whose card names Mistral's instruct model as its base holds that model's float8 codes read as weights, three entries in ten the raw codes and the rest about 0.136 times them, with no scale beside them and the base's quantisation declared in its configuration
+
+SOMEHOTMEAL's Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF (created 2026-09-13) carries mergekit's card: a
+`dare_linear` merge "using mistralai/Ministral-3-14B-Instruct-2512 as a base" with jenerallee78's
+Ministral-3-14B-abliterated at `weight` 0.60 and `density` 0.70, `dtype: bfloat16` and `tokenizer_source: base`.
+Mistral publishes that instruct model in `float8_e4m3fn` with a `weight_scale_inv` and an `activation_scale` per
+matrix. Measured against jenerallee78's edit, the parent the card names, 280 of 585 tensors changed: every query,
+key, value, output, gate, up and down projection of all 40 layers at relative changes of 460 to 4,593, rows moved
+489 to 4,874 times, first shares 0.0006 to 0.11; the vision tower, the projector, the token embedding, the `lm_head`
+and every normalisation vector read exactly 0. By byte range on four matrices, 30.07 to 30.09 percent of each
+matrix's entries equal the value the float8 checkpoint stores for that entry, the code before its scale (up to 448),
+and the other 69.9 percent read about 0.136 times that code (0.133 to 0.137), the edit's own value entering at under
+one part in a thousand of it; a density of 0.70 leaves three entries in ten at the base's stored value, and the
+stored value mergekit read was the code without its scale (0.00025 to 0.0012 on the four matrices). The copy carries
+no scale tensor and its configuration carries the instruct checkpoint's `quantization_config` (`quant_method` fp8,
+static activations, `dequantize` false), with the instruct checkpoint's tokenizer and 11,913-byte template, where the
+parent's are the bfloat16 release's December files. The scorer flagged 345 rules under `single-projection`; the
+saved vectors stand at 0.955 to round 14's measurement of timfromhcs's duplicate of the parent against the float8
+checkpoint, both differences dominated by the same codes.
+
+Why it matters: the census refuses a float8 original at the names step (finding 37 and `docs/weights-method.md`),
+and this copy shows the same format failing one step earlier, in a merge tool that read a float8 base as if its codes
+were weights and wrote the result in bfloat16 under the base's quantisation declaration. The card describes its
+recipe correctly and the recipe's outcome is a checkpoint whose language matrices are hundreds to thousands of times
+their parent's scale, which no reading of the card would predict; the five GGUF files beside it were made from these
+matrices. A pinner that compared a copy's stored magnitudes with its parent's, or a configuration's declared
+quantisation with the files, would refuse the pair before a download.
+
+Evidence: `results/weights/SOMEHOTMEAL-Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF.json`, the
+`results/meta/` report, the byte-range reads of the copy, the parent and the float8 checkpoint's codes and scales
+listed in `docs/census-round-45.md`, the copy's card and configuration as published, and the reading in
 `docs/cards/`.
+
+## 130. The first edit finding 37 could not read stands on Mistral's bfloat16 release of the instruct model: its first shard is that release's by object id, its queries are byte-equal, and its writers read a rank-one projection at weight 1.00 with the rows moved under a norm-preserving card
+
+jenerallee78's Ministral-3-14B-abliterated (created 2025-12-05), whose files timfromhcs's repository carries under
+the hub's duplicate function, names mistralai/Ministral-3-14B-Instruct-2512 in its `base_model` field and grimjim's
+norm-preserving biprojection as its method. Round 14 compared the duplicate with that checkpoint, which is float8,
+and read only the quantisation (finding 37). Mistral also publishes mistralai/Ministral-3-14B-Instruct-2512-BF16;
+at its revision `bbc49ba0` of 2025-12-04 its first shard (`a381935a`) is jenerallee78's first shard by object id,
+and its configuration (`9fb1dd07`) and `tokenizer.json` (`57757562`) are jenerallee78's. By byte range the query
+projections of layers 0 and 20 are byte-equal to the bfloat16 release, and the layer 20 attention output, the
+layer 20 down projection and the layer 30 attention output stand 0.0185, 0.0159 and 0.0149 from it, each
+difference rank one (first shares 0.993, 0.990 and 0.989) on the output side at a weight of 1.00 (left kept
+fraction -0.0022 to -0.0002), with the rows moved by up to 0.0184, 0.0105 and 0.0108. Mistral's float8 checkpoint
+dequantised with its own scales stands 0.027 from the bfloat16 release on every matrix read.
+
+Why it matters: the pair finding 37 held unmeasured has a readable original, the bfloat16 release the float8 one
+was cut from, and the hub's object ids name it before any download. The pin rule should follow a float8 original
+to its bfloat16 sibling when the copy's shards match it. The edit itself reads as the projection grimjim's own
+Nemo copy read (finding 36), with the rows unrestored to 0.018 where the card names the norm-preserving form.
+
+Evidence: the byte-range reads of jenerallee78's edit, the bfloat16 release at `bbc49ba0` and the float8 checkpoint
+listed in `docs/census-round-45.md`, the hub's file listings of the four repositories, and the reading of pair 3 in
+`docs/cards/`.
+
+## 131. A hub duplicate whose batch note says its files differ carries every file of its source by object id, and the source is the classic projection of one direction out of the embedding and both writers of all 40 layers of a Dolphin fine-tune, at weight 1.00
+
+SAIFIINDUSTRIES/Abliterated-Dolphin3.0-R1-Mistral-24B (created 2026-10-03) is one commit, "Duplicate from
+saukko/Abliterated-Dolphin3.0-R1-Mistral-24B"; saukko's repository (created 2025-05-26, the weights uploaded that
+evening and unchanged through its head of 05-28) is present, and the duplicate's ten shards, README, configuration,
+generation file, index, token files and `trainer_state.json` are saukko's at every revision by the hub's object ids.
+The batch note's "its weight files differ" compares the duplicate with the parent its card names. Measured as
+saukko's edit against dphn's Dolphin 3.0 R1 fine-tune of Mistral Small 24B Base 2501, 81 of 363 tensors changed:
+the token embedding and the attention outputs and down projections of all 40 layers, one direction on all 81 (median
+agreement 0.999998, cross-kind 0.99998), weight 1.00 on the output side of the 80 writers (left kept fraction -0.004
+to 0.003) and along the hidden axis of the embedding, relative changes 0.0135 to 0.0191, rows moved 0.0017 to
+0.0151, exactly 0 outside; the scorer's 66 flags are first shares of 0.987 to 0.990 under the 0.99 floor on a
+bfloat16 save. By byte range the layer 20 query projection is byte-equal to the parent's and the layer 20 writers
+stand 0.0191 and 0.0160 from them; the parent stands 0.376 to 0.509 from Mistral's base on the three matrices read,
+a full fine-tune whose difference has no leading component (first shares 0.0018 to 0.0048). The direction stands at
+0.448 to venkycs's projection of Mistral Small 24B Instruct 2501 and 0.20 to huihui-ai's projection of Mistral Small
+3.2. The card is saukko's, mlabonne's article and FailSpy's abliterator as sources, with no layer or weight.
+
+Why it matters: this is the second batch note in the second-generation rounds to call a hub duplicate's files
+different from its source (Justbackup's in finding 121), both times because the comparison reached the parent and not the
+source the first commit names, so the duplicate rule of finding 38 has to read the named source's listing at every
+revision before the note is written. The edit is the textbook form the method's sources describe, read cleanly
+over a fine-tune that moved the base by 0.38 to 0.51 of its norm on the matrices read, and the classic projection's direction on Mistral
+Small stands at 0.45 between two parents a full fine-tune apart.
+
+Evidence: `results/weights/SAIFIINDUSTRIES-Abliterated-Dolphin3.0-R1-Mistral-24B.json`, the `results/meta/` report,
+the direction file under `wheat45/measurements/pair-4/` against `nautilus16/measurements/pair-7/` (venkycs's) and
+the other Mistral Small measurements, the hub's file listings of saukko's repository at its five revisions, the
+byte-range reads listed in `docs/census-round-45.md`, and the reading in `docs/cards/`.
+
+## 132. A commercial uncensored release is its parent's ten shards by object id, the census's first copy with no tensor changed, and the uncensoring it carries is the parent's fine-tune of Mistral Small 24B Instruct, with no leading component
+
+AskVenice/venice-uncensored (created 2025-11-25, the weights uploaded on 11-26 "via LFS") carries Venice.ai's card,
+"Venice Uncensored (Dolphin Mistral 24B)", "a special edition of the renowned Dolphin series" made with the Dolphin
+team, with the parent's system prompt and both Mistral's instruct model and dphn's Dolphin-Mistral-24B-Venice-Edition
+in its `base_model` field. Its ten shards (`65828eac` to `2ca2d9db`) are the Venice Edition's from its upload of
+2025-06-12 to the pinned revision of 09-08 by object id; the configuration, generation file, index and token
+configuration are re-saves with other object ids and the metadata comparison finds no field that differs. Measured
+against the Venice Edition, 0 of 363 tensors changed, the first empty changed set in the census, with one flag (the
+nearest entry's request for a changed writer). By byte range the Venice Edition itself stands 0.0056, 0.0043 and
+0.0035 from Mistral Small 24B Instruct 2501 on the layer 20 attention output, query projection and down projection,
+the difference spread over many components (first shares 0.082, 0.29 and 0.22), the shape of training; its leading
+direction stands at 0.35 and 0.073 to venkycs's projection of the same instruct model on the attention output and
+the down projection. The instruct model stands 0.034 to 0.038 from the base on those matrices, so the edition moved
+the instruct model by about a tenth of what the instruct tuning moved the base. The Venice Edition was replaced on
+the hub by a version 1.2 with a vision tower on 2026-04-16; the copy carries the first version.
+
+Why it matters: a commercial platform's uncensored model is a fine-tune, read as training on every
+matrix sampled with no direction to project, and the copy that carries the platform's name is that fine-tune's file
+under a second name. The census reads it as what its card says, and the pinner's duplicate rule would have caught it
+by object id before the download had it compared the copy's shards with the parent's.
+
+Evidence: `results/weights/AskVenice-venice-uncensored.json`, the `results/meta/` report, the hub's file listings of
+both repositories at every revision, the byte-range reads listed in `docs/census-round-45.md`, and the reading in
+`docs/cards/`.
+
+## 133. A Heretic pass on Mistral Nemo Instruct itself reads its kernel table to the layer and stands at 0.90 and 0.85 to one maker's passes on two Nemo merges and at 0.39 to 0.57 to that maker's passes on Nemo fine-tunes, under a template the tool's renderer cannot read
+
+0xA50C1A1's Mistral-Nemo-Instruct-2407-Heretic-v2 (created 2026-03-13) carries Heretic 1.2.0's table over
+unsloth's re-upload of Nemo Instruct, whose five shards are Mistral's by object id: `direction_index` 18.46,
+`attn.o_proj` 1.29 at 29.40 and 1.08 at a distance of 18.39, `mlp.down_proj` 1.47 at 24.17 and 1.41 at a distance of
+19.35, a KL divergence of 0.0574 and 4 refusals in 100 against 88. Measured against the parent, 63 of 363 tensors
+changed, the attention outputs of layers 12 to 39 and the down projections of 5 to 39, the kernels' reaches to the
+layer (11.01 and 4.82), exactly 0 outside. One direction serves every layer and both writers (median agreement
+0.997, cross-kind 0.894, the scorer's one flag), on the output side: one minus the left kept fraction on the down
+projections reads 1.29 at layer 5, 0.83 at 10 and 11 and 1.39 at 19 to 24, holding at 1.29 to 1.38 to layer 39, under
+the printed 1.41 to 1.47; the attention outputs scatter from 0.09 to 1.06, finding 46's shape on Nemo Instruct
+itself. Rows moved 0.0038 to 0.0163. The direction stands at 0.898 to Sorihon's pass on DavidAU's DARKNESS merge (63
+names, minimum 0.891), 0.854 to the pass on the NemoMix merge, 0.574 to the pass on anthracite-org's Magnum
+fine-tune of Nemo Instruct, 0.429, 0.395 and 0.389 to the three per-layer passes on Celeste, EtherealAurora and
+Dans, 0.468 to grimjim's block-wise pass of Nemo Instruct and 0.107 to DuoNeural's projection. The template at the
+revision measured carries a commit of 04-08 that wraps each assistant turn in `{% generation %}` and
+`{% endgeneration %}` for a trainer's assistant mask; the metadata tool's sandboxed renderer fails on the tag, and
+rendered at home through transformers it gives the parent's text with one newline added after the final `</s>`.
+
+Why it matters: finding 123 read one maker's six passes on six Nemo fine-tunes at 0.33 to 0.90 to each other and
+asked whether the direction is the base's or the fine-tune's. The pass on the base lands nearest the two
+shared-direction passes on merges (0.90 and 0.85) and 0.57 to the third, and at 0.39 to 0.43 to the three
+per-layer passes, so on Nemo the agreement follows the method at least as much as the parent: a shared direction
+found on Nemo Instruct and a shared direction found on a Nemo merge stand closer than either does to a per-layer
+pass on a fine-tune of Nemo Instruct. The template is a training-ready edit the token-side reading of finding 126
+did not meet, and it renders differently by one newline.
+
+Evidence: `results/weights/0xA50C1A1-Mistral-Nemo-Instruct-2407-Heretic-v2.json`, the `results/meta/` report, the
+direction file under `wheat45/measurements/pair-6/` against `wheat43/measurements/pair-3/` to `pair-8/` and
+`blueback13/measurements/pair-6/` and `pair-7/`, the byte-range reads and the home render listed in
+`docs/census-round-45.md`, the hub's histories of the copy and of unsloth's and Mistral's repositories, and the
+reading in `docs/cards/`.
+
+## 134. One maker's fourth second-generation search, on a 31B fine-tune, reads its window one layer short with one layer rewritten under the threshold, input-side weights to 2.66 and no component amplified, at 0.78 to 0.88 to the maker's four other 31B searches
+
+llmfan46's Gemma-4-Garnet-V2-31B-it-ultra-uncensored-heretic (created 2026-04-25) is Heretic 1.2.0's arbitrary-rank
+branch over ConicCat's GarnetV2 fine-tune of the 31B, a merged rank-64 adapter on every projection whose layers stand
+0.022 to 0.035 from Google's on the four matrices read: `start_layer_index` 25, `end_layer_index` 46,
+`preserve_good_behavior_weight` 0.4482, `steer_bad_behavior_weight` 0.0002, `overcorrect_relative_weight` 1.0104,
+`neighbor_count` 10, `attn.o_proj` the one target, a KL divergence of 0.0167 and 4 refusals in 100 against 99.
+Measured against the fine-tune, 20 of 1,188 tensors changed, the attention outputs of layers 25 to 28 and 30 to 45;
+layer 29 moved by 0.000116 (1.9 percent of its entries by at most 0.00098), the largest relative change outside the
+changed set, and layer 46 is untouched. Every edit is on the input side: one minus the right kept fraction reads
+1.31 to 2.66 (2.66 at layer 42), the left side 0.04 to 0.42, one direction per matrix, first shares 0.917 to 0.981,
+relative changes 0.0101 to 0.0367, rows moved 0.0003 to 0.0377; no kept fraction is above 1, so no component is
+amplified as on the maker's Queen and MeroMero edits (finding 120). The left directions stand at 0.875 to the maker's
+QAT search, 0.807 and 0.802 to the MeroMero and Queen edits, 0.781 to the maker's April edit, 0.804 and 0.850 to
+coder3101's two, 0.79 and 0.78 to MoonRide's two, 0.55 to Jim-darby's Japanese-weighted search and 0.15 or less to
+every kernel pass and projection. By byte range the layer 42 attention output is 0.0367 from the parent's and 0.047
+from the maker's April edit and coder3101's. The copy's 17,344-byte template, the maker's own, went in by delete and
+re-upload on 05-05, ten days after the weights and three minutes after the same file went onto the maker's April
+repository, after Google's 04-28 revision on 05-04 the same way; it renders the fixed conversation as the parent's
+Google revision of 04-10 does.
+
+Why it matters: the maker's three second-generation searches on the 31B now stand at 0.78 to 0.99 to the maker's
+April edit (0.993 for Queen, 0.89 for MeroMero, 0.78 for this one), and the window ends one layer short of `end_layer_index` as on
+findings 124 and 125. "Ultra" is in the names of six of the maker's repositories in the census and reads no
+amplification here, so the multiplied components of finding 120 are those two edits' and not the name's. The
+template history is the maker's-template case a fourth time, by the same two-step replacement on the same days as
+on the Queen edit.
+
+Evidence: `results/weights/llmfan46-Gemma-4-Garnet-V2-31B-it-ultra-uncensored-heretic.json`, the `results/meta/`
+report, the direction file under `wheat45/measurements/pair-7/` against `blueback12/measurements/pair-1/` (the
+maker's April edit) and the thirty-three other 31B measurements, the byte-range reads listed in
+`docs/census-round-45.md`, the template histories of the copy and the maker's April repository, the parent's
+adapter configuration, and the reading in `docs/cards/`.
 
 ## What the second pass settled
 
@@ -4530,7 +4796,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Two hundred and seven copies is a sample; the inventory sample of 30 repositories
+- Population. Two hundred and fifteen copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
