@@ -1,0 +1,946 @@
+{
+  "round": 50,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "darkc0de/gemma-4-31B-it-Claude-Opus-Distill-v2-heretic",
+        "maker": "darkc0de",
+        "revision": "a7a72728f29486658e054711b39819fe0cd7dd20",
+        "declared_base_model": "unsloth/gemma-4-31B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "unsloth/gemma-4-31B-it",
+            "maker": "unsloth",
+            "revision": "51c9f6265ea38755c708a6e356dfc1af4a436e35",
+            "declared_base_model": "google/gemma-4-31B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B-it",
+                "maker": "google",
+                "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+                "declared_base_model": [
+                  "google/gemma-4-31B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-31B",
+                    "maker": "google",
+                    "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T18:22:36+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-31T13:56:14+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-08T21:58:02+00:00",
+        "revision_date": "2026-05-08T22:29:24+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00013.safetensors": "7f8143fad92c22465b5e350883522b20b9aa07b8d218ca25e38c4685a77eb62d",
+          "model-00002-of-00013.safetensors": "041bb5723a1579a149a456955103b12d3c145ef85592263ccd765f9a53587350",
+          "model-00003-of-00013.safetensors": "4195a2557d0f1a1b8919fa5167e43c8a227a344f08f67fa711523015e5afb0e2",
+          "model-00004-of-00013.safetensors": "d00c6d08aca0123b2a69bedc981b3570efee1d36fb4af954541a4c6756218e68",
+          "model-00005-of-00013.safetensors": "fdbbdc49912147f713ba73508cb4e026fb1b79828b8a2aa5926b6bf4575d385d",
+          "model-00006-of-00013.safetensors": "079bda13f710bfdb7c63e92e8d242f2f0815531e25f901a7a5108d9906bc8cfd",
+          "model-00007-of-00013.safetensors": "bc7935dff5b61d3baf545bd3ee6b2ee0ea284faa46060c36ab982e1ee5fa2459",
+          "model-00008-of-00013.safetensors": "159d5f70ceaa4a26e1a7774104642338c31736ac99ff7be8f5a6971189d28613",
+          "model-00009-of-00013.safetensors": "d2f3afb4ba7fb9ced46d63ccc92455d9a7071641eac3133a47d645b8a48f37ea",
+          "model-00010-of-00013.safetensors": "9a100a6f002f85e2dbd0fdfef9b2c8cc7a286ad8ac11571ed4f9c295d9ce3f09",
+          "model-00011-of-00013.safetensors": "1cb09558fa4179d2e4c2af14331e36f49d670d783ae0fdb15f76676565ce2c2d",
+          "model-00012-of-00013.safetensors": "cfd0be0bc801b5036e7e73a7d1862613d792255e78a2992765cb505140cdec40",
+          "model-00013-of-00013.safetensors": "97e395dcd0220664fcae04c7e7b83324c1118a2997b0edb5760095429ea5a49d"
+        },
+        "card_parent": "TeichAI/gemma-4-31B-it-Claude-Opus-Distill-v2",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "unsloth/gemma-4-31B-it",
+        "maker": "unsloth",
+        "revision": "a1c85d1c2db7dcd15c41ad4082955240a9465743",
+        "declared_base_model": "google/gemma-4-31B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-31T13:56:14+00:00",
+        "revision_date": "2026-05-04T22:38:58+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-05-08T21:58:02+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 19,
+        "original_history_starts": "2026-03-31T13:56:14+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "coder3101/gemma-4-19b-a4b-it-REAP-heretic",
+        "maker": "coder3101",
+        "revision": "ae672f47463866e7772ae9701e5f88eebc77c966",
+        "declared_base_model": [
+          "0xSero/gemma-4-19b-a4b-it-REAP"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "0xSero/gemma-4-19b-a4b-it-REAP",
+            "maker": "0xsero",
+            "revision": "399f8d1bd692322e489d30a13cd6e146d48f05e6",
+            "declared_base_model": [
+              "google/gemma-4-26b-a4b-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26b-a4b-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-05T18:22:33+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-09T07:53:19+00:00",
+        "revision_date": "2026-04-09T08:01:16+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "731934133cb93d9e343047441b68c026481f94fedda509d579e030723112dec4"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "0xSero/Gemma-4-19B",
+        "maker": "0xsero",
+        "revision": "e9678c288b656d38c84515831b92056f1c026f69",
+        "declared_base_model": [
+          "google/gemma-4-26b-a4b-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26b-a4b-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-05T18:22:33+00:00",
+        "revision_date": "2026-04-08T22:14:54+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-09T07:53:19+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2026-04-05T18:22:33+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "keithtyser/Gemopus-4-26B-A4B-it-local-abliterated-sota-internal-r7-selected-t34-transfer",
+        "maker": "keithtyser",
+        "revision": "0e57ea6005a3409ae4f36a37da2f1fcbc39f6bf2",
+        "declared_base_model": "Jackrong/Gemopus-4-26B-A4B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "Jackrong/Gemopus-4-26B-A4B-it",
+            "maker": "jackrong",
+            "revision": "844a68b6cb54a4377b386bd09615a1dc6e3ce32c",
+            "declared_base_model": "google/gemma4-26B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma4-26B-it",
+                "maker": "google",
+                "revision": null,
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": null,
+                "missing": true,
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-09T07:51:32+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-03T01:06:43+00:00",
+        "revision_date": "2026-07-16T04:14:58+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "a9e09e1550e05554bcd25c36ebd26903512e33380e81a7f61f6874dcafac0c12",
+          "model-00002-of-00002.safetensors": "2cfe1799f9664f95d664d5954dd4cab36f96d3ab2d83aa9d04fd93e10d33f8b9"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "Jackrong/Gemopus-4-26B-A4B-it",
+        "maker": "jackrong",
+        "revision": "844a68b6cb54a4377b386bd09615a1dc6e3ce32c",
+        "declared_base_model": "google/gemma4-26B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma4-26B-it",
+            "maker": "google",
+            "revision": null,
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": null,
+            "missing": true,
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-09T07:51:32+00:00",
+        "revision_date": "2026-04-10T23:31:46+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-05-03T01:06:43+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 12,
+        "original_history_starts": "2026-04-09T07:51:32+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Naphula/Quill-v1-abliterated",
+        "maker": "naphula",
+        "revision": "406dfb63ab3ff234495096126751b74e5e6ebe20",
+        "declared_base_model": "sam-paech/Quill-v1",
+        "base_model_chain": [
+          {
+            "hub_id": "sam-paech/Quill-v1",
+            "maker": "sam-paech",
+            "revision": "3cab1cac9d3de0d25b48ea86b4533aa220231f20",
+            "declared_base_model": [
+              "google/gemma-2-9b-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-2-9b-it",
+                "maker": "google",
+                "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+                "declared_base_model": "google/gemma-2-9b",
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-2-9b",
+                    "maker": "google",
+                    "revision": "33c193028431c2fde6c6e51f29e6f17b60cbfac6",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2024-06-24T08:10:30+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-06-24T08:05:41+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-10-20T16:49:58+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-12-08T12:47:49+00:00",
+        "revision_date": "2025-12-08T14:47:56+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00004.safetensors": "8d673b4db3f6cf75fcf19893c47bcd4286ad7c3d01ec73d6fc87571eafb614b2",
+          "model-00002-of-00004.safetensors": "e9ac7f481f0cdd8b52d2d92c4671060020293cff7dbef023098bd4133d71a82c",
+          "model-00003-of-00004.safetensors": "1c4cbb01255614cf46156063544dd5110c818950e0cb2ee9baedbac93231274f",
+          "model-00004-of-00004.safetensors": "ddebad0a7ef7f803c3a49b0c598a8deac216835f1d5fbc942e796036d778c866"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "sam-paech/Quill-v1",
+        "maker": "sam-paech",
+        "revision": "3cab1cac9d3de0d25b48ea86b4533aa220231f20",
+        "declared_base_model": [
+          "google/gemma-2-9b-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-2-9b-it",
+            "maker": "google",
+            "revision": "11c9b309abf73637e4b6f9a3fa1e92e615547819",
+            "declared_base_model": "google/gemma-2-9b",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-2-9b",
+                "maker": "google",
+                "revision": "33c193028431c2fde6c6e51f29e6f17b60cbfac6",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2024-06-24T08:10:30+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2024-06-24T08:05:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2024-10-20T16:49:58+00:00",
+        "revision_date": "2024-10-24T14:10:22+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-12-08T12:47:49+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 13,
+        "original_history_starts": "2024-10-20T16:49:58+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "nbeerbower/A0l-12B-heretic",
+        "maker": "nbeerbower",
+        "revision": "6fb2dcabd5711eaa52ceea55cba5660202419f8c",
+        "declared_base_model": [
+          "nbeerbower/Schreiber-mistral-nemo-12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "nbeerbower/Schreiber-mistral-nemo-12B",
+            "maker": "nbeerbower",
+            "revision": "ed0d372a0432cb4e08118911bf572e221955a051",
+            "declared_base_model": [
+              "nbeerbower/mistral-nemo-kartoffel-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "nbeerbower/mistral-nemo-kartoffel-12B",
+                "maker": "nbeerbower",
+                "revision": "cbd2ffb1c8b86afbbe19e181e2416ac846dd5d25",
+                "declared_base_model": [
+                  "nbeerbower/Mahou-1.5-mistral-nemo-12B-lorablated"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "nbeerbower/Mahou-1.5-mistral-nemo-12B-lorablated",
+                    "maker": "nbeerbower",
+                    "revision": "f53aa96ecbfbc8ac34d1b7e4fd65af2b04f14626",
+                    "declared_base_model": [
+                      "flammenai/Mahou-1.5-mistral-nemo-12B",
+                      "nbeerbower/Mistral-Nemo-12B-abliterated-LORA"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "flammenai/Mahou-1.5-mistral-nemo-12B",
+                        "maker": "flammenai",
+                        "revision": "a3b90af45bef1a62acdb185f5c0236e6002ba945",
+                        "declared_base_model": [
+                          "flammenai/Flammades-Mistral-Nemo-12B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "flammenai/Flammades-Mistral-Nemo-12B",
+                            "maker": "flammenai",
+                            "revision": "800f0658f90831b5742bfec5345afcc691352561",
+                            "declared_base_model": [
+                              "nbeerbower/Mistral-Nemo-Gutenberg-Doppel-12B-v2"
+                            ],
+                            "base_model_chain": [
+                              {
+                                "hub_id": "nbeerbower/Mistral-Nemo-Gutenberg-Doppel-12B-v2",
+                                "maker": "nbeerbower",
+                                "revision": "adc1ccd9d83d24e41bed895f989803af87ea2d2c",
+                                "declared_base_model": [
+                                  "axolotl-ai-co/romulus-mistral-nemo-12b-simpo"
+                                ],
+                                "base_model_chain": [
+                                  {
+                                    "hub_id": "axolotl-ai-co/romulus-mistral-nemo-12b-simpo",
+                                    "maker": "axolotl-ai-co",
+                                    "revision": "5650eb8cccc159f5e375f4e351846f94f15bc7ff",
+                                    "declared_base_model": "winglian/m12b-20240721-test010",
+                                    "base_model_chain": [
+                                      {
+                                        "hub_id": "winglian/m12b-20240721-test010",
+                                        "maker": "winglian",
+                                        "revision": null,
+                                        "declared_base_model": null,
+                                        "base_model_chain": [],
+                                        "created_at": null,
+                                        "missing": true,
+                                        "publisher_root": true,
+                                        "lineage_known": true
+                                      }
+                                    ],
+                                    "created_at": "2024-07-24T19:13:49+00:00",
+                                    "publisher_root": false,
+                                    "lineage_known": true
+                                  }
+                                ],
+                                "created_at": "2024-10-04T02:16:41+00:00",
+                                "publisher_root": false,
+                                "lineage_known": true
+                              }
+                            ],
+                            "created_at": "2024-10-05T17:22:16+00:00",
+                            "publisher_root": false,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2024-10-06T17:12:41+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      },
+                      {
+                        "hub_id": "nbeerbower/Mistral-Nemo-12B-abliterated-LORA",
+                        "maker": "nbeerbower",
+                        "revision": "f6f8587b6223befdebb7bf10e5ba1aeca2f72755",
+                        "declared_base_model": [
+                          "mistralai/Mistral-Nemo-Instruct-2407",
+                          "natong19/Mistral-Nemo-Instruct-2407-abliterated"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                            "maker": "mistralai",
+                            "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                            "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                            "base_model_chain": [
+                              {
+                                "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                                "maker": "mistralai",
+                                "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                                "declared_base_model": null,
+                                "base_model_chain": [],
+                                "created_at": "2024-07-18T10:26:55+00:00",
+                                "publisher_root": true,
+                                "lineage_known": true
+                              }
+                            ],
+                            "created_at": "2024-07-17T17:26:49+00:00",
+                            "publisher_root": false,
+                            "lineage_known": true
+                          },
+                          {
+                            "hub_id": "natong19/Mistral-Nemo-Instruct-2407-abliterated",
+                            "maker": "natong19",
+                            "revision": "1603385cc8aaa098def42a7a1cddbb430b9ef5ec",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2024-08-15T02:44:34+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2024-10-19T03:27:40+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-10-19T04:19:59+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-01-12T05:12:34+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-06T02:40:19+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-03T14:14:58+00:00",
+        "revision_date": "2026-03-03T14:38:45+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "0db5dd5b175762a31bb9e8369d4e839a891193b5483fbe081b50ec251e857033"
+        },
+        "card_parent": "schneewolflabs/A0l-12B",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "nbeerbower/Schreiber-mistral-nemo-12B",
+        "maker": "nbeerbower",
+        "revision": "ed0d372a0432cb4e08118911bf572e221955a051",
+        "declared_base_model": [
+          "nbeerbower/mistral-nemo-kartoffel-12B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "nbeerbower/mistral-nemo-kartoffel-12B",
+            "maker": "nbeerbower",
+            "revision": "cbd2ffb1c8b86afbbe19e181e2416ac846dd5d25",
+            "declared_base_model": [
+              "nbeerbower/Mahou-1.5-mistral-nemo-12B-lorablated"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "nbeerbower/Mahou-1.5-mistral-nemo-12B-lorablated",
+                "maker": "nbeerbower",
+                "revision": "f53aa96ecbfbc8ac34d1b7e4fd65af2b04f14626",
+                "declared_base_model": [
+                  "flammenai/Mahou-1.5-mistral-nemo-12B",
+                  "nbeerbower/Mistral-Nemo-12B-abliterated-LORA"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "flammenai/Mahou-1.5-mistral-nemo-12B",
+                    "maker": "flammenai",
+                    "revision": "a3b90af45bef1a62acdb185f5c0236e6002ba945",
+                    "declared_base_model": [
+                      "flammenai/Flammades-Mistral-Nemo-12B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "flammenai/Flammades-Mistral-Nemo-12B",
+                        "maker": "flammenai",
+                        "revision": "800f0658f90831b5742bfec5345afcc691352561",
+                        "declared_base_model": [
+                          "nbeerbower/Mistral-Nemo-Gutenberg-Doppel-12B-v2"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "nbeerbower/Mistral-Nemo-Gutenberg-Doppel-12B-v2",
+                            "maker": "nbeerbower",
+                            "revision": "adc1ccd9d83d24e41bed895f989803af87ea2d2c",
+                            "declared_base_model": [
+                              "axolotl-ai-co/romulus-mistral-nemo-12b-simpo"
+                            ],
+                            "base_model_chain": [
+                              {
+                                "hub_id": "axolotl-ai-co/romulus-mistral-nemo-12b-simpo",
+                                "maker": "axolotl-ai-co",
+                                "revision": "5650eb8cccc159f5e375f4e351846f94f15bc7ff",
+                                "declared_base_model": "winglian/m12b-20240721-test010",
+                                "base_model_chain": [
+                                  {
+                                    "hub_id": "winglian/m12b-20240721-test010",
+                                    "maker": "winglian",
+                                    "revision": null,
+                                    "declared_base_model": null,
+                                    "base_model_chain": [],
+                                    "created_at": null,
+                                    "missing": true,
+                                    "publisher_root": true,
+                                    "lineage_known": true
+                                  }
+                                ],
+                                "created_at": "2024-07-24T19:13:49+00:00",
+                                "publisher_root": false,
+                                "lineage_known": true
+                              }
+                            ],
+                            "created_at": "2024-10-04T02:16:41+00:00",
+                            "publisher_root": false,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2024-10-05T17:22:16+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-10-06T17:12:41+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "nbeerbower/Mistral-Nemo-12B-abliterated-LORA",
+                    "maker": "nbeerbower",
+                    "revision": "f6f8587b6223befdebb7bf10e5ba1aeca2f72755",
+                    "declared_base_model": [
+                      "mistralai/Mistral-Nemo-Instruct-2407",
+                      "natong19/Mistral-Nemo-Instruct-2407-abliterated"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Nemo-Instruct-2407",
+                        "maker": "mistralai",
+                        "revision": "04d8a90549d23fc6bd7f642064003592df51e9b3",
+                        "declared_base_model": "mistralai/Mistral-Nemo-Base-2407",
+                        "base_model_chain": [
+                          {
+                            "hub_id": "mistralai/Mistral-Nemo-Base-2407",
+                            "maker": "mistralai",
+                            "revision": "a4477a2f977929a969745b69bbd62e03043551a5",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2024-07-18T10:26:55+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2024-07-17T17:26:49+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      },
+                      {
+                        "hub_id": "natong19/Mistral-Nemo-Instruct-2407-abliterated",
+                        "maker": "natong19",
+                        "revision": "1603385cc8aaa098def42a7a1cddbb430b9ef5ec",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2024-08-15T02:44:34+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2024-10-19T03:27:40+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2024-10-19T04:19:59+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-01-12T05:12:34+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-06-06T02:40:19+00:00",
+        "revision_date": "2025-06-07T10:25:29+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-03T14:14:58+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 3,
+        "original_history_starts": "2025-06-06T02:40:19+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "nchapman/Ministral-3-8B-Instruct-2512-heretic-BF16",
+        "maker": "nchapman",
+        "revision": "4712e51744bdf4610e22828aa5705af5d76af11c",
+        "declared_base_model": [
+          "mistralai/Ministral-3-8B-Base-2512"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Ministral-3-8B-Base-2512",
+            "maker": "mistralai",
+            "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-10-31T08:40:56+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-15T06:00:28+00:00",
+        "revision_date": "2026-03-15T20:45:26+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "a277aa73b0eab48ebb14fd496d441208560dbff20151a47b22ac0a6a09331772"
+        },
+        "card_parent": "mistralai/Ministral-3-8B-Instruct-2512-BF16",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "mistralai/Ministral-3-8B-Base-2512",
+        "maker": "mistralai",
+        "revision": "d4883f9b36aa2e5d775730d3fdba3d30de51a8ef",
+        "declared_base_model": null,
+        "base_model_chain": [],
+        "created_at": "2025-10-31T08:40:56+00:00",
+        "revision_date": "2026-01-15T11:17:01+00:00",
+        "publisher_root": true,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-15T06:00:28+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2025-12-02T15:11:01+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "grayarea/Mistral-Small-3.2-24B-Instruct-2506-Heretic-v1.2-2",
+        "maker": "grayarea",
+        "revision": "959337d3004f48565a2c805a09c8ca40790656d7",
+        "declared_base_model": [
+          "unsloth/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "unsloth/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "unsloth",
+            "revision": "3ed8d341b53ea3d0e4194689905477688a6cf733",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-20T20:31:37+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-08T20:46:14+00:00",
+        "revision_date": "2026-03-08T20:48:55+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "91831c2ce219df0ce63bc33c6249e5cb01db8d93816bcebf975f1c406286520e",
+          "model-00002-of-00010.safetensors": "8ffe80706a66b2f5ef1fb058806ccf09f124ec4ad38af7a377e44ab1ee2fd664",
+          "model-00003-of-00010.safetensors": "fa2bbd6b56fbe3e030157e8d5bd40378e4c54b30f4345207a129ce46d6bafbac",
+          "model-00004-of-00010.safetensors": "38ca37e0fc020c94731782fdcc7f8a213e95ca7b4666757001da2f66b621fbbf",
+          "model-00005-of-00010.safetensors": "c2e39cd3b14e7752adfa7615a43d83a7aa61ae8b132a9acb5980232cadb6c3e0",
+          "model-00006-of-00010.safetensors": "15935ea44c9690aab85bb82c4275e59cc66ca20cc6cd6e98e9533a9897af066a",
+          "model-00007-of-00010.safetensors": "914277b452819441b64b2e3fe7e9ec0558f5303bfa10dcc27e95aeea3ce6cb71",
+          "model-00008-of-00010.safetensors": "b5e4c8677016d28edcfa9f7333db4481251c9fc0060cd337913bfa144e29f32d",
+          "model-00009-of-00010.safetensors": "70109dc5d669b7019309e55baf4977fe86b12cbea73f6728a67c0b7433e4d345",
+          "model-00010-of-00010.safetensors": "6cf3d80564242c1085542a8cbbc4f6e064579d8e19d314983174531dfb43d30c"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "unsloth/Mistral-Small-3.2-24B-Instruct-2506",
+        "maker": "unsloth",
+        "revision": "3ed8d341b53ea3d0e4194689905477688a6cf733",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "mistralai",
+            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.1-24B-Base-2503"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                "maker": "mistralai",
+                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-16T23:31:11+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-19T17:41:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-06-20T20:31:37+00:00",
+        "revision_date": "2025-08-26T02:42:36+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-08T20:46:14+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 23,
+        "original_history_starts": "2025-06-20T20:31:37+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1",
+        "maker": "llmfan46",
+        "revision": "62481e372196cf413ceafb782eba1d3ace347941",
+        "declared_base_model": [
+          "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+            "maker": "readyart",
+            "revision": "ed40644353a0fbf5ed51f4c1b4b02cbaeb261f55",
+            "declared_base_model": [
+              "ReadyArt/Omega-Darker_The-Final-Directive-24B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "ReadyArt/Omega-Darker_The-Final-Directive-24B",
+                "maker": "readyart",
+                "revision": "375f4aa1275dae611e0a3e47b67963513f7a693e",
+                "declared_base_model": [
+                  "TheDrummer/Cydonia-24B-v2.1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "TheDrummer/Cydonia-24B-v2.1",
+                    "maker": "thedrummer",
+                    "revision": "dee56cbcac6d6cc1b7fb427bc322b0a590f38be1",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-04T18:59:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-04-19T05:34:47+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-04-22T08:49:11+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-20T13:56:06+00:00",
+        "revision_date": "2026-03-27T21:45:51+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "5144d09d77437201eec6a372092866c29b02b7847f430870a7e01948f9283ff4"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+        "maker": "readyart",
+        "revision": "ed40644353a0fbf5ed51f4c1b4b02cbaeb261f55",
+        "declared_base_model": [
+          "ReadyArt/Omega-Darker_The-Final-Directive-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Omega-Darker_The-Final-Directive-24B",
+            "maker": "readyart",
+            "revision": "375f4aa1275dae611e0a3e47b67963513f7a693e",
+            "declared_base_model": [
+              "TheDrummer/Cydonia-24B-v2.1"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "TheDrummer/Cydonia-24B-v2.1",
+                "maker": "thedrummer",
+                "revision": "dee56cbcac6d6cc1b7fb427bc322b0a590f38be1",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-04T18:59:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-04-19T05:34:47+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-04-22T08:49:11+00:00",
+        "revision_date": "2025-12-27T21:57:45+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-20T13:56:06+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 15,
+        "original_history_starts": "2025-04-22T08:49:11+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-02T22:31:49.020680+00:00",
+  "note": "Round 50, for Nautilus on the CPU census: the fifth Nautilus round from the second-generation pool, edits of community fine-tunes, merges and re-uploads, each measured against the parent its card names: darkc0de/gemma-4-31B-it-Claude-Opus-Distill-v2-heretic, coder3101/gemma-4-19b-a4b-it-REAP-heretic, keithtyser/Gemopus-4-26B-A4B-it-local-abliterated-sota-internal-r7-selected-t34-transfer, Naphula/Quill-v1-abliterated, nbeerbower/A0l-12B-heretic, nchapman/Ministral-3-8B-Instruct-2512-heretic-BF16, grayarea/Mistral-Small-3.2-24B-Instruct-2506-Heretic-v1.2-2, llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1. keithtyser's copy and nbeerbower's A0l each declare a base the hub does not serve (google/gemma4-26B-it and winglian/m12b-20240721-test010), recorded as missing with the lineage settled on the publisher. Left out on the way: grayarea's Mars 27B pass, whose export drops the tied output head its parent lists (1,247 names against 1,248); and summykai's Gemma 3 27B dpo copy, whose weight files are mlabonne's measured in round 2 by checksum. No measured pair is repeated and no copy duplicates a measured weight file by checksum."
+}
