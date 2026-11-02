@@ -373,6 +373,20 @@ class NamePairingTests(unittest.TestCase):
         heretic = json.loads((FIXTURES / 'e4b182fe68a5.json').read_text())
         self.assertIsNone(unpaired(original, heretic))
 
+    def test_a_copy_carrying_some_of_the_layers_is_refused_as_a_partial_export(self):
+        two_layers = ['model.' + name for name in LAYERS if '.2.' not in name]
+        reason = unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, two_layers))
+        self.assertEqual(reason, 'the copy is a partial export carrying 2 of 3 layers under model.language_model.layers. '
+                                 '(layers 2 to 2 missing): owner/copy against maker/base')
+        # Every layer carried, towers and one shared-kv tensor dropped: whole, and left to the comparison.
+        whole = ['model.' + name for name in LAYERS if name != 'layers.2.self_attn.o_proj.weight']
+        self.assertIsNone(unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, whole)))
+        original = json.loads((FIXTURES / '70af34e20bd4.json').read_text())
+        copy = json.loads((FIXTURES / '84c7f4804575.json').read_text())
+        reason = unpaired(original, copy)
+        self.assertEqual(reason, 'the copy is a partial export carrying 18 of 35 layers under model.language_model.layers. '
+                                 '(layers 18 to 34 missing): TurkishCodeMan/gemma-4-e2b-it-abliterated against google/gemma-4-E2B-it')
+
     def test_the_names_step_writes_every_fixture_then_refuses_the_unpaired_pair(self):
         records = {'a' * 40: record('maker/base', 'a' * 40, ORIGINAL),
                    'b' * 40: record('owner/copy', 'b' * 40, ORIGINAL),

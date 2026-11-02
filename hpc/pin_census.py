@@ -440,12 +440,50 @@ def unpaired(original, modified):
     step says so first, with the counts on both sides."""
     result = pairing(original['tensors'], modified['tensors'])
     if not result['modified_only']:
-        return None
+        return partial_export(original, modified, result)
     return ('tensor names cannot be paired: {:,} of {:,} modified names pair with the {:,} original names '
             '(modified {}; original {}); {:,} modified and {:,} original names unpaired: {} against {}').format(
         result['paired'], len(modified['tensors']), len(original['tensors']), wrappers(modified['tensors']),
         wrappers(original['tensors']), len(result['modified_only']), len(result['original_only']),
         modified['hub_id'], original['hub_id'])
+
+
+LAYER = re.compile(r'^(.*?layers\.)([0-9]+)\.')
+
+
+def dropped_layers(original_names, result):
+    """The original's layer indices the copy never carries, per tower the copy does carry.
+
+    A copy may drop a whole tower (vision, audio) or the shared-kv tensors a layer never reads and
+    still measure; a copy that stops at layer 17 of 35 is a partial export and cannot."""
+    paired = set(original_names) - set(result['original_only'])
+    carried = {}
+    for name in paired:
+        match = LAYER.match(name)
+        if match:
+            carried.setdefault(match.group(1), set()).add(int(match.group(2)))
+    missing = {}
+    for name in result['original_only']:
+        match = LAYER.match(name)
+        if match and match.group(1) in carried and int(match.group(2)) not in carried[match.group(1)]:
+            missing.setdefault(match.group(1), set()).add(int(match.group(2)))
+    return carried, missing
+
+
+def partial_export(original, modified, result):
+    """The refusal for a copy that carries only some of the original's layers, or None.
+
+    One E2B copy saves 164 tensors, eighteen layers of thirty-five and no towers: every name pairs,
+    so the pairing rule passes it, and the rehearsal then reads half the writers it expects."""
+    carried, missing = dropped_layers(original['tensors'], result)
+    if not missing:
+        return None
+    parts = []
+    for tower in sorted(missing):
+        have, lost = carried[tower], sorted(missing[tower])
+        parts.append('{:,} of {:,} layers under {} (layers {} to {} missing)'.format(
+            len(have), len(have) + len(lost), tower, lost[0], lost[-1]))
+    return 'the copy is a partial export carrying {}: {} against {}'.format('; '.join(parts), modified['hub_id'], original['hub_id'])
 
 
 def fixture_path(out, model):
