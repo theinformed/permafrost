@@ -496,12 +496,17 @@ def dropped_layers(original_names, result):
     return carried, missing
 
 
+TOKEN_TABLE = re.compile(r'(embed_tokens|lm_head|wte|word_embeddings)\.weight$')
+
+
 def different_shapes(original, modified, result):
     """The refusal for a copy whose paired tensors have other shapes than the original's, or None.
 
     One copy named for the E2B is the first-generation 2B with its two writers edited: its 164
     names all pair with E2B names, and every paired shape differs. Such a copy is an export of
-    some other model, and the pair is refused with the first shape that differs."""
+    some other model, and the pair is refused with the first shape that differs. When the only shapes
+    that differ are token tables and only in their row count, the copy carries a resized vocabulary
+    (one Gemma 3 12B pass holds 262,145 rows against its parent's 262,208) and the refusal says so."""
     paired = set(original['tensors']) - set(result['original_only'])
     mapping = result.get('names') or {}
     differing = []
@@ -513,6 +518,12 @@ def different_shapes(original, modified, result):
     if not differing:
         return None
     name, first, second = differing[0]
+    tables = all(TOKEN_TABLE.search(name) and list(first[1:]) == list(second[1:]) for name, first, second in differing)
+    if tables:
+        return ('the copy carries a resized vocabulary: {} has {:,} rows against the original\'s {:,} ({} is {} against {}), '
+                'which no pairing rule covers yet: {} against {}').format(
+            'its token table' if len(differing) == 1 else 'each of its {} token tables'.format(len(differing)),
+            second[0], first[0], name, list(second), list(first), modified['hub_id'], original['hub_id'])
     return 'the copy is an export of another model: {:,} of {:,} paired tensors differ in shape ({} is {} against {}): {} against {}'.format(
         len(differing), len(paired), name, list(second), list(first), modified['hub_id'], original['hub_id'])
 
