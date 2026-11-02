@@ -154,6 +154,9 @@ carries is refused with the round that measured it, whatever a batch note says, 
 `--allow-duplicate` asks for the repeat. A copy whose name says `qat` and whose `base_model` field names
 the instruct model of its size is pinned against that size's `-qat-q4_0-unquantized` checkpoint when the
 hub has one, the field kept in the record beside a note, because such a card carries the QAT checkpoint's
-own header; an original the caller names otherwise is followed as given.
+own header; an original the caller names otherwise is followed as given. A repository the card's first
+heading or first sentence names, other than the copy or its `base_model`, is recorded as `card_parent`
+when it exists on the hub, with a warning naming it beside the field, and the pinned original does not
+change for it.
 
 Weight differences alone cannot certify the absence of hidden behavior.

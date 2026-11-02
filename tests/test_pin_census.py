@@ -3,6 +3,7 @@
 # Modified: SDE  the names step refuses a pair whose tensor names no rule pairs, with the counts.
 # Modified: SDE  a hub id measured at the same revision is refused with its round.
 # Modified: SDE  a qat-named copy whose card names the instruct model pins against the QAT checkpoint.
+# Modified: SDE  a parent the card's opening names, other than the field's, is recorded with a warning.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -17,7 +18,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
-from pin_census import already_measured, Duplicate, measured_copies, names, pin, pairing, qat_original, same_weights, size_of, unpaired
+from pin_census import already_measured, card_opening, card_parent, Duplicate, measured_copies, names, pin, pairing, qat_original, same_weights, size_of, unpaired
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
 
@@ -253,6 +254,94 @@ class QatOriginalTests(unittest.TestCase):
             self.assertEqual(out.getvalue().strip(), 'note: owner/gemma-4-12B-it-qat-heretic base_model names google/gemma-4-12B-it; '
                              'the copy name says qat and google/gemma-4-12B-it-qat-q4_0-unquantized exists, so the pair is pinned against it')
             self.assertEqual(json.loads(manifest.read_text())['pairs'][0]['original']['hub_id'], QAT)
+
+
+ARTEMIS = 'TheDrummer/Artemis-31B-v1.1'
+README = '''---
+base_model: google/gemma-4-31B-it
+license: gemma
+---
+<img src="banner.png">
+![badge](https://img.shields.io/x)
+| a | b |
+
+# owner/Artemis-31B-v1.1-heretic
+
+This is {} (https://huggingface.co/TheDrummer/Artemis-31B-v1.1) decensored with the tool 1/2 of nobody/knows. Second sentence names other/fine-tune.
+'''.format(ARTEMIS)
+
+
+def card_api(readme=README, known=(ARTEMIS, 'other/fine-tune', 'google/gemma-4-31B-it', 'google/gemma-4-31B', 'owner/Artemis-31B-v1.1-heretic')):
+    """A hub that serves one card for the copy and knows the repositories in KNOWN."""
+    base = gemma_api()
+
+    class API:
+        def model_info(self, repo, revision=None, **kwargs):
+            if repo not in known:
+                raise ValueError('404: ' + repo)
+            card = {'base_model': 'google/gemma-4-31B-it'} if repo.startswith('owner/') else {'base_model': 'google/gemma-4-31B'} if repo.endswith('-it') else {}
+            if repo == ARTEMIS or repo == 'other/fine-tune':
+                card = {'base_model': 'google/gemma-4-31B-it'}
+            siblings = [SimpleNamespace(rfilename='model.safetensors', lfs=SimpleNamespace(sha256=SHA_B, size=1, pointer_size=1))]
+            return SimpleNamespace(sha=revision or 'c' * 40, created_at=CREATED, siblings=siblings if repo.startswith('owner/') else [],
+                                   card_data=SimpleNamespace(to_dict=lambda: card))
+
+        list_repo_commits = base.list_repo_commits
+
+        def hf_hub_download(self, repo_id, filename, revision=None):
+            if readme is None:
+                raise FileNotFoundError(filename)
+            path = Path(tempfile.mkdtemp()) / filename
+            path.write_text(readme)
+            return str(path)
+    return API()
+
+
+class CardParentTests(unittest.TestCase):
+    def test_the_opening_is_the_first_heading_and_the_first_sentence_past_the_header(self):
+        from pin_census import card_body
+        hub = card_api()
+        text = card_body(hub, 'owner/Artemis-31B-v1.1-heretic', 'c' * 40)
+        self.assertFalse(text.lstrip().startswith('---'))
+        self.assertEqual(card_opening(text), ('owner/Artemis-31B-v1.1-heretic',
+                         'This is TheDrummer/Artemis-31B-v1.1 (https://huggingface.co/TheDrummer/Artemis-31B-v1.1) decensored with the tool 1/2 of nobody/knows.'))
+        self.assertEqual(card_opening('Plain card naming maker/model first.\n# Heading later'), ('', 'Plain card naming maker/model first.'))
+        self.assertEqual(card_body(card_api(readme=None), 'owner/Artemis-31B-v1.1-heretic', 'c' * 40), '')
+        self.assertEqual(card_body(api('Upload'), 'owner/copy', 'c' * 40), '')
+
+    def test_the_first_existing_repository_named_beside_the_copy_and_its_field_is_the_card_parent(self):
+        hub = card_api()
+        text = README.split('---\n', 2)[2]
+        self.assertEqual(card_parent(hub, text, 'owner/Artemis-31B-v1.1-heretic', 'google/gemma-4-31B-it'), ARTEMIS)
+        self.assertEqual(card_parent(hub, text, 'owner/Artemis-31B-v1.1-heretic', ['google/gemma-4-31B-it', ARTEMIS]), None)
+        self.assertIsNone(card_parent(hub, '# owner/Artemis-31B-v1.1-heretic\n\nA decensored google/gemma-4-31B-it.\n',
+                                      'owner/Artemis-31B-v1.1-heretic', 'google/gemma-4-31B-it'))
+        self.assertIsNone(card_parent(hub, 'Made with nobody/knows and 1/2 of the data.', 'owner/x', None))
+        self.assertEqual(card_parent(hub, '# [TheDrummer/Artemis-31B-v1.1](https://hf.co/TheDrummer/Artemis-31B-v1.1), decensored\n', 'owner/x', None), ARTEMIS)
+
+    def test_the_pin_records_the_card_parent_and_the_command_warns_without_changing_the_original(self):
+        row = pin(card_api(), 'owner/Artemis-31B-v1.1-heretic', 'google/gemma-4-31B-it')
+        self.assertEqual(row['modified']['card_parent'], ARTEMIS)
+        self.assertEqual(row['original']['hub_id'], 'google/gemma-4-31B-it')
+        self.assertNotIn('card_parent', pin(card_api(readme=None), 'owner/Artemis-31B-v1.1-heretic', 'google/gemma-4-31B-it')['modified'])
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / 'round-43-batch-1.json'
+            argv = ['pin_census.py', str(manifest), '--pair', 'owner/Artemis-31B-v1.1-heretic', 'google/gemma-4-31B-it']
+            out = io.StringIO()
+            with patch.object(pin_census, 'HfApi', card_api), patch.object(pin_census, 'measured_copies', lambda: []), \
+                    patch.object(sys, 'argv', argv), contextlib.redirect_stdout(out):
+                pin_census.main()
+            self.assertEqual(out.getvalue().strip(), 'warning: owner/Artemis-31B-v1.1-heretic card names TheDrummer/Artemis-31B-v1.1 '
+                             'where base_model names google/gemma-4-31B-it; pinned against google/gemma-4-31B-it')
+            self.assertEqual(json.loads(manifest.read_text())['pairs'][0]['modified']['card_parent'], ARTEMIS)
+            # Pinned against the card's parent by hand: recorded, nothing to warn about.
+            manifest.unlink()
+            out = io.StringIO()
+            with patch.object(pin_census, 'HfApi', card_api), patch.object(pin_census, 'measured_copies', lambda: []), \
+                    patch.object(sys, 'argv', argv[:-1] + [ARTEMIS]), contextlib.redirect_stdout(out):
+                pin_census.main()
+            self.assertEqual(out.getvalue().strip(), '')
+            self.assertEqual(json.loads(manifest.read_text())['pairs'][0]['modified']['card_parent'], ARTEMIS)
 
 
 class NamePairingTests(unittest.TestCase):

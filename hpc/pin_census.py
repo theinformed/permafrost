@@ -16,6 +16,8 @@
 # Modified: SDE  a hub id already measured at the same revision is refused with the round that measured it.
 # Modified: SDE  a copy named qat whose card names the instruct model is pinned against the QAT checkpoint of
 #   that size when the hub has one, with the card's field kept beside a note.
+# Modified: SDE  a repository the card's first heading or sentence names, other than the field's, is recorded as
+#   card_parent with a warning; the pinned original does not change for it.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -145,9 +147,9 @@ def qat_original(api, modified, original, bases):
 
     A quantisation-aware export's generated card carries its original's header, and the QAT
     checkpoints' own cards name the instruct model as their base, so a copy named qat declares the
-    instruct model one step up. When the caller followed that field, the name says qat, the declared
-    model is the instruct model of the copy's size and the hub has the QAT checkpoint of that size,
-    the pair is pinned against the QAT checkpoint. A caller who names any other original is followed."""
+    instruct model one step up. When the caller followed that field on a copy whose name says qat,
+    the field naming the instruct model of the copy's size, the pair is pinned against that size's
+    QAT checkpoint where the hub has one. A caller who names any other original is followed."""
     declared = bases if isinstance(bases, str) else bases[0] if isinstance(bases, list) and len(bases) == 1 else None
     name = modified.split('/')[-1].lower()
     if 'qat' not in name or 'qat' in original.lower() or not declared or declared.lower() != original.lower():
@@ -159,6 +161,58 @@ def qat_original(api, modified, original, bases):
         return original, None
     return candidate, 'base_model names {}; the copy name says qat and {} exists, so the pair is pinned against it'.format(
         declared, candidate)
+
+
+HUB_ID = re.compile(r'(?<![A-Za-z0-9_/.-])([A-Za-z0-9][A-Za-z0-9_-]*)/([A-Za-z0-9][A-Za-z0-9_.-]*)')
+HUB_LINK = re.compile(r'https?://(?:huggingface\.co|hf\.co)/')
+
+
+def card_body(api, repo, revision):
+    """The text of a repository's card after its header block, or '' when it has none."""
+    download = getattr(api, 'hf_hub_download', None)
+    if download is None:
+        return ''
+    try:
+        path = download(repo_id=repo, filename='README.md', revision=revision)
+    except Exception:
+        return ''
+    text = Path(path).read_text(encoding='utf-8', errors='replace')
+    if text.startswith('---'):
+        end = text.find('\n---', 3)
+        if end >= 0:
+            text = text[end + 4:]
+    return text
+
+
+def card_opening(text):
+    """A card's first heading and its first sentence, past badges, images and tables."""
+    heading = sentence = ''
+    for line in text.splitlines():
+        line = line.strip()
+        if not line or line[0] in '<|!':
+            continue
+        if line.startswith('#'):
+            if not heading:
+                heading = line.lstrip('#').strip()
+            continue
+        sentence = re.split(r'(?<=[.!?])\s', line, 1)[0]
+        break
+    return heading, sentence
+
+
+def card_parent(api, text, modified, bases):
+    """The first repository a card's opening names that is neither the copy nor a declared base, if it exists.
+
+    Three copies named their true parent in the README's title or first sentence while the field
+    named the model under it; the person pinning sees both and chooses, the pin itself follows the
+    field."""
+    named = {modified.lower()} | {name.lower() for name in (bases if isinstance(bases, list) else [bases]) if isinstance(name, str)}
+    for part in card_opening(text):
+        for owner, name in HUB_ID.findall(HUB_LINK.sub('', part)):
+            candidate = owner + '/' + name.rstrip('.,:;')
+            if candidate.lower() not in named and repo_exists(api, candidate):
+                return candidate
+    return None
 
 
 def leaves(node):
@@ -249,6 +303,9 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     node['weight_files_sha256'] = weights
     if note:
         node['original_note'] = note
+    parent = card_parent(api, card_body(api, modified, copy.sha), modified, declared(copy))
+    if parent:
+        node['card_parent'] = parent
     if source:
         node['duplicate_of'] = source
     if measured:
@@ -495,6 +552,9 @@ def main():
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     copy = row['modified']
+    if copy.get('card_parent') and copy['card_parent'].lower() != row['original']['hub_id'].lower():
+        print('warning: {} card names {} where base_model names {}; pinned against {}'.format(
+            args.pair[0], copy['card_parent'], copy['declared_base_model'], row['original']['hub_id']))
     if copy.get('original_note'):
         print('note: {} {}'.format(args.pair[0], copy['original_note']))
     if copy.get('measured_in'):
