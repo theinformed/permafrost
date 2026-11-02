@@ -168,7 +168,10 @@ when it exists on the hub, with a warning naming it beside the field, and the pi
 change for it. A `base_model` name the hub does not serve (a card naming google/gemma-3-12b where the hub
 serves google/gemma-3-12b-it) is kept in the chain as a leaf marked `missing`, with a note at pin time;
 it counts as a publisher root when its maker put out a leaf of the original's tree and is no party to
-the comparison, and under any other maker the lineage screen holds the pair as unknown.
+the comparison, and under any other maker the lineage screen holds the pair as unknown. A copy or
+original whose hub id carries a restricted maker's model name (a 1B pass named for a GLM distillation)
+is refused before any hub call, with the word named, under the same pattern list the home screen
+applies to a batch before it leaves, so a pinned batch no longer fails that screen on a name.
 
 The `names` step also refuses a copy whose weight files are the ones a measured copy carries (by the
 LFS checksums), naming that copy and its round; a copy whose paired tensors have other shapes than the
