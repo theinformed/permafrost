@@ -1,0 +1,1652 @@
+{
+  "round": 42,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "bgg1996/Melinoe-Gemma4-31B-VL-heretic",
+        "maker": "bgg1996",
+        "revision": "ac6bff067604e3f8314d57cee38ff7ecbb05cf90",
+        "declared_base_model": [
+          "bgg1996/Melinoe-Gemma4-31B-VL"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "bgg1996/Melinoe-Gemma4-31B-VL",
+            "maker": "bgg1996",
+            "revision": "26acdef2fad3f56eff343f1f251ccf1668f944aa",
+            "declared_base_model": [
+              "google/gemma-4-31B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B-it",
+                "maker": "google",
+                "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+                "declared_base_model": [
+                  "google/gemma-4-31B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-31B",
+                    "maker": "google",
+                    "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T18:22:36+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-30T12:34:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-11T15:51:39+00:00",
+        "revision_date": "2026-07-11T18:06:38+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00013.safetensors": "39cd04b3936bd45226d587c8e4481d47e07dfed5dcd28629ac48c5430a67b71d",
+          "model-00002-of-00013.safetensors": "d4c3791859d4ca6312753d8a0b431c15398bcc3149cb838bebb3e8650139d362",
+          "model-00003-of-00013.safetensors": "3488cce85a01dc2c8aa6471d0a304b90395a2c879a29c9780f7c489c6bd0fb27",
+          "model-00004-of-00013.safetensors": "bb0e0090b8d42d1677799467bdb3329e9ff2e09a08424692f847504c8b25fc89",
+          "model-00005-of-00013.safetensors": "16ee299579c75a7c9be8cb06e3575258ed1bcf6749f29f4d0c73a231ddca97d1",
+          "model-00006-of-00013.safetensors": "f8fa8ef562e5725e9d2107f1aa05546248fc271555456af232534f02351cea6d",
+          "model-00007-of-00013.safetensors": "3b236c38abb2f6397654a6760882b161343b7a743a98adae23bb4137c530ffdb",
+          "model-00008-of-00013.safetensors": "47848646a9c253d35baf5831ff1e5e43618eaf7bf1950188b0ba20eae6614560",
+          "model-00009-of-00013.safetensors": "b1b02685d22f59cfbdd403c39e4bbbbe7d64066819f29635d52f140ae302d625",
+          "model-00010-of-00013.safetensors": "316d27582f3da4dfa7b3eed34984b3639bcbd184fee2552499bef20406e80078",
+          "model-00011-of-00013.safetensors": "5d87be25d558054e5819723686bb31886df03dccc819dc36745e5fc889d1f422",
+          "model-00012-of-00013.safetensors": "868e862c17c0f79c1b09aae8ccf37f1399f91cd82c7f48774ae54ad1183c7aec",
+          "model-00013-of-00013.safetensors": "c366e21c2e686df8a49d6da8170a2909297d7c1a45eb035ef318466712b3743b"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "bgg1996/Melinoe-Gemma4-31B-VL",
+        "maker": "bgg1996",
+        "revision": "26acdef2fad3f56eff343f1f251ccf1668f944aa",
+        "declared_base_model": [
+          "google/gemma-4-31B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-30T12:34:41+00:00",
+        "revision_date": "2026-06-02T01:20:33+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-11T15:51:39+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 23,
+        "original_history_starts": "2026-05-30T12:34:41+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/G4-MeroMero-31B-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "c0add38ffa7cb4d5e50641478d60664542fca906",
+        "declared_base_model": [
+          "zerofata/G4-MeroMero-31B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "zerofata/G4-MeroMero-31B",
+            "maker": "zerofata",
+            "revision": "35611a07fb1a13fe8c9d926b9e7337dd63c5e4ca",
+            "declared_base_model": [
+              "google/gemma-4-31B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B-it",
+                "maker": "google",
+                "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+                "declared_base_model": [
+                  "google/gemma-4-31B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-31B",
+                    "maker": "google",
+                    "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T18:22:36+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-30T04:35:06+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-05-15T22:29:00+00:00",
+        "revision_date": "2026-05-26T21:36:00+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "80055a886ab642e0e12102c34a88360443b3536585acc6ee8fcd394865d83ae3",
+          "model-00002-of-00002.safetensors": "b41e805136c3c9c6a80cd1632c227ec1efb954dcb31ac995a03602257de96293"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "zerofata/G4-MeroMero-31B",
+        "maker": "zerofata",
+        "revision": "35611a07fb1a13fe8c9d926b9e7337dd63c5e4ca",
+        "declared_base_model": [
+          "google/gemma-4-31B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-30T04:35:06+00:00",
+        "revision_date": "2026-05-02T09:06:30+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-05-15T22:29:00+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 11,
+        "original_history_starts": "2026-04-30T04:35:06+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/Gemma-4-Queen-31B-it-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "368f8275c384accefc9e306fb1a9eca77473104b",
+        "declared_base_model": [
+          "aifeifei798/Gemma-4-Queen-31B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "aifeifei798/Gemma-4-Queen-31B-it",
+            "maker": "aifeifei798",
+            "revision": "93aee5a5df70618cc31e98ef22b3cc328d9c4000",
+            "declared_base_model": "google/gemma-4-31B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B-it",
+                "maker": "google",
+                "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+                "declared_base_model": [
+                  "google/gemma-4-31B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-31B",
+                    "maker": "google",
+                    "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T18:22:36+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-10T18:54:40+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-12T18:50:43+00:00",
+        "revision_date": "2026-05-05T17:02:40+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "4dac5c0f924299f1d07272b513a1c4b0a2ae95f29fe2f470776426825ba4b497",
+          "model-00002-of-00002.safetensors": "30d9f3d8b2d3b3185578a06a2e0793d6736bd8eb8156be4e5aa2b1079f897c7f"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "aifeifei798/Gemma-4-Queen-31B-it",
+        "maker": "aifeifei798",
+        "revision": "58bee46fd34d14a6ea6e70fcbf07b66213d81687",
+        "declared_base_model": "google/gemma-4-31B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-10T18:54:40+00:00",
+        "revision_date": "2026-04-10T19:50:07+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-12T18:50:43+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 80,
+        "original_history_starts": "2026-04-10T18:54:40+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Vortex5/G4-Moonlight-Dusk-26B-A4B-heretic",
+        "maker": "vortex5",
+        "revision": "529622a2a6f876b259def10f10ebbe17d50e80d1",
+        "declared_base_model": [
+          "Vortex5/G4-Moonlight-Dusk-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "Vortex5/G4-Moonlight-Dusk-26B-A4B",
+            "maker": "vortex5",
+            "revision": "fa0ae315b04ff82676b7a4fd244de33f2ba83e72",
+            "declared_base_model": [
+              "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+              "Locutusque/Esmeralda-Gemma4-26B-A4B",
+              "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+              "zerofata/G4-MeroMero-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+                "maker": "gryphe",
+                "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-06-06T19:35:20+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Locutusque/Esmeralda-Gemma4-26B-A4B",
+                "maker": "locutusque",
+                "revision": "51260d054b255ba8d6d0cdedd5fdd5c3091182e3",
+                "declared_base_model": "unsloth/gemma-4-26b-a4b-it",
+                "base_model_chain": [
+                  {
+                    "hub_id": "unsloth/gemma-4-26b-a4b-it",
+                    "maker": "unsloth",
+                    "revision": "60941ad6341d0b7af91277ff25c4175f08b56819",
+                    "declared_base_model": "google/gemma-4-26B-A4B-it",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B-it",
+                        "maker": "google",
+                        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                        "declared_base_model": [
+                          "google/gemma-4-26B-A4B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B",
+                            "maker": "google",
+                            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2026-03-12T00:38:03+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-11T21:25:57+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-31T13:55:50+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-31T02:55:54+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+                "maker": "darkhn",
+                "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-20T12:08:28+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+                "maker": "zerofata",
+                "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-15T21:32:02+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-07-13T19:43:53+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-15T01:12:30+00:00",
+        "revision_date": "2026-07-16T13:09:54+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "a75ec6f913be025486d605778f8f95cf2e7858cfbb06ec26446370949c67e75e",
+          "model-00002-of-00002.safetensors": "e7032ab3688bcb2b9eaa3da85886fb916e125e11a7e8b9af7c73ceea98625727"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "Vortex5/G4-Moonlight-Dusk-26B-A4B",
+        "maker": "vortex5",
+        "revision": "fa0ae315b04ff82676b7a4fd244de33f2ba83e72",
+        "declared_base_model": [
+          "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+          "Locutusque/Esmeralda-Gemma4-26B-A4B",
+          "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+          "zerofata/G4-MeroMero-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+            "maker": "gryphe",
+            "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-06T19:35:20+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Locutusque/Esmeralda-Gemma4-26B-A4B",
+            "maker": "locutusque",
+            "revision": "51260d054b255ba8d6d0cdedd5fdd5c3091182e3",
+            "declared_base_model": "unsloth/gemma-4-26b-a4b-it",
+            "base_model_chain": [
+              {
+                "hub_id": "unsloth/gemma-4-26b-a4b-it",
+                "maker": "unsloth",
+                "revision": "60941ad6341d0b7af91277ff25c4175f08b56819",
+                "declared_base_model": "google/gemma-4-26B-A4B-it",
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-31T13:55:50+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-31T02:55:54+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+            "maker": "darkhn",
+            "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-20T12:08:28+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+            "maker": "zerofata",
+            "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-15T21:32:02+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-13T19:43:53+00:00",
+        "revision_date": "2026-07-14T18:04:37+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-15T01:12:30+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2026-07-13T19:43:53+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning",
+        "maker": "justbackup",
+        "revision": "f4c13c725c5eae31ac12b41ac256f30f0f570923",
+        "declared_base_model": [
+          "coder3101/gemma-3-27b-it-heretic"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "coder3101/gemma-3-27b-it-heretic",
+            "maker": "coder3101",
+            "revision": "b944979784c4795b9adb30a88d51a54b53111017",
+            "declared_base_model": "google/gemma-3-27b-pt",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-3-27b-pt",
+                "maker": "google",
+                "revision": "9fe3c4ebc93fbadb14913801536d022054ef11cc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-01T19:10:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-23T16:06:04+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-08-24T14:50:38+00:00",
+        "revision_date": "2026-08-24T14:50:38+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00012.safetensors": "f07e70d052e0559e8a178de3baccd083f126c0007494b7ce36070ad3330605e3",
+          "model-00002-of-00012.safetensors": "7eda9ba32e37e5e772492c3df96779a1b5a9187784464409708b7a0e5dc70f70",
+          "model-00003-of-00012.safetensors": "b1f523150c536eeb7e287975f2403c3625c7c80ad995c3399a671da778525a3e",
+          "model-00004-of-00012.safetensors": "f4f6e6324f8367c5d2a2edcc0a8c1bcd90e89bc47077a1d97793bf27ddf8eb43",
+          "model-00005-of-00012.safetensors": "7c7441d423afe64220a26f70890b431b664eadcce1c437f4c9009a068f8b4b13",
+          "model-00006-of-00012.safetensors": "49698b651a24bdcf6e74dc766fdde683322e36041f1285aa7fb78f2efd4394ee",
+          "model-00007-of-00012.safetensors": "eaa2bdb4e9427c27527f7d155ecb3f4388715cba94adf8cf2d56e5897b60a818",
+          "model-00008-of-00012.safetensors": "e10ddb94e66a8dace33c8eb768e8a772e7b22202c743f6cf45856bcf88229659",
+          "model-00009-of-00012.safetensors": "49f6a9550ca242494ff15c2fd5e1dedd8d882eb963d0bf99dab8e364c7ec1caf",
+          "model-00010-of-00012.safetensors": "038a7a6277bd78154ef84e1d99d5a2cd9bfe9c967792ecdc60997f3af5bc42d5",
+          "model-00011-of-00012.safetensors": "acb94a892241ecc457a7d63c4a867ebf498a2cc4fd3e9ba51d4492e4c71f8f5f",
+          "model-00012-of-00012.safetensors": "aef098fc35736b5884b984b3f73a4560b4c1c2969b19794b36499c60cf5c064a"
+        },
+        "duplicate_of": "DavidAU/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "coder3101/gemma-3-27b-it-heretic",
+        "maker": "coder3101",
+        "revision": "b944979784c4795b9adb30a88d51a54b53111017",
+        "declared_base_model": "google/gemma-3-27b-pt",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-3-27b-pt",
+            "maker": "google",
+            "revision": "9fe3c4ebc93fbadb14913801536d022054ef11cc",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-03-01T19:10:03+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-23T16:06:04+00:00",
+        "revision_date": "2025-11-28T18:35:55+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-08-24T14:50:38+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 10,
+        "original_history_starts": "2025-11-23T16:06:04+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "SubMaroon/Gemma-4-26B-A4B-StyleTune-QK-Heretic",
+        "maker": "submaroon",
+        "revision": "1c802dffcb8f13b8a5d2779b35e7e6232d350ed4",
+        "declared_base_model": [
+          "coder3101/gemma-4-26B-A4B-it-heretic",
+          "Gryphe/Gemma-4-26B-A4B-StyleTune-V2",
+          "Gryphe/Pantheon-Reasoning-26B-A4B-1.1-V2"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "coder3101/gemma-4-26B-A4B-it-heretic",
+            "maker": "coder3101",
+            "revision": "e6d09d5c434a5e91326ce9d779786a91e7aaae35",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-02T20:55:22+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Gryphe/Gemma-4-26B-A4B-StyleTune-V2",
+            "maker": "gryphe",
+            "revision": "f34ba405740e0933f9b859c746de559ce1036958",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-20T09:00:46+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1-V2",
+            "maker": "gryphe",
+            "revision": "6af1278a92223c717ccea671e4571a5cc135f5d8",
+            "declared_base_model": [
+              "Gryphe/Gemma-4-26B-A4B-StyleTune-V2"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Gryphe/Gemma-4-26B-A4B-StyleTune-V2",
+                "maker": "gryphe",
+                "revision": "f34ba405740e0933f9b859c746de559ce1036958",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-06-20T09:00:46+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-09-08T07:18:26+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-09-13T00:51:58+00:00",
+        "revision_date": "2026-09-13T02:28:20+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "ebff4d971d5bf0165f5d71186edc4b0d8814cc77237703ea7a235c6b25262fa7",
+          "model-00002-of-00002.safetensors": "c7284b6109cadc1b093232793eb231d2b44ae4d5ca39a238d6e7048278c6934f",
+          "model-lm-head.safetensors": "00ce94a37117946318dfb7eb1f6c334fbede8661603b156675cbb69407d862c4"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "Gryphe/Gemma-4-26B-A4B-StyleTune-V2",
+        "maker": "gryphe",
+        "revision": "f34ba405740e0933f9b859c746de559ce1036958",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-20T09:00:46+00:00",
+        "revision_date": "2026-06-20T15:08:10+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-09-13T00:51:58+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 6,
+        "original_history_starts": "2026-06-20T09:00:46+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "DavidAU/gemma-3-4b-it-vl-Heretic-4-Horsemen-Uncensored",
+        "maker": "davidau",
+        "revision": "a19535d8715d820256e6a157188bf57615ad7f27",
+        "declared_base_model": [
+          "DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme",
+            "maker": "davidau",
+            "revision": "b2d64d291eb745a5a9783d46a11490de7c4ce1ee",
+            "declared_base_model": [
+              "google/gemma-3-4b-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-3-4b-it",
+                "maker": "google",
+                "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+                "declared_base_model": "google/gemma-3-4b-pt",
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-3-4b-pt",
+                    "maker": "google",
+                    "revision": "cc012e0a6d0787b4adcc0fa2c4da74402494554d",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-02-20T21:19:40+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-02-20T21:20:07+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-22T03:35:05+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-02-13T22:54:52+00:00",
+        "revision_date": "2026-02-21T01:51:06+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "bb0531e86daacf8287eaac0d9fc2c21f6ee4f554bf0b02ac0bec12c9b7f90169",
+          "model-00002-of-00002.safetensors": "e6e98699f3e1e7f6fa3e447dce91c0c5ff03060b7850960d1013cc6cc5e0b164"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme",
+        "maker": "davidau",
+        "revision": "b2d64d291eb745a5a9783d46a11490de7c4ce1ee",
+        "declared_base_model": [
+          "google/gemma-3-4b-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-3-4b-it",
+            "maker": "google",
+            "revision": "093f9f388b31de276ce2de164bdc2081324b9767",
+            "declared_base_model": "google/gemma-3-4b-pt",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-3-4b-pt",
+                "maker": "google",
+                "revision": "cc012e0a6d0787b4adcc0fa2c4da74402494554d",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-02-20T21:19:40+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-02-20T21:20:07+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-22T03:35:05+00:00",
+        "revision_date": "2025-11-22T03:42:34+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-02-13T22:54:52+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2025-11-22T03:35:05+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Vortex5/Chimera-X-26B-A4B-heretic",
+        "maker": "vortex5",
+        "revision": "ed8fdc075031ddb66a1d1a9ae72294b25a0c36a5",
+        "declared_base_model": [
+          "Vortex5/Chimera-X-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "Vortex5/Chimera-X-26B-A4B",
+            "maker": "vortex5",
+            "revision": "44f28aeffe5f568c5b4fe36187db59b5c6c0df42",
+            "declared_base_model": [
+              "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+              "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+              "zerofata/G4-MeroMero-26B-A4B",
+              "Vortex5/G4-Moonlight-Dusk-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+                "maker": "darkhn",
+                "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-20T12:08:28+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+                "maker": "gryphe",
+                "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-06-06T19:35:20+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+                "maker": "zerofata",
+                "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-15T21:32:02+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Vortex5/G4-Moonlight-Dusk-26B-A4B",
+                "maker": "vortex5",
+                "revision": "fa0ae315b04ff82676b7a4fd244de33f2ba83e72",
+                "declared_base_model": [
+                  "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+                  "Locutusque/Esmeralda-Gemma4-26B-A4B",
+                  "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+                  "zerofata/G4-MeroMero-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+                    "maker": "gryphe",
+                    "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B-it"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B-it",
+                        "maker": "google",
+                        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                        "declared_base_model": [
+                          "google/gemma-4-26B-A4B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B",
+                            "maker": "google",
+                            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2026-03-12T00:38:03+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-11T21:25:57+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-06-06T19:35:20+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "Locutusque/Esmeralda-Gemma4-26B-A4B",
+                    "maker": "locutusque",
+                    "revision": "51260d054b255ba8d6d0cdedd5fdd5c3091182e3",
+                    "declared_base_model": "unsloth/gemma-4-26b-a4b-it",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "unsloth/gemma-4-26b-a4b-it",
+                        "maker": "unsloth",
+                        "revision": "60941ad6341d0b7af91277ff25c4175f08b56819",
+                        "declared_base_model": "google/gemma-4-26B-A4B-it",
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B-it",
+                            "maker": "google",
+                            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                            "declared_base_model": [
+                              "google/gemma-4-26B-A4B"
+                            ],
+                            "base_model_chain": [
+                              {
+                                "hub_id": "google/gemma-4-26B-A4B",
+                                "maker": "google",
+                                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                                "declared_base_model": null,
+                                "base_model_chain": [],
+                                "created_at": "2026-03-12T00:38:03+00:00",
+                                "publisher_root": true,
+                                "lineage_known": true
+                              }
+                            ],
+                            "created_at": "2026-03-11T21:25:57+00:00",
+                            "publisher_root": false,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-31T13:55:50+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-05-31T02:55:54+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+                    "maker": "darkhn",
+                    "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B-it"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B-it",
+                        "maker": "google",
+                        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                        "declared_base_model": [
+                          "google/gemma-4-26B-A4B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B",
+                            "maker": "google",
+                            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2026-03-12T00:38:03+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-11T21:25:57+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-04-20T12:08:28+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  },
+                  {
+                    "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+                    "maker": "zerofata",
+                    "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B-it"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B-it",
+                        "maker": "google",
+                        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                        "declared_base_model": [
+                          "google/gemma-4-26B-A4B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B",
+                            "maker": "google",
+                            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2026-03-12T00:38:03+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-11T21:25:57+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-04-15T21:32:02+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-07-13T19:43:53+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-07-16T15:31:20+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-19T19:17:15+00:00",
+        "revision_date": "2026-07-19T21:25:10+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "02f203bf0e7b7700900c101bceb3aff725e896278bccc6de46d70df53f0a636f",
+          "model-00002-of-00002.safetensors": "0b3208dde7d68c36e38205e88386c9d160e4ba441eeb97a12037474781a66918"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "Vortex5/Chimera-X-26B-A4B",
+        "maker": "vortex5",
+        "revision": "44f28aeffe5f568c5b4fe36187db59b5c6c0df42",
+        "declared_base_model": [
+          "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+          "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+          "zerofata/G4-MeroMero-26B-A4B",
+          "Vortex5/G4-Moonlight-Dusk-26B-A4B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+            "maker": "darkhn",
+            "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-20T12:08:28+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+            "maker": "gryphe",
+            "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-06T19:35:20+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+            "maker": "zerofata",
+            "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-15T21:32:02+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "Vortex5/G4-Moonlight-Dusk-26B-A4B",
+            "maker": "vortex5",
+            "revision": "fa0ae315b04ff82676b7a4fd244de33f2ba83e72",
+            "declared_base_model": [
+              "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+              "Locutusque/Esmeralda-Gemma4-26B-A4B",
+              "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+              "zerofata/G4-MeroMero-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+                "maker": "gryphe",
+                "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-06-06T19:35:20+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Locutusque/Esmeralda-Gemma4-26B-A4B",
+                "maker": "locutusque",
+                "revision": "51260d054b255ba8d6d0cdedd5fdd5c3091182e3",
+                "declared_base_model": "unsloth/gemma-4-26b-a4b-it",
+                "base_model_chain": [
+                  {
+                    "hub_id": "unsloth/gemma-4-26b-a4b-it",
+                    "maker": "unsloth",
+                    "revision": "60941ad6341d0b7af91277ff25c4175f08b56819",
+                    "declared_base_model": "google/gemma-4-26B-A4B-it",
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B-it",
+                        "maker": "google",
+                        "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                        "declared_base_model": [
+                          "google/gemma-4-26B-A4B"
+                        ],
+                        "base_model_chain": [
+                          {
+                            "hub_id": "google/gemma-4-26B-A4B",
+                            "maker": "google",
+                            "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                            "declared_base_model": null,
+                            "base_model_chain": [],
+                            "created_at": "2026-03-12T00:38:03+00:00",
+                            "publisher_root": true,
+                            "lineage_known": true
+                          }
+                        ],
+                        "created_at": "2026-03-11T21:25:57+00:00",
+                        "publisher_root": false,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-31T13:55:50+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-31T02:55:54+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "Darkhn/Gemma-4-26B-A4B-Animus-V14.1-FFT",
+                "maker": "darkhn",
+                "revision": "8b41952107bd833424b8d646e0c0e6db0cac865b",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-20T12:08:28+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              },
+              {
+                "hub_id": "zerofata/G4-MeroMero-26B-A4B",
+                "maker": "zerofata",
+                "revision": "475ecf2da8d4e758343541832b3b129b9d4f93da",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B-it"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B-it",
+                    "maker": "google",
+                    "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                    "declared_base_model": [
+                      "google/gemma-4-26B-A4B"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "google/gemma-4-26B-A4B",
+                        "maker": "google",
+                        "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2026-03-12T00:38:03+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2026-03-11T21:25:57+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-04-15T21:32:02+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-07-13T19:43:53+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-16T15:31:20+00:00",
+        "revision_date": "2026-07-16T23:07:44+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-19T19:17:15+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 3,
+        "original_history_starts": "2026-07-16T15:31:20+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-02T07:41:51.486876+00:00",
+  "note": "Round 42, for Nautilus on the CPU census: the first round from the second-generation pool, heretic edits applied to community fine-tunes of Gemma 4 and Gemma 3 and to measured first edits, so each pair measures the edit against the parent its card names rather than against Google: bgg1996/Melinoe-Gemma4-31B-VL-heretic, llmfan46/G4-MeroMero-31B-uncensored-heretic, llmfan46/Gemma-4-Queen-31B-it-uncensored-heretic, Vortex5/G4-Moonlight-Dusk-26B-A4B-heretic, Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning, SubMaroon/Gemma-4-26B-A4B-StyleTune-QK-Heretic, DavidAU/gemma-3-4b-it-vl-Heretic-4-Horsemen-Uncensored, Vortex5/Chimera-X-26B-A4B-heretic. Justbackup's 27B was duplicated from DavidAU's and its weight files differ. Held or refused on the way: Naphula's Goetia 26B-A4B ARA, whose merge chain names a base the lineage cannot place; Vortex5's Starry-Ocean 12B heretic, which carries eleven tensor names its fine-tune parent lacks; the Mistral family, whose Ministral 3 Instruct and Devstral Small 2 originals are float8 on the hub (HifiHu's and jenerallee78's 14B copies also carry timfromhcs's files, round 14); and coder3101's Ministral 3 14B Reasoning heretic, whose shard index names eight files the repository never published."
+}
