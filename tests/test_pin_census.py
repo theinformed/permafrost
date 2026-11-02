@@ -1,6 +1,7 @@
 # test_pin_census.py -- Check the pinner's duplicate check against a stubbed hub listing.
 # Created by Sean Egan
 # Modified: SDE  the names step refuses a pair whose tensor names no rule pairs, with the counts.
+# Modified: SDE  a hub id measured at the same revision is refused with its round.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -15,7 +16,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
-from pin_census import Duplicate, measured_copies, names, pin, pairing, same_weights, unpaired
+from pin_census import already_measured, Duplicate, measured_copies, names, pin, pairing, same_weights, unpaired
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
 
@@ -24,6 +25,10 @@ SHA_A = 'a' * 64
 SHA_B = 'b' * 64
 KNOWN = [{'hub_id': 'first/copy', 'state': 'measured', 'round': 8, 'sha256': {SHA_A}},
          {'hub_id': 'third/copy', 'state': 'measured', 'round': 19, 'sha256': {SHA_A}}]
+# The copy itself, measured at the revision the stubbed hub serves, on other weight files than KNOWN's.
+MEASURED = [{'hub_id': 'owner/copy', 'state': 'measured', 'round': 13, 'revision': 'c' * 40, 'sha256': {SHA_B}},
+            {'hub_id': 'owner/copy', 'state': 'measured', 'round': 22, 'revision': 'c' * 40, 'sha256': {SHA_B}},
+            {'hub_id': 'owner/copy', 'state': 'pinned', 'round': 40, 'revision': 'c' * 40, 'sha256': {SHA_B}}]
 
 
 def api(first_title, sha=SHA_A):
@@ -78,16 +83,17 @@ class DuplicateCheckTests(unittest.TestCase):
             (root / 'data/batches').mkdir(parents=True)
             (root / 'results/weights/first-copy.json').write_text(json.dumps({
                 'modified': {'source': '/work/rounds/8/derived/pair-1', 'shards_sha256': {'model.safetensors': SHA_A}},
-                'census': {'modified': {'hub_id': 'first/copy'}}}))
+                'census': {'modified': {'hub_id': 'first/copy', 'revision': 'f' * 40}}}))
             (root / 'results/weights/unnamed.json').write_text(json.dumps({'modified': {'shards_sha256': {'a': SHA_B}}}))
             (root / 'results/weights/no-shards.json').write_text(json.dumps({'modified': {}}))
             (root / 'data/batches/round-31-batch-1.json').write_text(json.dumps({'round': 31, 'pairs': [
-                {'modified': {'hub_id': 'pinned/copy', 'weight_files_sha256': {'model.safetensors': 'c' * 64}}},
+                {'modified': {'hub_id': 'pinned/copy', 'revision': 'e' * 40, 'weight_files_sha256': {'model.safetensors': 'c' * 64}}},
                 {'modified': {'hub_id': 'older/pin'}}]}))
             rows = measured_copies(root)
         self.assertEqual([(row['hub_id'], row['state'], row['round']) for row in rows],
                          [('first/copy', 'measured', 8), ('unnamed', 'measured', None), ('pinned/copy', 'pinned', 31)])
         self.assertEqual(rows[2]['sha256'], {'c' * 64})
+        self.assertEqual([row['revision'] for row in rows], ['f' * 40, None, 'e' * 40])
 
     def test_command_refuses_in_one_line_and_pins_with_the_flag(self):
         with tempfile.TemporaryDirectory() as temporary:
@@ -136,6 +142,43 @@ LAYERS = ['layers.{}.{}.weight'.format(layer, part) for layer in range(3) for pa
 ORIGINAL = ['model.language_model.' + name for name in LAYERS] + ['model.vision_tower.patch.weight']
 # A layout no rule reaches: the same tensors twice, under two wrappers, as one diffusion copy saves them.
 SPLIT = ['decoder.' + name for name in LAYERS] + ['encoder.' + name for name in LAYERS]
+
+
+class MeasuredRevisionTests(unittest.TestCase):
+    def test_the_same_hub_id_at_a_measured_revision_is_refused_naming_the_first_round(self):
+        with self.assertRaisesRegex(Duplicate, '^already measured in round 13$'):
+            pin(api('Upload', sha=SHA_A), 'owner/copy', 'publisher/base', known=MEASURED)
+        self.assertEqual(already_measured('Owner/Copy', 'c' * 40, MEASURED)['round'], 13)
+        # Another revision of the same repository, or a pin not yet measured, is not a measurement.
+        self.assertIsNone(already_measured('owner/copy', 'd' * 40, MEASURED))
+        self.assertIsNone(already_measured('owner/copy', 'c' * 40, MEASURED[2:]))
+        self.assertIsNone(already_measured('owner/copy', None, [{'hub_id': 'owner/copy', 'state': 'measured', 'round': 1}]))
+
+    def test_an_allowed_re_measure_records_the_round_that_measured_it(self):
+        row = pin(api('Upload', sha=SHA_A), 'owner/copy', 'publisher/base', known=MEASURED, allow_duplicate=True)
+        self.assertEqual(row['modified']['measured_in'], {'round': 13})
+        self.assertTrue(row['modified']['allow_duplicate'])
+        self.assertNotIn('same_weights_as', row['modified'])
+
+    def test_command_refuses_the_measured_revision_in_one_line_and_pins_with_the_flag(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / 'round-41-batch-1.json'
+            argv = ['pin_census.py', str(manifest), '--pair', 'owner/copy', 'publisher/base']
+            with patch.object(pin_census, 'HfApi', lambda: api('Upload', sha=SHA_B)), \
+                    patch.object(pin_census, 'measured_copies', lambda: MEASURED):
+                out = io.StringIO()
+                with patch.object(sys, 'argv', argv), contextlib.redirect_stdout(out), self.assertRaises(SystemExit) as stop:
+                    pin_census.main()
+                self.assertEqual(stop.exception.code, 1)
+                self.assertEqual(out.getvalue().strip(), 'refused owner/copy: already measured in round 13')
+                self.assertFalse(manifest.exists())
+                out = io.StringIO()
+                with patch.object(sys, 'argv', argv + ['--allow-duplicate']), contextlib.redirect_stdout(out):
+                    pin_census.main()
+            record = json.loads(manifest.read_text())
+            self.assertEqual(record['pairs'][0]['modified']['measured_in'], {'round': 13})
+            self.assertEqual(record['pairs'][0]['modified']['same_weights_as'], {'hub_id': 'owner/copy', 'round': 13, 'state': 'measured'})
+            self.assertEqual(out.getvalue().strip(), 'pinned as allowed: owner/copy already measured in round 13')
 
 
 class NamePairingTests(unittest.TestCase):

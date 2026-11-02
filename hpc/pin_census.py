@@ -13,6 +13,7 @@
 #   a hub duplicate with later edits is pinned with its parent noted.
 # Modified: SDE  a pair whose tensor names no pairing rule matches is refused at the names step, with the
 #   counts, before the rehearsal reads an empty comparison.
+# Modified: SDE  a hub id already measured at the same revision is refused with the round that measured it.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -73,14 +74,14 @@ def measured_copies(root=ROOT):
             continue
         census = (report.get('census') or {}).get('modified') or {}
         match = re.search(r'/rounds/([0-9]+)/', modified.get('source') or '')
-        rows.append({'hub_id': census.get('hub_id') or path.stem, 'state': 'measured',
+        rows.append({'hub_id': census.get('hub_id') or path.stem, 'state': 'measured', 'revision': census.get('revision'),
                      'round': int(match.group(1)) if match else None, 'sha256': set(shards.values())})
     for path in sorted((root / 'data/batches').glob('*.json')):
         record = json.loads(path.read_text())
         for row in record['pairs']:
             shards = row['modified'].get('weight_files_sha256') or {}
             if shards:
-                rows.append({'hub_id': row['modified']['hub_id'], 'state': 'pinned',
+                rows.append({'hub_id': row['modified']['hub_id'], 'state': 'pinned', 'revision': row['modified'].get('revision'),
                              'round': record.get('round'), 'sha256': set(shards.values())})
     return rows
 
@@ -95,9 +96,22 @@ def same_weights(weights, known):
     return min(matches, key=lambda row: (row['round'] is None, row['round'] or 0)) if matches else None
 
 
+def already_measured(hub_id, revision, known):
+    """The earliest measurement of this hub id at this revision, if the census holds one.
+
+    A batch note once called a copy unmeasured that round 13 had measured, and round 22 measured it
+    again to the last digit; the hub id and revision in a saved report settle it, whatever a note says."""
+    matches = [row for row in known if revision and row['state'] == 'measured' and row.get('revision') == revision
+               and row['hub_id'].lower() == hub_id.lower()]
+    return min(matches, key=lambda row: (row['round'] is None, row['round'] or 0)) if matches else None
+
+
+def where(match):
+    return 'in round {}'.format(match['round']) if match['round'] is not None else 'at home'
+
+
 def describe(match):
-    where = 'in round {}'.format(match['round']) if match['round'] is not None else 'at home'
-    return '{} {} {}'.format(match['hub_id'], match['state'], where)
+    return '{} {} {}'.format(match['hub_id'], match['state'], where(match))
 
 
 def declared(info):
@@ -146,6 +160,9 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     copy_commit = next(row for row in copy_history if row.commit_id == copy.sha)
     weights = lfs_weights(copy)
     source = duplicate_source(copy_history)
+    measured = already_measured(modified, copy.sha, known)
+    if measured and not allow_duplicate:
+        raise Duplicate('already measured ' + where(measured))
     match = same_weights(weights, known)
     if match and not allow_duplicate:
         raise Duplicate('same weight files as ' + describe(match))
@@ -190,6 +207,9 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     node['weight_files_sha256'] = weights
     if source:
         node['duplicate_of'] = source
+    if measured:
+        node['measured_in'] = {'round': measured['round']}
+        node['allow_duplicate'] = True
     if match:
         node['same_weights_as'] = {'hub_id': match['hub_id'], 'round': match['round'], 'state': match['state']}
         node['allow_duplicate'] = True
@@ -419,7 +439,7 @@ def main():
     parser.add_argument('--round', type=int, help='for a new manifest')
     parser.add_argument('--batch', type=int, help='for a new manifest')
     parser.add_argument('--allow-duplicate', action='store_true',
-                        help='pin a copy whose weight files the census has already measured')
+                        help='pin a copy the census has already measured, at this revision or by its weight files')
     args = parser.parse_args()
     path = Path(args.manifest)
     record = json.loads(path.read_text()) if path.exists() else new_record(path, args)
@@ -431,7 +451,9 @@ def main():
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     copy = row['modified']
-    if copy.get('same_weights_as'):
+    if copy.get('measured_in'):
+        print('pinned as allowed: {} already measured {}'.format(args.pair[0], where(copy['measured_in'])))
+    elif copy.get('same_weights_as'):
         print('pinned as allowed: {} has the {}'.format(args.pair[0], 'same weight files as ' + describe(copy['same_weights_as'])))
     elif copy.get('duplicate_of'):
         print('note: {} was duplicated from {} and its weight files differ; pinned'.format(args.pair[0], copy['duplicate_of']))

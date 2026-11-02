@@ -149,6 +149,8 @@ original commit no later than the copy's creation, with both lineages. Its `name
 published tensor names of both sides and refuses a pair whose names no pairing rule of the comparison
 reaches (the exact name, one wrapper added or dropped, two wrappers swapped, one segment inside a
 tower), naming the counts on both sides, so the refusal comes before the rehearsal rather than from
-an empty changed set.
+an empty changed set. A copy whose hub id and revision a saved report under `results/weights/` already
+carries is refused with the round that measured it, whatever a batch note says, unless
+`--allow-duplicate` asks for the repeat.
 
 Weight differences alone cannot certify the absence of hidden behavior.
