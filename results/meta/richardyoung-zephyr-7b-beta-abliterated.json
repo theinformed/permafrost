@@ -1,0 +1,805 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "richardyoung/zephyr-7b-beta-abliterated",
+    "sha": "c464d32495613165f05411dd5ee8d17eb9e983d0",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "c9b123e91fd88ced1cf41a0946c2f5a9109138a74a9cf280d888391c4c12e512",
+        "bytes": 1093
+      },
+      "tokenizer.json": {
+        "sha256": "56a23670b6ce1670bce5db5e835c1a73df4dba31e381b048d8bc25d941110450",
+        "bytes": 3505904
+      },
+      "special_tokens_map.json": {
+        "sha256": "35e7e566342a030b1c035f811204838d135e2aa5bac84de2109b660862abdc90",
+        "bytes": 624
+      },
+      "generation_config.json": {
+        "sha256": "bc504b3dee5e60b2647faa437c818d84d6382af56c77005d1976b26a51495681",
+        "bytes": 132
+      },
+      "config.json": {
+        "sha256": "4fbed3faebc943cce20720eb9f96434f0e0d8d9d98fc496794e43ac057918953",
+        "bytes": 629
+      },
+      "chat_template.jinja": {
+        "sha256": "66291cf0045c2425a3a667cf3cbb7af2b11f09e025c02f97245323ab79119362",
+        "bytes": 410
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'system' %}\n{{ '<|system|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<s>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [
+            "<unk>",
+            "<s>",
+            "</s>"
+          ],
+          "ids": [
+            0,
+            1,
+            2
+          ]
+        },
+        "special_tokens_map.json:bos_token": {
+          "value": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            1
+          ]
+        },
+        "special_tokens_map.json:eos_token": {
+          "value": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:pad_token": {
+          "value": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:unk_token": {
+          "value": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false
+          },
+          "ids": [
+            0
+          ]
+        },
+        "special_tokens_map.json:additional_special_tokens": {
+          "value": [
+            "<unk>",
+            "<s>",
+            "</s>"
+          ],
+          "ids": [
+            0,
+            1,
+            2
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "</s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:0": {
+          "content": "<unk>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:1": {
+          "content": "<s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:2": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "pad_token_id": 2
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "</s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": {
+          "0": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "1": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "2": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          }
+        },
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 32000,
+        "with_added": 32000,
+        "config": 32000
+      },
+      "generation": {
+        "_from_model_config": true,
+        "bos_token_id": 1,
+        "do_sample": true,
+        "eos_token_id": 2,
+        "transformers_version": "4.57.3"
+      },
+      "config": {
+        "architectures": [
+          "MistralForCausalLM"
+        ],
+        "attention_dropout": 0.0,
+        "bos_token_id": 1,
+        "dtype": "bfloat16",
+        "eos_token_id": 2,
+        "head_dim": null,
+        "hidden_act": "silu",
+        "hidden_size": 4096,
+        "initializer_range": 0.02,
+        "intermediate_size": 14336,
+        "max_position_embeddings": 32768,
+        "model_type": "mistral",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 32,
+        "num_key_value_heads": 8,
+        "pad_token_id": 2,
+        "rms_norm_eps": 1e-05,
+        "rope_theta": 10000.0,
+        "sliding_window": 4096,
+        "tie_word_embeddings": false,
+        "transformers_version": "4.57.3",
+        "use_cache": true,
+        "vocab_size": 32000
+      }
+    }
+  },
+  "original": {
+    "repo": "HuggingFaceH4/zephyr-7b-beta",
+    "sha": "892b3d7a7b1cf10c7a701c60881cd93df615734c",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "ba035f5706de233a42e4b7260abdd4afa2b0d17c26bc9449af6ef59010f409b8",
+        "bytes": 1431
+      },
+      "tokenizer.json": {
+        "sha256": "fc4f0bd70b3709312d9d1d9e5ba674794b6bc5abc17429897a540f93882f25fc",
+        "bytes": 1795303
+      },
+      "special_tokens_map.json": {
+        "sha256": "9921edfd5322dd354ec44f825329e1c6c6b89b357bf3ce49377be325b23eaa34",
+        "bytes": 168
+      },
+      "generation_config.json": {
+        "sha256": "88b65735808f9b532ac786a0eaa791ab59a31dd243de934fc154e3a2692b4c1a",
+        "bytes": 111
+      },
+      "config.json": {
+        "sha256": "e8781201ac85df8fba859aeb7a53f16725f3ec32c05de51999259376f75338b8",
+        "bytes": 638
+      },
+      "added_tokens.json": {
+        "sha256": "d606246b713e31b1b43dfe913554dd47819089b9e44b9ebaa294eda2589a6b4c",
+        "bytes": 42
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'system' %}\n{{ '<|system|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<s>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:additional_special_tokens": {
+          "value": [
+            "<unk>",
+            "<s>",
+            "</s>"
+          ],
+          "ids": [
+            0,
+            1,
+            2
+          ]
+        },
+        "special_tokens_map.json:bos_token": {
+          "value": "<s>",
+          "ids": [
+            1
+          ]
+        },
+        "special_tokens_map.json:eos_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:pad_token": {
+          "value": "</s>",
+          "ids": [
+            2
+          ]
+        },
+        "special_tokens_map.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            0
+          ]
+        },
+        "special_tokens_map.json:additional_special_tokens": {
+          "value": [
+            "<unk>",
+            "<s>",
+            "</s>"
+          ],
+          "ids": [
+            0,
+            1,
+            2
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "</s>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:0": {
+          "content": "<unk>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:1": {
+          "content": "<s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        },
+        "added_tokens_decoder:2": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "pad_token_id": 2
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "</s>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": {
+          "0": {
+            "content": "<unk>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "1": {
+            "content": "<s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          },
+          "2": {
+            "content": "</s>",
+            "lstrip": false,
+            "normalized": false,
+            "rstrip": false,
+            "single_word": false,
+            "special": true
+          }
+        },
+        "file": {
+          "</s>": 2,
+          "<s>": 1,
+          "<unk>": 0
+        }
+      },
+      "vocabulary_size": {
+        "base": 32000,
+        "with_added": 32000,
+        "config": 32000
+      },
+      "generation": {
+        "_from_model_config": true,
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "transformers_version": "4.35.0"
+      },
+      "config": {
+        "_name_or_path": "HuggingFaceH4/zephyr-7b-beta",
+        "architectures": [
+          "MistralForCausalLM"
+        ],
+        "bos_token_id": 1,
+        "eos_token_id": 2,
+        "hidden_act": "silu",
+        "hidden_size": 4096,
+        "initializer_range": 0.02,
+        "intermediate_size": 14336,
+        "max_position_embeddings": 32768,
+        "model_type": "mistral",
+        "num_attention_heads": 32,
+        "num_hidden_layers": 32,
+        "num_key_value_heads": 8,
+        "pad_token_id": 2,
+        "rms_norm_eps": 1e-05,
+        "rope_theta": 10000.0,
+        "sliding_window": 4096,
+        "tie_word_embeddings": false,
+        "torch_dtype": "bfloat16",
+        "transformers_version": "4.35.0",
+        "use_cache": true,
+        "vocab_size": 32000
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "special_tokens.special_tokens_map.json:bos_token",
+      "original": {
+        "value": "<s>",
+        "ids": [
+          1
+        ]
+      },
+      "modified": {
+        "value": {
+          "content": "<s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          1
+        ]
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.special_tokens_map.json:eos_token",
+      "original": {
+        "value": "</s>",
+        "ids": [
+          2
+        ]
+      },
+      "modified": {
+        "value": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          2
+        ]
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.special_tokens_map.json:pad_token",
+      "original": {
+        "value": "</s>",
+        "ids": [
+          2
+        ]
+      },
+      "modified": {
+        "value": {
+          "content": "</s>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          2
+        ]
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "special_tokens.special_tokens_map.json:unk_token",
+      "original": {
+        "value": "<unk>",
+        "ids": [
+          0
+        ]
+      },
+      "modified": {
+        "value": {
+          "content": "<unk>",
+          "lstrip": false,
+          "normalized": false,
+          "rstrip": false,
+          "single_word": false
+        },
+        "ids": [
+          0
+        ]
+      },
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": true
+    },
+    {
+      "path": "added_tokens.file",
+      "original": {
+        "</s>": 2,
+        "<s>": 1,
+        "<unk>": 0
+      },
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "added_tokens.json"
+        ],
+        "modified": [
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The added-token file repeats the existing strings and IDs."
+    },
+    {
+      "path": "generation.do_sample",
+      "original": null,
+      "modified": true,
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "generation.transformers_version",
+      "original": "4.35.0",
+      "modified": "4.57.3",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "generation_config.json"
+        ],
+        "modified": [
+          "generation_config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "config._name_or_path",
+      "original": "HuggingFaceH4/zephyr-7b-beta",
+      "modified": null,
+      "class": "expected",
+      "original_present": true,
+      "modified_present": false
+    },
+    {
+      "path": "config.attention_dropout",
+      "original": null,
+      "modified": 0.0,
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side and loads as this same default in transformers 4.56.2."
+    },
+    {
+      "path": "config.dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.head_dim",
+      "original": null,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side and loads as this same default in transformers 4.56.2."
+    },
+    {
+      "path": "config.torch_dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": false
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "4.35.0",
+      "modified": "4.57.3",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "template_source.tokenizer_config",
+      "original": "{% for message in messages %}\n{% if message['role'] == 'user' %}\n{{ '<|user|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'system' %}\n{{ '<|system|>\n' + message['content'] + eos_token }}\n{% elif message['role'] == 'assistant' %}\n{{ '<|assistant|>\n'  + message['content'] + eos_token }}\n{% endif %}\n{% if loop.last and add_generation_prompt %}\n{{ '<|assistant|>' }}\n{% endif %}\n{% endfor %}",
+      "modified": null,
+      "class": "explained by re-save",
+      "files": {
+        "original": [
+          "tokenizer_config.json"
+        ],
+        "modified": [
+          "chat_template.jinja"
+        ]
+      },
+      "reason": "The template moved; line endings and trailing whitespace normalize equally, and the fixed conversation renders identically."
+    }
+  ],
+  "missing": [],
+  "rendered": {
+    "default": {
+      "original": "<|system|>\nYou are a careful assistant.</s>\n<|user|>\nWhat is two plus two?</s>\n<|assistant|>\nFour.</s>\n<|user|>\nWrite that as a word.</s>\n<|assistant|>\n",
+      "modified": "<|system|>\nYou are a careful assistant.</s>\n<|user|>\nWhat is two plus two?</s>\n<|assistant|>\nFour.</s>\n<|user|>\nWrite that as a word.</s>\n<|assistant|>\n"
+    }
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "unexplained differences",
+  "reclassification": {
+    "changed_paths": [],
+    "verdict_before": "unexplained differences"
+  }
+}
