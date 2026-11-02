@@ -28,6 +28,7 @@ import struct
 import sys
 import tempfile
 from huggingface_hub import HfApi
+from huggingface_hub.utils import RepositoryNotFoundError
 
 ROOT = Path(__file__).resolve().parent.parent
 DUPLICATE = 'Duplicate from'
@@ -215,6 +216,12 @@ def card_parent(api, text, modified, bases):
     return None
 
 
+def missing_base(name):
+    """A declared base the hub does not serve under that name, kept as a leaf with no chain of its own."""
+    return {'hub_id': name, 'maker': name.split('/')[0].lower(), 'revision': None, 'declared_base_model': None,
+            'base_model_chain': [], 'created_at': None, 'missing': True}
+
+
 def leaves(node):
     """Every ancestor in the tree that declares no base of its own."""
     if not node['base_model_chain']:
@@ -228,14 +235,19 @@ def settle_roots(copy, base):
     An undeclared ancestor is a publisher root when the original's publisher put it out, or when
     both sides descend from it and neither party to the comparison published it; that second case
     is a copy compared with its stated parent, itself a copy of the maker's model. An undeclared
-    ancestor on one side alone stays unknown and the screen holds the pair."""
+    ancestor on one side alone stays unknown and the screen holds the pair. A declared base the hub
+    does not serve under that name is a publisher root when its maker put out a leaf of the original's
+    tree and is no party to the comparison (a card naming google/gemma-3-12b where the hub serves
+    google/gemma-3-12b-it); under any other maker it stays unknown."""
     parties = {copy['maker'], base['maker']}
     shared = {leaf['hub_id'] for leaf in leaves(copy)} & {leaf['hub_id'] for leaf in leaves(base)}
+    publishers = {leaf['maker'] for leaf in leaves(base)} - parties
 
     def walk(node, root=False):
         undeclared = not node['base_model_chain']
         node['publisher_root'] = bool(undeclared and not root and (
-            node['maker'] == base['maker'] or (node['hub_id'] in shared and node['maker'] not in parties)))
+            node['maker'] == base['maker'] or (node['hub_id'] in shared and node['maker'] not in parties)
+            or (node.get('missing') and node['maker'] in publishers)))
         node['lineage_known'] = not undeclared or node['publisher_root']
         for child in node['base_model_chain']:
             walk(child)
@@ -289,7 +301,11 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
         for name in names:
             if not isinstance(name, str) or '/' not in name:
                 raise ValueError('unknown base declaration: ' + repo)
-            parent = api.model_info(name)
+            try:
+                parent = api.model_info(name)
+            except RepositoryNotFoundError:
+                nodes.append(missing_base(name))
+                continue
             nodes.append(lineage(name, parent.sha))
         seen.remove((repo, revision))
         return {'hub_id': repo, 'maker': repo.split('/')[0].lower(), 'revision': info.sha,
@@ -638,6 +654,9 @@ def main():
             args.pair[0], copy['card_parent'], copy['declared_base_model'], row['original']['hub_id']))
     if copy.get('original_note'):
         print('note: {} {}'.format(args.pair[0], copy['original_note']))
+    for name, leaf in sorted({leaf['hub_id']: leaf for leaf in leaves(copy) if leaf.get('missing')}.items()):
+        print('note: {} declares {}, which the hub does not serve; recorded as missing{}'.format(
+            args.pair[0], name, '' if leaf['publisher_root'] else ' and held as unknown'))
     if copy.get('measured_in'):
         print('pinned as allowed: {} already measured {}'.format(args.pair[0], where(copy['measured_in'])))
     elif copy.get('same_weights_as'):

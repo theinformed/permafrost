@@ -18,6 +18,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
+from huggingface_hub.utils import RepositoryNotFoundError
 from pin_census import already_measured, card_opening, card_parent, Duplicate, measured_copies, names, pin, pairing, qat_original, same_weights, size_of, unpaired
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
@@ -207,6 +208,57 @@ def gemma_api():
                 return [SimpleNamespace(commit_id='c' * 40, created_at=CREATED, title='Upload')]
             return [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 1, 1, tzinfo=timezone.utc), title='Upload')]
     return API()
+
+
+def missing_base_api(cards):
+    """The gemma hub with extra copies whose cards name bases ending in 'gone', which the hub does not serve."""
+    inner = gemma_api()
+
+    class API:
+        def model_info(self, repo, revision=None, **kwargs):
+            if repo.endswith('gone'):
+                raise RepositoryNotFoundError('404: ' + repo, response=SimpleNamespace(status_code=404, headers={}, url=repo, request=None))
+            if repo in cards:
+                siblings = [SimpleNamespace(rfilename='model.safetensors', lfs=SimpleNamespace(sha256=SHA_B, size=1, pointer_size=1))]
+                return SimpleNamespace(sha=revision or 'c' * 40, created_at=CREATED, siblings=siblings,
+                                       card_data=SimpleNamespace(to_dict=lambda: {'base_model': cards[repo]}))
+            return inner.model_info(repo, revision, **kwargs)
+
+        def list_repo_commits(self, repo):
+            return inner.list_repo_commits(repo)
+    return API()
+
+
+class MissingBaseTests(unittest.TestCase):
+    def test_a_declared_base_the_hub_does_not_serve_is_recorded_as_missing(self):
+        api = missing_base_api({'owner/two-bases': ['google/gemma-4-12B-gone', INSTRUCT],
+                                'owner/one-base': 'google/gemma-4-12B-gone', 'owner/own-base': 'owner/gone'})
+        row = pin(api, 'owner/two-bases', INSTRUCT)
+        chain = row['modified']['base_model_chain']
+        self.assertEqual([node['hub_id'] for node in chain], ['google/gemma-4-12B-gone', INSTRUCT])
+        self.assertTrue(chain[0]['missing'])
+        self.assertEqual(chain[0]['base_model_chain'], [])
+        self.assertIsNone(chain[0]['revision'])
+        self.assertTrue(chain[0]['publisher_root'])
+        self.assertTrue(chain[0]['lineage_known'])
+        self.assertTrue(row['modified']['lineage_known'])
+        row = pin(api, 'owner/one-base', INSTRUCT)
+        self.assertTrue(row['modified']['base_model_chain'][0]['publisher_root'])
+        # A missing base under the copy's own name is nobody's publisher root and stays unknown.
+        row = pin(api, 'owner/own-base', INSTRUCT)
+        self.assertFalse(row['modified']['base_model_chain'][0]['publisher_root'])
+        self.assertFalse(row['modified']['base_model_chain'][0]['lineage_known'])
+
+    def test_the_screen_passes_a_missing_publisher_base_and_holds_an_own_one(self):
+        import lineage
+        api = missing_base_api({'owner/one-base': 'google/gemma-4-12B-gone', 'owner/own-base': 'owner/gone'})
+        with tempfile.TemporaryDirectory() as folder:
+            banned = Path(folder) / 'banned.txt'
+            banned.write_text('qwen\n')
+            self.assertEqual(lineage.screen({'pairs': [pin(api, 'owner/one-base', INSTRUCT)]}, banned), 1)
+            with self.assertRaises(ValueError) as held:
+                lineage.screen({'pairs': [pin(api, 'owner/own-base', INSTRUCT)]}, banned)
+            self.assertEqual(str(held.exception), 'unknown base held: owner/own-base')
 
 
 class QatOriginalTests(unittest.TestCase):

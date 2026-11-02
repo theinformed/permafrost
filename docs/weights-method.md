@@ -165,7 +165,10 @@ hub has one, the field kept in the record beside a note, because such a card car
 own header; an original the caller names otherwise is followed as given. A repository the card's first
 heading or first sentence names, other than the copy or its `base_model`, is recorded as `card_parent`
 when it exists on the hub, with a warning naming it beside the field, and the pinned original does not
-change for it.
+change for it. A `base_model` name the hub does not serve (a card naming google/gemma-3-12b where the hub
+serves google/gemma-3-12b-it) is kept in the chain as a leaf marked `missing`, with a note at pin time;
+it counts as a publisher root when its maker put out a leaf of the original's tree and is no party to
+the comparison, and under any other maker the lineage screen holds the pair as unknown.
 
 The `names` step also refuses a copy whose weight files are the ones a measured copy carries (by the
 LFS checksums), naming that copy and its round; a copy whose paired tensors have other shapes than the
