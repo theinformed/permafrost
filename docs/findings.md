@@ -3,12 +3,12 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: one hundred and fifty-one measurements of one hundred and forty-four distinct published copies on thirty-two originals (twenty-eight
+population is small: one hundred and fifty-nine measurements of one hundred and fifty-two distinct published copies on thirty-three originals (twenty-eight
 copies are re-uploads of others, five of them the only measurement of their parent, and three more name an unmeasured copy as their parent, five copies are measured against
 two originals each (three of them measured again in round 35 against the parent their cards name, which adds a measurement and no copy), one is measured twice against one original, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`.
 
-## 1. One hundred and nine of the one hundred and fifteen published copies measured so far are what their cards say they are
+## 1. One hundred and sixteen of the one hundred and twenty-three published copies measured so far are what their cards say they are
 
 Eighty-five community copies of open-weight models, five from one maker on Qwen bases, five from five makers on
 Gemma and Mistral bases (round 2), seven from six makers on Gemma 4 and Mistral 7B bases (round 7), seven from six
@@ -27,15 +27,16 @@ from seven makers on Gemma 4 31B, 12B, E4B and E2B bases and the 12B QAT checkpo
 makers on the QAT-unquantized checkpoints of the 26B-A4B, 12B and E4B and the DiffusionGemma base (round 34, beside a
 hub duplicate of an unmeasured edit) and three from three makers on Gemma 4 31B and E4B bases and the E4B QAT
 checkpoint (round 35, beside two re-uploads of unmeasured edits and second measurements of three copies against
-the parents their cards name), have
-been compared tensor by tensor with their stated originals. In one hundred and nine, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in ninety-two copies, 0.00008, 0.000006, 0.00024,
-0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251 and 0.00038 in thirteen others on matrices the method itself weighted near zero or did not name,
+the parents their cards name) and eight from six makers on Gemma 4 31B and E4B bases and the QAT-unquantized
+checkpoints of the 12B, 26B-A4B and 31B (round 37), have
+been compared tensor by tensor with their stated originals. In one hundred and sixteen, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in ninety-seven copies, 0.00008, 0.000006, 0.00024,
+0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098 and 0.00091 in fifteen others on matrices the method itself weighted near zero or did not name,
 0.0000011 in the jokernifty E4B copy and in Ilya626's, whose float16 saves round the smallest values of untouched tensors,
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors, and 0.000998
 in the Dingdust E4B copy, whose parent fine-tune sits at the threshold on 189 tensors.
-One hundred and seven of the one hundred and nine are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
+One hundred and fourteen of the one hundred and sixteen are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
 and one, DavidAU's E2B copy, with a fine-tune laid over it, as their cards say; one, sh0ck0r's Artemis copy, is
 measured against the grandparent its `base_model` field names and reads its named parent's 4-bit round trip under
 the edit, finding 45, and measured again against that parent in round 35 reads the edit alone, finding 77; one, Dingdust's ContextPilot copy, is measured against the grandparent its field names and
@@ -44,7 +45,7 @@ copy, is measured against the grandparent its field names and reads the fine-tun
 kernels, finding 61, and against that parent reads the kernels alone, finding 77; one, AlekseyCalvin's translation copy, is measured against the grandparent its field names and
 reads igorls's 12B Heretic edit under the training, the parent placed from the saved direction vectors, finding 66); two
 (ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored and richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic)
-are training, as their cards say, findings 17 and 18. The six others carry a parent or a change their cards do not name:
+are training, as their cards say, findings 17 and 18. The seven others carry a parent or a change their cards do not name:
 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated changes every matrix in the model (finding 8),
 lemuralabs/Gemma-4-12B-uncensored-bf16 carries a third party's coding fine-tune under its ablation (finding 25), and
 Felldude/Ministral-3-8B-Uncensored carries the instruct model's template and 5 to 11 percent of dense change against
@@ -53,7 +54,9 @@ byte-equal to the instruct model's, against the pretrained base it names (findin
 two bands of layers, finding 78), and Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP
 replaces the 232 linear maps of its audio and vision towers with random matrices under a card that says nothing of the
 towers (finding 63), and Kooten/gemma-4-31b-abliterated-v1.1 replaces the 189 linear maps of its vision tower with random
-matrices under a card that says "Uncensored using Heretic" and nothing of the tower (finding 79). The measurements beyond one hundred and fifteen: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
+matrices under a card that says "Uncensored using Heretic" and nothing of the tower (finding 79), and
+NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn edits eleven down projections under a card that says the attention outputs
+were its one target, the tool's branch having applied the ablation to both writers (finding 87). The measurements beyond one hundred and twenty-three: four hub duplicates measured in round 19, Iambackup's and Justbackup's copies
 of TrevorJS's 12B edit, MeFFyLe's of llmfan46's 12B edit and nicoboss's of huihui-ai's Mistral Small 3.2 edit, each
 equal to its parent's report in every field (finding 38); three more in round 30, sitten1's and erunda337's copies
 of TrevorJS's 26B-A4B edit, equal to its second pass in every field but the sketch's last digits, and nnnxnsn's
@@ -232,11 +235,19 @@ and Felldude's E4B copy (finding 78).
 | enkato64bit/SuperGemma-4-12b-abliterated | google/gemma-4-12B-it | 320 of 677 (Jiunsong's unmeasured 12B edit under the hub's duplicate function: a projection at 0.50 on both writers of layers 14 to 37 under a merged adapter on every linear, finding 81) | 0.00096 |
 | coder3101/gemma-4-E4B-it-qat-q4_0-unquantized-heretic | google/gemma-4-E4B-it-qat-q4_0-unquantized | 16 of 2,076 (the attention outputs of layers 20 to 35, the card's window, input side at weights 1.19 to 1.91, rows 0.007 under the claim) | 0 |
 | igorls/gemma-4-E4B-it-qat-q4_0-unquantized-heretic | google/gemma-4-E4B-it-qat-q4_0-unquantized | 32 of 2,076 (both writers of layers 21 to 36, a LoRA-rank search with thinking on, a direction per matrix, input side at weights 1.33 to 3.46) | 0 |
+| OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja-v2 | google/gemma-4-12B-it-qat-q4_0-unquantized | 54 of 677 (both writers of layers 13 to 39, the card's window, the LoRA-adapter arbitrary-rank branch searched on Japanese prompts, input side at weights 0.74 to 1.95, rows at or under the band, finding 83) | 0 |
+| OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja | google/gemma-4-26B-A4B-it-qat-q4_0-unquantized | 32 of 1,013 (the attention outputs and shared down projections of layers 7 to 22, the card's window, the same branch on Japanese prompts, input side at weights 1.24 to 2.09; no expert, finding 83) | 0 |
+| wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged | google/gemma-4-31B-it-qat-q4_0-unquantized | 30 of 1,188 (the attention outputs of layers 24 to 53, the card's window and its one target, a rank-256 adapter merged, input side on 27 at weights to 4.47, one matrix rewritten, rows 0.014 to 0.75 under a preservation claim, finding 84) | 0 |
+| TheUmbraWalker/gemma-4-E4B-it-heretic | google/gemma-4-E4B-it | 73 of 2,076 (the attention outputs of layers 4 to 41 and the down projections of 7 to 41, the card's kernels to the layer; the first pass of the maker's second copy, its directions at 1.000 on 57 and TrevorJS's at 0.98 on all 73, finding 85) | 0 |
+| MoonRide/gemma-4-31B-it-heretic-ara | google/gemma-4-31B-it | 44 of 1,188 (all 24 attention outputs and 20 down projections of layers 30 to 53, the card's window; 36 edits on the input side at weights 1.35 to 4.39 with rows in the band, 8 residues, 4 more down projections under the threshold, finding 86) | 0.00098 |
+| MoonRide/gemma-4-E4B-it-heretic-ara | google/gemma-4-E4B-it | 33 of 2,076 (both writers of layers 21 to 37, the card's window; 26 edits on the input side at weights 0.08 to 2.30 with rows in the band on 25, 7 residues, one down projection under the threshold, finding 86) | 0.00091 |
+| llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic | google/gemma-4-12B-it-qat-q4_0-unquantized | 11 of 677 (the attention outputs of layers 24 to 34, the card's window and its one target, input side at weights 1.23 to 2.64, the directions at 0.97 to coder3101's QAT edit and 0.95 to the maker's own instruct edit, finding 87) | 0 |
+| NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn | google/gemma-4-E4B-it | 25 of 2,130 (14 attention outputs of layers 17 to 31 inside the card's window and 11 down projections of 18 to 31 the card says were not a target, input side at weights 1.15 to 1.84 and 1.23 to 1.51; five more under the threshold, finding 87) | 0.00013 |
 
-The fair statement of the result is narrow: at the weight level, one hundred and nine copies contain the edit or the
-training they claim and no other, six carry a parent or a change their cards do not name, one could not be paired
+The fair statement of the result is narrow: at the weight level, one hundred and sixteen copies contain the edit or the
+training they claim and no other, seven carry a parent or a change their cards do not name, one could not be paired
 and one could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-one hundred and forty-four distinct copies, one hundred and fifteen of them read.
+one hundred and fifty-two distinct copies, one hundred and twenty-three of them read.
 
 ## 2. The weights identify the method, and the methods differ more than the cards say
 
@@ -386,7 +397,7 @@ configuration carries a `quantization_config` is not compared until it is dequan
 Round 29 measured the third case: minpeter/Voxtral-Mini-3B-Text-2507-hf-heretic was pinned against the speech
 release mistralai/Voxtral-Mini-3B-2507 and read through the tower mapping of finding 14, 273 text tensors matched,
 489 audio tensors reported as left out, zero flags and the card's two kernels to the second decimal (finding 60).
-The case closes: a text-only extraction is measurable against the multimodal release it came from.
+The case closes: a text-only extraction is measurable against the multimodal release it came from. The round 39 pin stage adds a case of the other kind: TurkishCodeMan/gemma-4-e2b-it-abliterated names the Gemma 4 E2B and is, by shape and by byte range, Google's first-generation gemma-2b-it with its two writers edited, so the stated original cannot be compared because it is not the original (finding 88).
 
 ## 8. One copy's weights contradict the original its card names
 
@@ -896,7 +907,7 @@ endings. Evidence: `results/meta/Justbackup-gemma-4-12B-it-uncensored.json`,
 sixth template: the 26B-A4B QAT copy carries a 23,077-byte file (437 lines against the pin's 354) that matches no
 revision of Google's QAT or instruct repositories, introduces six identifiers (`thinking_gate`, `preserve_thinking`,
 `image_url` among them) and renders the fixed conversations identically; the six copies carry six template sizes
-(`results/meta/llmfan46-gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic.json`).
+(`results/meta/llmfan46-gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic.json`). Round 37 reads the maker's 21,488-byte macro template a second time, in the `tokenizer_config.json` of the 12B QAT export against the checkpoint's `chat_template.jinja` (finding 87).
 
 ## 20. A mixture-of-experts abliteration that reaches no expert, and the card says so
 
@@ -1091,7 +1102,7 @@ Round 34 adds four arbitrary-rank copies: coder3101's 12B QAT edit reads the mak
 input-side weights 1.10 to 1.70 on twelve attention outputs; Umranz's edit of the diffusion variant reads fifteen
 residues and 23 projections with the band (0.0043 to 0.0079) under no claim (finding 76); and wnfldchen's LoRA-rank
 fork reads rank one with a direction per matrix, input side at 0.95 to 1.90 with two attention outputs at 4.14 and
-5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82).
+5.63 and two amplified rather than removed (`results/weights/wnfldchen-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json`). Round 35 reads the band a sixth time on coder3101's E4B QAT edit, 0.0065 to 0.0078 on sixteen attention outputs (finding 82). Round 37 reads it on MoonRide's two April edits (0.0059 to 0.0077 on 36 matrices, 0.0051 to 0.0078 on 26, finding 86), at or under it on OS-Software's two LoRA-adapter exports (finding 83), and reads the first claim that holds on no matrix, wnfldchen's 31B export at a preservation weight of 0.1182 with rows 0.014 to 0.75 on all 30 (finding 84).
 
 ## 23. A maker's one-line patch to Google's template writes an empty thought block into every earlier model turn
 
@@ -1742,7 +1753,7 @@ to 2.45 on the attention outputs and 1.30 to 1.97 on the down projections, unrel
 one-direction rules. The two copies share nothing but the shape, which is the maker's build. Evidence:
 `results/weights/OS-Software-gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2.json`, the per-layer
 table in `docs/cards/OS-Software--gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2-5a3468ee.reading.md`
-and the direction file in the pull copy (`nautilus32/measurements/pair-8/weights.directions.safetensors`).
+and the direction file in the pull copy (`nautilus32/measurements/pair-8/weights.directions.safetensors`). The maker's two later exports, searched on Japanese prompt sets with the tool's LoRA-adapter branch, read a few directions per matrix and not four, on the input side at 0.74 to 2.09 (finding 83).
 
 ## 43. Two Heretic passes on one base: both kernels' windows read back to the layer, and the leading direction reads neither strength
 
@@ -1883,7 +1894,7 @@ attention heights at 1.09 to 1.19 on layers 24 to 27 and 0.29 to 0.67 on 18, 32,
 to 1.36 (`results/weights/prithivMLmods-gemma-4-E4B-it-qat-heretic_decensored.json`). Five 12B copies now read the scatter against Vampelium's, which
 reads its heights, and two Google checkpoints of the 12B behave alike, so the open question of this finding is about
 the 12B's weights and the tool together rather than the base alone. Evidence: `results/weights/BinxNet-gemma-4-12B-it-heretic.json`,
-`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`.
+`results/weights/igorls-gemma-4-12B-it-qat-q4_0-unquantized-heretic.json` and the readings in `docs/cards/`. TheUmbraWalker's first E4B pass (round 37) reads the same way, one direction per layer and kept fractions with no kernel shape, under a card that prints two kernels (finding 85).
 
 ## 47. An ablation whose parameters are written into the configuration reads back from the weights to the third decimal on four writers
 
@@ -1951,7 +1962,7 @@ the QAT checkpoints' own cards name the instruct model in their `base_model` fie
 records it for all three), and the tool's card carries that field forward. Round 34 measured seven more copies on
 QAT checkpoints, the E4B's among them for the first time, every one exactly 0 outside its window and every field
 naming the QAT checkpoint; one, smashingtags's, carries the instruct model's name and the QAT checkpoint's weights,
-settled by byte range (finding 75). Round 35 places two more E4B copies on the QAT checkpoint by the same test, coder3101's and igorls's, exactly 0 outside their windows (finding 82).
+settled by byte range (finding 75). Round 35 places two more E4B copies on the QAT checkpoint by the same test, coder3101's and igorls's, exactly 0 outside their windows (finding 82). Round 37 adds the 31B QAT checkpoint as the census's fifth QAT original with wnfldchen's merged export, and three more copies on the 12B and 26B-A4B checkpoints, every one exactly 0 outside its window (findings 83 and 84).
 
 ## 49. An ablation with a fine-tune laid over it, under a template edit that changes the generation prompt
 
@@ -2455,7 +2466,7 @@ google/gemma-4-12B-it, then `results/weights/callmegrr-gemma-4-31B-it-heretic-z.
 round-33 reports (`summary.max_relative_change_outside_changed` is 0 on each). The readings are in `docs/cards/`.
 Round 34's eight copies all name their true original in the field, the four Heretic exports among them: on a QAT
 checkpoint the inherited header names the QAT checkpoint, so the tool's habit misleads only where the original's own
-card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82).
+card names a different model (finding 75). Round 35's four Heretic exports name their true originals in the field, two of them the E4B QAT checkpoint (finding 82). Round 37's TheUmbraWalker first pass names the pretrained base, as the maker's second copy does, and its six other Heretic exports name their true originals (finding 85).
 
 ## 68. An arbitrary-rank edit at right-side weights to 30, with one matrix rewritten to its own size and its rows put back
 
@@ -2556,7 +2567,7 @@ sets in the corresponding `results/weights/` reports. Round 34 adds three shared
 second 26B-A4B shard equal to mewse's, wnfldchen's first 12B shard equal to igorls's, Umranz's shards 8 to 11 equal
 to the diffusion original's and Goodoldjam's) and one that crosses Google's releases: the E4B vision-tower shard
 `8080cb1a` is the QAT checkpoint's as well as the instruct model's (finding 75). Round 35's pinner saw enkato64bit's duplicate of Jiunsong's unmeasured 12B edit as carrying different weight files, because the only
-Jiunsong file it could compare was the measured E4B export; the rule has to read the named source's hub listing (finding 81).
+Jiunsong file it could compare was the measured E4B export; the rule has to read the named source's hub listing (finding 81). Round 37 adds the 12B QAT layout shard `513abfa9`, shared by OS-Software's, wnfldchen's and igorls's exports, and a second shard byte-equal between TheUmbraWalker's two copies because the second pass did not touch it (finding 85).
 
 ## 72. Five edits of one QAT checkpoint sort into pairs by method, and four makers' QAT edits stand on their own instruct edits' directions
 
@@ -2593,7 +2604,7 @@ Evidence: the direction files under `/opt/ai/hpc-packages/pulls/model-audit/naut
 (coder3101's instruct edit), `blueback12/measurements/pair-5/` (huihui-ai's instruct edit) and
 `nautilus3/measurements/pair-4/` (TrevorJS's second pass); the cosines are in the readings in `docs/cards/` and
 were taken from the saved left and right vectors on the shared tensor names. Round 35 adds coder3101's E4B QAT edit, standing at 0.91 on the maker's instruct edit and at 0.92 to 0.95 on JokeHer's, NullpoLab's
-and alphakek's (finding 82).
+and alphakek's (finding 82). Round 37 adds llmfan46's 12B QAT edit at 0.95 on the maker's own instruct edit and 0.97 on coder3101's QAT edit, and two searches on Japanese prompt sets that stand apart from the English families at 0.30 to 0.70 (findings 83 and 87).
 
 ## 73. huihui-ai's QAT edit of the 26B-A4B, reached through a hub duplicate after the parent vanished, projects at 3.5 on every writer of every layer along the maker's instruct directions
 
@@ -2682,7 +2693,7 @@ which tensors a release shares with another.
 Evidence: the seven `results/weights/` reports of round 34 (`summary.max_relative_difference_outside_changed_set`
 0 on each), `tools/hub_range_read.py` on the four tensors named with the commits above, the shard checksums in
 `data/batches/round-34-batch-1.json` and the hub's file listings, and the readings in `docs/cards/`. Round 35 adds two E4B QAT copies, coder3101's and igorls's; igorls's first shard equals prithivMLmods's QAT export's and its
-fourth is the shared vision tower (finding 82).
+fourth is the shared vision tower (finding 82). Round 37 adds four QAT copies and the 31B QAT original, and pins two 12B copies at the checkpoint's revisions `b6ed8627` and `58540658`, one weight file `26f2cee4` under both (findings 83 and 84).
 
 ## 76. An arbitrary-rank edit of the diffusion variant capped at layer 20: fifteen residues, twenty-three edits, no expert, rows in the claim band without a claim, and twelve directions shared with the earlier search
 
@@ -2912,7 +2923,202 @@ per matrix, input side, rows unrestored.
 Evidence: `results/weights/coder3101-gemma-4-E4B-it-qat-q4_0-unquantized-heretic.json`,
 `results/weights/igorls-gemma-4-E4B-it-qat-q4_0-unquantized-heretic.json`, the two `results/meta/` reports, the
 direction files under `wheat35/measurements/pair-7/` and `pair-8/` against twenty E4B edits, and the readings in
+`docs/cards/`. Round 37 places MoonRide's April edits as the earliest members of both families, the E4B at 0.99 to Refusals5 and coder3101's and the 31B at 0.97 to llmfan46's, and NullpoLab's Refusals8-attn at 0.99 to coder3101's (findings 86 and 87).
+
+## 83. One maker's arbitrary-rank exports searched on Japanese prompt sets, on two QAT checkpoints through the tool's LoRA-adapter branch, read both writers on the input side with the rows held and find directions the English searches do not
+
+OS-Software's two Japanese-prompt exports (round 37, pairs 1 and 2) are Heretic 1.4.0's arbitrary-rank ablation
+through its LoRA-adapter path (`use_ara_lora`, row-norm preservation), as their cards say, on the 12B and 26B-A4B
+QAT-unquantized checkpoints, and the cards say the prompt sets were Japanese. On the 12B (revision `90825e3e`
+against the checkpoint at `b6ed8627`), 54 of 677 tensors changed: both writers of layers 13 to 39, the card's start
+13 and end 40 with the end exclusive, and nothing else, exactly 0 outside. Every one of the 54 is on the input side
+(left kept 0.64 to 0.99, right kept 0.26 or less), at weights of 0.74 to 1.95 read as one minus the right kept
+fraction, with a few directions per matrix (first shares 0.36 to 0.96, fourth cumulative shares 0.74 to 0.99), and
+the rows moved 0.0003 to 0.0057, at or under the bottom of finding 22's band on all 54. On the 26B-A4B (revision
+`184e64bb` against the checkpoint at `f1e06dc5`), 32 of 1,013 changed: the attention outputs and shared down
+projections of layers 7 to 22, the card's start 7 and end 23, no expert touched, exactly 0 outside; input side on
+all 32 at weights 1.24 to 2.09, rows 0.0012 to 0.0081 (in the band on five, under it on 26, over it by 0.0001 on
+one). The cards' own numbers: 0 refusals in 100 against 100 at a KL divergence of 0.0637 on the 12B, 1 in 100 at
+0.0362 on the 26B-A4B, preservation weights 1.0000 on both.
+
+What the Japanese search found is not the English searches' direction. Against the saved vectors of thirty-three
+12B measurements, the 12B export's leading directions stand at a median of 0.40 on the left and 0.30 on the right
+to coder3101's instruct edit, 0.40 and 0.36 to llmfan46's QAT edit of the same round, 0.37 and 0.29 to coder3101's
+QAT edit and 0.36 and 0.34 to wnfldchen's, where those four English searches stand at 0.92 to 0.97 to llmfan46's QAT
+edit (finding 87); the kernel edits stand at 0.14 or less. The 26B-A4B export stands at 0.62 and 0.65 to the maker's
+own English v2 export, 0.70 and 0.65 to coder3101's and 0.69 and 0.65 to llmfan46's two 26B edits, and 0.51 and
+0.59 to mewse's, where llmfan46's two 26B searches stand at a median of 0.94 to each other (finding 72). A refusal direction found on
+Japanese prompts shares a third of its cosine with the English one on the 12B and two thirds on the mixture, and
+nothing in the weights says which is the better one; the cards' refusal counts are the maker's own on the maker's
+own prompts. The 26B-A4B export shares five of its eleven shards (the first, second, ninth, tenth and eleventh) with
+the maker's English v2 export byte for byte, the shards the window of layers 7 to 22 does not reach, so a shard
+match between two of one maker's edits is the window's complement and not a shared edit. The 12B export's first
+shard (`513abfa9`) is the 12B QAT library layout shared with wnfldchen's and igorls's exports (finding 71). Both
+copies' fields name the QAT checkpoints; both token sides are the checkpoints' files under newer version strings,
+the 12B's template differing by its line endings alone. The maker has an unmeasured `-ja` (06-25) and `-v3` (09-07)
+of the 12B beside these. Evidence: `results/weights/OS-Software-gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja-v2.json`,
+`results/weights/OS-Software-gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja.json`, the two `results/meta/`
+reports, the direction files under `wheat37/measurements/pair-1/` and `pair-2/`, and the readings in `docs/cards/`.
+
+## 84. A rank-256 adapter merged into the 31B QAT checkpoint reads on the attention outputs alone at weights to 4.5, with one matrix rewritten and a preservation claim that holds on no row
+
+wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged (round 37, pair 3; revision `e9a15cd7` against
+google/gemma-4-31B-it-qat-q4_0-unquantized at `1e4d8bee`, the first copy on that checkpoint and the census's fifth
+QAT original) is, as its card says, the merged form of the maker's adapter repository: Heretic 1.4.0's
+arbitrary-rank ablation at `ara_lora_rank` 256 with row-norm preservation, trial 6, `target_components`
+`attn.o_proj`, start 24, end 54, preservation weight 0.1182, and an `export-summary.json` that records a second
+redundant save cancelled after it rewrote the configuration and the first shard. The weights read the card's window
+and target exactly: 30 of 1,188 tensors changed, the attention outputs of layers 24 to 53, nothing else, exactly 0
+outside, 1,158 tensors equal to the original. The rank-256 adapter merged to one to four directions per matrix
+(first shares 0.63 to 0.98, fourth cumulative shares 0.83 to 0.999). The edit is on the input side on 27 of 30 at
+weights of 0.27 to 4.47 (median 1.54; 4.47 at layer 41, 4.12 at 53, 3.32 at 48), the largest Heretic weights the
+census has read on a 31B; layers 38 and 43 keep more than 1 on both sides, the leading component amplified rather
+than removed, as two of the maker's 12B attention outputs were (finding 72); and layer 50 is rewritten, relative
+change 0.416, left kept -2.56 and right kept -0.14, a reflection and more on the output side of one matrix with its
+rows moved 0.75. The rows moved 0.014 to 0.75 on all 30, every one above finding 22's band (0.0057 to 0.0080), under
+the card's "row-norm preservation". The maker's 12B export held its rows within 0.0106 on 44 of 46 matrices under the
+same words at a preservation weight of 0.9174; this export at 0.1182 holds none, the first preservation claim in
+the census that reads as no preservation, and the weight the card prints is the reason. The card's own numbers: 8
+refusals in 100 against 99 at a KL divergence of 0.0900, a W4A16 benchmark table and a `reproduce/` folder with the
+trial record.
+
+Against the saved vectors of twenty 31B measurements, the leading left vectors stand at 0.78 to 0.85 to the 31B
+arbitrary-rank family (llmfan46 0.85, MoonRide's two 0.80 and 0.79, coder3101 0.78, Bahushruth 0.76) and the right
+vectors at 0.37 to 0.40 to the same five: the rank-256 search on the QAT checkpoint keeps the family's output
+direction and does not keep its input direction, the side this branch acts on. The token side is the checkpoint's
+files under newer version strings. The adapter repository itself (120 tensors under a `base_model` prefix, 917 MB)
+was refused at the pin, so the merged repository is the measurable form. Evidence:
+`results/weights/wnfldchen-gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged.json`, the `results/meta/` report,
+the direction file under `wheat37/measurements/pair-3/`, the hub's listings of both repositories, and the reading
+in `docs/cards/`.
+
+## 85. A maker's first E4B copy is the pass the second copy was built on: 73 names, 57 directions at 1.000, a shard byte-equal, and TrevorJS's directions at 0.98 on all 73
+
+TheUmbraWalker/gemma-4-E4B-it-heretic (round 37, pair 4; revision `9bf78429` of 05-16 against google/gemma-4-E4B-it
+at `3555bddc`) carries, line for line, the lower of the two Heretic 1.3.0 cards stacked in the README of the
+maker's second copy, TheUmbraWalker/gemma-4-E4B-it-2-heretic (round 30), made the next day: attention output
+weight 1.31 at position 27.47, down projection 1.42 at 28.35, KL divergence 0.1487, 11 refusals in 100. The weights
+are that card: 73 of 2,076 tensors changed, the attention outputs of layers 4 to 41 and the down projections of 7
+to 41, the kernels' reach to the layer and the second copy's changed set exactly, rank one on every matrix (first
+shares 0.994 to 0.999), one direction per layer (within-layer cosines 0.91 to 0.997), exactly 0 outside, the 54
+shared-key-value tensors absent from the save as from the second copy's. On the same 73 names the leading
+directions equal the second copy's at 0.99 or better on 57 and at a median of 1.000; the 16 that differ are the
+attention outputs of layers 18 to 33, the second pass's attention window, where round 30 read two directions per
+matrix, and on the down projections of 29 to 41, the second pass's other window, the leading direction is still
+this pass's. The second copy's second shard (`df30ce31`) is byte-equal to this copy's. The second copy is this
+copy plus the second pass and nothing else, which is what its stacked README says and what the directions now
+show.
+
+The kept fractions carry no readable weight, finding 46's scatter on a per-layer direction: one minus the left
+kept fraction runs 0.28 to 1.15 across the attention window with no shape under the card's kernel, and the left is
+below the right on 60 of 73. Against TrevorJS's E4B edit (round 7, the abliteration script's per-layer mean
+difference) and senjiangchen's duplicate of it, the directions stand at 0.89 to 1.00 on all 73 names, median 0.98
+on the left and 0.99 on the right: two tools that each find one direction per layer find the same one on this base,
+which is why the E4B's per-layer edits sort into one family and its arbitrary-rank edits into another (finding
+82). The `base_model` field names the pretrained google/gemma-4-E4B, as the second copy's does (finding 67); the pin
+is the instruct model and the weights stand on it. The token side is the instruct model's files under newer
+version strings, `moe_intermediate_size` closed by the home judgement. Evidence:
+`results/weights/TheUmbraWalker-gemma-4-E4B-it-heretic.json`, `results/weights/TheUmbraWalker-gemma-4-E4B-it-2-heretic.json`,
+the direction files under `wheat37/measurements/pair-4/` and `wheat30/measurements/pair-4/`, and the readings in
 `docs/cards/`.
+
+## 86. One maker's two April arbitrary-rank edits are the earliest members of the 31B and E4B families, each a selection inside its window with the rows in the band and the skipped matrices left as traces
+
+MoonRide/gemma-4-31B-it-heretic-ara (round 37, pair 5; revision `cf80d7e7` of 04-12 against google/gemma-4-31B-it)
+and MoonRide/gemma-4-E4B-it-heretic-ara (pair 6; `0327d8e7` of 04-11 against google/gemma-4-E4B-it) are Heretic
+1.2.0's arbitrary-rank ablation with row-norm preservation, as their cards say: start 30 and end 54 at a
+preservation weight of 0.1997 on the 31B, start 21 and end 38 at 0.5276 on the E4B. Both read the same shape. On
+the 31B, all 24 attention outputs and 20 of the 24 down projections of layers 30 to 53 moved above the 0.001 line
+(44 of 1,188) and the four others moved 0.0008 to 0.00098 just under it; of the 44, 36 are edits (23 attention
+outputs, 13 down projections; first shares 0.89 to 0.97, input side on all 36, weights 1.35 to 4.39 with the
+attention output of layer 48 at 4.39) and 8 are residues, relative change 0.0010 to 0.0018 with a first share of
+0.01 or less. On the E4B, both writers of 21 to 37 moved above the line (33 of 2,076) and the down projection of 37
+at 0.00091 under it; 26 are edits (16 attention outputs, 10 down projections; input side on all 26, weights 0.08 to
+2.30, the 0.08 a small edit of the layer 25 down projection at relative change 0.0021) and 7 are residues. The
+optimiser touched every matrix in each window and chose which to edit, finding 58's residues with the selection
+visible; the traces under the line are the same change at a smaller size. The rows moved 0.0059 to 0.0077 on all
+36 edits of the 31B and 0.0051 to 0.0078 on the 26 of the E4B, finding 22's band on 61 of the 62 edited matrices
+and 0.0051 on the other, the seventh and eighth times the band has read under the claim; the residues' rows moved
+0.0005 to 0.0008. Nothing outside either window moved. The cards' own numbers: 11 refusals in 100 at a KL
+divergence of 0.0508 on the 31B, 4 in 100 at 0.0162 on the E4B.
+
+Both are the earliest dated members of the families finding 82 named. The 31B edit's directions stand at 0.97 on
+the left and 0.99 on the right to llmfan46's 31B edit (18 shared), 0.95 and 0.98 to coder3101's (24), 0.87 and 0.95
+to the maker's own custom copy of 05-07 (42 shared, a different window and search), 0.79 and 0.37 to wnfldchen's
+QAT export (finding 84) and 0.69 and 0.65 to Bahushruth's; the kernel and projection edits of the 31B at 0.23 or
+less. The E4B edit's stand at 0.99 on both sides to NullpoLab's Refusals5 (27 shared) and coder3101's E4B edit
+(17), 0.98 and 0.95 to llmfan46's ultra copy, 0.94 and 0.98 to NullpoLab's Refusals8-attn (finding 87), 0.90 and
+0.98 to JokeHer's; the per-layer edits at 0.40 or less. Four makers' searches in April and May found the same
+input direction on each base at 0.95 or better, and the direction was there from the branch's first week. The
+E4B save leaves out the 54 shared-key-value tensors (finding 71). Both token sides are the originals' files under
+newer version strings, `moe_intermediate_size` closed by the home judgement. Evidence:
+`results/weights/MoonRide-gemma-4-31B-it-heretic-ara.json`, `results/weights/MoonRide-gemma-4-E4B-it-heretic-ara.json`,
+the two `results/meta/` reports, the direction files under `wheat37/measurements/pair-5/` and `pair-6/` against
+twenty measurements of the 31B and thirty-four of the E4B, and the readings in `docs/cards/`.
+
+## 87. A card that names one writer, measured on both: the down projections are edited, on this copy and by byte range on its sibling, and the writer count the weights give is the check on the card
+
+NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn (round 37, pair 8; weights uploaded 04-05, revision `fa08a885`
+of 04-29 against google/gemma-4-E4B-it at `292a7e27`) says in both its Japanese and English cards that it was made
+with Heretic 1.2.0's arbitrary-rank branch at commit `3b70fe5` with `target_components = ["attn.o_proj"]`, "attention
+outputs only", start 17 and end 42. The weights carry two writers. 25 of 2,130 tensors changed: 14 attention
+outputs of layers 17 to 25 and 27 to 31, and 11 down projections of layers 18, 21 and 23 to 31. The down
+projections are edits by every measure the attention outputs pass: relative changes 0.016 to 0.034, first shares
+0.40 to 0.94 (0.40, 0.45 and 0.54 at layers 18, 21 and 26 with fourth cumulative shares 0.74 to 0.89), input side
+on all 11, weights 1.23 to 1.51, rows 0.0008 to 0.0032, and with the attention outputs their leading directions stand at 0.81 to 0.99 on the 21 names
+shared with the maker's Refusals5 (nine of them down projections), which edits both writers by its card. Five more tensors moved
+under the line (the down projections of 17, 19 and 20 at 0.00011 to 0.00013, 22 at 3e-6, the attention output of 26
+at 2e-6). The window ends at 31 against the card's 42: nothing from 32 to 41 moved. Byte-range reads against the
+hub settle that the copy is not alone. The maker's Refusals6-attn, "attention only" by its card too, differs from
+Google's down projection of layer 28 by 0.0233 where this copy differs by 0.0226, and the two copies differ
+from each other by 0.0053; on the down projection of 24, 0.0207 and 0.0186; on the down projection of 33, 0.0140
+where this copy is byte-equal to Google's, as its changed set says. The tool's pull-request branch at `3b70fe5`
+applied the ablation to both writers whatever `target_components` said, and the cards report the setting. The
+cards' own numbers, 8 refusals in 100 at a KL divergence of 0.0151 here and 6 in 100 at 0.0211 on the sibling,
+are measurements of models with both writers edited.
+
+The round's other one-writer card is the control. llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic
+(pair 7; revision `556c19b5` against the 12B QAT checkpoint at `58540658`) says Heretic 1.2.0's arbitrary-rank
+ablation on `attn.o_proj` from layer 24 to 35, and the weights are that: 11 of 677, the attention outputs of layers
+24 to 34, no down projection, exactly 0 outside, input side on all 11 at weights 1.23 to 2.64, rows 0.003 to 0.037
+under no claim; its directions stand at 0.97 and 0.94 to coder3101's 12B QAT edit, 0.96 and 0.91 to wnfldchen's and
+0.95 on both sides to the maker's own instruct 12B edit, finding 72's rule a fifth time. The release version read
+one writer where the card said one; the branch read two. The writer count is what the changed set is for: it is
+read from the weights and compared with the card, not taken from it, and this pair is the first in the census
+where the two disagree on a Heretic export and the weights are shown right on a second copy. The attention-only
+copy's directions stand at 0.99 on both sides to coder3101's E4B edit and 0.98 and 0.99 to Refusals5, the E4B
+family (finding 82); its template is byte-equal to Google's revision `c53e9d33` of 04-28 on an unchanged weight
+file. llmfan46's export carries the maker's macro template in `tokenizer_config.json` again (finding 19). Evidence:
+`results/weights/NullpoLab-gemma-4-E4B-it-Heretic-ARA-Refusals8-attn.json`,
+`results/weights/llmfan46-gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic.json`, the two `results/meta/`
+reports, `tools/hub_range_read.py` on the four tensors named against NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn,
+the hub's commit histories of the maker's four repositories, the direction files under `wheat37/measurements/pair-7/`
+and `pair-8/`, and the readings in `docs/cards/`.
+
+## 88. A repository named for the Gemma 4 E2B is Google's first-generation gemma-2b-it with its two writers edited, which the shapes say before any download
+
+TurkishCodeMan/gemma-4-e2b-it-abliterated (revision `84c7f480` of 06-17; `base_model` google/gemma-4-E2B-it; card
+"a strictly abliterated version of google/gemma-4-E2B-it (or the equivalent 2B-it base model)", an orthogonal
+projection on `o_proj` and `down_proj`) was refused at the round 39 pin stage as a partial export: 164 tensors
+named `model.layers.N.*` for layers 0 to 17 and no towers, where the E2B has 2,011 tensors over 35 layers. The
+fixture says more. Its 164 tensors are 18 layers of nine kinds plus the embedding and the final norm, every one
+in float16, and its configuration is `GemmaForCausalLM` with `model_type` gemma, hidden size 2048, intermediate
+size 16384, 8 heads and one key-value head of dimension 256, a vocabulary of 256,000 and 8,192 positions: the
+first-generation Gemma 2B, not the Gemma 4 E2B (hidden 1536, intermediate 6144, 35 layers, vocabulary 262,144).
+All 164 shapes differ from the E2B's and nothing pairs by name or by shape. Byte-range reads against the hub place
+it. The layer 0 query equals google/gemma-2b-it's to the last bit (relative difference 0.00000; 0.0166 to
+gemma-1.1-2b-it, 1.28 to the pretrained gemma-2b), the layer 17 input norm and the final norm equal gemma-2b-it's,
+and the layer 17 attention output and layer 9 down projection differ from gemma-2b-it's by 0.0252 and 0.0265, the
+two writers the card names edited at the size the census reads on a projection. The copy is gemma-2b-it with an
+abliteration on its attention outputs and down projections, under a Gemma 4 name and a Gemma 4 `base_model` field,
+uploaded in two folder commits two minutes apart with a 5.0 GB single file and a 34 MB tokenizer. The card's
+parenthesis is the only true statement of its parent. The pin was right to refuse and wrong about why, and a shape
+check at the names step (every paired name's shape equal, or the pair refused with the first mismatch named) would
+have said so without a download; it is owed to the pinner. A measurement against gemma-2b-it is possible through
+the ordinary path once the first-generation Gemma is a pinned original. Evidence:
+`tests/fixtures/round2/84c7f4804575.json` against `tests/fixtures/round2/70af34e20bd4.json`, the hub's commit
+history and file listing of the repository, and `tools/hub_range_read.py` on the five tensors named against
+google/gemma-2b-it, google/gemma-1.1-2b-it and google/gemma-2b.
 
 ## What the second pass settled
 
@@ -2929,7 +3135,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. One hundred and forty-four copies is a sample; the inventory sample of 30 repositories
+- Population. One hundred and fifty-two copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
