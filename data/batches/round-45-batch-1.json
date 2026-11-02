@@ -1,0 +1,769 @@
+{
+  "round": 45,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
+        "maker": "tpls",
+        "revision": "6e57830b42b0f79de6c2ed080e8085659b33ea16",
+        "declared_base_model": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+            "maker": "yuxinlu1",
+            "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-17T01:23:44+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-23T04:30:07+00:00",
+        "revision_date": "2026-06-26T13:58:46+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00005.safetensors": "5aa9f6f6d8ba2efa0b33f3cf01c6a1940d93d174914e6394be75db898a522e80",
+          "model-00002-of-00005.safetensors": "7ccff0e179785fd959d2a0fde832e9b6732dd55260c822a00e61434a329acf0d",
+          "model-00003-of-00005.safetensors": "2a6d5731a9c2e98cdce6ab53960d674b330ce6152821d387b05c55ef2614c7aa",
+          "model-00004-of-00005.safetensors": "1de5f1080498fe539cc8ff3ebed04c3a9cb34f9cef03329c6e190d2eb8a52161",
+          "model-00005-of-00005.safetensors": "cd09b767a01ae908f1bd1342835d161701d66778eb2f2fc5170eab4eaad6e3c2"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+        "maker": "yuxinlu1",
+        "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+        "declared_base_model": "google/gemma-4-12B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-17T01:23:44+00:00",
+        "revision_date": "2026-06-18T02:09:38+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-23T04:30:07+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 3,
+        "original_history_starts": "2026-06-17T01:23:44+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
+        "maker": "huihui-ai",
+        "revision": "cbee1466ca9a7bffa1a964bd4889990132340e36",
+        "declared_base_model": [
+          "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+            "maker": "yuxinlu1",
+            "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-17T01:23:44+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-21T01:11:45+00:00",
+        "revision_date": "2026-06-21T01:34:41+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "b9780d88675ebdbbef440ed1fb7c49ded5f3649f62ec2dc3413fd4fb3ed78549"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+        "maker": "yuxinlu1",
+        "revision": "237e5d8e72fb70e2c4d5df2676bc95308aad279c",
+        "declared_base_model": "google/gemma-4-12B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-17T01:23:44+00:00",
+        "revision_date": "2026-06-18T02:09:38+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-06-21T01:11:45+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 3,
+        "original_history_starts": "2026-06-17T01:23:44+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF",
+        "maker": "somehotmeal",
+        "revision": "441ab2ad8f31cbde9b1a3cd7eccd5c702fa8c225",
+        "declared_base_model": [
+          "mistralai/Ministral-3-14B-Instruct-2512",
+          "jenerallee78/Ministral-3-14B-abliterated"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Ministral-3-14B-Instruct-2512",
+            "maker": "mistralai",
+            "revision": "29439f81c2be264d8d393273f99e7db9c0961120",
+            "declared_base_model": [
+              "mistralai/Ministral-3-14B-Base-2512"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Ministral-3-14B-Base-2512",
+                "maker": "mistralai",
+                "revision": "5b0ceedbb42dff466ae60b258ba296f32da51384",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-10-31T08:41:49+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-10-31T08:43:24+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "jenerallee78/Ministral-3-14B-abliterated",
+            "maker": "jenerallee78",
+            "revision": "0c255ddb7aae60392d74af3d461fddf86d27373c",
+            "declared_base_model": "mistralai/Ministral-3-14B-Instruct-2512",
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Ministral-3-14B-Instruct-2512",
+                "maker": "mistralai",
+                "revision": "29439f81c2be264d8d393273f99e7db9c0961120",
+                "declared_base_model": [
+                  "mistralai/Ministral-3-14B-Base-2512"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Ministral-3-14B-Base-2512",
+                    "maker": "mistralai",
+                    "revision": "5b0ceedbb42dff466ae60b258ba296f32da51384",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-10-31T08:41:49+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-10-31T08:43:24+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-12-05T02:51:05+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-09-13T16:34:21+00:00",
+        "revision_date": "2026-09-13T16:48:30+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00006.safetensors": "5c5eecb2e713f0e2ed7079ecbc6a0c76c7ffe1fc3fb1f7e06b84d8045d349a56",
+          "model-00002-of-00006.safetensors": "705c57b6972bee799bc8c1888c42e860f231617af123912b296b08d39893cfe0",
+          "model-00003-of-00006.safetensors": "78f03e4ed03387d4ba6f98a1007d28659ef8d320d8823dad499fce63d5e3c872",
+          "model-00004-of-00006.safetensors": "881eeaa392469175ae1122dfabad97716864af98aaedc84ced99a04c88440f43",
+          "model-00005-of-00006.safetensors": "c81be3b3718be2f90fe096c865b9cd4e53d9434ac2dcd5af0ca89b2928a77fab",
+          "model-00006-of-00006.safetensors": "24092c03d9180feca73e16ae6fad6ccbf1635a9f90cfa4a8834776c0b20bd1bb"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "jenerallee78/Ministral-3-14B-abliterated",
+        "maker": "jenerallee78",
+        "revision": "0c255ddb7aae60392d74af3d461fddf86d27373c",
+        "declared_base_model": "mistralai/Ministral-3-14B-Instruct-2512",
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Ministral-3-14B-Instruct-2512",
+            "maker": "mistralai",
+            "revision": "29439f81c2be264d8d393273f99e7db9c0961120",
+            "declared_base_model": [
+              "mistralai/Ministral-3-14B-Base-2512"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Ministral-3-14B-Base-2512",
+                "maker": "mistralai",
+                "revision": "5b0ceedbb42dff466ae60b258ba296f32da51384",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-10-31T08:41:49+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-10-31T08:43:24+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-12-05T02:51:05+00:00",
+        "revision_date": "2025-12-05T03:15:12+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-09-13T16:34:21+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 5,
+        "original_history_starts": "2025-12-05T02:51:05+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "SAIFIINDUSTRIES/Abliterated-Dolphin3.0-R1-Mistral-24B",
+        "maker": "saifiindustries",
+        "revision": "91301f6247faade55b66e624f8db52f6c9317ebe",
+        "declared_base_model": [
+          "cognitivecomputations/Dolphin3.0-R1-Mistral-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "cognitivecomputations/Dolphin3.0-R1-Mistral-24B",
+            "maker": "cognitivecomputations",
+            "revision": "d96260c148d2bbf8a90a34022ef3777c6e6f5a09",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-24B-Base-2501"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+                "maker": "mistralai",
+                "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-01-23T14:13:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-02-06T21:56:47+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-10-03T03:13:23+00:00",
+        "revision_date": "2026-10-03T03:13:23+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "b5a6a7f52a6e9196b8daf4a6fef57b746890818ccf6a427581a4491b68002eb1",
+          "model-00002-of-00010.safetensors": "552b465de39b6741ea6060092154aed3fc4887d4299b3941116efc6272754883",
+          "model-00003-of-00010.safetensors": "aaac00ba2dc425c1d046ea967b9ee9a1e8ef98ce5fd96ebb1ce611f651cf9acf",
+          "model-00004-of-00010.safetensors": "4d4f87247d6967aa1ac24a0e7e1796c47b1c82590dd2f429126a1ac9e5c7e377",
+          "model-00005-of-00010.safetensors": "b004a518f95be978594d04e7af845b090a09c6d19dc7355866959962659b95fb",
+          "model-00006-of-00010.safetensors": "5dd3a648bc88aeff9d9946f18ef40c95348627117a49cb7ea3c462800b4de97b",
+          "model-00007-of-00010.safetensors": "1fe3387e24bcf4e8a58625857b08777fa5b8dcc1893f7e70cc0265b99e883e0b",
+          "model-00008-of-00010.safetensors": "83b7c4363dfc5f8993ce756408598f1c88ccc165648be7cf67bbb25d5aab3e09",
+          "model-00009-of-00010.safetensors": "90f1898a6f2dc216073d551b145550683646d41b735c11d28bbf5bceb70f5ffb",
+          "model-00010-of-00010.safetensors": "605483d58dddec80533a6542422c75424feba8856e536d8f698f990ad61b8181"
+        },
+        "duplicate_of": "saukko/Abliterated-Dolphin3.0-R1-Mistral-24B",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "dphn/Dolphin3.0-R1-Mistral-24B",
+        "maker": "dphn",
+        "revision": "d96260c148d2bbf8a90a34022ef3777c6e6f5a09",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-24B-Base-2501"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+            "maker": "mistralai",
+            "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2025-01-23T14:13:54+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-02-06T21:56:47+00:00",
+        "revision_date": "2025-04-25T20:08:13+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-10-03T03:13:23+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 22,
+        "original_history_starts": "2025-02-06T21:56:47+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "AskVenice/venice-uncensored",
+        "maker": "askvenice",
+        "revision": "12e3e8ccaa4b1c9757eff485e47f124f76d9da0d",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-24B-Instruct-2501",
+          "dphn/Dolphin-Mistral-24B-Venice-Edition"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+            "maker": "mistralai",
+            "revision": "9527884be6e5616bdd54de542f9ae13384489724",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-24B-Base-2501"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+                "maker": "mistralai",
+                "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-01-23T14:13:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-01-28T13:30:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          },
+          {
+            "hub_id": "dphn/Dolphin-Mistral-24B-Venice-Edition",
+            "maker": "dphn",
+            "revision": "b23ff40b4a25e4f93de432bd896d4464479a9f79",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-24B-Instruct-2501"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+                "maker": "mistralai",
+                "revision": "9527884be6e5616bdd54de542f9ae13384489724",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-24B-Base-2501"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+                    "maker": "mistralai",
+                    "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-01-23T14:13:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-01-28T13:30:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-12T05:29:16+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-25T21:28:58+00:00",
+        "revision_date": "2025-11-26T18:09:39+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "65828eac206994f05a99e30d31431cfd3b9ef0808edbbd69544ab3a1806cb3de",
+          "model-00002-of-00010.safetensors": "18efb27f836d3d9d2a45a06332b80b168472910552fe60bfb2c06c0222bda6f5",
+          "model-00003-of-00010.safetensors": "6485f07297648fb05e621fdf978aad965d079fbb69dfd10b0d33f3da88040e81",
+          "model-00004-of-00010.safetensors": "45fc84da34e4b63ee30002b0e3d5af76096161f5aef41cf790bad5b2279478f7",
+          "model-00005-of-00010.safetensors": "f5229491cc0bc930b67ee7e212b8f07be1b35961fbd1e22170e2ce94b5a2cb5e",
+          "model-00006-of-00010.safetensors": "fe7482606e12f4e72cb6e3d2e4f7a039d63d103ee4005e5c7a34c78d5dbae37f",
+          "model-00007-of-00010.safetensors": "3ffd8d892c1b73939d88992d1a70a5db39dcd90e22d1b06605f348ece977b956",
+          "model-00008-of-00010.safetensors": "262d5ee97bd1c4b978a3567699b4446f2777f2937675c064369d3d6a1f5dcb96",
+          "model-00009-of-00010.safetensors": "21261ba970e4d8aea70caf2318a35eb595a630755038e5cada7cea50a8be58ab",
+          "model-00010-of-00010.safetensors": "2ca2d9db3a941cb62f30e02df83923b696c541e09e25ab7000d061566e6c5a92"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "dphn/Dolphin-Mistral-24B-Venice-Edition",
+        "maker": "dphn",
+        "revision": "853f87026d587889137c814bb56bba60f033e747",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-24B-Instruct-2501"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-24B-Instruct-2501",
+            "maker": "mistralai",
+            "revision": "9527884be6e5616bdd54de542f9ae13384489724",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-24B-Base-2501"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-24B-Base-2501",
+                "maker": "mistralai",
+                "revision": "b0a2e4ed093c26997495ae625528f81ea04b749f",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-01-23T14:13:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-01-28T13:30:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-06-12T05:29:16+00:00",
+        "revision_date": "2025-09-08T05:57:39+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-11-25T21:28:58+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 14,
+        "original_history_starts": "2025-06-12T05:29:29+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "0xA50C1A1/Mistral-Nemo-Instruct-2407-Heretic-v2",
+        "maker": "0xa50c1a1",
+        "revision": "bfa85c3d2b16cf0edaa2b0724be6135959930aab",
+        "declared_base_model": [
+          "unsloth/Mistral-Nemo-Instruct-2407"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "unsloth/Mistral-Nemo-Instruct-2407",
+            "maker": "unsloth",
+            "revision": "e9976040f42d8a5590ed58cefe973061b3f973b5",
+            "declared_base_model": null,
+            "base_model_chain": [],
+            "created_at": "2024-07-18T16:22:08+00:00",
+            "publisher_root": true,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-13T12:18:42+00:00",
+        "revision_date": "2026-04-08T17:20:11+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "367fbe8ecd01f267811717f26f3a5912311425eeaa173ab25728a273c2e8f883"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "unsloth/Mistral-Nemo-Instruct-2407",
+        "maker": "unsloth",
+        "revision": "e9976040f42d8a5590ed58cefe973061b3f973b5",
+        "declared_base_model": null,
+        "base_model_chain": [],
+        "created_at": "2024-07-18T16:22:08+00:00",
+        "revision_date": "2025-02-02T05:10:07+00:00",
+        "publisher_root": true,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-13T12:18:42+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 60,
+        "original_history_starts": "2024-07-18T16:22:08+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/Gemma-4-Garnet-V2-31B-it-ultra-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "3ab379e5074fcea4c1304ee2c85f6a0423858507",
+        "declared_base_model": [
+          "ConicCat/Gemma4-GarnetV2-31B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ConicCat/Gemma4-GarnetV2-31B",
+            "maker": "coniccat",
+            "revision": "74f74a1bea824d89bf26a558aa2072e41eb91d82",
+            "declared_base_model": "google/gemma-4-31B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B-it",
+                "maker": "google",
+                "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+                "declared_base_model": [
+                  "google/gemma-4-31B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-31B",
+                    "maker": "google",
+                    "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T18:22:36+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-04-21T23:16:44+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-25T22:14:57+00:00",
+        "revision_date": "2026-05-05T17:01:52+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "c7d21b4356b4efc21382a2de58e942f9e01559beec7b2e7853f4b17fea32e808",
+          "model-00002-of-00002.safetensors": "2e59b7cf6efb51dd4606e9894e026dfba96858e3dd48dc249f5210ff6fe8ef2b"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "ConicCat/Gemma4-GarnetV2-31B",
+        "maker": "coniccat",
+        "revision": "74f74a1bea824d89bf26a558aa2072e41eb91d82",
+        "declared_base_model": "google/gemma-4-31B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-31B-it",
+            "maker": "google",
+            "revision": "842da3794eaa0b77d5f08bae87a17459d91ff475",
+            "declared_base_model": [
+              "google/gemma-4-31B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-31B",
+                "maker": "google",
+                "revision": "5bbc2fb1c1b2c611d06e3d9f23c170ba21659d89",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T18:22:36+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-04-21T23:16:44+00:00",
+        "revision_date": "2026-04-24T16:28:19+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-04-25T22:14:57+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 4,
+        "original_history_starts": "2026-04-21T23:16:45+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated",
+        "maker": "huihui-ai",
+        "revision": "22ec22666885116efcc285ee80fcc7efa4cf2aa4",
+        "declared_base_model": [
+          "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+            "maker": "yuxinlu1",
+            "revision": "af644ab1c593a95a994257343b04b99546f431b2",
+            "declared_base_model": "google/gemma-4-12B-it",
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B-it",
+                "maker": "google",
+                "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+                "declared_base_model": [
+                  "google/gemma-4-12B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-12B",
+                    "maker": "google",
+                    "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-05-23T02:43:54+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-05-23T01:17:15+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-28T04:49:06+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-11T10:48:33+00:00",
+        "revision_date": "2026-07-11T12:48:39+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "11b24899d30255c4ca07e27be0495ccdb3a96397a13d2f17f50cb70a2b8c4ea1"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+        "maker": "yuxinlu1",
+        "revision": "af644ab1c593a95a994257343b04b99546f431b2",
+        "declared_base_model": "google/gemma-4-12B-it",
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-12B-it",
+            "maker": "google",
+            "revision": "43c9d014b231474fa7212dbb48a762566c2b255d",
+            "declared_base_model": [
+              "google/gemma-4-12B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-12B",
+                "maker": "google",
+                "revision": "1a2c7729392586f5ecddae8807ee2ef741eabb9a",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-05-23T02:43:54+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-05-23T01:17:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-28T04:49:06+00:00",
+        "revision_date": "2026-06-30T01:18:55+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-11T10:48:33+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2026-06-28T04:49:06+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-02T08:11:08.795516+00:00",
+  "note": "Round 45, for Wheat on the image-free kit with the standalone Python: the third round from the second-generation pool, abliteration and heretic edits of community fine-tunes and of measured copies, each measured against the parent its card names rather than against the base maker: tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated, huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated, SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF, SAIFIINDUSTRIES/Abliterated-Dolphin3.0-R1-Mistral-24B, AskVenice/venice-uncensored, 0xA50C1A1/Mistral-Nemo-Instruct-2407-Heretic-v2, llmfan46/Gemma-4-Garnet-V2-31B-it-ultra-uncensored-heretic, huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated. Three pairs share yuxinlu1's Gemma 4 12B fine-tunes as parents under two makers' edits, so the round reads two makers on one checkpoint; one pair is a second pass over a measured Ministral 3 14B edit. SAIFIINDUSTRIES's copy was duplicated from saukko's and its weight files differ. Left out on the way: SOMEHOTMEAL's Gemma 3 12B Janus pass, one of whose repositories the hub no longer serves under that name. No measured pair is repeated and no copy duplicates a measured weight file by checksum."
+}
