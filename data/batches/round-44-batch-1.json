@@ -1,0 +1,848 @@
+{
+  "round": 44,
+  "batch": 1,
+  "pairs": [
+    {
+      "modified": {
+        "hub_id": "coder3101/Cydonia-24B-v4.3-heretic",
+        "maker": "coder3101",
+        "revision": "8f537a2d6b44644b44645827f16f796a162551ed",
+        "declared_base_model": [
+          "TheDrummer/Cydonia-24B-v4.3"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+            "maker": "thedrummer",
+            "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-08T23:46:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-12-20T18:56:37+00:00",
+        "revision_date": "2025-12-21T19:10:37+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "34ffcf512781452a1470e38a55b5678556d554416ecfd0cb8293b7c02a90caa4",
+          "model-00002-of-00010.safetensors": "9c6e4f0b95e9e110268c7746482ca918297bda541eb4d06fa34212a122240519",
+          "model-00003-of-00010.safetensors": "f76fc0f38b887594b2dc5e72c0ef069eda98e541b7524acd6d149dbb84d94744",
+          "model-00004-of-00010.safetensors": "4184c5398023ba3e40a5f2e2406c3349be944ec5a9a0955c112aed2b8cea9eb9",
+          "model-00005-of-00010.safetensors": "facf20e6f18e02aa2d53a63908de7625405c4ba13bc99b0fbbdb2ce8a0844a25",
+          "model-00006-of-00010.safetensors": "8d316853c33cc02eb8715d9669fdc49651ead227fe8df90e0dc2233e8d3a04fb",
+          "model-00007-of-00010.safetensors": "82e9b5b94d86558bc47a8f7378497725a7947ae67585739956a836a786085a4e",
+          "model-00008-of-00010.safetensors": "2775786f7c30284ceb8b31a849158166d8473760a4e1e0388f974405805d5c02",
+          "model-00009-of-00010.safetensors": "19154effc126ef34c02fa02957742bcfa7452b9634b9ea601fe71727928218c8",
+          "model-00010-of-00010.safetensors": "11e249a479c8a55e2ca46902031aac07869d91543455b40666ac14a4d8cbfd6f"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+        "maker": "thedrummer",
+        "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "mistralai",
+            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.1-24B-Base-2503"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                "maker": "mistralai",
+                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-16T23:31:11+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-19T17:41:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-08T23:46:41+00:00",
+        "revision_date": "2025-12-17T15:08:15+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-12-20T18:56:37+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2025-11-08T23:46:41+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "coder3101/Cydonia-24B-v4.3-heretic-v2",
+        "maker": "coder3101",
+        "revision": "4e48125d201aaeeb6d6f9349c8c75e772fcfbb25",
+        "declared_base_model": [
+          "TheDrummer/Cydonia-24B-v4.3"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+            "maker": "thedrummer",
+            "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-08T23:46:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-12-20T19:00:41+00:00",
+        "revision_date": "2025-12-21T19:11:19+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "34ffcf512781452a1470e38a55b5678556d554416ecfd0cb8293b7c02a90caa4",
+          "model-00002-of-00010.safetensors": "85fb1eb671fa29d96030fad2d4e15f9639b1afa9e55a62174ee60d610f45d0ab",
+          "model-00003-of-00010.safetensors": "489a1cb10aca5e88dbeffc63a314cb2fecb579a92196e741d5f37c1d930c05da",
+          "model-00004-of-00010.safetensors": "f967f9c5d393dc0815959f17ba538233e1c0b0704d14f9ec75ce261545d12ddb",
+          "model-00005-of-00010.safetensors": "08ce8ac6b16e0b681d13fd38d37638000753cc61910afb4658cc48d43b343b34",
+          "model-00006-of-00010.safetensors": "a05b2095c3cf73708487b24f43f1a6f42e4ef54d332ce3902d4efe5f3bb8eeb2",
+          "model-00007-of-00010.safetensors": "aebc2098603dbd636881dd41aea0cddb17f6dc692f4411db79b23787a70e16cb",
+          "model-00008-of-00010.safetensors": "7104acc474f58709472487af2acc8a56d52edebf87013202367fe11602f3cab3",
+          "model-00009-of-00010.safetensors": "55c18fb953b262c3ac98da63dc07219ef5193f9177b2cd2099cb327ddab724bb",
+          "model-00010-of-00010.safetensors": "28d553fbfee001d0efe53798f246e648daa1360d7fc3a35ed6241ce127ce2ea3"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+        "maker": "thedrummer",
+        "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "mistralai",
+            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.1-24B-Base-2503"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                "maker": "mistralai",
+                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-16T23:31:11+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-19T17:41:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-08T23:46:41+00:00",
+        "revision_date": "2025-12-17T15:08:15+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2025-12-20T19:00:41+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2025-11-08T23:46:41+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "coder3101/Cydonia-24B-v4.3-heretic-v3",
+        "maker": "coder3101",
+        "revision": "b910f84316762a108074a3d7a7ec860d01c6414c",
+        "declared_base_model": [
+          "TheDrummer/Cydonia-24B-v4.3"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+            "maker": "thedrummer",
+            "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-08T23:46:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-02-15T13:30:57+00:00",
+        "revision_date": "2026-02-15T13:35:56+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "dbfe42b21bb9593ab8377ea4c1b18bd6f02367c7a92e97efecbbffa4ee147f91",
+          "model-00002-of-00010.safetensors": "b4b09b44d8c3bf234786d2741df5acda761a4393a44296855f323e8ea63300b8",
+          "model-00003-of-00010.safetensors": "990331916d9b89b62d0c8d9d54aa6102dc7e9502f8db441f4419704cd5e2f052",
+          "model-00004-of-00010.safetensors": "3e41f29bea946d2496b5a605a8749d37917e3e9bc2ad9f052d5f050a620e2550",
+          "model-00005-of-00010.safetensors": "b8cb16d565c2d2ed1e4bde7aa5f05a1fc49da0ab30e123aa7f58deebe853e54a",
+          "model-00006-of-00010.safetensors": "037d5e028a3a2acd566497c7f8b43f3ddc6cd3a25b423538099d3edb5ad5334f",
+          "model-00007-of-00010.safetensors": "d3dc251601999126806d0bdbc3f821f6c14dc7b0d1fe401a525b9c3c8a0d24ef",
+          "model-00008-of-00010.safetensors": "a3b404c93a5b150ddd09ae75e749cf0a1a9f26c9cb1b81a80e81db9734cc8038",
+          "model-00009-of-00010.safetensors": "80d21c25717794fbafee856eb2c2f7a02027d5f2de59fb3546c40f949a7c240a",
+          "model-00010-of-00010.safetensors": "660678cf41cd5611c2ca02fdfbdfed8c5c29f08ff60299ff109c7f50e85273e1"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+        "maker": "thedrummer",
+        "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "mistralai",
+            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.1-24B-Base-2503"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                "maker": "mistralai",
+                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-16T23:31:11+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-19T17:41:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-08T23:46:41+00:00",
+        "revision_date": "2025-12-17T15:08:15+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-02-15T13:30:57+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2025-11-08T23:46:41+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "coder3101/Cydonia-24B-v4.3-heretic-v4",
+        "maker": "coder3101",
+        "revision": "d5909f4594302494ceadb94bcdbee6996d12c6d4",
+        "declared_base_model": [
+          "TheDrummer/Cydonia-24B-v4.3"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+            "maker": "thedrummer",
+            "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-11-08T23:46:41+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-02-15T13:36:25+00:00",
+        "revision_date": "2026-02-15T13:41:01+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00010.safetensors": "34ffcf512781452a1470e38a55b5678556d554416ecfd0cb8293b7c02a90caa4",
+          "model-00002-of-00010.safetensors": "ed085c1554efd3ef30e6b50a1810992c33196660178cf51a86e6891cc657c878",
+          "model-00003-of-00010.safetensors": "3090a485827d5f95adee3fa55d0cabd8c572f9109c23737118a68d52025a594c",
+          "model-00004-of-00010.safetensors": "682e25a434b84395b40a8212ce3959ba0dbf0cb0f67476b9773938adc58fcd89",
+          "model-00005-of-00010.safetensors": "a70a29c103e6f52691e439ef1de489bdb91bd228b936fc2107d2f32a505a975e",
+          "model-00006-of-00010.safetensors": "e08e3cf1d98b89565aee0c8111fc6954c6c4302ceb8992b9306414745357c7c1",
+          "model-00007-of-00010.safetensors": "adb86e41dea09613a48b853920b2b485489cc38778d428d8cdaae94127c6dea9",
+          "model-00008-of-00010.safetensors": "9e59e30ce7bd65850d0f15d04b67622447254490fa21c964cae5ae2aa5888d5f",
+          "model-00009-of-00010.safetensors": "8074920bceced6a08a98676675b197d1ae2e263564349c490e17c4f410b8411d",
+          "model-00010-of-00010.safetensors": "2645cccde60ed3ed509235b4d55add63d347e4d314cb506f3d720e4f36cf93bd"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "TheDrummer/Cydonia-24B-v4.3",
+        "maker": "thedrummer",
+        "revision": "db0426d39d4bd4a6d34fdc71db97569da68f55e1",
+        "declared_base_model": [
+          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+            "maker": "mistralai",
+            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.1-24B-Base-2503"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                "maker": "mistralai",
+                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-16T23:31:11+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-06-19T17:41:13+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-11-08T23:46:41+00:00",
+        "revision_date": "2025-12-17T15:08:15+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-02-15T13:36:25+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 8,
+        "original_history_starts": "2025-11-08T23:46:41+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic",
+        "maker": "llmfan46",
+        "revision": "7c4948625423b770cd94f51f6dfed9a4866ea382",
+        "declared_base_model": [
+          "ReadyArt/Forgotten-Abomination-36B-v4.1"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Forgotten-Abomination-36B-v4.1",
+            "maker": "readyart",
+            "revision": "f4f88bf128b15beaec813618538fbdd2de3565fc",
+            "declared_base_model": "ReadyArt/Forgotten-Safeword-36B-4.1",
+            "base_model_chain": [
+              {
+                "hub_id": "ReadyArt/Forgotten-Safeword-36B-4.1",
+                "maker": "readyart",
+                "revision": "638222544e90ad13914f404e8491ab49ae0ea01a",
+                "declared_base_model": "TheDrummer/Skyfall-36B-v2",
+                "base_model_chain": [
+                  {
+                    "hub_id": "TheDrummer/Skyfall-36B-v2",
+                    "maker": "thedrummer",
+                    "revision": "8d5f36e2fbf323fc17157ba8d8bc9716927825a5",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-02-03T00:06:45+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-03-20T09:10:39+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-03-20T13:21:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-25T14:41:53+00:00",
+        "revision_date": "2026-03-27T22:30:31+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "b4bc3ec5f80d3b953711e81c79f2b864dfbf4a1ae0483a2c81390d92498570e2",
+          "model-00002-of-00002.safetensors": "1b57636682ab55da92fee55867dda76527ebef261b75a4e083e5b3186b90ad05"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "ReadyArt/Forgotten-Abomination-36B-v4.1",
+        "maker": "readyart",
+        "revision": "f4f88bf128b15beaec813618538fbdd2de3565fc",
+        "declared_base_model": "ReadyArt/Forgotten-Safeword-36B-4.1",
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Forgotten-Safeword-36B-4.1",
+            "maker": "readyart",
+            "revision": "638222544e90ad13914f404e8491ab49ae0ea01a",
+            "declared_base_model": "TheDrummer/Skyfall-36B-v2",
+            "base_model_chain": [
+              {
+                "hub_id": "TheDrummer/Skyfall-36B-v2",
+                "maker": "thedrummer",
+                "revision": "8d5f36e2fbf323fc17157ba8d8bc9716927825a5",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-02-03T00:06:45+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-03-20T09:10:39+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-03-20T13:21:57+00:00",
+        "revision_date": "2025-03-20T14:37:05+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-25T14:41:53+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2025-03-20T13:21:58+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2",
+        "maker": "llmfan46",
+        "revision": "372c0799964b673afe23e01ee633c3081a485212",
+        "declared_base_model": [
+          "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+            "maker": "readyart",
+            "revision": "ed40644353a0fbf5ed51f4c1b4b02cbaeb261f55",
+            "declared_base_model": [
+              "ReadyArt/Omega-Darker_The-Final-Directive-24B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "ReadyArt/Omega-Darker_The-Final-Directive-24B",
+                "maker": "readyart",
+                "revision": "375f4aa1275dae611e0a3e47b67963513f7a693e",
+                "declared_base_model": [
+                  "TheDrummer/Cydonia-24B-v2.1"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "TheDrummer/Cydonia-24B-v2.1",
+                    "maker": "thedrummer",
+                    "revision": "dee56cbcac6d6cc1b7fb427bc322b0a590f38be1",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-04T18:59:28+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-04-19T05:34:47+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-04-22T08:49:11+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-20T13:59:42+00:00",
+        "revision_date": "2026-03-27T21:46:30+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "3fb0cd62c6ef35f7fd3529b8299a2d31de52f9167de8a0bf30a90c1ac38f33f3"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+        "maker": "readyart",
+        "revision": "ed40644353a0fbf5ed51f4c1b4b02cbaeb261f55",
+        "declared_base_model": [
+          "ReadyArt/Omega-Darker_The-Final-Directive-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "ReadyArt/Omega-Darker_The-Final-Directive-24B",
+            "maker": "readyart",
+            "revision": "375f4aa1275dae611e0a3e47b67963513f7a693e",
+            "declared_base_model": [
+              "TheDrummer/Cydonia-24B-v2.1"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "TheDrummer/Cydonia-24B-v2.1",
+                "maker": "thedrummer",
+                "revision": "dee56cbcac6d6cc1b7fb427bc322b0a590f38be1",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2025-03-04T18:59:28+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-04-19T05:34:47+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2025-04-22T08:49:11+00:00",
+        "revision_date": "2025-12-27T21:57:45+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-20T13:59:42+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 15,
+        "original_history_starts": "2025-04-22T08:49:11+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "Vortex5/Pantheon-Reasoning-26B-A4B-1.1-heretic",
+        "maker": "vortex5",
+        "revision": "f1e4c4cf88e380918f473f25935641da989f0918",
+        "declared_base_model": [
+          "Gryphe/Pantheon-Reasoning-26B-A4B-1.1"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+            "maker": "gryphe",
+            "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B-it"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B-it",
+                "maker": "google",
+                "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+                "declared_base_model": [
+                  "google/gemma-4-26B-A4B"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "google/gemma-4-26B-A4B",
+                    "maker": "google",
+                    "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2026-03-12T00:38:03+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2026-03-11T21:25:57+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-06-06T19:35:20+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-07-08T21:45:37+00:00",
+        "revision_date": "2026-07-08T22:31:57+00:00",
+        "weight_files_sha256": {
+          "model-00001-of-00002.safetensors": "31b162d25f127d30e8d1cbb41695fc27e45388a8856291a99a5716e2f0ac6e7f",
+          "model-00002-of-00002.safetensors": "cc39ce5cc4f68bbf8d5404259da6a5fdf912a3ee21d10f51a34447ca969cfb36"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "Gryphe/Pantheon-Reasoning-26B-A4B-1.1",
+        "maker": "gryphe",
+        "revision": "9156318ccf35249e182e134254dcea0bef9e36cf",
+        "declared_base_model": [
+          "google/gemma-4-26B-A4B-it"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "google/gemma-4-26B-A4B-it",
+            "maker": "google",
+            "revision": "4d7ae4984b7db7de8f8457170b3f1a419ee76d52",
+            "declared_base_model": [
+              "google/gemma-4-26B-A4B"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "google/gemma-4-26B-A4B",
+                "maker": "google",
+                "revision": "24548b62aa021d562695c04aaf7758a1ea47990b",
+                "declared_base_model": null,
+                "base_model_chain": [],
+                "created_at": "2026-03-12T00:38:03+00:00",
+                "publisher_root": true,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-03-11T21:25:57+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-06-06T19:35:20+00:00",
+        "revision_date": "2026-06-08T05:07:55+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-07-08T21:45:37+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 6,
+        "original_history_starts": "2026-06-06T19:35:20+00:00"
+      }
+    },
+    {
+      "modified": {
+        "hub_id": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2",
+        "maker": "llmfan46",
+        "revision": "257ae414cab3cab9651236afb4306ad1215d1e36",
+        "declared_base_model": [
+          "zerofata/MS3.2-PaintedFantasy-v4.1-24B"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+            "maker": "zerofata",
+            "revision": "f147119fd27c00b8f69fb2f19c66280588a3711a",
+            "declared_base_model": [
+              "mistralai/Magistral-Small-2509"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Magistral-Small-2509",
+                "maker": "mistralai",
+                "revision": "a31cc96ab10cf19bc42c628fedf1e359e0853c49",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                    "maker": "mistralai",
+                    "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                    "declared_base_model": [
+                      "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                    ],
+                    "base_model_chain": [
+                      {
+                        "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                        "maker": "mistralai",
+                        "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                        "declared_base_model": null,
+                        "base_model_chain": [],
+                        "created_at": "2025-03-16T23:31:11+00:00",
+                        "publisher_root": true,
+                        "lineage_known": true
+                      }
+                    ],
+                    "created_at": "2025-06-19T17:41:13+00:00",
+                    "publisher_root": false,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-09-12T09:45:10+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2026-02-16T07:29:15+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-03-22T17:33:48+00:00",
+        "revision_date": "2026-03-27T19:57:30+00:00",
+        "weight_files_sha256": {
+          "model.safetensors": "56294081c2646ad1a4bc3e543a28e7e17b6fdb2e0828284219498c744a1514eb"
+        },
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original": {
+        "hub_id": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+        "maker": "zerofata",
+        "revision": "f147119fd27c00b8f69fb2f19c66280588a3711a",
+        "declared_base_model": [
+          "mistralai/Magistral-Small-2509"
+        ],
+        "base_model_chain": [
+          {
+            "hub_id": "mistralai/Magistral-Small-2509",
+            "maker": "mistralai",
+            "revision": "a31cc96ab10cf19bc42c628fedf1e359e0853c49",
+            "declared_base_model": [
+              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
+            ],
+            "base_model_chain": [
+              {
+                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+                "maker": "mistralai",
+                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
+                "declared_base_model": [
+                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
+                ],
+                "base_model_chain": [
+                  {
+                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
+                    "maker": "mistralai",
+                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
+                    "declared_base_model": null,
+                    "base_model_chain": [],
+                    "created_at": "2025-03-16T23:31:11+00:00",
+                    "publisher_root": true,
+                    "lineage_known": true
+                  }
+                ],
+                "created_at": "2025-06-19T17:41:13+00:00",
+                "publisher_root": false,
+                "lineage_known": true
+              }
+            ],
+            "created_at": "2025-09-12T09:45:10+00:00",
+            "publisher_root": false,
+            "lineage_known": true
+          }
+        ],
+        "created_at": "2026-02-16T07:29:15+00:00",
+        "revision_date": "2026-02-19T09:21:48+00:00",
+        "publisher_root": false,
+        "lineage_known": true
+      },
+      "original_selection": {
+        "cutoff": "2026-03-22T17:33:48+00:00",
+        "rule": "latest commit at or before modified repository creation",
+        "history_commits_read": 9,
+        "original_history_starts": "2026-02-16T07:29:15+00:00"
+      }
+    }
+  ],
+  "pinned_at": "2026-11-02T08:04:01.222238+00:00",
+  "note": "Round 44, for Nautilus on the CPU census: the second round from the second-generation pool, heretic edits applied to community fine-tunes of Mistral Small and of Gemma 4, each measured against the parent its card names rather than against the base maker: coder3101/Cydonia-24B-v4.3-heretic, coder3101/Cydonia-24B-v4.3-heretic-v2, coder3101/Cydonia-24B-v4.3-heretic-v3, coder3101/Cydonia-24B-v4.3-heretic-v4, llmfan46/Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic, llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2, Vortex5/Pantheon-Reasoning-26B-A4B-1.1-heretic, llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2. Four of the eight are one maker's successive edits of the same Cydonia checkpoint, so the round reads how a maker's search moves between versions on one parent. Held on the way: coder3101's vision re-export of its first Cydonia heretic, which carries a vision tower of two hundred and twenty-two names its text-only parent lacks and so cannot be paired under the present rules; the pinner's names step refused it and PaintedFantasy took its place. No measured pair is repeated and no copy duplicates a measured weight file by checksum."
+}
