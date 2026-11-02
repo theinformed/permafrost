@@ -448,6 +448,22 @@ class CheckpointComparison(unittest.TestCase):
         self.assertEqual(report["unused_shared_kv"], [])
         self.assertEqual(len([v for v in report["recipe_matching"]["violations"] if v["rule"] == "original_only"]), 3)
 
+    def test_an_export_without_the_range_scalars_is_listed_not_scored(self):
+        # Gemma 4 E-series originals carry scalar activation ranges, input_max and the like, beside the
+        # towers' projections; a copy saved through transformers drops the vision encoder's. The report
+        # lists them apart from a real omission, on either side.
+        kept = {"model.layers.0.mlp.down_proj.weight": torch.ones(2, 2), "model.vision_tower.encoder.layers.0.mlp.down_proj.weight": torch.ones(2, 2)}
+        ranges = {"model.vision_tower.encoder.layers.0.mlp.down_proj.input_max": torch.ones(()),
+                  "model.vision_tower.encoder.layers.0.mlp.down_proj.output_min": torch.ones(())}
+        self.put(self.base, {**kept, **ranges, "other": torch.ones(2)}, "one.safetensors")
+        self.put(self.modified, {**kept, "model.layers.0.self_attn.o_proj.input_min": torch.ones(())}, "one.safetensors")
+        report = self.compare()
+        self.assertEqual(report["dropped_statistics"], sorted(list(ranges) + ["model.layers.0.self_attn.o_proj.input_min"]))
+        self.assertEqual(report["original_only"], sorted(list(ranges) + ["other"]))
+        self.assertEqual(report["modified_only"], ["model.layers.0.self_attn.o_proj.input_min"])
+        violations = [(v["rule"], v["tensor"]) for v in report["recipe_matching"]["violations"] if v["rule"] in ("original_only", "modified_only")]
+        self.assertEqual(violations, [("original_only", "other")])
+
     def test_a_name_under_two_wrappers_keeps_its_role(self):
         self.assertEqual(tensor_kind("model.language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")
         self.assertEqual(tensor_kind("language_model.model.layers.0.self_attn.o_proj.weight"), "attention_output")

@@ -157,6 +157,19 @@ def dropped_towers(missing, modified_names):
     return {tower: sorted(names) for tower, names in sorted(towers.items())}
 
 
+STATISTIC = re.compile(r"\.(input|output)_(max|min)$")
+
+
+def dropped_statistics(missing, added):
+    """The activation-range scalars an export left out, or carried that the original lacks.
+
+    Gemma 4's E2B and E4B originals hold 928 scalars named input_max, input_min, output_max
+    and output_min beside the towers' projections: calibration ranges, not weights the model
+    computes with. A copy saved through transformers drops the vision encoder's 128 of them;
+    they are listed apart from a real omission."""
+    return sorted(name for name in list(missing) + list(added) if STATISTIC.search(name))
+
+
 def unused_shared_kv(names, config):
     """The key and value tensors of the layers that read another layer's cache.
 
@@ -716,8 +729,9 @@ def score_report(report, recipes=None):
         row["kind"] = tensor_kind(name, recipes)
     unused = set(report.get("unused_shared_kv", []))
     unused.update(name for names in report.get("dropped_towers", {}).values() for name in names)
+    unused.update(report.get("dropped_statistics", []))
     structural = [{"rule": "original_only", "tensor": name} for name in report["original_only"] if name not in unused]
-    structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"]]
+    structural += [{"rule": "modified_only", "tensor": name} for name in report["modified_only"] if name not in unused]
     agreement = report["summary"]["direction_agreement"]
     matching = match_recipes(rows, structural, agreement, applicable)
     matching["outside_calibrated_base"] = out_of_scope
@@ -774,6 +788,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
     added = sorted(other.names.keys() - set(names.values()))
     unused = unused_shared_kv(missing, checkpoint_config(original_dir))
     dropped = dropped_towers(missing, other.names)
+    statistics = dropped_statistics(missing, added)
     rows, vectors = {}, {}
     for name in sorted(names):
         # Nothing in this loop retains the full tensors from the preceding pair.
@@ -794,7 +809,7 @@ def compare_weights(modified, original, out, threshold=1e-3, recipes_path=None, 
         rows[name]["directions"] = {"left": name + ".left", "right": name + ".right"}
     save_file(saved, str(directions_path))
     report = {"schema_version": 1, "original": {**original_info, "shards_sha256": base.provenance()}, "modified": {**modified_info, "shards_sha256": other.provenance()},
-              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused, "dropped_towers": dropped,
+              "threshold": threshold, "svd": {"seed": seed, "top_k": 8, "sketch_columns": 12, "power_iterations": 4}, "original_only": missing, "modified_only": added, "unused_shared_kv": unused, "dropped_towers": dropped, "dropped_statistics": statistics,
               "name_mapping": None if mapping is None else {key: mapping[key] for key in ("prefix", "carried_by", "renamed")},
               "tensors": rows, "directions_file": directions_path.name,
               "summary": {"direction_agreement": agreement, "layer_direction_agreement": layer_agreement},

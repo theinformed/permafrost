@@ -77,6 +77,14 @@ it. Residual writers include full-attention `self_attn.o_proj`,
 linear-attention `linear_attn.out_proj`, dense `mlp.down_proj`, and expert or
 shared-expert down projections. Each has a separate kind in the report.
 
+Three kinds of name found on one side only are listed apart from a real
+omission: the key and value tensors of layers that read another layer's cache
+(`unused_shared_kv`), a vision or audio tower the export left out entirely
+(`dropped_towers`), and the scalar activation ranges, `input_max` and the like,
+that Gemma 4's E-series originals carry beside their projections and a copy
+saved through transformers drops (`dropped_statistics`). Everything else found on
+one side is a structural violation.
+
 The analytic `single-projection` envelope requires every residual-writing
 matrix present in the checkpoint to change above 0.001, at least 0.99 of each
 difference's energy in its first singular value, and direction cosine at least

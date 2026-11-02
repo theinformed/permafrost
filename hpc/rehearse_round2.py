@@ -316,7 +316,8 @@ def suite(args, directory):
         clean.expect(found == wanted and all(wanted.values()), 'changed writers differ from the real names')
         unused = set(report.get('unused_shared_kv', []))
         unused.update(name for names in report.get('dropped_towers', {}).values() for name in names)
-        clean.expect(not (set(report['original_only']) - unused) and not report['modified_only'], 'tensor names differ across a pair')
+        unused.update(report.get('dropped_statistics', []))
+        clean.expect(not (set(report['original_only']) - unused) and not (set(report['modified_only']) - unused), 'tensor names differ across a pair')
         clean.append('pair {} {}: {} tensors; changed {}; lean {}; {}{}'.format(
             number, model.split('/')[1], len(report['tensors']), json.dumps(found, sort_keys=True), lean,
             report['summary']['assessment'], '; shared original' if receipt['shared_original'] else ''))
