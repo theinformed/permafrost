@@ -167,4 +167,13 @@ heading or first sentence names, other than the copy or its `base_model`, is rec
 when it exists on the hub, with a warning naming it beside the field, and the pinned original does not
 change for it.
 
+The `names` step also refuses a copy whose weight files are the ones a measured copy carries (by the
+LFS checksums), naming that copy and its round; a copy whose paired tensors have other shapes than the
+original's, as an export of some other model (one copy named for the E2B is the first-generation 2B);
+a copy that carries only some of the original's layers in a tower it does carry, as a partial export,
+with the missing range; a copy whose shard index names files the repository never published, with the
+files it does publish; and an original whose weights are float8, whether its fixture is new or from an
+earlier pass. Mistral's `consolidated*.safetensors`, the maker's own format published beside the HF
+files, are left out of the fixture as the kit's download leaves them out of the checkpoint.
+
 Weight differences alone cannot certify the absence of hidden behavior.

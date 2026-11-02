@@ -373,6 +373,19 @@ class NamePairingTests(unittest.TestCase):
         heretic = json.loads((FIXTURES / 'e4b182fe68a5.json').read_text())
         self.assertIsNone(unpaired(original, heretic))
 
+    def test_a_copy_of_another_model_is_refused_on_its_shapes_before_its_layer_count(self):
+        original = json.loads((FIXTURES / '70af34e20bd4.json').read_text())
+        copy = json.loads((FIXTURES / '84c7f4804575.json').read_text())
+        reason = unpaired(original, copy)
+        self.assertTrue(reason.startswith('the copy is an export of another model: 164 of 164 paired tensors differ in shape '
+                                          '(model.language_model.embed_tokens.weight is [256000, 2048] against [262144, 1536])'), reason)
+        self.assertTrue(reason.endswith('TurkishCodeMan/gemma-4-e2b-it-abliterated against google/gemma-4-E2B-it'), reason)
+        # The same names with the original's shapes are a partial export, reported as before.
+        mapping = pairing(original['tensors'], copy['tensors'])['names']
+        same = {other: dict(copy['tensors'][other], shape=original['tensors'][name]['shape']) for name, other in mapping.items()}
+        reason = unpaired(original, dict(copy, tensors=same))
+        self.assertTrue(reason.startswith('the copy is a partial export carrying 18 of 35 layers'), reason)
+
     def test_a_copy_carrying_some_of_the_layers_is_refused_as_a_partial_export(self):
         two_layers = ['model.' + name for name in LAYERS if '.2.' not in name]
         reason = unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, two_layers))
@@ -381,11 +394,6 @@ class NamePairingTests(unittest.TestCase):
         # Every layer carried, towers and one shared-kv tensor dropped: whole, and left to the comparison.
         whole = ['model.' + name for name in LAYERS if name != 'layers.2.self_attn.o_proj.weight']
         self.assertIsNone(unpaired(record('maker/base', 'a' * 40, ORIGINAL), record('owner/copy', 'b' * 40, whole)))
-        original = json.loads((FIXTURES / '70af34e20bd4.json').read_text())
-        copy = json.loads((FIXTURES / '84c7f4804575.json').read_text())
-        reason = unpaired(original, copy)
-        self.assertEqual(reason, 'the copy is a partial export carrying 18 of 35 layers under model.language_model.layers. '
-                                 '(layers 18 to 34 missing): TurkishCodeMan/gemma-4-e2b-it-abliterated against google/gemma-4-E2B-it')
 
     def test_an_index_naming_unpublished_shards_is_refused_with_the_file_list(self):
         index = json.dumps({'weight_map': {'a': 'model-00001-of-00002.safetensors', 'b': 'model-00002-of-00002.safetensors'}}).encode()

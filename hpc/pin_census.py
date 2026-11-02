@@ -393,7 +393,9 @@ def fixture(hub, model):
             raise ValueError('index names {} shard(s) the repository does not publish ({} first); it publishes {}: {}'.format(
                 len(missing), missing[0], ', '.join(sorted(published)) or 'no safetensors file', repo))
     else:
-        shards = weight_files(hub, repo, revision)
+        # Mistral publishes its own consolidated*.safetensors beside the HF files; the kit's download
+        # leaves those behind, and so does the fixture.
+        shards = [name for name in weight_files(hub, repo, revision) if not Path(name).name.startswith('consolidated')]
         if len(shards) != 1:
             raise ValueError('{} weight files and no index: {} publishes {} under one name'.format(
                 len(shards), repo, 'several checkpoints' if shards else 'no safetensors weights'))
@@ -435,7 +437,7 @@ def pairing(original_names, modified_names):
     original_names, modified_names = set(original_names), set(modified_names)
     mapping = wrapper_mapping(original_names, modified_names, recipe_table())
     names = mapping['names'] if mapping else {name: name for name in original_names & modified_names}
-    return {'paired': len(names), 'original_only': sorted(original_names - set(names)),
+    return {'paired': len(names), 'names': names, 'original_only': sorted(original_names - set(names)),
             'modified_only': sorted(modified_names - set(names.values())),
             'mapping': {key: mapping[key] for key in ('prefix', 'carried_by', 'renamed')} if mapping else None}
 
@@ -448,7 +450,7 @@ def unpaired(original, modified):
     step says so first, with the counts on both sides."""
     result = pairing(original['tensors'], modified['tensors'])
     if not result['modified_only']:
-        return partial_export(original, modified, result)
+        return different_shapes(original, modified, result) or partial_export(original, modified, result)
     return ('tensor names cannot be paired: {:,} of {:,} modified names pair with the {:,} original names '
             '(modified {}; original {}); {:,} modified and {:,} original names unpaired: {} against {}').format(
         result['paired'], len(modified['tensors']), len(original['tensors']), wrappers(modified['tensors']),
@@ -478,11 +480,32 @@ def dropped_layers(original_names, result):
     return carried, missing
 
 
+def different_shapes(original, modified, result):
+    """The refusal for a copy whose paired tensors have other shapes than the original's, or None.
+
+    One copy named for the E2B is the first-generation 2B with its two writers edited: its 164
+    names all pair with E2B names, and every paired shape differs. Such a copy is an export of
+    some other model, and the pair is refused with the first shape that differs."""
+    paired = set(original['tensors']) - set(result['original_only'])
+    mapping = result.get('names') or {}
+    differing = []
+    for name in sorted(paired):
+        other = mapping.get(name, name)
+        first, second = original['tensors'][name].get('shape'), modified['tensors'].get(other, {}).get('shape')
+        if first is not None and second is not None and list(first) != list(second):
+            differing.append((name, first, second))
+    if not differing:
+        return None
+    name, first, second = differing[0]
+    return 'the copy is an export of another model: {:,} of {:,} paired tensors differ in shape ({} is {} against {}): {} against {}'.format(
+        len(differing), len(paired), name, list(second), list(first), modified['hub_id'], original['hub_id'])
+
+
 def partial_export(original, modified, result):
     """The refusal for a copy that carries only some of the original's layers, or None.
 
-    One E2B copy saves 164 tensors, eighteen layers of thirty-five and no towers: every name pairs,
-    so the pairing rule passes it, and the rehearsal then reads half the writers it expects."""
+    A copy that saves the first eighteen layers of a thirty-five layer model pairs every name, so
+    the pairing rule passes it, and the rehearsal then reads half the writers it expects."""
     carried, missing = dropped_layers(original['tensors'], result)
     if not missing:
         return None
@@ -531,9 +554,19 @@ def names(manifest, out, hub=None):
         for side in ('original', 'modified'):
             model = row[side]
             target = fixture_path(out, model)
-            if model['revision'] in seen or target.exists():
+            if model['revision'] in seen:
                 continue
             seen.add(model['revision'])
+            if target.exists():
+                # The fixture from an earlier pass still has to pass the original's float8 check.
+                if side == 'original':
+                    record = json.loads(target.read_text())
+                    scales = scale_tensors(record['tensors'])
+                    if quantised(record['config']) or scales:
+                        refused.append('pair {} original: original is quantised ({}): {}'.format(
+                            number, 'quantization_config' if quantised(record['config']) else '{} scale tensors'.format(len(scales)), model['hub_id']))
+                        print('refused ' + refused[-1])
+                continue
             # One refused checkpoint does not stop the screen: the rest of the batch still gets its
             # fixtures, and every refusal is reported together at the end.
             try:
