@@ -387,6 +387,16 @@ class NamePairingTests(unittest.TestCase):
         self.assertEqual(reason, 'the copy is a partial export carrying 18 of 35 layers under model.language_model.layers. '
                                  '(layers 18 to 34 missing): TurkishCodeMan/gemma-4-e2b-it-abliterated against google/gemma-4-E2B-it')
 
+    def test_an_index_naming_unpublished_shards_is_refused_with_the_file_list(self):
+        index = json.dumps({'weight_map': {'a': 'model-00001-of-00002.safetensors', 'b': 'model-00002-of-00002.safetensors'}}).encode()
+        gets = {'model.safetensors.index.json': index, 'config.json': b'{}'}
+        with patch.object(pin_census, 'bounded_get', lambda hub, repo, revision, filename: gets.get(filename)), \
+                patch.object(pin_census, 'weight_files', lambda hub, repo, revision: ['consolidated.safetensors', 'model.safetensors']), \
+                self.assertRaises(ValueError) as stop:
+            pin_census.fixture(object(), {'hub_id': 'owner/copy', 'revision': 'b' * 40})
+        self.assertEqual(str(stop.exception), 'index names 2 shard(s) the repository does not publish (model-00001-of-00002.safetensors first); '
+                                              'it publishes consolidated.safetensors, model.safetensors: owner/copy')
+
     def test_the_names_step_writes_every_fixture_then_refuses_the_unpaired_pair(self):
         records = {'a' * 40: record('maker/base', 'a' * 40, ORIGINAL),
                    'b' * 40: record('owner/copy', 'b' * 40, ORIGINAL),
@@ -397,6 +407,8 @@ class NamePairingTests(unittest.TestCase):
         def fixture(hub, model):
             if model['hub_id'] == 'maker/eight-bit':
                 raise ValueError('original is quantised (quantization_config): maker/eight-bit')
+            if model['hub_id'] == 'owner/gone':
+                raise OSError('404 Client Error: Not Found for url: https://huggingface.co/owner/gone/resolve/f/model-00001-of-00008.safetensors')
             return records[model['revision']]
 
         def side(hub_id, revision):
@@ -404,7 +416,8 @@ class NamePairingTests(unittest.TestCase):
         manifest = {'round': 40, 'pairs': [
             {'original': side('maker/base', 'a' * 40), 'modified': side('owner/copy', 'b' * 40)},
             {'original': side('maker/base', 'a' * 40), 'modified': side('owner/other', 'c' * 40)},
-            {'original': side('maker/eight-bit', 'd' * 40), 'modified': side('owner/third', 'e' * 40)}]}
+            {'original': side('maker/eight-bit', 'd' * 40), 'modified': side('owner/third', 'e' * 40)},
+            {'original': side('maker/base', 'a' * 40), 'modified': side('owner/gone', 'f' * 40)}]}
         with tempfile.TemporaryDirectory() as temporary:
             path = Path(temporary) / 'round-40-batch-1.json'
             path.write_text(json.dumps(manifest))
@@ -415,7 +428,8 @@ class NamePairingTests(unittest.TestCase):
             written = sorted(item.name for item in (Path(temporary) / 'names').iterdir())
         self.assertEqual(written, ['aaaaaaaaaaaa.json', 'bbbbbbbbbbbb.json', 'cccccccccccc.json', 'eeeeeeeeeeee.json'])
         message = str(stop.exception)
-        self.assertTrue(message.startswith('2 checkpoint(s) refused; pair 3 original: original is quantised'), message)
+        self.assertTrue(message.startswith('3 checkpoint(s) refused; pair 3 original: original is quantised'), message)
+        self.assertIn('; pair 4 modified: 404 Client Error', message)
         self.assertIn('; pair 2 names: tensor names cannot be paired: 0 of 12 modified names pair with the 7 original names', message)
         self.assertNotIn('pair 3 names', message)
         self.assertIn('refused pair 2 names: tensor names cannot be paired', out.getvalue())

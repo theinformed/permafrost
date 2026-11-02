@@ -384,6 +384,14 @@ def fixture(hub, model):
     weight_map = json.loads(text.decode('utf-8'))['weight_map'] if text else None
     if weight_map:
         shards = sorted(set(weight_map.values()))
+        published = set(weight_files(hub, repo, revision))
+        missing = [shard for shard in shards if shard not in published]
+        if missing:
+            # One heretic publishes an index naming eight shards beside a single model.safetensors
+            # and a consolidated.safetensors; the shards were never uploaded. Such a copy cannot be
+            # read as the index describes it, so the pair is refused here with the file list.
+            raise ValueError('index names {} shard(s) the repository does not publish ({} first); it publishes {}: {}'.format(
+                len(missing), missing[0], ', '.join(sorted(published)) or 'no safetensors file', repo))
     else:
         shards = weight_files(hub, repo, revision)
         if len(shards) != 1:
@@ -538,7 +546,9 @@ def names(manifest, out, hub=None):
                 if scales:
                     # The same checkpoint without the config block: the scales in the names say so.
                     raise ValueError('original is quantised ({} scale tensors, {} first): {}'.format(len(scales), scales[0], model['hub_id']))
-            except ValueError as error:
+            except (ValueError, OSError) as error:
+                # A hub refusal or a broken read is an OSError (requests raises one); the pair is
+                # refused with the message rather than stopping the step for the whole batch.
                 refused.append('pair {} {}: {}'.format(number, side, error))
                 print('refused ' + refused[-1])
                 continue
