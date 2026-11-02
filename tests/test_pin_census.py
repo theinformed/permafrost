@@ -2,6 +2,7 @@
 # Created by Sean Egan
 # Modified: SDE  the names step refuses a pair whose tensor names no rule pairs, with the counts.
 # Modified: SDE  a hub id measured at the same revision is refused with its round.
+# Modified: SDE  a qat-named copy whose card names the instruct model pins against the QAT checkpoint.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -16,7 +17,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
-from pin_census import already_measured, Duplicate, measured_copies, names, pin, pairing, same_weights, unpaired
+from pin_census import already_measured, Duplicate, measured_copies, names, pin, pairing, qat_original, same_weights, size_of, unpaired
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
 
@@ -179,6 +180,79 @@ class MeasuredRevisionTests(unittest.TestCase):
             self.assertEqual(record['pairs'][0]['modified']['measured_in'], {'round': 13})
             self.assertEqual(record['pairs'][0]['modified']['same_weights_as'], {'hub_id': 'owner/copy', 'round': 13, 'state': 'measured'})
             self.assertEqual(out.getvalue().strip(), 'pinned as allowed: owner/copy already measured in round 13')
+
+
+INSTRUCT = 'google/gemma-4-12B-it'
+QAT = 'google/gemma-4-12B-it-qat-q4_0-unquantized'
+CARDS = {'owner/gemma-4-12B-it-qat-heretic': INSTRUCT, 'owner/gemma-4-12B-it-heretic': INSTRUCT,
+         'owner/gemma-4-E4B-it-qat-heretic': INSTRUCT, 'owner/gemma-4-31B-it-qat-heretic': 'google/gemma-4-31B-it',
+         INSTRUCT: 'google/gemma-4-12B', QAT: INSTRUCT, 'google/gemma-4-31B-it': 'google/gemma-4-31B',
+         'google/gemma-4-12B': None, 'google/gemma-4-31B': None, 'other/fine-tune': INSTRUCT}
+
+
+def gemma_api():
+    """A hub that knows the repositories in CARDS and nothing else; the 31B has no QAT checkpoint."""
+    class API:
+        def model_info(self, repo, revision=None, **kwargs):
+            if repo not in CARDS:
+                raise ValueError('404: ' + repo)
+            card = {'base_model': CARDS[repo]} if CARDS[repo] else {}
+            siblings = [SimpleNamespace(rfilename='model.safetensors', lfs=SimpleNamespace(sha256=SHA_B, size=1, pointer_size=1))]
+            return SimpleNamespace(sha=revision or 'c' * 40, created_at=CREATED, siblings=siblings if repo.startswith('owner/') else [],
+                                   card_data=SimpleNamespace(to_dict=lambda: card))
+
+        def list_repo_commits(self, repo):
+            if repo.startswith('owner/'):
+                return [SimpleNamespace(commit_id='c' * 40, created_at=CREATED, title='Upload')]
+            return [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 1, 1, tzinfo=timezone.utc), title='Upload')]
+    return API()
+
+
+class QatOriginalTests(unittest.TestCase):
+    def test_sizes_read_from_names(self):
+        self.assertEqual([size_of(name) for name in ('google/gemma-4-12B-it', 'owner/gemma-4-E4B-it-qat-heretic',
+                                                      'google/gemma-4-26B-A4B-it-qat-q4_0-unquantized', 'owner/Mistral-7B-v0.3-x', 'owner/no-size')],
+                         ['12b', 'e4b', '26b-a4b', '7b', None])
+
+    def test_a_qat_named_copy_pinned_by_its_card_moves_to_the_qat_checkpoint(self):
+        api = gemma_api()
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-qat-heretic', INSTRUCT, INSTRUCT)[0], QAT)
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-qat-heretic', INSTRUCT, [INSTRUCT])[0], QAT)
+        # Named by the caller: the QAT checkpoint itself, or another original, is followed as given.
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-qat-heretic', QAT, INSTRUCT), (QAT, None))
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-qat-heretic', 'other/fine-tune', INSTRUCT), ('other/fine-tune', None))
+        # No qat in the name, a card of another size, a card naming the pretrained base, no QAT checkpoint on the hub.
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-heretic', INSTRUCT, INSTRUCT), (INSTRUCT, None))
+        self.assertEqual(qat_original(api, 'owner/gemma-4-E4B-it-qat-heretic', INSTRUCT, INSTRUCT), (INSTRUCT, None))
+        self.assertEqual(qat_original(api, 'owner/gemma-4-12B-it-qat-heretic', 'google/gemma-4-12B', 'google/gemma-4-12B'),
+                         ('google/gemma-4-12B', None))
+        self.assertEqual(qat_original(api, 'owner/gemma-4-31B-it-qat-heretic', 'google/gemma-4-31B-it', 'google/gemma-4-31B-it'),
+                         ('google/gemma-4-31B-it', None))
+
+    def test_the_pin_records_the_declared_field_beside_the_note(self):
+        row = pin(gemma_api(), 'owner/gemma-4-12B-it-qat-heretic', INSTRUCT)
+        self.assertEqual(row['original']['hub_id'], QAT)
+        self.assertEqual(row['original']['declared_base_model'], INSTRUCT)
+        self.assertEqual(row['modified']['declared_base_model'], INSTRUCT)
+        self.assertEqual(row['modified']['original_note'],
+                         'base_model names google/gemma-4-12B-it; the copy name says qat and '
+                         'google/gemma-4-12B-it-qat-q4_0-unquantized exists, so the pair is pinned against it')
+        self.assertTrue(row['modified']['lineage_known'])
+        plain = pin(gemma_api(), 'owner/gemma-4-12B-it-heretic', INSTRUCT)
+        self.assertEqual(plain['original']['hub_id'], INSTRUCT)
+        self.assertNotIn('original_note', plain['modified'])
+
+    def test_command_prints_the_note(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / 'round-42-batch-1.json'
+            argv = ['pin_census.py', str(manifest), '--pair', 'owner/gemma-4-12B-it-qat-heretic', INSTRUCT]
+            out = io.StringIO()
+            with patch.object(pin_census, 'HfApi', gemma_api), patch.object(pin_census, 'measured_copies', lambda: []), \
+                    patch.object(sys, 'argv', argv), contextlib.redirect_stdout(out):
+                pin_census.main()
+            self.assertEqual(out.getvalue().strip(), 'note: owner/gemma-4-12B-it-qat-heretic base_model names google/gemma-4-12B-it; '
+                             'the copy name says qat and google/gemma-4-12B-it-qat-q4_0-unquantized exists, so the pair is pinned against it')
+            self.assertEqual(json.loads(manifest.read_text())['pairs'][0]['original']['hub_id'], QAT)
 
 
 class NamePairingTests(unittest.TestCase):

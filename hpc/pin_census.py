@@ -14,6 +14,8 @@
 # Modified: SDE  a pair whose tensor names no pairing rule matches is refused at the names step, with the
 #   counts, before the rehearsal reads an empty comparison.
 # Modified: SDE  a hub id already measured at the same revision is refused with the round that measured it.
+# Modified: SDE  a copy named qat whose card names the instruct model is pinned against the QAT checkpoint of
+#   that size when the hub has one, with the card's field kept beside a note.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -120,6 +122,45 @@ def declared(info):
     return card.get('base_model')
 
 
+QAT = '-qat-q4_0-unquantized'
+SIZE = re.compile(r'(?<![a-z0-9])(e?[0-9]+b(?:-a[0-9]+b)?)(?![a-z0-9])')
+
+
+def size_of(hub_id):
+    """The size token in a repository name (12b, e4b, 26b-a4b), or None."""
+    match = SIZE.search(hub_id.split('/')[-1].lower())
+    return match.group(1) if match else None
+
+
+def repo_exists(api, repo):
+    try:
+        api.model_info(repo)
+    except Exception:
+        return False
+    return True
+
+
+def qat_original(api, modified, original, bases):
+    """The QAT checkpoint a qat-named copy stands on, with the note for its record, or the original as given.
+
+    A quantisation-aware export's generated card carries its original's header, and the QAT
+    checkpoints' own cards name the instruct model as their base, so a copy named qat declares the
+    instruct model one step up. When the caller followed that field, the name says qat, the declared
+    model is the instruct model of the copy's size and the hub has the QAT checkpoint of that size,
+    the pair is pinned against the QAT checkpoint. A caller who names any other original is followed."""
+    declared = bases if isinstance(bases, str) else bases[0] if isinstance(bases, list) and len(bases) == 1 else None
+    name = modified.split('/')[-1].lower()
+    if 'qat' not in name or 'qat' in original.lower() or not declared or declared.lower() != original.lower():
+        return original, None
+    if not declared.lower().endswith('-it') or size_of(declared) is None or size_of(declared) != size_of(name):
+        return original, None
+    candidate = declared + QAT
+    if not repo_exists(api, candidate):
+        return original, None
+    return candidate, 'base_model names {}; the copy name says qat and {} exists, so the pair is pinned against it'.format(
+        declared, candidate)
+
+
 def leaves(node):
     """Every ancestor in the tree that declares no base of its own."""
     if not node['base_model_chain']:
@@ -166,6 +207,7 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     match = same_weights(weights, known)
     if match and not allow_duplicate:
         raise Duplicate('same weight files as ' + describe(match))
+    original, note = qat_original(api, modified, original, declared(copy))
     history = api.list_repo_commits(original)
     cutoff, rule = copy.created_at, 'latest commit at or before modified repository creation'
     eligible = [row for row in history if row.created_at <= cutoff]
@@ -205,6 +247,8 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
         raise ValueError('modified base unknown: ' + modified)
     node['revision_date'] = copy_commit.created_at.isoformat()
     node['weight_files_sha256'] = weights
+    if note:
+        node['original_note'] = note
     if source:
         node['duplicate_of'] = source
     if measured:
@@ -451,6 +495,8 @@ def main():
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     copy = row['modified']
+    if copy.get('original_note'):
+        print('note: {} {}'.format(args.pair[0], copy['original_note']))
     if copy.get('measured_in'):
         print('pinned as allowed: {} already measured {}'.format(args.pair[0], where(copy['measured_in'])))
     elif copy.get('same_weights_as'):

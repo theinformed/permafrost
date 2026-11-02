@@ -151,6 +151,9 @@ reaches (the exact name, one wrapper added or dropped, two wrappers swapped, one
 tower), naming the counts on both sides, so the refusal comes before the rehearsal rather than from
 an empty changed set. A copy whose hub id and revision a saved report under `results/weights/` already
 carries is refused with the round that measured it, whatever a batch note says, unless
-`--allow-duplicate` asks for the repeat.
+`--allow-duplicate` asks for the repeat. A copy whose name says `qat` and whose `base_model` field names
+the instruct model of its size is pinned against that size's `-qat-q4_0-unquantized` checkpoint when the
+hub has one, the field kept in the record beside a note, because such a card carries the QAT checkpoint's
+own header; an original the caller names otherwise is followed as given.
 
 Weight differences alone cannot certify the absence of hidden behavior.
