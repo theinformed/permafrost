@@ -529,5 +529,6 @@
       }
     }
   ],
-  "pinned_at": "2026-11-02T05:11:33.276395+00:00"
+  "pinned_at": "2026-11-02T05:11:33.276395+00:00",
+  "note": "Round 38, for Nautilus on the CPU census. Eight direct Gemma 4 copies not yet measured, pinned from the unmeasured list by size class: SassyDiffusion/gemma-4-26B-A4B-it-heretic-ara, SassyDiffusion/gemma-4-E4B-it-heretic, RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals2, jwest33/gemma-4-12B-it-null-space-abliterated, DuoNeural/gemma-4-26B-A4B-it-abliterated, DuoNeural/Gemma-4-E2B-Heretic, Bahushruth/gemma-4-E2B-it-abliterated, Himanshuoo8/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking. The pinner refused gsting's 26B-A4B copy as huihui-ai's weight files measured in round 12, and recorded that DuoNeural's 26B-A4B card names its own GGUF export where base_model names Google."
 }
