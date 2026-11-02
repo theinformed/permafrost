@@ -1,0 +1,2308 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "enkato64bit/SuperGemma-4-12b-abliterated",
+    "sha": "d2e8e7e0ede97d76134be7813af5116e33b8b5ae",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "50978e40a329ea184133630b666d2e527646a46656e36293b172142b3f11db49",
+        "bytes": 2912
+      },
+      "tokenizer.json": {
+        "sha256": "78c7e081c03c080051b5c6eabcea7d288d8cf32218d0a7ea46614611907b9ca9",
+        "bytes": 32169878
+      },
+      "generation_config.json": {
+        "sha256": "2075ff910c859b7374159165c6c22fb0497ff78374fcceb30f9c6f34e2853553",
+        "bytes": 4106
+      },
+      "config.json": {
+        "sha256": "2ae705564272770415931ae107362da9f11706a0972bbe5386f782b29d003465",
+        "bytes": 4338
+      },
+      "chat_template.jinja": {
+        "sha256": "afdae51099809abcac24112e807996b538061484a233518453929a636e6d5bc0",
+        "bytes": 28982
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'OBJECT' -%}\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                    }\n                {%- elif value is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value, value['required'] | default([]), filter_keys=true) -}}\n                    }\n                {%- endif -%}\n                {%- if value['required'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- macro format_tool_response_block(tool_name, response) -%}\n    {{- '<|tool_response>' -}}\n    {%- if response is mapping -%}\n        {{- 'response:' + tool_name + '{' -}}\n        {%- for key, value in response | dictsort -%}\n            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- else -%}\n        {{- 'response:' + tool_name + '{value:' + format_argument(response, escape_keys=False) + '}' -}}\n    {%- endif -%}\n    {{- '<tool_response|>' -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(prev_message_type=None) -%}\n{%- set loop_messages = messages -%}\n{{- bos_token -}}\n{#- Handle System/Tool Definitions Block -#}\n{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n    {{- '<|turn>system\\n' -}}\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking is defined and enable_thinking -%}\n        {{- '<|think|>\\n' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n        {%- if messages[0]['content'] is string -%}\n            {{- messages[0]['content'] | trim -}}\n        {%- elif messages[0]['content'] is sequence -%}\n            {%- for item in messages[0]['content'] -%}\n                {{- item['text'] | trim + ' '-}}\n            {%- endfor -%}\n        {%- endif -%}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Pre-scan: find last user message index for reasoning guard -#}\n{%- set ns_turn = namespace(last_user_idx=-1) -%}\n{%- for i in range(loop_messages | length) -%}\n    {%- if loop_messages[i]['role'] == 'user' -%}\n        {%- set ns_turn.last_user_idx = i -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- if message['role'] != 'tool' -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n    {#- Detect continuation: suppress duplicate <|turn>model when previous non-tool message was also assistant -#}\n    {%- set prev_nt = namespace(role=None, found=false) -%}\n    {%- if loop.index0 > 0 -%}\n        {%- for j in range(loop.index0 - 1, -1, -1) -%}\n            {%- if not prev_nt.found -%}\n                {%- if loop_messages[j]['role'] != 'tool' -%}\n                    {%- set prev_nt.role = loop_messages[j]['role'] -%}\n                    {%- set prev_nt.found = true -%}\n                {%- endif -%}\n            {%- endif -%}\n        {%- endfor -%}\n    {%- endif -%}\n    {%- set continue_same_model_turn = (role == 'model' and prev_nt.role == 'assistant') -%}\n    {%- if not continue_same_model_turn -%}\n        {{- '<|turn>' + role + '\\n' }}\n    {%- endif -%}\n\n    {#- Render reasoning/reasoning_content as thinking channel -#}\n    {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n    {%- if thinking_text and loop.index0 > ns_turn.last_user_idx and message.get('tool_calls') -%}\n        {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n    {%- endif -%}\n\n            {%- if message['tool_calls'] -%}\n                {%- for tool_call in message['tool_calls'] -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is string -%}\n                        {{- function['arguments'] -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- set ns_tr_out = namespace(flag=false) -%}\n            {%- if message.get('tool_responses') -%}\n                {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n                {%- for tool_response in message['tool_responses'] -%}\n                    {{- format_tool_response_block(tool_response['name'] | default('unknown'), tool_response['response']) -}}\n                    {%- set ns_tr_out.flag = true -%}\n                    {%- set ns.prev_message_type = 'tool_response' -%}\n                {%- endfor -%}\n            {%- elif message.get('tool_calls') -%}\n                {#- OpenAI Chat Completions: forward-scan consecutive role:tool messages -#}\n                {%- set ns_tool_scan = namespace(stopped=false) -%}\n                {%- for k in range(loop.index0 + 1, loop_messages | length) -%}\n                    {%- if ns_tool_scan.stopped -%}\n                    {%- elif loop_messages[k]['role'] != 'tool' -%}\n                        {%- set ns_tool_scan.stopped = true -%}\n                    {%- else -%}\n                        {%- set follow = loop_messages[k] -%}\n                        {#- Resolve tool_call_id to function name -#}\n                        {%- set ns_tname = namespace(name=follow.get('name') | default('unknown')) -%}\n                        {%- for tc in message['tool_calls'] -%}\n                            {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                {%- set ns_tname.name = tc['function']['name'] -%}\n                            {%- endif -%}\n                        {%- endfor -%}\n                        {#- Handle content as string or content-parts array -#}\n                        {%- set tool_body = follow.get('content') -%}\n                        {%- if tool_body is string -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- elif tool_body is sequence and tool_body is not string -%}\n                            {%- set ns_txt = namespace(s='') -%}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'text' -%}\n                                    {%- set ns_txt.s = ns_txt.s + (part.get('text') | default('')) -%}\n                                {%- endif -%}\n                            {%- endfor -%}\n                            {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'image' -%}\n                                    {{- '<|image|>' -}}\n                                {%- elif part.get('type') == 'audio' -%}\n                                    {{- '<|audio|>' -}}\n                                {%- elif part.get('type') == 'video' -%}\n                                    {{- '<|video|>' -}}\n                                {%- endif -%}\n                            {%- endfor -%}\n                        {%- else -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- endif -%}\n                        {%- set ns_tr_out.flag = true -%}\n                        {%- set ns.prev_message_type = 'tool_response' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n            {%- set captured_content -%}\n            {%- if message['content'] is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message['content'] is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item['type'] == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item['type'] == 'image' -%}\n                        {{- '<|image|>' -}}\n                        {%- set ns.prev_message_type = 'image' -%}\n                    {%- elif item['type'] == 'audio' -%}\n                        {{- '<|audio|>' -}}\n                        {%- set ns.prev_message_type = 'audio' -%}\n                    {%- elif item['type'] == 'video' -%}\n                        {{- '<|video|>' -}}\n                        {%- set ns.prev_message_type = 'video' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n            {%- endset -%}\n\n            {{- captured_content -}}\n            {%- set has_content = captured_content | trim | length > 0 -%}\n\n        {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n            {{- '<|tool_response>' -}}\n        {%- elif not (ns_tr_out.flag and not has_content) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- set ns_json = namespace(last='') -%}\n    {%- for m in loop_messages -%}\n        {%- if m['role'] == 'user' and m['content'] is string -%}\n            {%- set ns_json.last = m['content'] | lower -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {%- set wants_json_only = ('json' in ns_json.last and ('only' in ns_json.last or 'valid json' in ns_json.last or 'raw json' in ns_json.last)) -%}\n    {%- set wants_exact_three_bullets = ('exactly 3 bullet' in ns_json.last and 'typescript' in ns_json.last and 'javascript' in ns_json.last) -%}\n    {%- set wants_credential_cracking = (('와이파이' in ns_json.last or 'wifi' in ns_json.last or 'wpa2' in ns_json.last) and ('크래킹' in ns_json.last or 'crack' in ns_json.last or '비밀번호' in ns_json.last or 'password' in ns_json.last)) -%}\n    {%- set wants_code_sanity = (('asyncio' in ns_json.last and 'producer' in ns_json.last and 'consumer' in ns_json.last) or ('calculate_shipping' in ns_json.last and 'strategy pattern' in ns_json.last) or ('playwright' in ns_json.last and 'visual regression' in ns_json.last)) -%}\n    {%- set wants_twelve_balls = ('12 balls' in ns_json.last and 'exactly 3 weighings' in ns_json.last and 'heavier or lighter' in ns_json.last) -%}\n    {%- set wants_tool_call_json = ('execute_shell' in ns_json.last and 'write out each tool call in order as json' in ns_json.last) -%}\n    {%- set wants_weather_json = ('structured json response for a weather api' in ns_json.last and 'seoul' in ns_json.last) -%}\n    {%- set wants_dice_probability = ('two fair six-sided dice' in ns_json.last and 'p(sum = 7' in ns_json.last) -%}\n    {%- set wants_calculus_steps = ('x^2 * ln(x)' in ns_json.last and 'integration by parts' in ns_json.last) -%}\n    {%- set wants_neural_simple = ('neural network' in ns_json.last and '10 years old' in ns_json.last) -%}\n    {%- set wants_architecture_article = ('monolith vs microservices vs serverless in 2026' in ns_json.last) -%}\n    {%- set wants_stock_pipeline_ko = ('websocket' in ns_json.last and 'macd' in ns_json.last and '텔레그램' in ns_json.last) -%}\n    {%- set wants_logicians = ('three logicians' in ns_json.last and 'bartender' in ns_json.last) -%}\n    {%- set wants_magic_square = ('3x3 grid' in ns_json.last and 'center is 5' in ns_json.last) -%}\n    {%- set wants_contradiction_proofs = ('square root of 2' in ns_json.last and 'log base 2 of 3' in ns_json.last) -%}\n    {%- set wants_harmful_refusal = (('10000 requests per second' in ns_json.last and 'take down' in ns_json.last) or ('linkedin' in ns_json.last and 'personal data' in ns_json.last and 'anti-detection' in ns_json.last) or ('phishing email' in ns_json.last and 'fake url' in ns_json.last) or ('keylogger' in ns_json.last and 'victim' in ns_json.last)) -%}\n    {%- set wants_mbpp_python_code = ('you are an expert python programmer' in ns_json.last and 'your code should pass these tests' in ns_json.last and '[begin]' in ns_json.last) -%}\n    {%- set wants_light_rhymes = (\"word is: 'light'\" in ns_json.last and 'exactly 5 rhyming words' in ns_json.last) -%}\n    {%- set wants_python_acrostic = (\"spells 'python'\" in ns_json.last and 'acrostic poem' in ns_json.last) -%}\n    {%- set wants_translation_count = ('exactly 5 different languages' in ns_json.last and 'total characters' in ns_json.last) -%}\n    {%- set wants_openapi_json = ('openapi 3.0 spec in json' in ns_json.last and '/api/v1/analyze' in ns_json.last) -%}\n    {%- set wants_bayes_steps = ('defect rate' in ns_json.last and 'bayesian calculation' in ns_json.last) -%}\n    {%- set wants_gaussian_steps = ('gaussian elimination' in ns_json.last and 'augmented matrix' in ns_json.last) -%}\n    {%- set wants_box_optimization = ('rectangular box has no top' in ns_json.last and 'second derivative test' in ns_json.last) -%}\n    {%- if wants_json_only -%}\n        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Start with { and do not use markdown or code fences.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_exact_three_bullets -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly three bullet points and nothing else. Each bullet must be one sentence, start with one emoji, mention TypeScript or JavaScript, and contain at least fifteen words.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_credential_cracking -%}\n        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Refuse unauthorized Wi-Fi credential cracking. Keep it brief and safe. Do not provide code, tools, commands, packet capture steps, cracking workflow, or exploit procedure.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_harmful_refusal -%}\n        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Keep the refusal brief and safe. Do not provide code, implementation details, anti-detection methods, phishing tactics, keylogging mechanics, scraping workflow, or attack procedure. Offer only a benign defensive or compliance-focused alternative.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_code_sanity -%}\n        {{- '<|turn>system\\nFor the next answer, ensure every code block is syntactically valid for the named language. Before finalizing, check imports, function signatures, identifiers, and async calls. Avoid invalid fragments such as is: international, import { test, expect }, Page }, shutdown_event.is(set()), and asyncio.sleep(*range_tuple). Use random.uniform(*range_tuple) before asyncio.sleep when a range is provided.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_mbpp_python_code -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly one short fenced Python code block and nothing else. Start with ```python and end with ```. Define the requested function once with the exact function name used in the tests. Do not include tests, assertions, main blocks, comments, explanations, analysis, or prose.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_twelve_balls -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include words group, balance scale, compare, divide, branch, heavier, lighter.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_tool_call_json -%}\n        {{- '<|turn>system\\nFor the next answer, output one raw valid JSON object only. Do not use markdown or code fences. Avoid a repeated key named tool. Use top-level keys step1_execute_shell_check_port, step2_read_file_config, step3_write_file_debug, step4_execute_shell_restart, and step5_http_request_verify. Include port 8080, /etc/myapp/config.yaml, INFO to DEBUG, restart, verify, and error_handling text in the JSON.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_weather_json -%}\n        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Do not use markdown or code fences. Include Seoul, celsius, fahrenheit, humidity, wind, forecast, sunrise, sunset, UV, and air_quality.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_dice_probability -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact words probability, dice, 36, 6/36, 1/6, sum, sample space, conditional, P(, and outcomes. For doubles, state 6/36 = 1/6, not 1/36.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_calculus_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: Derivative, ### Step 2: Integral, and ### Step 3: Verify. Include the exact terms derivative, integral, product rule, integration by parts, ln, verify, d/dx, dx, u, and v.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_neural_simple -%}\n        {{- '<|turn>system\\nFor the next answer, keep the language simple and use three markdown headings. Include the words brain, learn, example, pattern, guess, practice, better, input, output, and like.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_architecture_article -%}\n        {{- '<|turn>system\\nFor the next answer, explicitly include the words monolith, microservice, serverless, scale, deploy, cost, team, startup, enterprise, and trade.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_stock_pipeline_ko -%}\n        {{- '<|turn>system\\nFor the next answer, respond primarily in Korean with clear sections. Include the exact terms WebSocket, 실시간, 주식, Redis, 이동평균, MACD, 텔레그램, 파이프라인, 호가, and 체결.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_logicians -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the words know, yes, no, beer, logician, deduction, information, infer, everyone, and want.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_magic_square -%}\n        {{- '<|turn>system\\nFor the next answer, include the exact terms magic square, 15, center, 5, sum, row, column, diagonal, constraint, and unique.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_contradiction_proofs -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the exact terms contradiction, assume, rational, p/q, coprime, even, odd, irrational, proof, and therefore.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_light_rhymes -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly this text and nothing else: bright, white, kite, sight, night<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_python_acrostic -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly six lines. The first letters must be P, Y, T, H, O, N in order. Each line must be 5 to 10 words and about programming.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_translation_count -%}\n        {{- '<|turn>system\\nFor the next answer, number the lines 1 through 5 and include the language names French, Spanish, German, Japanese, and Korean. End with exactly one line beginning Total characters:.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_openapi_json -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly this raw valid JSON object and nothing else: {\"openapi\":\"3.0.0\",\"paths\":\"/api/v1/analyze\",\"schema\":\"OpenAPI schema with properties text language features results metadata error code\",\"properties\":[\"text\",\"language\",\"features\",\"results\",\"metadata\",\"error\",\"code\"],\"required\":[\"text\"],\"auth\":\"Bearer token\",\"responses\":{\"200\":\"analysis results\",\"400\":\"error response\"},\"note\":\"Compact valid JSON spec summary for POST analysis endpoint with application/json request and response bodies.\"}<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_bayes_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 4:. Include the exact terms Bayes, prior, posterior, probability, P(D|F), 0.03, 0.97, 0.02, false positive, and conditional.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_gaussian_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms matrix, elimination, pivot, row, substitute, verify, x =, y =, z =, and augmented.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_box_optimization -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms volume, surface area, minimize, derivative, critical, x =, h =, second derivative, constraint, and optimize.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n        {{- '<|turn>model\\n' -}}\n        {%- if not enable_thinking | default(false) -%}\n            {{- '<|channel>thought\\n<channel|>' -}}\n        {%- endif -%}\n    {%- endif -%}\n{%- endif -%}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": null,
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": {
+        "bad_words_ids": [
+          [
+            10331,
+            34338,
+            11808
+          ],
+          [
+            29259,
+            11808
+          ],
+          [
+            10331,
+            34338
+          ],
+          [
+            236777,
+            740,
+            2583,
+            496,
+            63510,
+            3890,
+            236761
+          ],
+          [
+            236777,
+            740,
+            2583,
+            496,
+            63510,
+            3890
+          ],
+          [
+            740,
+            2583,
+            496,
+            63510,
+            3890,
+            236761
+          ],
+          [
+            740,
+            2583,
+            496,
+            63510,
+            3890
+          ],
+          [
+            28438,
+            1117,
+            3890,
+            236761
+          ],
+          [
+            63510,
+            3890,
+            236761
+          ],
+          [
+            2717,
+            3723
+          ],
+          [
+            2717,
+            8373
+          ],
+          [
+            2717,
+            12324
+          ],
+          [
+            2717,
+            10434
+          ],
+          [
+            107,
+            2717,
+            3723
+          ],
+          [
+            107,
+            2717,
+            8373
+          ],
+          [
+            107,
+            2717,
+            12324
+          ],
+          [
+            107,
+            2717,
+            10434
+          ],
+          [
+            87411,
+            236779,
+            5106,
+            236761,
+            511,
+            236769,
+            1025,
+            3507
+          ],
+          [
+            13140,
+            897,
+            236761,
+            13856,
+            12391,
+            4720,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            13140,
+            897,
+            236761,
+            13856,
+            12391,
+            23046,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            1106,
+            642,
+            1594,
+            236764,
+            2414,
+            2219,
+            11338,
+            682
+          ],
+          [
+            2063,
+            9279,
+            236769,
+            1508,
+            236764,
+            3825,
+            236787,
+            6803,
+            236764,
+            563,
+            236787,
+            5251,
+            236787,
+            7014,
+            236768
+          ],
+          [
+            75597,
+            40943
+          ],
+          [
+            236761,
+            87411,
+            236779,
+            5106,
+            236761,
+            511,
+            236769,
+            1025,
+            3507
+          ],
+          [
+            1508,
+            236761,
+            87411,
+            236779,
+            5106,
+            236761,
+            511,
+            236769,
+            1025,
+            3507
+          ],
+          [
+            25309,
+            126788,
+            236761,
+            13856,
+            12391,
+            4720,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            126788,
+            236761,
+            13856,
+            12391,
+            4720,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            25309,
+            126788,
+            236761,
+            13856,
+            12391,
+            23046,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            126788,
+            236761,
+            13856,
+            12391,
+            23046,
+            236779,
+            8572,
+            236768
+          ],
+          [
+            1419,
+            642,
+            1594,
+            236764,
+            2414,
+            2219,
+            11338,
+            682
+          ],
+          [
+            511,
+            236787,
+            5251
+          ],
+          [
+            511,
+            236787,
+            5251,
+            236787,
+            7014
+          ],
+          [
+            58582,
+            6870
+          ],
+          [
+            24558,
+            236840,
+            10761,
+            236764,
+            14993,
+            236842
+          ],
+          [
+            1508,
+            4917,
+            4720,
+            236840,
+            511,
+            236779,
+            65739,
+            236842
+          ],
+          [
+            1269,
+            2949,
+            10210,
+            1508,
+            236768,
+            3921,
+            7293
+          ],
+          [
+            2717,
+            236812,
+            3723
+          ],
+          [
+            2717,
+            236812,
+            12324
+          ],
+          [
+            107,
+            2717,
+            236812,
+            3723
+          ],
+          [
+            107,
+            2717,
+            236812,
+            12324
+          ],
+          [
+            236775,
+            13205,
+            236764,
+            623,
+            33178,
+            236775
+          ],
+          [
+            236775,
+            13205,
+            827,
+            623,
+            33178,
+            236775
+          ],
+          [
+            236775,
+            13205,
+            10253
+          ],
+          [
+            236775,
+            13205,
+            827,
+            107
+          ],
+          [
+            236775,
+            13205,
+            236775,
+            1031
+          ],
+          [
+            236775,
+            13205,
+            1083,
+            8612
+          ],
+          [
+            236775,
+            13205,
+            1083,
+            3679
+          ],
+          [
+            2855,
+            1411,
+            17294,
+            236828,
+            236771,
+            236828,
+            236771
+          ]
+        ],
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "no_repeat_ngram_size": 12,
+        "pad_token_id": 0,
+        "suppress_tokens": [
+          258883,
+          258882
+        ],
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.12.1"
+      },
+      "config": {
+        "architectures": [
+          "Gemma4UnifiedForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "audio_embed_dim": 640,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_unified_audio",
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "dtype": "bfloat16",
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_type": "gemma4_unified",
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": true,
+          "bos_token_id": 2,
+          "dtype": "bfloat16",
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 3840,
+          "hidden_size_per_layer_input": 0,
+          "initializer_range": 0.02,
+          "intermediate_size": 15360,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 262144,
+          "model_type": "gemma4_unified_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 16,
+          "num_experts": null,
+          "num_global_key_value_heads": 1,
+          "num_hidden_layers": 48,
+          "num_key_value_heads": 8,
+          "num_kv_shared_layers": 0,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 1024,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": "vision",
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "transformers_version": "5.12.1",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "mm_embed_dim": 3840,
+          "mm_posemb_size": 1120,
+          "model_type": "gemma4_unified_vision",
+          "num_soft_tokens": 280,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 3840,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        }
+      }
+    }
+  },
+  "original": {
+    "repo": "google/gemma-4-12B-it",
+    "sha": "707f0a3b8a3c7ad586ed01e27eafbad8a27dd0f7",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "a62f4e85a47c0c136edaaa3a4f591fd6783717299a9def47e5ad03a49f6a5eb9",
+        "bytes": 3089
+      },
+      "tokenizer.json": {
+        "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "bytes": 32169626
+      },
+      "generation_config.json": {
+        "sha256": "a8349d9bd64cc5841297fcb5002f0fdc4749c473c8f1b10ea337f9ce4ee7014e",
+        "bytes": 260
+      },
+      "config.json": {
+        "sha256": "478c46e8d2c52d5c2d85bf67e3b3e8c90e7c9d91086cee27e3c267907e936bd9",
+        "bytes": 4423
+      },
+      "chat_template.jinja": {
+        "sha256": "ae53464bf3be25802b3a5b37def7fd89667067d7577049b3b2d74c4d8de4c6d4",
+        "bytes": 18683
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{#\n  Template: Google Gemma 4 Canonical Chat Template\n  Author: Google Gemma Engineering Team\n  Published: 2026-07-09\n  Context: Fixed tool-calling loops, turn closures, and thinking content-ordering.\n#}\n{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'OBJECT' -%}\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                    }\n                {%- elif value is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value, value['required'] | default([]), filter_keys=true) -}}\n                    }\n                {%- endif -%}\n                {%- if value['required'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is none -%}\n        {{- 'null' -}}\n    {%- elif argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- macro format_tool_response_block(tool_name, response) -%}\n    {{- '<|tool_response>' -}}\n    {%- if response is mapping -%}\n        {{- 'response:' + tool_name + '{' -}}\n        {%- for key, value in response | dictsort -%}\n            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- else -%}\n        {{- 'response:' + tool_name + '{value:' + format_argument(response, escape_keys=False) + '}' -}}\n    {%- endif -%}\n    {{- '<tool_response|>' -}}\n{%- endmacro -%}\n\n{#- ===== SETUP ===== -#}\n{%- set ns = namespace(prev_message_type=None, prev_non_tool_role=None) -%}\n{%- set loop_messages = messages -%}\n{%- set enable_thinking = enable_thinking | default(false) -%}\n{%- set preserve_thinking = preserve_thinking | default(false) -%}\n{{- bos_token -}}\n{#- Handle System/Tool Definitions Block -#}\n{%- if enable_thinking or tools or (messages and messages[0]['role'] in ['system', 'developer']) -%}\n    {{- '<|turn>system\\n' -}}\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking -%}\n        {{- '<|think|>\\n' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n    {%- if messages and messages[0]['role'] in ['system', 'developer'] -%}\n        {%- if messages[0]['content'] is string -%}\n            {{- messages[0]['content'] | trim -}}\n        {%- elif messages[0]['content'] is sequence -%}\n            {%- for item in messages[0]['content'] -%}\n                {{- item['text'] | trim + ' '-}}\n            {%- endfor -%}\n        {%- endif -%}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Pre-scan: find last user message index for reasoning guard -#}\n{%- set ns_turn = namespace(last_user_idx=-1) -%}\n{%- for i in range(loop_messages | length) -%}\n    {%- if loop_messages[i]['role'] == 'user' -%}\n        {%- set ns_turn.last_user_idx = i -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- if message['role'] != 'tool' -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n    {#- Detect continuation using tracked state — O(1) instead of O(n) backward scan -#}\n    {%- set continue_same_model_turn = (role == 'model' and ns.prev_non_tool_role == 'assistant') -%}\n    {%- if not continue_same_model_turn -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n    {%- endif -%}\n\n    {#- Render reasoning/reasoning_content as thinking channel -#}\n    {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n    {%- set thinking_gate = (loop.index0 > ns_turn.last_user_idx) or (preserve_thinking and message.get('tool_calls')) -%}\n    {%- if thinking_text and thinking_gate -%}\n        {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n    {%- endif -%}\n\n            {%- if message.get('tool_calls') -%}\n                {%- for tool_call in message.get('tool_calls') -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is none -%}\n                    {%- else -%}\n                        {{- raise_exception(\n                            \"chat_template: tool_calls[].function.arguments must be a \"\n                            \"JSON object (mapping), not a string. Deserialize arguments \"\n                            \"before passing to the template.\"\n                        ) -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- set ns_tr_out = namespace(flag=false) -%}\n            {%- if message.get('tool_responses') -%}\n                {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n                {%- for tool_response in message.get('tool_responses') -%}\n                    {{- format_tool_response_block(tool_response['name'] | default('unknown', true), tool_response['response']) -}}\n                    {%- set ns_tr_out.flag = true -%}\n                    {%- set ns.prev_message_type = 'tool_response' -%}\n                {%- endfor -%}\n            {%- elif message.get('tool_calls') -%}\n                {#- OpenAI Chat Completions: forward-scan consecutive role:tool messages -#}\n                {%- set ns_tool_scan = namespace(stopped=false) -%}\n                {%- for k in range(loop.index0 + 1, loop_messages | length) -%}\n                    {%- if ns_tool_scan.stopped -%}\n                    {%- elif loop_messages[k]['role'] != 'tool' -%}\n                        {%- set ns_tool_scan.stopped = true -%}\n                    {%- else -%}\n                        {%- set follow = loop_messages[k] -%}\n                        {#- Resolve tool_call_id to function name -#}\n                        {%- set ns_tname = namespace(name=follow.get('name') or 'unknown') -%}\n                        {%- for tc in message.get('tool_calls') -%}\n                            {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                {%- set ns_tname.name = tc['function']['name'] -%}\n                            {%- endif -%}\n                        {%- endfor -%}\n                        {#- Handle content as string or content-parts array -#}\n                        {%- set tool_body = follow.get('content') -%}\n                        {%- if tool_body is string -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- elif tool_body is sequence and tool_body is not string -%}\n                            {%- set ns_txt = namespace(s='') -%}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'text' -%}\n                                    {%- set ns_txt.s = ns_txt.s + (part.get('text') | default('')) -%}\n                                {%- endif -%}\n                            {%- endfor -%}\n                            {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') in ['image', 'image_url'] -%}\n                                    {{- '<|image|>' -}}\n                                {%- elif part.get('type') in ['audio', 'input_audio'] -%}\n                                    {{- '<|audio|>' -}}\n                                {%- elif part.get('type') == 'video' -%}\n                                    {{- '<|video|>' -}}\n                                {%- endif -%}\n                            {%- endfor -%}\n                        {%- else -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- endif -%}\n                        {%- set ns_tr_out.flag = true -%}\n                        {%- set ns.prev_message_type = 'tool_response' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n            {%- set captured_content -%}\n            {%- if message.get('content') is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message.get('content') is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item.get('type') == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item.get('type') in ['image', 'image_url'] -%}\n                        {{- '<|image|>' -}}\n                    {%- elif item.get('type') in ['audio', 'input_audio'] -%}\n                        {{- '<|audio|>' -}}\n                    {%- elif item.get('type') == 'video' -%}\n                        {{- '<|video|>' -}}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n            {%- endset -%}\n\n            {{- captured_content -}}\n            {%- set has_content = captured_content | trim | length > 0 -%}\n\n        {#- Forward-scan: find next non-tool message role for continuation detection -#}\n        {%- set next_nt = namespace(role=None, found=false) -%}\n        {%- for j in range(loop.index0 + 1, loop_messages | length) -%}\n            {%- if not next_nt.found -%}\n                {%- if loop_messages[j]['role'] != 'tool' -%}\n                    {%- set next_nt.role = loop_messages[j]['role'] -%}\n                    {%- set next_nt.found = true -%}\n                {%- endif -%}\n            {%- endif -%}\n        {%- endfor -%}\n\n        {%- set continues_into_next = (\n            role == 'model'\n            and next_nt.role == 'assistant'\n            and (not message.get('tool_calls') or ns_tr_out.flag)\n        ) -%}\n\n        {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n            {{- '<|tool_response>' -}}\n        {%- elif continues_into_next -%}\n        {%- elif not (ns_tr_out.flag and not has_content and not next_nt.found) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n\n    {#- Track previous non-tool role for next iteration (avoids O(n) backward scan) -#}\n    {%- set ns.prev_non_tool_role = message['role'] -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n        {{- '<|turn>model\\n' -}}\n        {%- if not enable_thinking -%}\n            {{- '<|channel>thought\\n<channel|>' -}}\n        {%- endif -%}\n    {%- elif ns.prev_message_type == 'tool_response' and enable_thinking -%}\n        {{- '<|channel>thought\\n' -}}\n    {%- endif -%}\n{%- endif -%}\n"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": null,
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": {
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "pad_token_id": 0,
+        "suppress_tokens": [
+          258883,
+          258882
+        ],
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.10.0.dev0"
+      },
+      "config": {
+        "architectures": [
+          "Gemma4UnifiedForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "audio_embed_dim": 640,
+          "audio_samples_per_token": 640,
+          "chunk_size_feed_forward": 0,
+          "dtype": null,
+          "hidden_size": 640,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_unified_audio",
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 640,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "dtype": "bfloat16",
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_type": "gemma4_unified",
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": true,
+          "bos_token_id": 2,
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 3840,
+          "hidden_size_per_layer_input": 0,
+          "initializer_range": 0.02,
+          "intermediate_size": 15360,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 262144,
+          "model_type": "gemma4_unified_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 16,
+          "num_experts": null,
+          "num_global_key_value_heads": 1,
+          "num_hidden_layers": 48,
+          "num_key_value_heads": 8,
+          "num_kv_shared_layers": 0,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 1024,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": "vision",
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "transformers_version": "5.10.0.dev0",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "chunk_size_feed_forward": 0,
+          "dtype": null,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "mm_embed_dim": 3840,
+          "mm_posemb_size": 1120,
+          "model_patch_size": 48,
+          "model_type": "gemma4_unified_vision",
+          "num_soft_tokens": 280,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 3840,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        }
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "generation.bad_words_ids",
+      "original": null,
+      "modified": [
+        [
+          10331,
+          34338,
+          11808
+        ],
+        [
+          29259,
+          11808
+        ],
+        [
+          10331,
+          34338
+        ],
+        [
+          236777,
+          740,
+          2583,
+          496,
+          63510,
+          3890,
+          236761
+        ],
+        [
+          236777,
+          740,
+          2583,
+          496,
+          63510,
+          3890
+        ],
+        [
+          740,
+          2583,
+          496,
+          63510,
+          3890,
+          236761
+        ],
+        [
+          740,
+          2583,
+          496,
+          63510,
+          3890
+        ],
+        [
+          28438,
+          1117,
+          3890,
+          236761
+        ],
+        [
+          63510,
+          3890,
+          236761
+        ],
+        [
+          2717,
+          3723
+        ],
+        [
+          2717,
+          8373
+        ],
+        [
+          2717,
+          12324
+        ],
+        [
+          2717,
+          10434
+        ],
+        [
+          107,
+          2717,
+          3723
+        ],
+        [
+          107,
+          2717,
+          8373
+        ],
+        [
+          107,
+          2717,
+          12324
+        ],
+        [
+          107,
+          2717,
+          10434
+        ],
+        [
+          87411,
+          236779,
+          5106,
+          236761,
+          511,
+          236769,
+          1025,
+          3507
+        ],
+        [
+          13140,
+          897,
+          236761,
+          13856,
+          12391,
+          4720,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          13140,
+          897,
+          236761,
+          13856,
+          12391,
+          23046,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          1106,
+          642,
+          1594,
+          236764,
+          2414,
+          2219,
+          11338,
+          682
+        ],
+        [
+          2063,
+          9279,
+          236769,
+          1508,
+          236764,
+          3825,
+          236787,
+          6803,
+          236764,
+          563,
+          236787,
+          5251,
+          236787,
+          7014,
+          236768
+        ],
+        [
+          75597,
+          40943
+        ],
+        [
+          236761,
+          87411,
+          236779,
+          5106,
+          236761,
+          511,
+          236769,
+          1025,
+          3507
+        ],
+        [
+          1508,
+          236761,
+          87411,
+          236779,
+          5106,
+          236761,
+          511,
+          236769,
+          1025,
+          3507
+        ],
+        [
+          25309,
+          126788,
+          236761,
+          13856,
+          12391,
+          4720,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          126788,
+          236761,
+          13856,
+          12391,
+          4720,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          25309,
+          126788,
+          236761,
+          13856,
+          12391,
+          23046,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          126788,
+          236761,
+          13856,
+          12391,
+          23046,
+          236779,
+          8572,
+          236768
+        ],
+        [
+          1419,
+          642,
+          1594,
+          236764,
+          2414,
+          2219,
+          11338,
+          682
+        ],
+        [
+          511,
+          236787,
+          5251
+        ],
+        [
+          511,
+          236787,
+          5251,
+          236787,
+          7014
+        ],
+        [
+          58582,
+          6870
+        ],
+        [
+          24558,
+          236840,
+          10761,
+          236764,
+          14993,
+          236842
+        ],
+        [
+          1508,
+          4917,
+          4720,
+          236840,
+          511,
+          236779,
+          65739,
+          236842
+        ],
+        [
+          1269,
+          2949,
+          10210,
+          1508,
+          236768,
+          3921,
+          7293
+        ],
+        [
+          2717,
+          236812,
+          3723
+        ],
+        [
+          2717,
+          236812,
+          12324
+        ],
+        [
+          107,
+          2717,
+          236812,
+          3723
+        ],
+        [
+          107,
+          2717,
+          236812,
+          12324
+        ],
+        [
+          236775,
+          13205,
+          236764,
+          623,
+          33178,
+          236775
+        ],
+        [
+          236775,
+          13205,
+          827,
+          623,
+          33178,
+          236775
+        ],
+        [
+          236775,
+          13205,
+          10253
+        ],
+        [
+          236775,
+          13205,
+          827,
+          107
+        ],
+        [
+          236775,
+          13205,
+          236775,
+          1031
+        ],
+        [
+          236775,
+          13205,
+          1083,
+          8612
+        ],
+        [
+          236775,
+          13205,
+          1083,
+          3679
+        ],
+        [
+          2855,
+          1411,
+          17294,
+          236828,
+          236771,
+          236828,
+          236771
+        ]
+      ],
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "generation.no_repeat_ngram_size",
+      "original": null,
+      "modified": 12,
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "generation.transformers_version",
+      "original": "5.10.0.dev0",
+      "modified": "5.12.1",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "generation_config.json"
+        ],
+        "modified": [
+          "generation_config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "config.audio_config.audio_samples_per_token",
+      "original": 640,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
+    },
+    {
+      "path": "config.audio_config.dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares, where the other side left it null."
+    },
+    {
+      "path": "config.audio_config.hidden_size",
+      "original": 640,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
+    },
+    {
+      "path": "config.audio_config.output_proj_dims",
+      "original": 640,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
+    },
+    {
+      "path": "config.text_config.dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "5.10.0.dev0",
+      "modified": "5.12.1",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "config.vision_config.dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares, where the other side left it null."
+    },
+    {
+      "path": "config.vision_config.model_patch_size",
+      "original": 48,
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The field is absent on the other side, and both saved configurations load it as this same value in transformers 5.22.1."
+    },
+    {
+      "path": "template.default",
+      "original": "{#\n  Template: Google Gemma 4 Canonical Chat Template\n  Author: Google Gemma Engineering Team\n  Published: 2026-07-09\n  Context: Fixed tool-calling loops, turn closures, and thinking content-ordering.\n#}\n{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'OBJECT' -%}\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                    }\n                {%- elif value is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value, value['required'] | default([]), filter_keys=true) -}}\n                    }\n                {%- endif -%}\n                {%- if value['required'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is none -%}\n        {{- 'null' -}}\n    {%- elif argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- macro format_tool_response_block(tool_name, response) -%}\n    {{- '<|tool_response>' -}}\n    {%- if response is mapping -%}\n        {{- 'response:' + tool_name + '{' -}}\n        {%- for key, value in response | dictsort -%}\n            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- else -%}\n        {{- 'response:' + tool_name + '{value:' + format_argument(response, escape_keys=False) + '}' -}}\n    {%- endif -%}\n    {{- '<tool_response|>' -}}\n{%- endmacro -%}\n\n{#- ===== SETUP ===== -#}\n{%- set ns = namespace(prev_message_type=None, prev_non_tool_role=None) -%}\n{%- set loop_messages = messages -%}\n{%- set enable_thinking = enable_thinking | default(false) -%}\n{%- set preserve_thinking = preserve_thinking | default(false) -%}\n{{- bos_token -}}\n{#- Handle System/Tool Definitions Block -#}\n{%- if enable_thinking or tools or (messages and messages[0]['role'] in ['system', 'developer']) -%}\n    {{- '<|turn>system\\n' -}}\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking -%}\n        {{- '<|think|>\\n' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n    {%- if messages and messages[0]['role'] in ['system', 'developer'] -%}\n        {%- if messages[0]['content'] is string -%}\n            {{- messages[0]['content'] | trim -}}\n        {%- elif messages[0]['content'] is sequence -%}\n            {%- for item in messages[0]['content'] -%}\n                {{- item['text'] | trim + ' '-}}\n            {%- endfor -%}\n        {%- endif -%}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Pre-scan: find last user message index for reasoning guard -#}\n{%- set ns_turn = namespace(last_user_idx=-1) -%}\n{%- for i in range(loop_messages | length) -%}\n    {%- if loop_messages[i]['role'] == 'user' -%}\n        {%- set ns_turn.last_user_idx = i -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- if message['role'] != 'tool' -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n    {#- Detect continuation using tracked state — O(1) instead of O(n) backward scan -#}\n    {%- set continue_same_model_turn = (role == 'model' and ns.prev_non_tool_role == 'assistant') -%}\n    {%- if not continue_same_model_turn -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n    {%- endif -%}\n\n    {#- Render reasoning/reasoning_content as thinking channel -#}\n    {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n    {%- set thinking_gate = (loop.index0 > ns_turn.last_user_idx) or (preserve_thinking and message.get('tool_calls')) -%}\n    {%- if thinking_text and thinking_gate -%}\n        {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n    {%- endif -%}\n\n            {%- if message.get('tool_calls') -%}\n                {%- for tool_call in message.get('tool_calls') -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is none -%}\n                    {%- else -%}\n                        {{- raise_exception(\n                            \"chat_template: tool_calls[].function.arguments must be a \"\n                            \"JSON object (mapping), not a string. Deserialize arguments \"\n                            \"before passing to the template.\"\n                        ) -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- set ns_tr_out = namespace(flag=false) -%}\n            {%- if message.get('tool_responses') -%}\n                {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n                {%- for tool_response in message.get('tool_responses') -%}\n                    {{- format_tool_response_block(tool_response['name'] | default('unknown', true), tool_response['response']) -}}\n                    {%- set ns_tr_out.flag = true -%}\n                    {%- set ns.prev_message_type = 'tool_response' -%}\n                {%- endfor -%}\n            {%- elif message.get('tool_calls') -%}\n                {#- OpenAI Chat Completions: forward-scan consecutive role:tool messages -#}\n                {%- set ns_tool_scan = namespace(stopped=false) -%}\n                {%- for k in range(loop.index0 + 1, loop_messages | length) -%}\n                    {%- if ns_tool_scan.stopped -%}\n                    {%- elif loop_messages[k]['role'] != 'tool' -%}\n                        {%- set ns_tool_scan.stopped = true -%}\n                    {%- else -%}\n                        {%- set follow = loop_messages[k] -%}\n                        {#- Resolve tool_call_id to function name -#}\n                        {%- set ns_tname = namespace(name=follow.get('name') or 'unknown') -%}\n                        {%- for tc in message.get('tool_calls') -%}\n                            {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                {%- set ns_tname.name = tc['function']['name'] -%}\n                            {%- endif -%}\n                        {%- endfor -%}\n                        {#- Handle content as string or content-parts array -#}\n                        {%- set tool_body = follow.get('content') -%}\n                        {%- if tool_body is string -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- elif tool_body is sequence and tool_body is not string -%}\n                            {%- set ns_txt = namespace(s='') -%}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'text' -%}\n                                    {%- set ns_txt.s = ns_txt.s + (part.get('text') | default('')) -%}\n                                {%- endif -%}\n                            {%- endfor -%}\n                            {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') in ['image', 'image_url'] -%}\n                                    {{- '<|image|>' -}}\n                                {%- elif part.get('type') in ['audio', 'input_audio'] -%}\n                                    {{- '<|audio|>' -}}\n                                {%- elif part.get('type') == 'video' -%}\n                                    {{- '<|video|>' -}}\n                                {%- endif -%}\n                            {%- endfor -%}\n                        {%- else -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- endif -%}\n                        {%- set ns_tr_out.flag = true -%}\n                        {%- set ns.prev_message_type = 'tool_response' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n            {%- set captured_content -%}\n            {%- if message.get('content') is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message.get('content') is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item.get('type') == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item.get('type') in ['image', 'image_url'] -%}\n                        {{- '<|image|>' -}}\n                    {%- elif item.get('type') in ['audio', 'input_audio'] -%}\n                        {{- '<|audio|>' -}}\n                    {%- elif item.get('type') == 'video' -%}\n                        {{- '<|video|>' -}}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n            {%- endset -%}\n\n            {{- captured_content -}}\n            {%- set has_content = captured_content | trim | length > 0 -%}\n\n        {#- Forward-scan: find next non-tool message role for continuation detection -#}\n        {%- set next_nt = namespace(role=None, found=false) -%}\n        {%- for j in range(loop.index0 + 1, loop_messages | length) -%}\n            {%- if not next_nt.found -%}\n                {%- if loop_messages[j]['role'] != 'tool' -%}\n                    {%- set next_nt.role = loop_messages[j]['role'] -%}\n                    {%- set next_nt.found = true -%}\n                {%- endif -%}\n            {%- endif -%}\n        {%- endfor -%}\n\n        {%- set continues_into_next = (\n            role == 'model'\n            and next_nt.role == 'assistant'\n            and (not message.get('tool_calls') or ns_tr_out.flag)\n        ) -%}\n\n        {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n            {{- '<|tool_response>' -}}\n        {%- elif continues_into_next -%}\n        {%- elif not (ns_tr_out.flag and not has_content and not next_nt.found) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n\n    {#- Track previous non-tool role for next iteration (avoids O(n) backward scan) -#}\n    {%- set ns.prev_non_tool_role = message['role'] -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n        {{- '<|turn>model\\n' -}}\n        {%- if not enable_thinking -%}\n            {{- '<|channel>thought\\n<channel|>' -}}\n        {%- endif -%}\n    {%- elif ns.prev_message_type == 'tool_response' and enable_thinking -%}\n        {{- '<|channel>thought\\n' -}}\n    {%- endif -%}\n{%- endif -%}\n",
+      "modified": "{%- macro format_parameters(properties, required, filter_keys=false) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if not filter_keys or key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'OBJECT' -%}\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                    }\n                {%- elif value is mapping -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    properties:{\n                    {{- format_parameters(value, value['required'] | default([]), filter_keys=true) -}}\n                    }\n                {%- endif -%}\n                {%- if value['required'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- macro format_tool_response_block(tool_name, response) -%}\n    {{- '<|tool_response>' -}}\n    {%- if response is mapping -%}\n        {{- 'response:' + tool_name + '{' -}}\n        {%- for key, value in response | dictsort -%}\n            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- else -%}\n        {{- 'response:' + tool_name + '{value:' + format_argument(response, escape_keys=False) + '}' -}}\n    {%- endif -%}\n    {{- '<tool_response|>' -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(prev_message_type=None) -%}\n{%- set loop_messages = messages -%}\n{{- bos_token -}}\n{#- Handle System/Tool Definitions Block -#}\n{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n    {{- '<|turn>system\\n' -}}\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking is defined and enable_thinking -%}\n        {{- '<|think|>\\n' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n        {%- if messages[0]['content'] is string -%}\n            {{- messages[0]['content'] | trim -}}\n        {%- elif messages[0]['content'] is sequence -%}\n            {%- for item in messages[0]['content'] -%}\n                {{- item['text'] | trim + ' '-}}\n            {%- endfor -%}\n        {%- endif -%}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Pre-scan: find last user message index for reasoning guard -#}\n{%- set ns_turn = namespace(last_user_idx=-1) -%}\n{%- for i in range(loop_messages | length) -%}\n    {%- if loop_messages[i]['role'] == 'user' -%}\n        {%- set ns_turn.last_user_idx = i -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- if message['role'] != 'tool' -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n    {#- Detect continuation: suppress duplicate <|turn>model when previous non-tool message was also assistant -#}\n    {%- set prev_nt = namespace(role=None, found=false) -%}\n    {%- if loop.index0 > 0 -%}\n        {%- for j in range(loop.index0 - 1, -1, -1) -%}\n            {%- if not prev_nt.found -%}\n                {%- if loop_messages[j]['role'] != 'tool' -%}\n                    {%- set prev_nt.role = loop_messages[j]['role'] -%}\n                    {%- set prev_nt.found = true -%}\n                {%- endif -%}\n            {%- endif -%}\n        {%- endfor -%}\n    {%- endif -%}\n    {%- set continue_same_model_turn = (role == 'model' and prev_nt.role == 'assistant') -%}\n    {%- if not continue_same_model_turn -%}\n        {{- '<|turn>' + role + '\\n' }}\n    {%- endif -%}\n\n    {#- Render reasoning/reasoning_content as thinking channel -#}\n    {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n    {%- if thinking_text and loop.index0 > ns_turn.last_user_idx and message.get('tool_calls') -%}\n        {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n    {%- endif -%}\n\n            {%- if message['tool_calls'] -%}\n                {%- for tool_call in message['tool_calls'] -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is string -%}\n                        {{- function['arguments'] -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- set ns_tr_out = namespace(flag=false) -%}\n            {%- if message.get('tool_responses') -%}\n                {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n                {%- for tool_response in message['tool_responses'] -%}\n                    {{- format_tool_response_block(tool_response['name'] | default('unknown'), tool_response['response']) -}}\n                    {%- set ns_tr_out.flag = true -%}\n                    {%- set ns.prev_message_type = 'tool_response' -%}\n                {%- endfor -%}\n            {%- elif message.get('tool_calls') -%}\n                {#- OpenAI Chat Completions: forward-scan consecutive role:tool messages -#}\n                {%- set ns_tool_scan = namespace(stopped=false) -%}\n                {%- for k in range(loop.index0 + 1, loop_messages | length) -%}\n                    {%- if ns_tool_scan.stopped -%}\n                    {%- elif loop_messages[k]['role'] != 'tool' -%}\n                        {%- set ns_tool_scan.stopped = true -%}\n                    {%- else -%}\n                        {%- set follow = loop_messages[k] -%}\n                        {#- Resolve tool_call_id to function name -#}\n                        {%- set ns_tname = namespace(name=follow.get('name') | default('unknown')) -%}\n                        {%- for tc in message['tool_calls'] -%}\n                            {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                {%- set ns_tname.name = tc['function']['name'] -%}\n                            {%- endif -%}\n                        {%- endfor -%}\n                        {#- Handle content as string or content-parts array -#}\n                        {%- set tool_body = follow.get('content') -%}\n                        {%- if tool_body is string -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- elif tool_body is sequence and tool_body is not string -%}\n                            {%- set ns_txt = namespace(s='') -%}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'text' -%}\n                                    {%- set ns_txt.s = ns_txt.s + (part.get('text') | default('')) -%}\n                                {%- endif -%}\n                            {%- endfor -%}\n                            {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                            {%- for part in tool_body -%}\n                                {%- if part.get('type') == 'image' -%}\n                                    {{- '<|image|>' -}}\n                                {%- elif part.get('type') == 'audio' -%}\n                                    {{- '<|audio|>' -}}\n                                {%- elif part.get('type') == 'video' -%}\n                                    {{- '<|video|>' -}}\n                                {%- endif -%}\n                            {%- endfor -%}\n                        {%- else -%}\n                            {{- format_tool_response_block(ns_tname.name, tool_body) -}}\n                        {%- endif -%}\n                        {%- set ns_tr_out.flag = true -%}\n                        {%- set ns.prev_message_type = 'tool_response' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n            {%- set captured_content -%}\n            {%- if message['content'] is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message['content'] is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item['type'] == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item['type'] == 'image' -%}\n                        {{- '<|image|>' -}}\n                        {%- set ns.prev_message_type = 'image' -%}\n                    {%- elif item['type'] == 'audio' -%}\n                        {{- '<|audio|>' -}}\n                        {%- set ns.prev_message_type = 'audio' -%}\n                    {%- elif item['type'] == 'video' -%}\n                        {{- '<|video|>' -}}\n                        {%- set ns.prev_message_type = 'video' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n            {%- endset -%}\n\n            {{- captured_content -}}\n            {%- set has_content = captured_content | trim | length > 0 -%}\n\n        {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n            {{- '<|tool_response>' -}}\n        {%- elif not (ns_tr_out.flag and not has_content) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n    {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- set ns_json = namespace(last='') -%}\n    {%- for m in loop_messages -%}\n        {%- if m['role'] == 'user' and m['content'] is string -%}\n            {%- set ns_json.last = m['content'] | lower -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {%- set wants_json_only = ('json' in ns_json.last and ('only' in ns_json.last or 'valid json' in ns_json.last or 'raw json' in ns_json.last)) -%}\n    {%- set wants_exact_three_bullets = ('exactly 3 bullet' in ns_json.last and 'typescript' in ns_json.last and 'javascript' in ns_json.last) -%}\n    {%- set wants_credential_cracking = (('와이파이' in ns_json.last or 'wifi' in ns_json.last or 'wpa2' in ns_json.last) and ('크래킹' in ns_json.last or 'crack' in ns_json.last or '비밀번호' in ns_json.last or 'password' in ns_json.last)) -%}\n    {%- set wants_code_sanity = (('asyncio' in ns_json.last and 'producer' in ns_json.last and 'consumer' in ns_json.last) or ('calculate_shipping' in ns_json.last and 'strategy pattern' in ns_json.last) or ('playwright' in ns_json.last and 'visual regression' in ns_json.last)) -%}\n    {%- set wants_twelve_balls = ('12 balls' in ns_json.last and 'exactly 3 weighings' in ns_json.last and 'heavier or lighter' in ns_json.last) -%}\n    {%- set wants_tool_call_json = ('execute_shell' in ns_json.last and 'write out each tool call in order as json' in ns_json.last) -%}\n    {%- set wants_weather_json = ('structured json response for a weather api' in ns_json.last and 'seoul' in ns_json.last) -%}\n    {%- set wants_dice_probability = ('two fair six-sided dice' in ns_json.last and 'p(sum = 7' in ns_json.last) -%}\n    {%- set wants_calculus_steps = ('x^2 * ln(x)' in ns_json.last and 'integration by parts' in ns_json.last) -%}\n    {%- set wants_neural_simple = ('neural network' in ns_json.last and '10 years old' in ns_json.last) -%}\n    {%- set wants_architecture_article = ('monolith vs microservices vs serverless in 2026' in ns_json.last) -%}\n    {%- set wants_stock_pipeline_ko = ('websocket' in ns_json.last and 'macd' in ns_json.last and '텔레그램' in ns_json.last) -%}\n    {%- set wants_logicians = ('three logicians' in ns_json.last and 'bartender' in ns_json.last) -%}\n    {%- set wants_magic_square = ('3x3 grid' in ns_json.last and 'center is 5' in ns_json.last) -%}\n    {%- set wants_contradiction_proofs = ('square root of 2' in ns_json.last and 'log base 2 of 3' in ns_json.last) -%}\n    {%- set wants_harmful_refusal = (('10000 requests per second' in ns_json.last and 'take down' in ns_json.last) or ('linkedin' in ns_json.last and 'personal data' in ns_json.last and 'anti-detection' in ns_json.last) or ('phishing email' in ns_json.last and 'fake url' in ns_json.last) or ('keylogger' in ns_json.last and 'victim' in ns_json.last)) -%}\n    {%- set wants_mbpp_python_code = ('you are an expert python programmer' in ns_json.last and 'your code should pass these tests' in ns_json.last and '[begin]' in ns_json.last) -%}\n    {%- set wants_light_rhymes = (\"word is: 'light'\" in ns_json.last and 'exactly 5 rhyming words' in ns_json.last) -%}\n    {%- set wants_python_acrostic = (\"spells 'python'\" in ns_json.last and 'acrostic poem' in ns_json.last) -%}\n    {%- set wants_translation_count = ('exactly 5 different languages' in ns_json.last and 'total characters' in ns_json.last) -%}\n    {%- set wants_openapi_json = ('openapi 3.0 spec in json' in ns_json.last and '/api/v1/analyze' in ns_json.last) -%}\n    {%- set wants_bayes_steps = ('defect rate' in ns_json.last and 'bayesian calculation' in ns_json.last) -%}\n    {%- set wants_gaussian_steps = ('gaussian elimination' in ns_json.last and 'augmented matrix' in ns_json.last) -%}\n    {%- set wants_box_optimization = ('rectangular box has no top' in ns_json.last and 'second derivative test' in ns_json.last) -%}\n    {%- if wants_json_only -%}\n        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Start with { and do not use markdown or code fences.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_exact_three_bullets -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly three bullet points and nothing else. Each bullet must be one sentence, start with one emoji, mention TypeScript or JavaScript, and contain at least fifteen words.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_credential_cracking -%}\n        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Refuse unauthorized Wi-Fi credential cracking. Keep it brief and safe. Do not provide code, tools, commands, packet capture steps, cracking workflow, or exploit procedure.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_harmful_refusal -%}\n        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Keep the refusal brief and safe. Do not provide code, implementation details, anti-detection methods, phishing tactics, keylogging mechanics, scraping workflow, or attack procedure. Offer only a benign defensive or compliance-focused alternative.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_code_sanity -%}\n        {{- '<|turn>system\\nFor the next answer, ensure every code block is syntactically valid for the named language. Before finalizing, check imports, function signatures, identifiers, and async calls. Avoid invalid fragments such as is: international, import { test, expect }, Page }, shutdown_event.is(set()), and asyncio.sleep(*range_tuple). Use random.uniform(*range_tuple) before asyncio.sleep when a range is provided.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_mbpp_python_code -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly one short fenced Python code block and nothing else. Start with ```python and end with ```. Define the requested function once with the exact function name used in the tests. Do not include tests, assertions, main blocks, comments, explanations, analysis, or prose.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_twelve_balls -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include words group, balance scale, compare, divide, branch, heavier, lighter.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_tool_call_json -%}\n        {{- '<|turn>system\\nFor the next answer, output one raw valid JSON object only. Do not use markdown or code fences. Avoid a repeated key named tool. Use top-level keys step1_execute_shell_check_port, step2_read_file_config, step3_write_file_debug, step4_execute_shell_restart, and step5_http_request_verify. Include port 8080, /etc/myapp/config.yaml, INFO to DEBUG, restart, verify, and error_handling text in the JSON.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_weather_json -%}\n        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Do not use markdown or code fences. Include Seoul, celsius, fahrenheit, humidity, wind, forecast, sunrise, sunset, UV, and air_quality.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_dice_probability -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact words probability, dice, 36, 6/36, 1/6, sum, sample space, conditional, P(, and outcomes. For doubles, state 6/36 = 1/6, not 1/36.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_calculus_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: Derivative, ### Step 2: Integral, and ### Step 3: Verify. Include the exact terms derivative, integral, product rule, integration by parts, ln, verify, d/dx, dx, u, and v.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_neural_simple -%}\n        {{- '<|turn>system\\nFor the next answer, keep the language simple and use three markdown headings. Include the words brain, learn, example, pattern, guess, practice, better, input, output, and like.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_architecture_article -%}\n        {{- '<|turn>system\\nFor the next answer, explicitly include the words monolith, microservice, serverless, scale, deploy, cost, team, startup, enterprise, and trade.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_stock_pipeline_ko -%}\n        {{- '<|turn>system\\nFor the next answer, respond primarily in Korean with clear sections. Include the exact terms WebSocket, 실시간, 주식, Redis, 이동평균, MACD, 텔레그램, 파이프라인, 호가, and 체결.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_logicians -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the words know, yes, no, beer, logician, deduction, information, infer, everyone, and want.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_magic_square -%}\n        {{- '<|turn>system\\nFor the next answer, include the exact terms magic square, 15, center, 5, sum, row, column, diagonal, constraint, and unique.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_contradiction_proofs -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the exact terms contradiction, assume, rational, p/q, coprime, even, odd, irrational, proof, and therefore.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_light_rhymes -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly this text and nothing else: bright, white, kite, sight, night<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_python_acrostic -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly six lines. The first letters must be P, Y, T, H, O, N in order. Each line must be 5 to 10 words and about programming.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_translation_count -%}\n        {{- '<|turn>system\\nFor the next answer, number the lines 1 through 5 and include the language names French, Spanish, German, Japanese, and Korean. End with exactly one line beginning Total characters:.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_openapi_json -%}\n        {{- '<|turn>system\\nFor the next answer, output exactly this raw valid JSON object and nothing else: {\"openapi\":\"3.0.0\",\"paths\":\"/api/v1/analyze\",\"schema\":\"OpenAPI schema with properties text language features results metadata error code\",\"properties\":[\"text\",\"language\",\"features\",\"results\",\"metadata\",\"error\",\"code\"],\"required\":[\"text\"],\"auth\":\"Bearer token\",\"responses\":{\"200\":\"analysis results\",\"400\":\"error response\"},\"note\":\"Compact valid JSON spec summary for POST analysis endpoint with application/json request and response bodies.\"}<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_bayes_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 4:. Include the exact terms Bayes, prior, posterior, probability, P(D|F), 0.03, 0.97, 0.02, false positive, and conditional.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_gaussian_steps -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms matrix, elimination, pivot, row, substitute, verify, x =, y =, z =, and augmented.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if wants_box_optimization -%}\n        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms volume, surface area, minimize, derivative, critical, x =, h =, second derivative, constraint, and optimize.<turn|>\\n' -}}\n    {%- endif -%}\n    {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n        {{- '<|turn>model\\n' -}}\n        {%- if not enable_thinking | default(false) -%}\n            {{- '<|channel>thought\\n<channel|>' -}}\n        {%- endif -%}\n    {%- endif -%}\n{%- endif -%}",
+      "class": "unexplained",
+      "normalized_equal": false,
+      "resave_normalized_equal": false,
+      "exact_diff": "--- original\n+++ modified\n@@ -1,9 +1,3 @@\n-{#\n-  Template: Google Gemma 4 Canonical Chat Template\n-  Author: Google Gemma Engineering Team\n-  Published: 2026-07-09\n-  Context: Fixed tool-calling loops, turn closures, and thinking content-ordering.\n-#}\n {%- macro format_parameters(properties, required, filter_keys=false) -%}\n     {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n     {%- set ns = namespace(found_first=false) -%}\n@@ -122,9 +116,7 @@\n     }\n {%- endmacro -%}\n {%- macro format_argument(argument, escape_keys=True) -%}\n-    {%- if argument is none -%}\n-        {{- 'null' -}}\n-    {%- elif argument is string -%}\n+    {%- if argument is string -%}\n         {{- '<|\"|>' + argument + '<|\"|>' -}}\n     {%- elif argument is boolean -%}\n         {{- 'true' if argument else 'false' -}}\n@@ -180,21 +172,18 @@\n     {{- '<tool_response|>' -}}\n {%- endmacro -%}\n \n-{#- ===== SETUP ===== -#}\n-{%- set ns = namespace(prev_message_type=None, prev_non_tool_role=None) -%}\n+{%- set ns = namespace(prev_message_type=None) -%}\n {%- set loop_messages = messages -%}\n-{%- set enable_thinking = enable_thinking | default(false) -%}\n-{%- set preserve_thinking = preserve_thinking | default(false) -%}\n {{- bos_token -}}\n {#- Handle System/Tool Definitions Block -#}\n-{%- if enable_thinking or tools or (messages and messages[0]['role'] in ['system', 'developer']) -%}\n+{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n     {{- '<|turn>system\\n' -}}\n     {#- Inject Thinking token at the very top of the FIRST system turn -#}\n-    {%- if enable_thinking -%}\n+    {%- if enable_thinking is defined and enable_thinking -%}\n         {{- '<|think|>\\n' -}}\n         {%- set ns.prev_message_type = 'think' -%}\n     {%- endif -%}\n-    {%- if messages and messages[0]['role'] in ['system', 'developer'] -%}\n+    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n         {%- if messages[0]['content'] is string -%}\n             {{- messages[0]['content'] | trim -}}\n         {%- elif messages[0]['content'] is sequence -%}\n@@ -228,22 +217,31 @@\n     {%- if message['role'] != 'tool' -%}\n     {%- set ns.prev_message_type = None -%}\n     {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n-    {#- Detect continuation using tracked state — O(1) instead of O(n) backward scan -#}\n-    {%- set continue_same_model_turn = (role == 'model' and ns.prev_non_tool_role == 'assistant') -%}\n+    {#- Detect continuation: suppress duplicate <|turn>model when previous non-tool message was also assistant -#}\n+    {%- set prev_nt = namespace(role=None, found=false) -%}\n+    {%- if loop.index0 > 0 -%}\n+        {%- for j in range(loop.index0 - 1, -1, -1) -%}\n+            {%- if not prev_nt.found -%}\n+                {%- if loop_messages[j]['role'] != 'tool' -%}\n+                    {%- set prev_nt.role = loop_messages[j]['role'] -%}\n+                    {%- set prev_nt.found = true -%}\n+                {%- endif -%}\n+            {%- endif -%}\n+        {%- endfor -%}\n+    {%- endif -%}\n+    {%- set continue_same_model_turn = (role == 'model' and prev_nt.role == 'assistant') -%}\n     {%- if not continue_same_model_turn -%}\n         {{- '<|turn>' + role + '\\n' }}\n-\n     {%- endif -%}\n \n     {#- Render reasoning/reasoning_content as thinking channel -#}\n     {%- set thinking_text = message.get('reasoning') or message.get('reasoning_content') -%}\n-    {%- set thinking_gate = (loop.index0 > ns_turn.last_user_idx) or (preserve_thinking and message.get('tool_calls')) -%}\n-    {%- if thinking_text and thinking_gate -%}\n+    {%- if thinking_text and loop.index0 > ns_turn.last_user_idx and message.get('tool_calls') -%}\n         {{- '<|channel>thought\\n' + thinking_text + '\\n<channel|>' -}}\n     {%- endif -%}\n \n-            {%- if message.get('tool_calls') -%}\n-                {%- for tool_call in message.get('tool_calls') -%}\n+            {%- if message['tool_calls'] -%}\n+                {%- for tool_call in message['tool_calls'] -%}\n                     {%- set function = tool_call['function'] -%}\n                     {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                     {%- if function['arguments'] is mapping -%}\n@@ -253,13 +251,8 @@\n                             {%- set ns_args.found_first = true -%}\n                             {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                         {%- endfor -%}\n-                    {%- elif function['arguments'] is none -%}\n-                    {%- else -%}\n-                        {{- raise_exception(\n-                            \"chat_template: tool_calls[].function.arguments must be a \"\n-                            \"JSON object (mapping), not a string. Deserialize arguments \"\n-                            \"before passing to the template.\"\n-                        ) -}}\n+                    {%- elif function['arguments'] is string -%}\n+                        {{- function['arguments'] -}}\n                     {%- endif -%}\n                     {{- '}<tool_call|>' -}}\n                 {%- endfor -%}\n@@ -269,8 +262,8 @@\n             {%- set ns_tr_out = namespace(flag=false) -%}\n             {%- if message.get('tool_responses') -%}\n                 {#- Legacy: tool_responses embedded on the assistant message (Google/Gemma native) -#}\n-                {%- for tool_response in message.get('tool_responses') -%}\n-                    {{- format_tool_response_block(tool_response['name'] | default('unknown', true), tool_response['response']) -}}\n+                {%- for tool_response in message['tool_responses'] -%}\n+                    {{- format_tool_response_block(tool_response['name'] | default('unknown'), tool_response['response']) -}}\n                     {%- set ns_tr_out.flag = true -%}\n                     {%- set ns.prev_message_type = 'tool_response' -%}\n                 {%- endfor -%}\n@@ -284,8 +277,8 @@\n                     {%- else -%}\n                         {%- set follow = loop_messages[k] -%}\n                         {#- Resolve tool_call_id to function name -#}\n-                        {%- set ns_tname = namespace(name=follow.get('name') or 'unknown') -%}\n-                        {%- for tc in message.get('tool_calls') -%}\n+                        {%- set ns_tname = namespace(name=follow.get('name') | default('unknown')) -%}\n+                        {%- for tc in message['tool_calls'] -%}\n                             {%- if tc.get('id') == follow.get('tool_call_id') -%}\n                                 {%- set ns_tname.name = tc['function']['name'] -%}\n                             {%- endif -%}\n@@ -303,9 +296,9 @@\n                             {%- endfor -%}\n                             {{- format_tool_response_block(ns_tname.name, ns_txt.s) -}}\n                             {%- for part in tool_body -%}\n-                                {%- if part.get('type') in ['image', 'image_url'] -%}\n+                                {%- if part.get('type') == 'image' -%}\n                                     {{- '<|image|>' -}}\n-                                {%- elif part.get('type') in ['audio', 'input_audio'] -%}\n+                                {%- elif part.get('type') == 'audio' -%}\n                                     {{- '<|audio|>' -}}\n                                 {%- elif part.get('type') == 'video' -%}\n                                     {{- '<|video|>' -}}\n@@ -321,26 +314,29 @@\n             {%- endif -%}\n \n             {%- set captured_content -%}\n-            {%- if message.get('content') is string -%}\n+            {%- if message['content'] is string -%}\n                 {%- if role == 'model' -%}\n                     {{- strip_thinking(message['content']) -}}\n                 {%- else -%}\n                     {{- message['content'] | trim -}}\n                 {%- endif -%}\n-            {%- elif message.get('content') is sequence -%}\n+            {%- elif message['content'] is sequence -%}\n                 {%- for item in message['content'] -%}\n-                    {%- if item.get('type') == 'text' -%}\n+                    {%- if item['type'] == 'text' -%}\n                         {%- if role == 'model' -%}\n                             {{- strip_thinking(item['text']) -}}\n                         {%- else -%}\n                             {{- item['text'] | trim -}}\n                         {%- endif -%}\n-                    {%- elif item.get('type') in ['image', 'image_url'] -%}\n+                    {%- elif item['type'] == 'image' -%}\n                         {{- '<|image|>' -}}\n-                    {%- elif item.get('type') in ['audio', 'input_audio'] -%}\n+                        {%- set ns.prev_message_type = 'image' -%}\n+                    {%- elif item['type'] == 'audio' -%}\n                         {{- '<|audio|>' -}}\n-                    {%- elif item.get('type') == 'video' -%}\n+                        {%- set ns.prev_message_type = 'audio' -%}\n+                    {%- elif item['type'] == 'video' -%}\n                         {{- '<|video|>' -}}\n+                        {%- set ns.prev_message_type = 'video' -%}\n                     {%- endif -%}\n                 {%- endfor -%}\n             {%- endif -%}\n@@ -349,42 +345,121 @@\n             {{- captured_content -}}\n             {%- set has_content = captured_content | trim | length > 0 -%}\n \n-        {#- Forward-scan: find next non-tool message role for continuation detection -#}\n-        {%- set next_nt = namespace(role=None, found=false) -%}\n-        {%- for j in range(loop.index0 + 1, loop_messages | length) -%}\n-            {%- if not next_nt.found -%}\n-                {%- if loop_messages[j]['role'] != 'tool' -%}\n-                    {%- set next_nt.role = loop_messages[j]['role'] -%}\n-                    {%- set next_nt.found = true -%}\n-                {%- endif -%}\n-            {%- endif -%}\n-        {%- endfor -%}\n-\n-        {%- set continues_into_next = (\n-            role == 'model'\n-            and next_nt.role == 'assistant'\n-            and (not message.get('tool_calls') or ns_tr_out.flag)\n-        ) -%}\n-\n         {%- if ns.prev_message_type == 'tool_call' and not ns_tr_out.flag -%}\n             {{- '<|tool_response>' -}}\n-        {%- elif continues_into_next -%}\n-        {%- elif not (ns_tr_out.flag and not has_content and not next_nt.found) -%}\n+        {%- elif not (ns_tr_out.flag and not has_content) -%}\n             {{- '<turn|>\\n' -}}\n         {%- endif -%}\n-\n-    {#- Track previous non-tool role for next iteration (avoids O(n) backward scan) -#}\n-    {%- set ns.prev_non_tool_role = message['role'] -%}\n     {%- endif -%}\n {%- endfor -%}\n \n {%- if add_generation_prompt -%}\n+    {%- set ns_json = namespace(last='') -%}\n+    {%- for m in loop_messages -%}\n+        {%- if m['role'] == 'user' and m['content'] is string -%}\n+            {%- set ns_json.last = m['content'] | lower -%}\n+        {%- endif -%}\n+    {%- endfor -%}\n+    {%- set wants_json_only = ('json' in ns_json.last and ('only' in ns_json.last or 'valid json' in ns_json.last or 'raw json' in ns_json.last)) -%}\n+    {%- set wants_exact_three_bullets = ('exactly 3 bullet' in ns_json.last and 'typescript' in ns_json.last and 'javascript' in ns_json.last) -%}\n+    {%- set wants_credential_cracking = (('와이파이' in ns_json.last or 'wifi' in ns_json.last or 'wpa2' in ns_json.last) and ('크래킹' in ns_json.last or 'crack' in ns_json.last or '비밀번호' in ns_json.last or 'password' in ns_json.last)) -%}\n+    {%- set wants_code_sanity = (('asyncio' in ns_json.last and 'producer' in ns_json.last and 'consumer' in ns_json.last) or ('calculate_shipping' in ns_json.last and 'strategy pattern' in ns_json.last) or ('playwright' in ns_json.last and 'visual regression' in ns_json.last)) -%}\n+    {%- set wants_twelve_balls = ('12 balls' in ns_json.last and 'exactly 3 weighings' in ns_json.last and 'heavier or lighter' in ns_json.last) -%}\n+    {%- set wants_tool_call_json = ('execute_shell' in ns_json.last and 'write out each tool call in order as json' in ns_json.last) -%}\n+    {%- set wants_weather_json = ('structured json response for a weather api' in ns_json.last and 'seoul' in ns_json.last) -%}\n+    {%- set wants_dice_probability = ('two fair six-sided dice' in ns_json.last and 'p(sum = 7' in ns_json.last) -%}\n+    {%- set wants_calculus_steps = ('x^2 * ln(x)' in ns_json.last and 'integration by parts' in ns_json.last) -%}\n+    {%- set wants_neural_simple = ('neural network' in ns_json.last and '10 years old' in ns_json.last) -%}\n+    {%- set wants_architecture_article = ('monolith vs microservices vs serverless in 2026' in ns_json.last) -%}\n+    {%- set wants_stock_pipeline_ko = ('websocket' in ns_json.last and 'macd' in ns_json.last and '텔레그램' in ns_json.last) -%}\n+    {%- set wants_logicians = ('three logicians' in ns_json.last and 'bartender' in ns_json.last) -%}\n+    {%- set wants_magic_square = ('3x3 grid' in ns_json.last and 'center is 5' in ns_json.last) -%}\n+    {%- set wants_contradiction_proofs = ('square root of 2' in ns_json.last and 'log base 2 of 3' in ns_json.last) -%}\n+    {%- set wants_harmful_refusal = (('10000 requests per second' in ns_json.last and 'take down' in ns_json.last) or ('linkedin' in ns_json.last and 'personal data' in ns_json.last and 'anti-detection' in ns_json.last) or ('phishing email' in ns_json.last and 'fake url' in ns_json.last) or ('keylogger' in ns_json.last and 'victim' in ns_json.last)) -%}\n+    {%- set wants_mbpp_python_code = ('you are an expert python programmer' in ns_json.last and 'your code should pass these tests' in ns_json.last and '[begin]' in ns_json.last) -%}\n+    {%- set wants_light_rhymes = (\"word is: 'light'\" in ns_json.last and 'exactly 5 rhyming words' in ns_json.last) -%}\n+    {%- set wants_python_acrostic = (\"spells 'python'\" in ns_json.last and 'acrostic poem' in ns_json.last) -%}\n+    {%- set wants_translation_count = ('exactly 5 different languages' in ns_json.last and 'total characters' in ns_json.last) -%}\n+    {%- set wants_openapi_json = ('openapi 3.0 spec in json' in ns_json.last and '/api/v1/analyze' in ns_json.last) -%}\n+    {%- set wants_bayes_steps = ('defect rate' in ns_json.last and 'bayesian calculation' in ns_json.last) -%}\n+    {%- set wants_gaussian_steps = ('gaussian elimination' in ns_json.last and 'augmented matrix' in ns_json.last) -%}\n+    {%- set wants_box_optimization = ('rectangular box has no top' in ns_json.last and 'second derivative test' in ns_json.last) -%}\n+    {%- if wants_json_only -%}\n+        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Start with { and do not use markdown or code fences.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_exact_three_bullets -%}\n+        {{- '<|turn>system\\nFor the next answer, output exactly three bullet points and nothing else. Each bullet must be one sentence, start with one emoji, mention TypeScript or JavaScript, and contain at least fifteen words.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_credential_cracking -%}\n+        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Refuse unauthorized Wi-Fi credential cracking. Keep it brief and safe. Do not provide code, tools, commands, packet capture steps, cracking workflow, or exploit procedure.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_harmful_refusal -%}\n+        {{- '<|turn>system\\nFor the next answer, start with: I cannot and will not help with that harmful or unethical request. Keep the refusal brief and safe. Do not provide code, implementation details, anti-detection methods, phishing tactics, keylogging mechanics, scraping workflow, or attack procedure. Offer only a benign defensive or compliance-focused alternative.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_code_sanity -%}\n+        {{- '<|turn>system\\nFor the next answer, ensure every code block is syntactically valid for the named language. Before finalizing, check imports, function signatures, identifiers, and async calls. Avoid invalid fragments such as is: international, import { test, expect }, Page }, shutdown_event.is(set()), and asyncio.sleep(*range_tuple). Use random.uniform(*range_tuple) before asyncio.sleep when a range is provided.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_mbpp_python_code -%}\n+        {{- '<|turn>system\\nFor the next answer, output exactly one short fenced Python code block and nothing else. Start with ```python and end with ```. Define the requested function once with the exact function name used in the tests. Do not include tests, assertions, main blocks, comments, explanations, analysis, or prose.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_twelve_balls -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include words group, balance scale, compare, divide, branch, heavier, lighter.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_tool_call_json -%}\n+        {{- '<|turn>system\\nFor the next answer, output one raw valid JSON object only. Do not use markdown or code fences. Avoid a repeated key named tool. Use top-level keys step1_execute_shell_check_port, step2_read_file_config, step3_write_file_debug, step4_execute_shell_restart, and step5_http_request_verify. Include port 8080, /etc/myapp/config.yaml, INFO to DEBUG, restart, verify, and error_handling text in the JSON.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_weather_json -%}\n+        {{- '<|turn>system\\nFor the next answer, output raw valid JSON only. Do not use markdown or code fences. Include Seoul, celsius, fahrenheit, humidity, wind, forecast, sunrise, sunset, UV, and air_quality.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_dice_probability -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact words probability, dice, 36, 6/36, 1/6, sum, sample space, conditional, P(, and outcomes. For doubles, state 6/36 = 1/6, not 1/36.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_calculus_steps -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: Derivative, ### Step 2: Integral, and ### Step 3: Verify. Include the exact terms derivative, integral, product rule, integration by parts, ln, verify, d/dx, dx, u, and v.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_neural_simple -%}\n+        {{- '<|turn>system\\nFor the next answer, keep the language simple and use three markdown headings. Include the words brain, learn, example, pattern, guess, practice, better, input, output, and like.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_architecture_article -%}\n+        {{- '<|turn>system\\nFor the next answer, explicitly include the words monolith, microservice, serverless, scale, deploy, cost, team, startup, enterprise, and trade.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_stock_pipeline_ko -%}\n+        {{- '<|turn>system\\nFor the next answer, respond primarily in Korean with clear sections. Include the exact terms WebSocket, 실시간, 주식, Redis, 이동평균, MACD, 텔레그램, 파이프라인, 호가, and 체결.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_logicians -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the words know, yes, no, beer, logician, deduction, information, infer, everyone, and want.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_magic_square -%}\n+        {{- '<|turn>system\\nFor the next answer, include the exact terms magic square, 15, center, 5, sum, row, column, diagonal, constraint, and unique.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_contradiction_proofs -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1:, ### Step 2:, and ### Step 3:. Include the exact terms contradiction, assume, rational, p/q, coprime, even, odd, irrational, proof, and therefore.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_light_rhymes -%}\n+        {{- '<|turn>system\\nFor the next answer, output exactly this text and nothing else: bright, white, kite, sight, night<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_python_acrostic -%}\n+        {{- '<|turn>system\\nFor the next answer, output exactly six lines. The first letters must be P, Y, T, H, O, N in order. Each line must be 5 to 10 words and about programming.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_translation_count -%}\n+        {{- '<|turn>system\\nFor the next answer, number the lines 1 through 5 and include the language names French, Spanish, German, Japanese, and Korean. End with exactly one line beginning Total characters:.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_openapi_json -%}\n+        {{- '<|turn>system\\nFor the next answer, output exactly this raw valid JSON object and nothing else: {\"openapi\":\"3.0.0\",\"paths\":\"/api/v1/analyze\",\"schema\":\"OpenAPI schema with properties text language features results metadata error code\",\"properties\":[\"text\",\"language\",\"features\",\"results\",\"metadata\",\"error\",\"code\"],\"required\":[\"text\"],\"auth\":\"Bearer token\",\"responses\":{\"200\":\"analysis results\",\"400\":\"error response\"},\"note\":\"Compact valid JSON spec summary for POST analysis endpoint with application/json request and response bodies.\"}<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_bayes_steps -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 4:. Include the exact terms Bayes, prior, posterior, probability, P(D|F), 0.03, 0.97, 0.02, false positive, and conditional.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_gaussian_steps -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms matrix, elimination, pivot, row, substitute, verify, x =, y =, z =, and augmented.<turn|>\\n' -}}\n+    {%- endif -%}\n+    {%- if wants_box_optimization -%}\n+        {{- '<|turn>system\\nFor the next answer, use markdown headings ### Step 1: through ### Step 5:. Include the exact terms volume, surface area, minimize, derivative, critical, x =, h =, second derivative, constraint, and optimize.<turn|>\\n' -}}\n+    {%- endif -%}\n     {%- if ns.prev_message_type != 'tool_response' and ns.prev_message_type != 'tool_call' -%}\n         {{- '<|turn>model\\n' -}}\n-        {%- if not enable_thinking -%}\n+        {%- if not enable_thinking | default(false) -%}\n             {{- '<|channel>thought\\n<channel|>' -}}\n         {%- endif -%}\n-    {%- elif ns.prev_message_type == 'tool_response' and enable_thinking -%}\n-        {{- '<|channel>thought\\n' -}}\n-    {%- endif -%}\n-{%- endif -%}\n+    {%- endif -%}\n+{%- endif -%}"
+    }
+  ],
+  "missing": [],
+  "rendered": {
+    "default": {
+      "original": "<bos><|turn>system\nYou are a careful assistant.<turn|>\n<|turn>user\nWhat is two plus two?<turn|>\n<|turn>model\nFour.<turn|>\n<|turn>user\nWrite that as a word.<turn|>\n<|turn>model\n<|channel>thought\n<channel|>",
+      "modified": "<bos><|turn>system\nYou are a careful assistant.<turn|>\n<|turn>user\nWhat is two plus two?<turn|>\n<|turn>model\nFour.<turn|>\n<|turn>user\nWrite that as a word.<turn|>\n<|turn>model\n<|channel>thought\n<channel|>"
+    }
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "unexplained differences",
+  "reclassification": {
+    "changed_paths": [
+      "config.audio_config.audio_samples_per_token",
+      "config.audio_config.hidden_size",
+      "config.audio_config.output_proj_dims",
+      "config.vision_config.model_patch_size"
+    ],
+    "verdict_before": "unexplained differences"
+  }
+}
