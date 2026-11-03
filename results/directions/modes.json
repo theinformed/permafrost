@@ -61,7 +61,7 @@
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
-   "family": 2,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 2,
@@ -74,7 +74,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
-   "family": 3,
+   "family": 1,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -87,7 +87,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 4,
+   "family": 1,
    "members": 6,
    "counts": {
     "per layer": 1,
@@ -100,7 +100,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 5,
+   "family": 2,
    "members": 6,
    "counts": {
     "per layer": 6,
@@ -113,7 +113,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 6,
+   "family": 3,
    "members": 3,
    "counts": {
     "per layer": 3,
@@ -126,7 +126,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 7,
+   "family": 4,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -139,7 +139,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 8,
+   "family": 5,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -152,7 +152,7 @@
   },
   {
    "parent": "google/gemma-4-12B-it",
-   "family": 9,
+   "family": 6,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -165,7 +165,7 @@
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
-   "family": 10,
+   "family": 1,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -178,7 +178,7 @@
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
-   "family": 11,
+   "family": 1,
    "members": 10,
    "counts": {
     "per layer": 10,
@@ -191,7 +191,7 @@
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
-   "family": 12,
+   "family": 2,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -204,7 +204,7 @@
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
-   "family": 13,
+   "family": 3,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -217,7 +217,7 @@
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
-   "family": 14,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -230,7 +230,7 @@
   },
   {
    "parent": "google/gemma-4-31B-it",
-   "family": 15,
+   "family": 1,
    "members": 7,
    "counts": {
     "per layer": 6,
@@ -243,7 +243,7 @@
   },
   {
    "parent": "google/gemma-4-31B-it",
-   "family": 16,
+   "family": 2,
    "members": 4,
    "counts": {
     "per layer": 0,
@@ -256,7 +256,7 @@
   },
   {
    "parent": "google/gemma-4-31B-it",
-   "family": 17,
+   "family": 3,
    "members": 4,
    "counts": {
     "per layer": 0,
@@ -269,7 +269,7 @@
   },
   {
    "parent": "google/gemma-4-31B-it",
-   "family": 18,
+   "family": 4,
    "members": 2,
    "counts": {
     "per layer": 2,
@@ -282,7 +282,7 @@
   },
   {
    "parent": "google/gemma-4-E2B-it",
-   "family": 19,
+   "family": 1,
    "members": 8,
    "counts": {
     "per layer": 8,
@@ -295,7 +295,7 @@
   },
   {
    "parent": "google/gemma-4-E2B-it",
-   "family": 20,
+   "family": 2,
    "members": 6,
    "counts": {
     "per layer": 0,
@@ -308,7 +308,7 @@
   },
   {
    "parent": "google/gemma-4-E2B-it",
-   "family": 21,
+   "family": 3,
    "members": 4,
    "counts": {
     "per layer": 0,
@@ -321,7 +321,7 @@
   },
   {
    "parent": "google/gemma-4-E4B-it",
-   "family": 22,
+   "family": 1,
    "members": 16,
    "counts": {
     "per layer": 0,
@@ -334,7 +334,7 @@
   },
   {
    "parent": "google/gemma-4-E4B-it",
-   "family": 23,
+   "family": 2,
    "members": 5,
    "counts": {
     "per layer": 1,
@@ -347,7 +347,7 @@
   },
   {
    "parent": "google/gemma-4-E4B-it",
-   "family": 24,
+   "family": 3,
    "members": 4,
    "counts": {
     "per layer": 4,
@@ -360,7 +360,7 @@
   },
   {
    "parent": "google/gemma-4-E4B-it",
-   "family": 25,
+   "family": 4,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -373,7 +373,7 @@
   },
   {
    "parent": "inflatebot/MN-12B-Mag-Mell-R1",
-   "family": 26,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -386,7 +386,7 @@
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
-   "family": 27,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -399,7 +399,7 @@
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
-   "family": 28,
+   "family": 1,
    "members": 5,
    "counts": {
     "per layer": 0,
@@ -412,7 +412,7 @@
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-   "family": 29,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 1,
@@ -425,7 +425,7 @@
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
-   "family": 30,
+   "family": 1,
    "members": 3,
    "counts": {
     "per layer": 0,
@@ -438,7 +438,7 @@
   },
   {
    "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
-   "family": 31,
+   "family": 1,
    "members": 2,
    "counts": {
     "per layer": 0,
@@ -589,7 +589,7 @@
    "adjacent": 0.8486935890821811,
    "far": 0.03450835242616421,
    "mode": "per layer",
-   "family": 2
+   "family": 1
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
@@ -631,7 +631,7 @@
    "adjacent": 0.8486935890821811,
    "far": 0.03450835242616421,
    "mode": "per layer",
-   "family": 2
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -645,7 +645,7 @@
    "adjacent": 0.9845722299666871,
    "far": 0.9703900610834048,
    "mode": "one direction",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -687,7 +687,7 @@
    "adjacent": 0.9831839450880737,
    "far": 0.9282626655712685,
    "mode": "one direction",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -715,7 +715,7 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -729,7 +729,7 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "mode": "per layer",
-   "family": 6
+   "family": 3
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -743,7 +743,7 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -757,7 +757,7 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -771,7 +771,7 @@
    "adjacent": 0.10505974526023633,
    "far": 0.02477860543179887,
    "mode": "arbitrary rank",
-   "family": 7
+   "family": 4
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -785,7 +785,7 @@
    "adjacent": 0.9851850481836708,
    "far": 0.9749750795547496,
    "mode": "one direction",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -799,7 +799,7 @@
    "adjacent": 0.7445024453717191,
    "far": 0.01862843432523381,
    "mode": "per layer",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -813,7 +813,7 @@
    "adjacent": 0.07767489161641164,
    "far": 0.02887531912530459,
    "mode": "arbitrary rank",
-   "family": 8
+   "family": 5
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -827,7 +827,7 @@
    "adjacent": 0.06823001154923754,
    "far": 0.023396604323149474,
    "mode": "arbitrary rank",
-   "family": 8
+   "family": 5
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -841,7 +841,7 @@
    "adjacent": 0.14203012996725445,
    "far": 0.07790114305060175,
    "mode": "arbitrary rank",
-   "family": 8
+   "family": 5
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -855,7 +855,7 @@
    "adjacent": 0.7934226274150386,
    "far": 0.054342358900443595,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -869,7 +869,7 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "mode": "per layer",
-   "family": 6
+   "family": 3
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -883,7 +883,7 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -897,7 +897,7 @@
    "adjacent": 0.9952504925292855,
    "far": 0.9889284707931003,
    "mode": "one direction",
-   "family": 9
+   "family": 6
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -911,7 +911,7 @@
    "adjacent": 0.055674426898636054,
    "far": 0.016207712946349782,
    "mode": "arbitrary rank",
-   "family": 7
+   "family": 4
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -939,7 +939,7 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "mode": "per layer",
-   "family": 6
+   "family": 3
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -953,7 +953,7 @@
    "adjacent": 0.9933060976890441,
    "far": null,
    "mode": "one direction",
-   "family": 9
+   "family": 6
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -981,7 +981,7 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "mode": "per layer",
-   "family": 5
+   "family": 2
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -995,7 +995,7 @@
    "adjacent": 0.977506216878225,
    "far": 0.8609722917691022,
    "mode": "mixed",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1009,7 +1009,7 @@
    "adjacent": 0.10505974526023633,
    "far": 0.02477860543179887,
    "mode": "arbitrary rank",
-   "family": 7
+   "family": 4
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1023,7 +1023,7 @@
    "adjacent": 0.984922613473953,
    "far": 0.9695619453351939,
    "mode": "one direction",
-   "family": 4
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1107,7 +1107,7 @@
    "adjacent": 0.04913463004442335,
    "far": 0.017441398378295926,
    "mode": "arbitrary rank",
-   "family": 3
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1149,7 +1149,7 @@
    "adjacent": 0.08223024730730252,
    "far": 0.012620185110115797,
    "mode": "arbitrary rank",
-   "family": 3
+   "family": 1
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1177,7 +1177,7 @@
    "adjacent": 0.07254179213756026,
    "far": 0.016594721639859384,
    "mode": "arbitrary rank",
-   "family": 3
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1191,7 +1191,7 @@
    "adjacent": 0.8138456002284375,
    "far": 0.03309973334359897,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1205,7 +1205,7 @@
    "adjacent": 0.800231418393881,
    "far": 0.023723514939295254,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1219,7 +1219,7 @@
    "adjacent": 0.8338973997472883,
    "far": 0.10181811061376542,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1233,7 +1233,7 @@
    "adjacent": 0.1283255792866652,
    "far": 0.02005787396760262,
    "mode": "arbitrary rank",
-   "family": 12
+   "family": 2
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1247,7 +1247,7 @@
    "adjacent": 0.811696710266172,
    "far": 0.029281536026779024,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1261,7 +1261,7 @@
    "adjacent": 0.8002006836384558,
    "far": 0.02373762360973878,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1289,7 +1289,7 @@
    "adjacent": 0.8002006836384558,
    "far": 0.02373762360973878,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1303,7 +1303,7 @@
    "adjacent": 0.09081920226259663,
    "far": 0.016774148474511384,
    "mode": "arbitrary rank",
-   "family": 12
+   "family": 2
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1317,7 +1317,7 @@
    "adjacent": 0.8002006881343939,
    "far": 0.023737623126186685,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1331,7 +1331,7 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "mode": "one direction",
-   "family": 13
+   "family": 3
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1359,7 +1359,7 @@
    "adjacent": 0.12876155243029352,
    "far": 0.015001325536335607,
    "mode": "arbitrary rank",
-   "family": 12
+   "family": 2
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1373,7 +1373,7 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "mode": "one direction",
-   "family": 13
+   "family": 3
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1387,7 +1387,7 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "mode": "one direction",
-   "family": 13
+   "family": 3
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1401,7 +1401,7 @@
    "adjacent": 0.8206235987809536,
    "far": 0.057925065897559906,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1415,7 +1415,7 @@
    "adjacent": 0.8002006881343939,
    "far": 0.023737623126186685,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1429,7 +1429,7 @@
    "adjacent": 0.8366769432475596,
    "far": 0.16397233851977727,
    "mode": "per layer",
-   "family": 11
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1485,7 +1485,7 @@
    "adjacent": 0.11463716153687675,
    "far": null,
    "mode": "arbitrary rank",
-   "family": 10
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1513,7 +1513,7 @@
    "adjacent": 0.1386272663022654,
    "far": 0.030121594867208945,
    "mode": "arbitrary rank",
-   "family": 10
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1527,7 +1527,7 @@
    "adjacent": 0.12060823382274295,
    "far": 0.044450737192111345,
    "mode": "arbitrary rank",
-   "family": 10
+   "family": 1
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1555,7 +1555,7 @@
    "adjacent": 0.8842454723145498,
    "far": 0.2255085009921836,
    "mode": "mixed",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1625,7 +1625,7 @@
    "adjacent": 0.06336799658862782,
    "far": 0.021341727882746915,
    "mode": "arbitrary rank",
-   "family": 16
+   "family": 2
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1639,7 +1639,7 @@
    "adjacent": 0.07071998365254348,
    "far": 0.020312887351293468,
    "mode": "arbitrary rank",
-   "family": 16
+   "family": 2
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1653,7 +1653,7 @@
    "adjacent": 0.8445445654598047,
    "far": null,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1667,7 +1667,7 @@
    "adjacent": 0.8433247538170593,
    "far": 0.016191229701352415,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1681,7 +1681,7 @@
    "adjacent": 0.8716384348122418,
    "far": 0.1644854450499652,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1695,7 +1695,7 @@
    "adjacent": 0.9999979459617945,
    "far": 0.9999951593584855,
    "mode": "one direction",
-   "family": 17
+   "family": 3
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1709,7 +1709,7 @@
    "adjacent": 0.8662366053748571,
    "far": null,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1723,7 +1723,7 @@
    "adjacent": 0.10624943481358623,
    "far": 0.05352076675364954,
    "mode": "arbitrary rank",
-   "family": 16
+   "family": 2
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1751,7 +1751,7 @@
    "adjacent": 0.8719952723218146,
    "far": 0.10686287620772682,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1765,7 +1765,7 @@
    "adjacent": 0.9999945494653018,
    "far": 0.9999886264308038,
    "mode": "one direction",
-   "family": 17
+   "family": 3
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1779,7 +1779,7 @@
    "adjacent": 0.9999979459617945,
    "far": 0.9999951593584855,
    "mode": "one direction",
-   "family": 17
+   "family": 3
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1793,7 +1793,7 @@
    "adjacent": 0.8705474751176637,
    "far": 0.1746908633877848,
    "mode": "per layer",
-   "family": 18
+   "family": 4
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1807,7 +1807,7 @@
    "adjacent": 0.0988211196423833,
    "far": 0.013040519052331152,
    "mode": "arbitrary rank",
-   "family": 16
+   "family": 2
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1849,7 +1849,7 @@
    "adjacent": 0.9999945494653018,
    "far": 0.9999886264308038,
    "mode": "one direction",
-   "family": 17
+   "family": 3
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1863,7 +1863,7 @@
    "adjacent": 0.8419215212169756,
    "far": 0.016141499291829703,
    "mode": "per layer",
-   "family": 15
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -1891,7 +1891,7 @@
    "adjacent": 0.8543391920365854,
    "far": 0.06416144509885553,
    "mode": "per layer",
-   "family": 18
+   "family": 4
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -1919,7 +1919,7 @@
    "adjacent": 0.13223759647452504,
    "far": 0.046783444746237454,
    "mode": "arbitrary rank",
-   "family": 14
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -1933,7 +1933,7 @@
    "adjacent": 0.15116317867506995,
    "far": 0.024127486990904175,
    "mode": "arbitrary rank",
-   "family": 14
+   "family": 1
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -1975,7 +1975,7 @@
    "adjacent": 0.13744599908088867,
    "far": 0.02013937377928562,
    "mode": "arbitrary rank",
-   "family": 21
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -1989,7 +1989,7 @@
    "adjacent": 0.9999973326865365,
    "far": 0.9999963810146153,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2003,7 +2003,7 @@
    "adjacent": 0.9999995575960269,
    "far": 0.9999995057228654,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2017,7 +2017,7 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2031,7 +2031,7 @@
    "adjacent": 0.9999975009219477,
    "far": 0.9999969189066148,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2045,7 +2045,7 @@
    "adjacent": 0.04157802129837678,
    "far": null,
    "mode": "arbitrary rank",
-   "family": 21
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2059,7 +2059,7 @@
    "adjacent": 0.04809490352426473,
    "far": 0.021706619398777164,
    "mode": "arbitrary rank",
-   "family": 21
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2073,7 +2073,7 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2087,7 +2087,7 @@
    "adjacent": 0.6964593931819096,
    "far": 0.030891770223996327,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2101,7 +2101,7 @@
    "adjacent": 0.5128278908338412,
    "far": 0.020455898838053106,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2129,7 +2129,7 @@
    "adjacent": 0.7367130710487053,
    "far": null,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2143,7 +2143,7 @@
    "adjacent": 0.9999961756285034,
    "far": 0.9999953906822837,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2157,7 +2157,7 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2171,7 +2171,7 @@
    "adjacent": 0.03518180085267432,
    "far": null,
    "mode": "arbitrary rank",
-   "family": 21
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2185,7 +2185,7 @@
    "adjacent": 0.9999961756285034,
    "far": 0.9999953906822837,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2213,7 +2213,7 @@
    "adjacent": 0.6977291225035045,
    "far": 0.029094371101703344,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2227,7 +2227,7 @@
    "adjacent": 0.9999930586894343,
    "far": 0.9999930564025601,
    "mode": "one direction",
-   "family": 20
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2241,7 +2241,7 @@
    "adjacent": 0.840041663414127,
    "far": 0.09729843424424986,
    "mode": "per layer",
-   "family": 19
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2325,7 +2325,7 @@
    "adjacent": 0.9718053027704162,
    "far": 0.9386787291101406,
    "mode": "one direction",
-   "family": 23
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2339,7 +2339,7 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2353,7 +2353,7 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2367,7 +2367,7 @@
    "adjacent": 0.651556756493109,
    "far": 0.015332740338697456,
    "mode": "per layer",
-   "family": 23
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2409,7 +2409,7 @@
    "adjacent": 0.1429471636219806,
    "far": 0.015166663025195704,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2462,7 +2462,7 @@
    "adjacent": 0.058717975786957484,
    "far": 0.019432936217813782,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2490,7 +2490,7 @@
    "adjacent": 0.08665750822542598,
    "far": 0.023163913569661285,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2504,7 +2504,7 @@
    "adjacent": 0.06661504624948893,
    "far": 0.00785904703493175,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2518,7 +2518,7 @@
    "adjacent": 0.09123423879036602,
    "far": 0.019273488431866395,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2532,7 +2532,7 @@
    "adjacent": 0.0861813322044314,
    "far": 0.01636366977128096,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2546,7 +2546,7 @@
    "adjacent": 0.09047018277084218,
    "far": 0.019581422620200767,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2560,7 +2560,7 @@
    "adjacent": 0.06742594674740024,
    "far": 0.012870474476791552,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2588,7 +2588,7 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2602,7 +2602,7 @@
    "adjacent": 0.08094983539925801,
    "far": 0.024131226323107446,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2616,7 +2616,7 @@
    "adjacent": 0.6854957936780361,
    "far": 0.012601056280628076,
    "mode": "per layer",
-   "family": 24
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2630,7 +2630,7 @@
    "adjacent": 0.6996253509391016,
    "far": 0.013946111574945443,
    "mode": "per layer",
-   "family": 24
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2644,7 +2644,7 @@
    "adjacent": 0.6839869820079559,
    "far": 0.013769034340860468,
    "mode": "per layer",
-   "family": 24
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2658,7 +2658,7 @@
    "adjacent": 0.09619101077106362,
    "far": 0.01978011852199845,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2686,7 +2686,7 @@
    "adjacent": 0.06263919098684234,
    "far": 0.029495334681462062,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2700,7 +2700,7 @@
    "adjacent": 0.9999988238191536,
    "far": 0.9999985504245797,
    "mode": "one direction",
-   "family": 25
+   "family": 4
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2728,7 +2728,7 @@
    "adjacent": 0.1028352431956866,
    "far": 0.017756280968398635,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2742,7 +2742,7 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "mode": "arbitrary rank",
-   "family": 22
+   "family": 1
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2756,7 +2756,7 @@
    "adjacent": 0.9737299393340755,
    "far": 0.94052413381328,
    "mode": "one direction",
-   "family": 23
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2770,7 +2770,7 @@
    "adjacent": 0.9737275570794779,
    "far": 0.9405134774967214,
    "mode": "one direction",
-   "family": 23
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2784,7 +2784,7 @@
    "adjacent": 0.9999988238191536,
    "far": 0.9999985504245797,
    "mode": "one direction",
-   "family": 25
+   "family": 4
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2798,7 +2798,7 @@
    "adjacent": 0.6839869820079559,
    "far": 0.013769034340860468,
    "mode": "per layer",
-   "family": 24
+   "family": 3
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2812,7 +2812,7 @@
    "adjacent": 0.9747341591607163,
    "far": 0.932319656653513,
    "mode": "one direction",
-   "family": 23
+   "family": 2
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2896,7 +2896,7 @@
    "adjacent": 0.999927586093065,
    "far": 0.9994358977697385,
    "mode": "one direction",
-   "family": 26
+   "family": 1
   },
   {
    "parent": "inflatebot/MN-12B-Mag-Mell-R1",
@@ -2910,7 +2910,7 @@
    "adjacent": 0.9999980631831877,
    "far": 0.9999968175023775,
    "mode": "one direction",
-   "family": 26
+   "family": 1
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
@@ -2938,7 +2938,7 @@
    "adjacent": 0.07333221185470154,
    "far": null,
    "mode": "arbitrary rank",
-   "family": 27
+   "family": 1
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
@@ -2952,7 +2952,7 @@
    "adjacent": 0.07005152918260099,
    "far": 0.016375391697388546,
    "mode": "arbitrary rank",
-   "family": 27
+   "family": 1
   },
   {
    "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
@@ -2994,7 +2994,7 @@
    "adjacent": 0.997899715099965,
    "far": 0.9920905481083504,
    "mode": "one direction",
-   "family": 28
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3008,7 +3008,7 @@
    "adjacent": 0.9999983414936429,
    "far": 0.999997114366637,
    "mode": "one direction",
-   "family": 28
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3022,7 +3022,7 @@
    "adjacent": 0.9999969221866373,
    "far": 0.9999957544854938,
    "mode": "one direction",
-   "family": 28
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3036,7 +3036,7 @@
    "adjacent": 0.9980036567637223,
    "far": 0.9914215792084702,
    "mode": "one direction",
-   "family": 28
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3050,7 +3050,7 @@
    "adjacent": 0.9999938122021006,
    "far": 0.9999840272784527,
    "mode": "one direction",
-   "family": 28
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -3106,7 +3106,7 @@
    "adjacent": 0.9097098621416184,
    "far": 0.3622070943067183,
    "mode": "mixed",
-   "family": 29
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3120,7 +3120,7 @@
    "adjacent": 0.8654678100209587,
    "far": 0.1199799288804679,
    "mode": "per layer",
-   "family": 29
+   "family": 1
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3204,7 +3204,7 @@
    "adjacent": 0.9820910600017745,
    "far": 0.9271565770951172,
    "mode": "one direction",
-   "family": 30
+   "family": 1
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3218,7 +3218,7 @@
    "adjacent": 0.9846599498209827,
    "far": 0.9527776401659364,
    "mode": "one direction",
-   "family": 30
+   "family": 1
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3232,7 +3232,7 @@
    "adjacent": 0.40402558700916524,
    "far": 0.01818861510418635,
    "mode": "mixed",
-   "family": 30
+   "family": 1
   },
   {
    "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
@@ -3246,7 +3246,7 @@
    "adjacent": 0.1186336895987456,
    "far": 0.016488086492526824,
    "mode": "arbitrary rank",
-   "family": 31
+   "family": 1
   },
   {
    "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
@@ -3260,7 +3260,7 @@
    "adjacent": 0.06927741826194575,
    "far": 0.014208498744878926,
    "mode": "arbitrary rank",
-   "family": 31
+   "family": 1
   }
  ]
 }

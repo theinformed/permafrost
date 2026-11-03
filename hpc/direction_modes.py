@@ -2,6 +2,7 @@
 # Created by SDE
 # Modified: SDE 2026-11-03  first pass: per-copy mode from own rotation, counts by name word and family, markdown and json.
 # Modified: SDE 2026-11-03  number a family by its 1-based position among the families of the same parent, not the whole list.
+# Modified: SDE 2026-11-03  skip the command's own modes.json and any copies list without pull and pair when reading the census.
 """Sort every census copy into an edit mode by its own layer rotation.
 
 --directions names a census folder of <parent id>.json files, each with a
@@ -78,11 +79,20 @@ def family_of(numbers, parent, repo):
     return numbers.get((parent, repo), 'none')
 
 
-def read_census(folder):
-    """Return [(parent, copies)] for every census file with a copies list."""
+def read_census(folder, out=None):
+    """Return [(parent, copies)] for every census file with a copies list.
+
+    A census group file has a string parent and copies that all carry repo,
+    pull and pair. The command's own output (the --out stem plus .json) sits
+    in the same folder and is skipped, as is any file whose copies list is
+    empty or whose first copy lacks pull or pair.
+    """
+    skip = set()
+    if out is not None:
+        skip.add(Path(out).stem + '.json')
     groups = []
     for path in sorted(Path(folder).glob('*.json')):
-        if path.name == 'families.json':
+        if path.name == 'families.json' or path.name in skip:
             continue
         try:
             document = json.loads(path.read_text())
@@ -90,7 +100,12 @@ def read_census(folder):
             continue
         if not isinstance(document, dict) or not isinstance(document.get('copies'), list):
             continue
-        groups.append((document.get('parent'), document['copies']))
+        copies = document['copies']
+        if not copies or not isinstance(copies[0], dict):
+            continue
+        if 'pull' not in copies[0] or 'pair' not in copies[0]:
+            continue
+        groups.append((document.get('parent'), copies))
     return groups
 
 
@@ -155,7 +170,7 @@ def main(argv=None):
 
     rows = []
     seen = set()
-    for parent, copies in read_census(args.directions):
+    for parent, copies in read_census(args.directions, args.out):
         for copy in copies:
             repo = copy.get('repo')
             if repo is None or (parent, repo) in seen:

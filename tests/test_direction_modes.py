@@ -1,6 +1,7 @@
 # test_direction_modes.py -- Check the four edit modes, the name words, the counts line and the family row.
 # Created by SDE
 # Modified: SDE 2026-11-03  four copies, one family, a rotating reference and a basis ladder.
+# Modified: SDE 2026-11-03  a stale modes.json in the census folder is skipped, even when --out writes beside it.
 import contextlib
 import io
 import json
@@ -130,6 +131,24 @@ class DirectionModesTest(unittest.TestCase):
             self.assertEqual(len(table), 5)
             self.assertTrue(table[0].startswith('| org/P | ara/c-abliterated | 12 | 0..11 |'))
             self.assertIn('| arbitrary rank | none |', table[0])
+
+    def test_own_output_in_census_folder_is_skipped(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'pulls'
+            out = Path(tmp) / 'out' / 'modes.md'
+            census, families = build(root)
+            stale = {'counts': {}, 'copies': [
+                {'parent': 'org/P', 'repo': 'ref/a', 'mode': 'per layer'}]}
+            (census / 'modes.json').write_text(json.dumps(stale))
+            code, _, _ = run(census, families, root, out)
+            self.assertEqual(code, 0)
+            first = json.loads(out.with_suffix('.json').read_text())
+            self.assertEqual(len(first['copies']), 5)
+
+            code, _, _ = run(census, families, root, census / 'modes.md')
+            self.assertEqual(code, 0)
+            again = json.loads((census / 'modes.json').read_text())
+            self.assertEqual(len(again['copies']), len(first['copies']))
 
 
 if __name__ == '__main__':
