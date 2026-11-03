@@ -10,3 +10,4 @@ DuoNeural/gemma-4-26B-A4B-it-abliterated
 chulcher/gemma-4-e4b-abliterated
 NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn
 SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF
+SubMaroon-exp/Kanimus-26B-A4B-FFT-heretic

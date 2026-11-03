@@ -30,3 +30,4 @@ llmfan46/Gemma-4-Harmonia-31B-uncensored-heretic
 llmfan46/MS3.2-PaintedFantasy-Visage-v3-34B-ultra-uncensored-heretic
 llmfan46/Gemma-4-Garnet-31B-it-uncensored-heretic
 keithtyser/gemma-4-26B-A4B-it-local-abliterated-sota-internal-t34
+llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1

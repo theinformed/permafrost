@@ -8,3 +8,5 @@ nbeerbower/Gemma4-Gutenberg-31B-Heretic
 Tetratype/Gemma-4-26B-A4B-it-heretic-antislop
 DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2
 AlSamCur123/gemma-4-E4B-it-uncensored-continued
+Hyphonical/gemma-4-E4B-it-Uncensored-MAX-opus-4.7
+amkkk/Gemma4_E2B_Abliterated_Opus_Distilled
