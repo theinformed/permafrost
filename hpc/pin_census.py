@@ -19,6 +19,7 @@
 # Modified: SDE  a repository the card's first heading or sentence names, other than the field's, is recorded as
 #   card_parent with a warning; the pinned original does not change for it.
 # Modified: SDE  a copy or original whose hub id carries a restricted maker's model name is refused before any hub call.
+# Modified: SDE  a pair the lineage screen would hold is refused at pin time.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -706,6 +707,24 @@ def names(manifest, out, hub=None):
     return written
 
 
+def lineage_hold(row, banned=None):
+    """The lineage screen's refusal for one pair, or None when the pair passes it."""
+    if banned is None:
+        banned = Path(__file__).with_name('banned-makers.txt')
+    try:
+        from hpc import lineage
+    except ImportError:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('lineage', Path(__file__).with_name('lineage.py'))
+        lineage = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(lineage)
+    try:
+        lineage.screen({'pairs': [row]}, banned)
+    except ValueError as error:
+        return str(error)
+    return None
+
+
 def new_record(path, args):
     """A new manifest's round and batch come from its name, round-N-batch-M.json, or the flags."""
     match = re.fullmatch(r'round-([0-9]+)-batch-([0-9]+)\.json', path.name)
@@ -754,6 +773,10 @@ def main():
         print('pinned as allowed: {} has the {}'.format(args.pair[0], 'same weight files as ' + describe(copy['same_weights_as'])))
     elif copy.get('duplicate_of'):
         print('note: {} was duplicated from {} and its weight files differ; pinned'.format(args.pair[0], copy['duplicate_of']))
+    held = lineage_hold(row)
+    if held:
+        print('refused {}: {}'.format(args.pair[0], held))
+        sys.exit(1)
     record['pairs'].append(row)
     record['pinned_at'] = datetime.now(timezone.utc).isoformat()
     path.parent.mkdir(parents=True, exist_ok=True)
