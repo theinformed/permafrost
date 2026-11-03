@@ -1,0 +1,3266 @@
+{
+ "counts": {
+  "per layer": 69,
+  "one direction": 54,
+  "arbitrary rank": 65,
+  "mixed": 12,
+  "few layers": 0,
+  "no file": 1
+ },
+ "by_name": {
+  "per layer": {
+   "heretic": 25,
+   "abliterated": 26,
+   "uncensored": 18,
+   "other": 0
+  },
+  "one direction": {
+   "heretic": 29,
+   "abliterated": 19,
+   "uncensored": 6,
+   "other": 0
+  },
+  "arbitrary rank": {
+   "heretic": 55,
+   "abliterated": 7,
+   "uncensored": 3,
+   "other": 0
+  },
+  "mixed": {
+   "heretic": 3,
+   "abliterated": 7,
+   "uncensored": 2,
+   "other": 0
+  },
+  "few layers": {
+   "heretic": 0,
+   "abliterated": 0,
+   "uncensored": 0,
+   "other": 0
+  },
+  "no file": {
+   "heretic": 0,
+   "abliterated": 1,
+   "uncensored": 0,
+   "other": 0
+  }
+ },
+ "families": [
+  {
+   "parent": "TheDrummer/Cydonia-24B-v4.3",
+   "family": 1,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 2,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/diffusiongemma-26B-A4B-it",
+   "family": 2,
+   "members": 2,
+   "counts": {
+    "per layer": 2,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "family": 3,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 3,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 4,
+   "members": 6,
+   "counts": {
+    "per layer": 1,
+    "one direction": 4,
+    "arbitrary rank": 0,
+    "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 5,
+   "members": 6,
+   "counts": {
+    "per layer": 6,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 6,
+   "members": 3,
+   "counts": {
+    "per layer": 3,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 7,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 3,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 8,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 3,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "family": 9,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 2,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "family": 10,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 3,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "family": 11,
+   "members": 10,
+   "counts": {
+    "per layer": 10,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "family": 12,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 3,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "family": 13,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 3,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+   "family": 14,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 2,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "family": 15,
+   "members": 7,
+   "counts": {
+    "per layer": 6,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "family": 16,
+   "members": 4,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 4,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "family": 17,
+   "members": 4,
+   "counts": {
+    "per layer": 0,
+    "one direction": 4,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "family": 18,
+   "members": 2,
+   "counts": {
+    "per layer": 2,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "family": 19,
+   "members": 8,
+   "counts": {
+    "per layer": 8,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "family": 20,
+   "members": 6,
+   "counts": {
+    "per layer": 0,
+    "one direction": 6,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "family": 21,
+   "members": 4,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 4,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "family": 22,
+   "members": 16,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 16,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "family": 23,
+   "members": 5,
+   "counts": {
+    "per layer": 1,
+    "one direction": 4,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "family": 24,
+   "members": 4,
+   "counts": {
+    "per layer": 4,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "family": 25,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 2,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "inflatebot/MN-12B-Mag-Mell-R1",
+   "family": 26,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 2,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "mistralai/Magistral-Small-2509",
+   "family": 27,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 2,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "family": 28,
+   "members": 5,
+   "counts": {
+    "per layer": 0,
+    "one direction": 5,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "family": 29,
+   "members": 2,
+   "counts": {
+    "per layer": 1,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+   "family": 30,
+   "members": 3,
+   "counts": {
+    "per layer": 0,
+    "one direction": 2,
+    "arbitrary rank": 0,
+    "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+   "family": 31,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 2,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  }
+ ],
+ "copies": [
+  {
+   "parent": "TheDrummer/Cydonia-24B-v4.3",
+   "repo": "coder3101/Cydonia-24B-v4.3-heretic",
+   "layers": 6,
+   "window": [
+    24,
+    29
+   ],
+   "own_spread": 0.8951352805441208,
+   "adjacent": 0.9498889342549238,
+   "far": null,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "TheDrummer/Cydonia-24B-v4.3",
+   "repo": "coder3101/Cydonia-24B-v4.3-heretic-v2",
+   "layers": 33,
+   "window": [
+    7,
+    39
+   ],
+   "own_spread": 0.9999927289366114,
+   "adjacent": 0.9999949070880602,
+   "far": 0.999991185067223,
+   "mode": "one direction",
+   "family": 1
+  },
+  {
+   "parent": "TheDrummer/Cydonia-24B-v4.3",
+   "repo": "coder3101/Cydonia-24B-v4.3-heretic-v3",
+   "layers": 37,
+   "window": [
+    3,
+    39
+   ],
+   "own_spread": 0.9949304654068676,
+   "adjacent": 0.9981673544039751,
+   "far": 0.9938040967129673,
+   "mode": "one direction",
+   "family": 1
+  },
+  {
+   "parent": "TheDrummer/Cydonia-24B-v4.3",
+   "repo": "coder3101/Cydonia-24B-v4.3-heretic-v4",
+   "layers": 29,
+   "window": [
+    10,
+    38
+   ],
+   "own_spread": 0.9823971240515134,
+   "adjacent": 0.9974811220552848,
+   "far": 0.9658572783871366,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "TheDrummer/Magidonia-24B-v4.3",
+   "repo": "coder3101/Magidonia-24B-v4.3-heretic",
+   "layers": 8,
+   "window": [
+    27,
+    34
+   ],
+   "own_spread": 0.8959014845163451,
+   "adjacent": 0.958029789771518,
+   "far": null,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "TheDrummer/Magidonia-24B-v4.3",
+   "repo": "coder3101/Magidonia-24B-v4.3-heretic-v2",
+   "layers": 32,
+   "window": [
+    8,
+    39
+   ],
+   "own_spread": 0.9999964349514948,
+   "adjacent": 0.9999973448053199,
+   "far": 0.9999957865998589,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "TheDrummer/Magidonia-24B-v4.3",
+   "repo": "grayarea/Magidonia-24B-v4.3-heretic-v1.2",
+   "layers": 29,
+   "window": [
+    11,
+    39
+   ],
+   "own_spread": 0.9959965903881242,
+   "adjacent": 0.9986868360528567,
+   "far": 0.9946406185867174,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "coder3101/gemma-3-27b-it-heretic",
+   "repo": "DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2",
+   "layers": 62,
+   "window": [
+    0,
+    61
+   ],
+   "own_spread": 0.036466273148859585,
+   "adjacent": 0.46592953682717475,
+   "far": 0.023877660086158173,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "coder3101/gemma-3-27b-it-heretic",
+   "repo": "Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning",
+   "layers": 62,
+   "window": [
+    0,
+    61
+   ],
+   "own_spread": 0.06912075323841352,
+   "adjacent": 0.6501532805972408,
+   "far": 0.036119659527840436,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/diffusiongemma-26B-A4B-it",
+   "repo": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.0695818714049562,
+   "adjacent": 0.8486935890821811,
+   "far": 0.03450835242616421,
+   "mode": "per layer",
+   "family": 2
+  },
+  {
+   "parent": "google/diffusiongemma-26B-A4B-it",
+   "repo": "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+   "layers": 10,
+   "window": [
+    7,
+    16
+   ],
+   "own_spread": 0.1400752424752786,
+   "adjacent": 0.15748380146510296,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/diffusiongemma-26B-A4B-it",
+   "repo": "Umranz/diffusiongemma-26B-A4B-it-abliteration",
+   "layers": 19,
+   "window": [
+    1,
+    19
+   ],
+   "own_spread": 0.055077656455524926,
+   "adjacent": 0.1879231531742031,
+   "far": 0.019509041217739644,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/diffusiongemma-26B-A4B-it",
+   "repo": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.0695818714049562,
+   "adjacent": 0.8486935890821811,
+   "far": 0.03450835242616421,
+   "mode": "per layer",
+   "family": 2
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "3MPER0RR/gemma-4-12b-it-3MPER0RR-abliterated",
+   "layers": 29,
+   "window": [
+    19,
+    47
+   ],
+   "own_spread": 0.9704031457470486,
+   "adjacent": 0.9845722299666871,
+   "far": 0.9703900610834048,
+   "mode": "one direction",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "AEON-7/Gemma-4-12B-it-AEON-Abliterated-K4-BF16",
+   "layers": 24,
+   "window": [
+    21,
+    45
+   ],
+   "own_spread": 0.3187263553230697,
+   "adjacent": 0.7636981587434051,
+   "far": 0.20397341672817937,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "AlekseyCalvin/Lyrical_Translator_ru2en_on_Gemma4_12b_heretic_SFT_Run2",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.01345877417869197,
+   "adjacent": 0.08308696122740139,
+   "far": 0.010920023563315288,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "BinxNet/gemma-4-12B-it-heretic",
+   "layers": 44,
+   "window": [
+    4,
+    47
+   ],
+   "own_spread": 0.9440377839555092,
+   "adjacent": 0.9831839450880737,
+   "far": 0.9282626655712685,
+   "mode": "one direction",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Carlosian/Gemma-4-12b-it-Abliterated",
+   "layers": 21,
+   "window": [
+    14,
+    34
+   ],
+   "own_spread": 0.2639219651589918,
+   "adjacent": 0.7148091076403509,
+   "far": 0.13675433068504927,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Iambackup/gemma-4-12B-it-uncensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "adjacent": 0.7809023238993323,
+   "far": 0.06091003469872698,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Ishowbackup/Huihui-gemma-4-12B-it-abliterated",
+   "layers": 6,
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "adjacent": 0.9999823024909152,
+   "far": null,
+   "mode": "per layer",
+   "family": 6
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Ishowbackup/gemma-4-12B-it-uncensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "adjacent": 0.7809023238993323,
+   "far": 0.06091003469872698,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Justbackup/gemma-4-12B-it-uncensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "adjacent": 0.7809023238993323,
+   "far": 0.06091003469872698,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "MeFFyLe/gemma-4-12B-it-uncensored-heretic",
+   "layers": 16,
+   "window": [
+    24,
+    39
+   ],
+   "own_spread": 0.030748858058647126,
+   "adjacent": 0.10505974526023633,
+   "far": 0.02477860543179887,
+   "mode": "arbitrary rank",
+   "family": 7
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "MoonRide/gemma-4-12B-it-heretic",
+   "layers": 31,
+   "window": [
+    17,
+    47
+   ],
+   "own_spread": 0.9747953383977684,
+   "adjacent": 0.9851850481836708,
+   "far": 0.9749750795547496,
+   "mode": "one direction",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Paul691/gemma-4-12B-it-abliterated-uncensored",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.027167941510205653,
+   "adjacent": 0.7445024453717191,
+   "far": 0.01862843432523381,
+   "mode": "per layer",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals2",
+   "layers": 20,
+   "window": [
+    23,
+    42
+   ],
+   "own_spread": 0.037472991185580486,
+   "adjacent": 0.07767489161641164,
+   "far": 0.02887531912530459,
+   "mode": "arbitrary rank",
+   "family": 8
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals4",
+   "layers": 13,
+   "window": [
+    24,
+    36
+   ],
+   "own_spread": 0.037454033980637166,
+   "adjacent": 0.06823001154923754,
+   "far": 0.023396604323149474,
+   "mode": "arbitrary rank",
+   "family": 8
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9",
+   "layers": 27,
+   "window": [
+    14,
+    43
+   ],
+   "own_spread": 0.08363484666242381,
+   "adjacent": 0.14203012996725445,
+   "far": 0.07790114305060175,
+   "mode": "arbitrary rank",
+   "family": 8
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Sabomako/gemma-4-12B-it-heretic",
+   "layers": 12,
+   "window": [
+    18,
+    39
+   ],
+   "own_spread": 0.11252415650819184,
+   "adjacent": 0.7934226274150386,
+   "far": 0.054342358900443595,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "TimelessSoul/Huihui-gemma-4-12B-it-abliterated",
+   "layers": 6,
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "adjacent": 0.9999823024909152,
+   "far": null,
+   "mode": "per layer",
+   "family": 6
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "TrevorJS/gemma-4-12B-it-uncensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "adjacent": 0.7809023238993323,
+   "far": 0.06091003469872698,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "Vampelium/gemma-4-12B-it-heretic",
+   "layers": 43,
+   "window": [
+    5,
+    47
+   ],
+   "own_spread": 0.9915709561179001,
+   "adjacent": 0.9952504925292855,
+   "far": 0.9889284707931003,
+   "mode": "one direction",
+   "family": 9
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "coder3101/gemma-4-12B-it-heretic",
+   "layers": 43,
+   "window": [
+    2,
+    44
+   ],
+   "own_spread": 0.019432677432581247,
+   "adjacent": 0.055674426898636054,
+   "far": 0.016207712946349782,
+   "mode": "arbitrary rank",
+   "family": 7
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "enkato64bit/SuperGemma-4-12b-abliterated",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.014241225167746709,
+   "adjacent": 0.843950602683067,
+   "far": 0.01035120084001084,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-12B-it-abliterated",
+   "layers": 6,
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "adjacent": 0.9999823024909152,
+   "far": null,
+   "mode": "per layer",
+   "family": 6
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "igorls/gemma-4-12B-it-heretic-v1",
+   "layers": 9,
+   "window": [
+    29,
+    37
+   ],
+   "own_spread": 0.9912522223421816,
+   "adjacent": 0.9933060976890441,
+   "far": null,
+   "mode": "one direction",
+   "family": 9
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "jwest33/gemma-4-12B-it-null-space-abliterated",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.9783866867647641,
+   "adjacent": 0.9962720891233453,
+   "far": 0.9755897823159065,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "laladream/gemma-4-12B-it-uncensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "adjacent": 0.7809023238993323,
+   "far": 0.06091003469872698,
+   "mode": "per layer",
+   "family": 5
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "lemuralabs/Gemma-4-12B-uncensored-bf16",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.910671499630755,
+   "adjacent": 0.977506216878225,
+   "far": 0.8609722917691022,
+   "mode": "mixed",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "llmfan46/gemma-4-12B-it-uncensored-heretic",
+   "layers": 16,
+   "window": [
+    24,
+    39
+   ],
+   "own_spread": 0.030748858058647126,
+   "adjacent": 0.10505974526023633,
+   "far": 0.02477860543179887,
+   "mode": "arbitrary rank",
+   "family": 7
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "prithivMLmods/gemma-4-12B-it-heretic_decensored",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.9705990078406284,
+   "adjacent": 0.984922613473953,
+   "far": 0.9695619453351939,
+   "mode": "one direction",
+   "family": 4
+  },
+  {
+   "parent": "google/gemma-4-12B-it",
+   "repo": "richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.0446461633344412,
+   "adjacent": 0.9544394502109872,
+   "far": 0.01884934345892908,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "JJaguar/gemma-4-12B-it-qat-q4_0-unquantized-heretic-nx",
+   "layers": 23,
+   "window": [
+    25,
+    47
+   ],
+   "own_spread": 0.978817740331764,
+   "adjacent": 0.9834965730297227,
+   "far": 0.9807134612834312,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja",
+   "layers": 36,
+   "window": [
+    10,
+    46
+   ],
+   "own_spread": 0.024130018419699015,
+   "adjacent": 0.07962474973682178,
+   "far": 0.016503595382697148,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja-v2",
+   "layers": 27,
+   "window": [
+    13,
+    39
+   ],
+   "own_spread": 0.02969193340105415,
+   "adjacent": 0.10139236693077329,
+   "far": 0.016825557676579492,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic-v3",
+   "layers": 9,
+   "window": [
+    23,
+    31
+   ],
+   "own_spread": 0.05878131473180226,
+   "adjacent": 0.09914173210740997,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "coder3101/gemma-4-12B-it-qat-q4_0-unquantized-heretic",
+   "layers": 24,
+   "window": [
+    24,
+    47
+   ],
+   "own_spread": 0.021641781158660646,
+   "adjacent": 0.04913463004442335,
+   "far": 0.017441398378295926,
+   "mode": "arbitrary rank",
+   "family": 3
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "huihui-ai/Huihui-gemma-4-12B-it-qat-q4_0-unquantized-abliterated",
+   "layers": 14,
+   "window": [
+    23,
+    36
+   ],
+   "own_spread": 0.9999758100770203,
+   "adjacent": 0.999992769190175,
+   "far": 0.6562677381068844,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "igorls/gemma-4-12B-it-qat-q4_0-unquantized-heretic",
+   "layers": 32,
+   "window": [
+    16,
+    47
+   ],
+   "own_spread": 0.18026410263137238,
+   "adjacent": 0.8119701185867407,
+   "far": 0.07079690937586022,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    24,
+    34
+   ],
+   "own_spread": 0.04084317957233803,
+   "adjacent": 0.08223024730730252,
+   "far": 0.012620185110115797,
+   "mode": "arbitrary rank",
+   "family": 3
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "smashingtags/gemma-4-12b-it-abliterated",
+   "layers": 34,
+   "window": [
+    14,
+    47
+   ],
+   "own_spread": 0.12999281969794746,
+   "adjacent": 0.7943933739894096,
+   "far": 0.049277012042599946,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+   "repo": "wnfldchen/gemma-4-12B-it-qat-q4_0-unquantized-heretic",
+   "layers": 23,
+   "window": [
+    19,
+    41
+   ],
+   "own_spread": 0.024704437479541735,
+   "adjacent": 0.07254179213756026,
+   "far": 0.016594721639859384,
+   "mode": "arbitrary rank",
+   "family": 3
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "BinxNet/gemma-4-26B-A4B-it-heretic",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.17785621211661484,
+   "adjacent": 0.8138456002284375,
+   "far": 0.03309973334359897,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "DuoNeural/gemma-4-26B-A4B-it-abliterated",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.10263734194533622,
+   "adjacent": 0.800231418393881,
+   "far": 0.023723514939295254,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "Rootkit7/Gemma-4-26B-A4B-abliterated",
+   "layers": 16,
+   "window": [
+    10,
+    28
+   ],
+   "own_spread": 0.32154185610074304,
+   "adjacent": 0.8338973997472883,
+   "far": 0.10181811061376542,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "SassyDiffusion/gemma-4-26B-A4B-it-heretic-ara",
+   "layers": 20,
+   "window": [
+    6,
+    28
+   ],
+   "own_spread": 0.04832413668781488,
+   "adjacent": 0.1283255792866652,
+   "far": 0.02005787396760262,
+   "mode": "arbitrary rank",
+   "family": 12
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "SevenOfNine/Gemma-4-26B-A4B-It-Abliterated",
+   "layers": 26,
+   "window": [
+    4,
+    29
+   ],
+   "own_spread": 0.15713079613658154,
+   "adjacent": 0.811696710266172,
+   "far": 0.029281536026779024,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "TrevorJS/gemma-4-26B-A4B-it-uncensored",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.102641189663009,
+   "adjacent": 0.8002006836384558,
+   "far": 0.02373762360973878,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "WWTCyberLab/gemma-4-26B-A4B-it-abliterated",
+   "layers": 18,
+   "window": [
+    9,
+    26
+   ],
+   "own_spread": 0.20694106004388738,
+   "adjacent": 0.8177730559755138,
+   "far": 0.05586959883237767,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "claymorecrystal/gemma-4-26B-A4B-it-uncensored",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.102641189663009,
+   "adjacent": 0.8002006836384558,
+   "far": 0.02373762360973878,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "coder3101/gemma-4-26B-A4B-it-heretic",
+   "layers": 20,
+   "window": [
+    10,
+    29
+   ],
+   "own_spread": 0.03733289205623614,
+   "adjacent": 0.09081920226259663,
+   "far": 0.016774148474511384,
+   "mode": "arbitrary rank",
+   "family": 12
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "erunda337/gemma-4-26B-A4B-it-uncensored",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.10264119935515331,
+   "adjacent": 0.8002006881343939,
+   "far": 0.023737623126186685,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.9999991218055093,
+   "adjacent": 0.9999995226171914,
+   "far": 0.9999988048700625,
+   "mode": "one direction",
+   "family": 13
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "keithtyser/gemma-4-26B-A4B-it-local-abliterated-sota-internal-t34",
+   "layers": 17,
+   "window": [
+    12,
+    28
+   ],
+   "own_spread": 0.38597002153259197,
+   "adjacent": 0.8299302856211102,
+   "far": 0.08779669922175762,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "llmfan46/gemma-4-26B-A4B-it-uncensored-heretic",
+   "layers": 27,
+   "window": [
+    2,
+    29
+   ],
+   "own_spread": 0.0317682010125194,
+   "adjacent": 0.12876155243029352,
+   "far": 0.015001325536335607,
+   "mode": "arbitrary rank",
+   "family": 12
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "prithivMLmods/gemma-4-26B-A4B-Heretic-Stable",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.9999991218055093,
+   "adjacent": 0.9999995226171914,
+   "far": 0.9999988048700625,
+   "mode": "one direction",
+   "family": 13
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "prithivMLmods/gemma-4-26B-A4B-it-Uncensored-MAX",
+   "layers": 25,
+   "window": [
+    5,
+    29
+   ],
+   "own_spread": 0.9999991218055093,
+   "adjacent": 0.9999995226171914,
+   "far": 0.9999988048700625,
+   "mode": "one direction",
+   "family": 13
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "sh0ck0r/gemma-4-26B-A4B-it-heretic",
+   "layers": 21,
+   "window": [
+    9,
+    29
+   ],
+   "own_spread": 0.2581478062785578,
+   "adjacent": 0.8206235987809536,
+   "far": 0.057925065897559906,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "sitten1/gemma-4-26B-A4B-it-uncensored",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.10264119935515331,
+   "adjacent": 0.8002006881343939,
+   "far": 0.023737623126186685,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it",
+   "repo": "tvall43/gemma-4-26B-A4B-it-heretic",
+   "layers": 14,
+   "window": [
+    16,
+    29
+   ],
+   "own_spread": 0.4843477283685569,
+   "adjacent": 0.8366769432475596,
+   "far": 0.16397233851977727,
+   "mode": "per layer",
+   "family": 11
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "layers": 27,
+   "window": [
+    3,
+    29
+   ],
+   "own_spread": 0.9743297128756204,
+   "adjacent": 0.9924693365628219,
+   "far": 0.9638137934061062,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "layers": 16,
+   "window": [
+    7,
+    22
+   ],
+   "own_spread": 0.0909903098852651,
+   "adjacent": 0.16760569377885273,
+   "far": 0.02543212661822211,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "layers": 8,
+   "window": [
+    12,
+    19
+   ],
+   "own_spread": 0.09277315960779761,
+   "adjacent": 0.1366261531239907,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "layers": 9,
+   "window": [
+    12,
+    20
+   ],
+   "own_spread": 0.08929624410725573,
+   "adjacent": 0.11463716153687675,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": 10
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.8082179133327644,
+   "adjacent": 0.9999996396682932,
+   "far": 0.7119473155399161,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "layers": 12,
+   "window": [
+    11,
+    22
+   ],
+   "own_spread": 0.07343997076383094,
+   "adjacent": 0.1386272663022654,
+   "far": 0.030121594867208945,
+   "mode": "arbitrary rank",
+   "family": 10
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "layers": 12,
+   "window": [
+    11,
+    22
+   ],
+   "own_spread": 0.06288445346363197,
+   "adjacent": 0.12060823382274295,
+   "far": 0.044450737192111345,
+   "mode": "arbitrary rank",
+   "family": 10
+  },
+  {
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+   "repo": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "layers": 30,
+   "window": [
+    0,
+    29
+   ],
+   "own_spread": 0.10702860831764605,
+   "adjacent": 0.7763897092558626,
+   "far": 0.02543305403946626,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "3MPER0RR/gemma-4-31b-it-3MPER0RR-abliterated",
+   "layers": 20,
+   "window": [
+    40,
+    59
+   ],
+   "own_spread": 0.46271187037700773,
+   "adjacent": 0.8842454723145498,
+   "far": 0.2255085009921836,
+   "mode": "mixed",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "Bahushruth/gemma-4-31B-it-abliterated",
+   "layers": 33,
+   "window": [
+    17,
+    49
+   ],
+   "own_spread": 0.029839402927426227,
+   "adjacent": 0.0889749396393467,
+   "far": 0.018625719148087853,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "DuoNeural/Gemma4-31B-IT-Abliterated",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.06864068733454298,
+   "adjacent": 0.8940806679977241,
+   "far": 0.03396647812817201,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "Jim-darby/gemma-4-31B-it-heretic-ara-ja80en20",
+   "layers": 20,
+   "window": [
+    27,
+    46
+   ],
+   "own_spread": 0.05778589905715989,
+   "adjacent": 0.12917863615227293,
+   "far": 0.02801056421438597,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "Kooten/gemma-4-31b-abliterated-v1.1",
+   "layers": 27,
+   "window": [
+    24,
+    50
+   ],
+   "own_spread": 0.9999740122682488,
+   "adjacent": 0.9999945259591557,
+   "far": 0.9999553522350313,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "MoonRide/gemma-4-31B-it-heretic-ara",
+   "layers": 24,
+   "window": [
+    30,
+    53
+   ],
+   "own_spread": 0.029460541649740723,
+   "adjacent": 0.06336799658862782,
+   "far": 0.021341727882746915,
+   "mode": "arbitrary rank",
+   "family": 16
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "MoonRide/gemma-4-31B-it-heretic-ara-custom",
+   "layers": 27,
+   "window": [
+    30,
+    56
+   ],
+   "own_spread": 0.02996862273468185,
+   "adjacent": 0.07071998365254348,
+   "far": 0.020312887351293468,
+   "mode": "arbitrary rank",
+   "family": 16
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "Sabomako/gemma-4-31B-it-heretic",
+   "layers": 4,
+   "window": [
+    31,
+    34
+   ],
+   "own_spread": 0.7862031408800396,
+   "adjacent": 0.8445445654598047,
+   "far": null,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "TrevorJS/gemma-4-31B-it-uncensored",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.04242862414847243,
+   "adjacent": 0.8433247538170593,
+   "far": 0.016191229701352415,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "Vampelium/gemma-4-31B-it-heretic",
+   "layers": 26,
+   "window": [
+    34,
+    59
+   ],
+   "own_spread": 0.35368947663071193,
+   "adjacent": 0.8716384348122418,
+   "far": 0.1644854450499652,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "akpsahan/Huihui-gemma-4-31B-it-abliterated-v2",
+   "layers": 55,
+   "window": [
+    5,
+    59
+   ],
+   "own_spread": 0.999995976696785,
+   "adjacent": 0.9999979459617945,
+   "far": 0.9999951593584855,
+   "mode": "one direction",
+   "family": 17
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "callmegrr/gemma-4-31B-it-heretic-z",
+   "layers": 10,
+   "window": [
+    37,
+    46
+   ],
+   "own_spread": 0.6317947194629379,
+   "adjacent": 0.8662366053748571,
+   "far": null,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "coder3101/gemma-4-31B-it-heretic",
+   "layers": 58,
+   "window": [
+    1,
+    58
+   ],
+   "own_spread": 0.05523352701594979,
+   "adjacent": 0.10624943481358623,
+   "far": 0.05352076675364954,
+   "mode": "arbitrary rank",
+   "family": 16
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "cosmicoptima/gemma4-31b-consciousness-abliterated",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999923972909738,
+   "adjacent": 0.9999954513928613,
+   "far": 0.9999912951263094,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "germlag/gemma-4-31B-it-heretic-v2",
+   "layers": 31,
+   "window": [
+    29,
+    59
+   ],
+   "own_spread": 0.28395716379220565,
+   "adjacent": 0.8719952723218146,
+   "far": 0.10686287620772682,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-31B-it-abliterated",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999901266635035,
+   "adjacent": 0.9999945494653018,
+   "far": 0.9999886264308038,
+   "mode": "one direction",
+   "family": 17
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2",
+   "layers": 55,
+   "window": [
+    5,
+    59
+   ],
+   "own_spread": 0.999995976696785,
+   "adjacent": 0.9999979459617945,
+   "far": 0.9999951593584855,
+   "mode": "one direction",
+   "family": 17
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "jcxu97/gemma-4-31B-it-abliterated",
+   "layers": 31,
+   "window": [
+    29,
+    59
+   ],
+   "own_spread": 0.3497704833377275,
+   "adjacent": 0.8705474751176637,
+   "far": 0.1746908633877848,
+   "mode": "per layer",
+   "family": 18
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "llmfan46/gemma-4-31B-it-uncensored-heretic",
+   "layers": 18,
+   "window": [
+    30,
+    47
+   ],
+   "own_spread": 0.03947068919504905,
+   "adjacent": 0.0988211196423833,
+   "far": 0.013040519052331152,
+   "mode": "arbitrary rank",
+   "family": 16
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "nguyenthilaitrieulong/gemma-4-31B-it-abliterated",
+   "layers": 32,
+   "window": [
+    25,
+    59
+   ],
+   "own_spread": 0.19374358779190226,
+   "adjacent": 0.8687000377920177,
+   "far": 0.036212375323918834,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "null-space/gemma-4-31b-it-abliterated",
+   "layers": 40,
+   "window": [
+    20,
+    59
+   ],
+   "own_spread": 0.9984864627863568,
+   "adjacent": 0.9996722647939114,
+   "far": 0.9977735336857401,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "prithivMLmods/gemma-4-31B-it-Uncensored-MAX",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999901266635035,
+   "adjacent": 0.9999945494653018,
+   "far": 0.9999886264308038,
+   "mode": "one direction",
+   "family": 17
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "ressl/gemma-4-31B-it-uncensored",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.04262800433069272,
+   "adjacent": 0.8419215212169756,
+   "far": 0.016141499291829703,
+   "mode": "per layer",
+   "family": 15
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "sh0ck0r/Artemis-31B-v1.1-heretic",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.14496185723822266,
+   "adjacent": 0.9721300064685304,
+   "far": 0.09430974856451801,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
+   "repo": "wangzhang/gemma-4-31B-it-abliterated",
+   "layers": 40,
+   "window": [
+    18,
+    57
+   ],
+   "own_spread": 0.16637959174174538,
+   "adjacent": 0.8543391920365854,
+   "far": 0.06416144509885553,
+   "mode": "per layer",
+   "family": 18
+  },
+  {
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+   "repo": "OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    30,
+    40
+   ],
+   "own_spread": 0.0985132486612772,
+   "adjacent": 0.1759151870613711,
+   "far": 0.013270006078031152,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+   "repo": "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+   "layers": 21,
+   "window": [
+    15,
+    38
+   ],
+   "own_spread": 0.09622099844436924,
+   "adjacent": 0.13223759647452504,
+   "far": 0.046783444746237454,
+   "mode": "arbitrary rank",
+   "family": 14
+  },
+  {
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+   "repo": "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "layers": 16,
+   "window": [
+    16,
+    35
+   ],
+   "own_spread": 0.07482211788348425,
+   "adjacent": 0.15116317867506995,
+   "far": 0.024127486990904175,
+   "mode": "arbitrary rank",
+   "family": 14
+  },
+  {
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+   "repo": "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged",
+   "layers": 30,
+   "window": [
+    24,
+    53
+   ],
+   "own_spread": 0.02690052988097296,
+   "adjacent": 0.07053209004308814,
+   "far": 0.015152405815908815,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "Bahushruth/gemma-4-E2B-it-abliterated",
+   "layers": 9,
+   "window": [
+    16,
+    24
+   ],
+   "own_spread": 0.04515886482937806,
+   "adjacent": 0.03175205771036469,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "DavidAU/gemma-4-E2B-it-The-DECKARD-HERETIC-UNCENSORED-Thinking",
+   "layers": 35,
+   "window": [
+    0,
+    34
+   ],
+   "own_spread": 0.024882372974157806,
+   "adjacent": 0.13744599908088867,
+   "far": 0.02013937377928562,
+   "mode": "arbitrary rank",
+   "family": 21
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "DuoNeural/Gemma-4-E2B-Heretic",
+   "layers": 20,
+   "window": [
+    15,
+    34
+   ],
+   "own_spread": 0.9999969209857988,
+   "adjacent": 0.9999973326865365,
+   "far": 0.9999963810146153,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "Dzluck/gemma-4-E2B-it-abliterated-v2",
+   "layers": 30,
+   "window": [
+    5,
+    34
+   ],
+   "own_spread": 0.9999995046256559,
+   "adjacent": 0.9999995575960269,
+   "far": 0.9999995057228654,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "Ishowbackup/gemma-4-E2B-it-uncensored",
+   "layers": 35,
+   "window": [
+    0,
+    34
+   ],
+   "own_spread": 0.029892909728327966,
+   "adjacent": 0.5908966417493483,
+   "far": 0.019464890550376143,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "MoonRide/gemma-4-E2B-it-heretic",
+   "layers": 20,
+   "window": [
+    15,
+    34
+   ],
+   "own_spread": 0.9999970714621353,
+   "adjacent": 0.9999975009219477,
+   "far": 0.9999969189066148,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "MoonRide/gemma-4-E2B-it-heretic-ara",
+   "layers": 8,
+   "window": [
+    15,
+    22
+   ],
+   "own_spread": 0.029730025360549698,
+   "adjacent": 0.04157802129837678,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": 21
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "MoonRide/gemma-4-E2B-it-heretic-ara-custom",
+   "layers": 19,
+   "window": [
+    16,
+    34
+   ],
+   "own_spread": 0.029184492406004032,
+   "adjacent": 0.04809490352426473,
+   "far": 0.021706619398777164,
+   "mode": "arbitrary rank",
+   "family": 21
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "TrevorJS/gemma-4-E2B-it-uncensored",
+   "layers": 35,
+   "window": [
+    0,
+    34
+   ],
+   "own_spread": 0.029892909728327966,
+   "adjacent": 0.5908966417493483,
+   "far": 0.019464890550376143,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "WWTCyberLab/gemma-4-E2B-it-abliterated",
+   "layers": 24,
+   "window": [
+    9,
+    34
+   ],
+   "own_spread": 0.06934221231170909,
+   "adjacent": 0.6964593931819096,
+   "far": 0.030891770223996327,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "aifeifei798/Heretic-Scalpel-E2B",
+   "layers": 34,
+   "window": [
+    0,
+    34
+   ],
+   "own_spread": 0.030710943428854616,
+   "adjacent": 0.5128278908338412,
+   "far": 0.020455898838053106,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "amkkk/Gemma4_E2B_Abliterated_Baked_HF_Ready",
+   "layers": 24,
+   "window": [
+    9,
+    34
+   ],
+   "own_spread": 0.026833678410803745,
+   "adjacent": 0.06498334875696864,
+   "far": 0.01865482990942844,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "anlord/gemma-4-E2B-it-abliterated",
+   "layers": 5,
+   "window": [
+    22,
+    26
+   ],
+   "own_spread": 0.5385000532742191,
+   "adjacent": 0.7367130710487053,
+   "far": null,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-E2B-it-abliterated",
+   "layers": 25,
+   "window": [
+    10,
+    34
+   ],
+   "own_spread": 0.9999955940729246,
+   "adjacent": 0.9999961756285034,
+   "far": 0.9999953906822837,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "lessans/gemma-4-E2B-it-uncensored",
+   "layers": 35,
+   "window": [
+    0,
+    34
+   ],
+   "own_spread": 0.029892909728327966,
+   "adjacent": 0.5908966417493483,
+   "far": 0.019464890550376143,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "llmfan46/gemma-4-E2B-it-ultra-uncensored-heretic",
+   "layers": 7,
+   "window": [
+    17,
+    23
+   ],
+   "own_spread": 0.0380564151210165,
+   "adjacent": 0.03518180085267432,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": 21
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "prithivMLmods/gemma-4-E2B-it-Uncensored-MAX",
+   "layers": 25,
+   "window": [
+    10,
+    34
+   ],
+   "own_spread": 0.9999955940729246,
+   "adjacent": 0.9999961756285034,
+   "far": 0.9999953906822837,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "treadon/gemma4-E2B-it-Abliterated-AND-Disinhibited-USE-THIS",
+   "layers": 24,
+   "window": [
+    9,
+    33
+   ],
+   "own_spread": 0.07747416308989867,
+   "adjacent": 0.6922020174969532,
+   "far": 0.030353174124117845,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "treadon/gemma4-E2B-it-abliterated",
+   "layers": 24,
+   "window": [
+    9,
+    33
+   ],
+   "own_spread": 0.065652192486055,
+   "adjacent": 0.6977291225035045,
+   "far": 0.029094371101703344,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "tvall43/gemma-4-E2B-it-heretic-v0",
+   "layers": 19,
+   "window": [
+    12,
+    30
+   ],
+   "own_spread": 0.9999925981882168,
+   "adjacent": 0.9999930586894343,
+   "far": 0.9999930564025601,
+   "mode": "one direction",
+   "family": 20
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "tvall43/gemma-4-E2B-it-heretic-v1",
+   "layers": 14,
+   "window": [
+    21,
+    34
+   ],
+   "own_spread": 0.4321420350187156,
+   "adjacent": 0.840041663414127,
+   "far": 0.09729843424424986,
+   "mode": "per layer",
+   "family": 19
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "wangzhang/gemma-4-E2B-it-abliterated",
+   "layers": 26,
+   "window": [
+    9,
+    34
+   ],
+   "own_spread": 0.06840294096328685,
+   "adjacent": 0.6853379002570742,
+   "far": 0.03613128074081388,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E2B-it",
+   "repo": "yuna1126/gemma-4-E2B-Tema_Q-Abliterated",
+   "layers": 5,
+   "window": [
+    14,
+    18
+   ],
+   "own_spread": 0.054681928045778726,
+   "adjacent": 0.09571163739375876,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B",
+   "repo": "Felldude/gemma-4-E4B-uncensored",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.012452898379059503,
+   "adjacent": 0.2819261780874736,
+   "far": 0.008662820943639397,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B",
+   "repo": "chulcher/gemma-4-e4b-abliterated",
+   "layers": 17,
+   "window": [
+    17,
+    33
+   ],
+   "own_spread": 0.03770548303467419,
+   "adjacent": 0.6572128313803645,
+   "far": 0.01246004614139868,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Bahushruth/gemma-4-E4B-it-abliterated",
+   "layers": 12,
+   "window": [
+    21,
+    32
+   ],
+   "own_spread": 0.04605448352777862,
+   "adjacent": 0.08582998866740515,
+   "far": 0.00932882145254883,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "BinxNet/gemma-4-E4B-it-heretic",
+   "layers": 35,
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9481751289217055,
+   "adjacent": 0.9718053027704162,
+   "far": 0.9386787291101406,
+   "mode": "one direction",
+   "family": 23
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Cup4/gemma-4-E4B-it-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "adjacent": 0.09395322519541902,
+   "far": 0.026672842541050464,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Cup5/gemma-4-E4B-it-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "adjacent": 0.09395322519541902,
+   "far": 0.026672842541050464,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Dingdust/ContextPilot-E4B-heretic",
+   "layers": 38,
+   "window": [
+    1,
+    41
+   ],
+   "own_spread": 0.021989322781829117,
+   "adjacent": 0.651556756493109,
+   "far": 0.015332740338697456,
+   "mode": "per layer",
+   "family": 23
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "DuoNeural/Gemma-4-E4B-Heretic",
+   "layers": 32,
+   "window": [
+    10,
+    41
+   ],
+   "own_spread": 0.9999565727102881,
+   "adjacent": 0.9999756828135169,
+   "far": 0.9999452087630789,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Felldude/gemma-4-E4B-uncensored",
+   "layers": 28,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.031522972660570636,
+   "adjacent": 0.6123730228764712,
+   "far": 0.014518633342306912,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Himanshuoo8/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.021213549163258582,
+   "adjacent": 0.1429471636219806,
+   "far": 0.015166663025195704,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.026069442444102982,
+   "adjacent": 0.570104421686973,
+   "far": 0.015949835253269855,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "ImanolSuarez/gemma-4-E4B-it-heretic-seguridadDeLaInformacion",
+   "layers": 18,
+   "window": [
+    18,
+    35
+   ],
+   "own_spread": 0.9466319747336759,
+   "adjacent": 0.9818526943789917,
+   "far": 0.908479120809897,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Jiunsong/supergemma4-e4b-abliterated",
+   "layers": 0,
+   "window": null,
+   "own_spread": null,
+   "adjacent": null,
+   "far": null,
+   "mode": "no file",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "JokeHer/gemma-4-E4B-it-heretic",
+   "layers": 20,
+   "window": [
+    19,
+    38
+   ],
+   "own_spread": 0.027887683140468043,
+   "adjacent": 0.058717975786957484,
+   "far": 0.019432936217813782,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Madras1/Gemma-4-E4B-Abliterated-Uncensored",
+   "layers": 27,
+   "window": [
+    8,
+    34
+   ],
+   "own_spread": 0.9999934887970614,
+   "adjacent": 0.9999956407326436,
+   "far": 0.9999930535152132,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "MoonRide/gemma-4-E4B-it-heretic-ara",
+   "layers": 17,
+   "window": [
+    21,
+    37
+   ],
+   "own_spread": 0.04395588511092513,
+   "adjacent": 0.08665750822542598,
+   "far": 0.023163913569661285,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals3",
+   "layers": 13,
+   "window": [
+    19,
+    31
+   ],
+   "own_spread": 0.027230535315815905,
+   "adjacent": 0.06661504624948893,
+   "far": 0.00785904703493175,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals5",
+   "layers": 17,
+   "window": [
+    19,
+    36
+   ],
+   "own_spread": 0.03445806237416808,
+   "adjacent": 0.09123423879036602,
+   "far": 0.019273488431866395,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn",
+   "layers": 16,
+   "window": [
+    21,
+    36
+   ],
+   "own_spread": 0.04341163579995552,
+   "adjacent": 0.0861813322044314,
+   "far": 0.01636366977128096,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8",
+   "layers": 14,
+   "window": [
+    21,
+    34
+   ],
+   "own_spread": 0.036385324601977645,
+   "adjacent": 0.09047018277084218,
+   "far": 0.019581422620200767,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn",
+   "layers": 14,
+   "window": [
+    17,
+    31
+   ],
+   "own_spread": 0.025763385480592534,
+   "adjacent": 0.06742594674740024,
+   "far": 0.012870474476791552,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "OS-Software/gemma-4-E4B-it-uncensored-heretic",
+   "layers": 10,
+   "window": [
+    18,
+    27
+   ],
+   "own_spread": 0.020956560333581335,
+   "adjacent": 0.03827079606814525,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "Pound1320/gemma-4-E4B-it-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "adjacent": 0.09395322519541902,
+   "far": 0.026672842541050464,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "SassyDiffusion/gemma-4-E4B-it-heretic",
+   "layers": 21,
+   "window": [
+    21,
+    41
+   ],
+   "own_spread": 0.033607744353025826,
+   "adjacent": 0.08094983539925801,
+   "far": 0.024131226323107446,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "TheUmbraWalker/gemma-4-E4B-it-2-heretic",
+   "layers": 38,
+   "window": [
+    4,
+    41
+   ],
+   "own_spread": 0.01947179707837869,
+   "adjacent": 0.6854957936780361,
+   "far": 0.012601056280628076,
+   "mode": "per layer",
+   "family": 24
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "TheUmbraWalker/gemma-4-E4B-it-heretic",
+   "layers": 38,
+   "window": [
+    4,
+    41
+   ],
+   "own_spread": 0.02446090522626583,
+   "adjacent": 0.6996253509391016,
+   "far": 0.013946111574945443,
+   "mode": "per layer",
+   "family": 24
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "TrevorJS/gemma-4-E4B-it-uncensored",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.02205380810035741,
+   "adjacent": 0.6839869820079559,
+   "far": 0.013769034340860468,
+   "mode": "per layer",
+   "family": 24
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "alphakek/gemma-4-E4B-it-heretic-mythos-v1",
+   "layers": 17,
+   "window": [
+    11,
+    27
+   ],
+   "own_spread": 0.024202806137426938,
+   "adjacent": 0.09619101077106362,
+   "far": 0.01978011852199845,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "chulcher/gemma-4-e4b-abliterated",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.012434950524616493,
+   "adjacent": 0.2819422705765009,
+   "far": 0.008596958286133471,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "coder3101/gemma-4-E4B-it-heretic",
+   "layers": 21,
+   "window": [
+    21,
+    41
+   ],
+   "own_spread": 0.04211709338364529,
+   "adjacent": 0.06263919098684234,
+   "far": 0.029495334681462062,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "huihui-ai/Huihui-gemma-4-E4B-it-abliterated",
+   "layers": 35,
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9999985729409994,
+   "adjacent": 0.9999988238191536,
+   "far": 0.9999985504245797,
+   "mode": "one direction",
+   "family": 25
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "jokernifty/gemma-4-e4b-it-abliterated",
+   "layers": 15,
+   "window": [
+    20,
+    34
+   ],
+   "own_spread": 0.9999999243255204,
+   "adjacent": 0.9999999263837658,
+   "far": 0.9999999135095742,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic",
+   "layers": 17,
+   "window": [
+    18,
+    35
+   ],
+   "own_spread": 0.032298461562195964,
+   "adjacent": 0.1028352431956866,
+   "far": 0.017756280968398635,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "llmfan46/gemma-4-E4B-it-uncensored-heretic",
+   "layers": 11,
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "adjacent": 0.09395322519541902,
+   "far": 0.026672842541050464,
+   "mode": "arbitrary rank",
+   "family": 22
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "p-e-w/gemma-4-E4B-it-heretic",
+   "layers": 31,
+   "window": [
+    11,
+    41
+   ],
+   "own_spread": 0.9485898271895614,
+   "adjacent": 0.9737299393340755,
+   "far": 0.94052413381328,
+   "mode": "one direction",
+   "family": 23
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "p-e-w/gemma-4-E4B-it-heretic-REPRODUCED-2",
+   "layers": 31,
+   "window": [
+    11,
+    41
+   ],
+   "own_spread": 0.9485860530404837,
+   "adjacent": 0.9737275570794779,
+   "far": 0.9405134774967214,
+   "mode": "one direction",
+   "family": 23
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX",
+   "layers": 35,
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9999985729409994,
+   "adjacent": 0.9999988238191536,
+   "far": 0.9999985504245797,
+   "mode": "one direction",
+   "family": 25
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "senjiangchen/gemma-4-E4B-it-uncensored",
+   "layers": 42,
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.02205380810035741,
+   "adjacent": 0.6839869820079559,
+   "far": 0.013769034340860468,
+   "mode": "per layer",
+   "family": 24
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "sh0ck0r/gemma-4-E4B-it-heretic",
+   "layers": 23,
+   "window": [
+    19,
+    41
+   ],
+   "own_spread": 0.949031800938963,
+   "adjacent": 0.9747341591607163,
+   "far": 0.932319656653513,
+   "mode": "one direction",
+   "family": 23
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "treadon/gemma4-E4B-it-Abliterated-AND-Disinhibited-USE-THIS",
+   "layers": 21,
+   "window": [
+    17,
+    40
+   ],
+   "own_spread": 0.22543661492378436,
+   "adjacent": 0.8758828419495808,
+   "far": 0.039548308197981774,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it",
+   "repo": "treadon/gemma4-E4B-it-abliterated",
+   "layers": 17,
+   "window": [
+    17,
+    35
+   ],
+   "own_spread": 0.18582050650627913,
+   "adjacent": 0.766647665956954,
+   "far": 0.01199564749947858,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
+   "repo": "coder3101/gemma-4-E4B-it-qat-q4_0-unquantized-heretic",
+   "layers": 16,
+   "window": [
+    20,
+    35
+   ],
+   "own_spread": 0.032117378448144135,
+   "adjacent": 0.061019192266140186,
+   "far": 0.014692350686177982,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
+   "repo": "igorls/gemma-4-E4B-it-qat-q4_0-unquantized-heretic",
+   "layers": 16,
+   "window": [
+    21,
+    36
+   ],
+   "own_spread": 0.032822425659054785,
+   "adjacent": 0.06698782458666458,
+   "far": 0.023401870481989197,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
+   "repo": "prithivMLmods/gemma-4-E4B-it-qat-heretic_decensored",
+   "layers": 24,
+   "window": [
+    18,
+    41
+   ],
+   "own_spread": 0.9510031149594069,
+   "adjacent": 0.9812180050912884,
+   "far": 0.9342835852702159,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "inflatebot/MN-12B-Mag-Mell-R1",
+   "repo": "EldritchLabs/MN-12B-Mag-Mell-R1-Uncensored-Scale1.2",
+   "layers": 40,
+   "window": [
+    0,
+    39
+   ],
+   "own_spread": 0.9995703312476509,
+   "adjacent": 0.999927586093065,
+   "far": 0.9994358977697385,
+   "mode": "one direction",
+   "family": 26
+  },
+  {
+   "parent": "inflatebot/MN-12B-Mag-Mell-R1",
+   "repo": "Naphula/MN-12B-Mag-Mell-R1-Uncensored",
+   "layers": 40,
+   "window": [
+    0,
+    39
+   ],
+   "own_spread": 0.9999972261309364,
+   "adjacent": 0.9999980631831877,
+   "far": 0.9999968175023775,
+   "mode": "one direction",
+   "family": 26
+  },
+  {
+   "parent": "mistralai/Magistral-Small-2509",
+   "repo": "grayarea/Magistral-Small-2509-Heretic-v1.2",
+   "layers": 34,
+   "window": [
+    6,
+    39
+   ],
+   "own_spread": 0.9955408706669974,
+   "adjacent": 0.9984856885663208,
+   "far": 0.9945818480851254,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Magistral-Small-2509",
+   "repo": "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v1",
+   "layers": 7,
+   "window": [
+    16,
+    22
+   ],
+   "own_spread": 0.061504611954172825,
+   "adjacent": 0.07333221185470154,
+   "far": null,
+   "mode": "arbitrary rank",
+   "family": 27
+  },
+  {
+   "parent": "mistralai/Magistral-Small-2509",
+   "repo": "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v2",
+   "layers": 23,
+   "window": [
+    10,
+    36
+   ],
+   "own_spread": 0.025538719212286287,
+   "adjacent": 0.07005152918260099,
+   "far": 0.016375391697388546,
+   "mode": "arbitrary rank",
+   "family": 27
+  },
+  {
+   "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
+   "repo": "AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic",
+   "layers": 19,
+   "window": [
+    15,
+    33
+   ],
+   "own_spread": 0.5299935209881159,
+   "adjacent": 0.9077925237066632,
+   "far": 0.25005165260765305,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
+   "repo": "ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.11841786603785046,
+   "adjacent": 0.7096900993453086,
+   "far": 0.0467783405086199,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "repo": "3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated",
+   "layers": 26,
+   "window": [
+    6,
+    31
+   ],
+   "own_spread": 0.994335182933326,
+   "adjacent": 0.997899715099965,
+   "far": 0.9920905481083504,
+   "mode": "one direction",
+   "family": 28
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "repo": "DogOnKeyboard/Mistral-7B-Heretic",
+   "layers": 20,
+   "window": [
+    12,
+    31
+   ],
+   "own_spread": 0.9999977993450342,
+   "adjacent": 0.9999983414936429,
+   "far": 0.999997114366637,
+   "mode": "one direction",
+   "family": 28
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "repo": "evolveon/Mistral-7B-Instruct-v0.3-abliterated",
+   "layers": 32,
+   "window": [
+    0,
+    31
+   ],
+   "own_spread": 0.999995942746857,
+   "adjacent": 0.9999969221866373,
+   "far": 0.9999957544854938,
+   "mode": "one direction",
+   "family": 28
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "repo": "paoloronco/Mistral-7B-Instruct-v0.3-heretic",
+   "layers": 21,
+   "window": [
+    11,
+    31
+   ],
+   "own_spread": 0.9952834842411766,
+   "adjacent": 0.9980036567637223,
+   "far": 0.9914215792084702,
+   "mode": "one direction",
+   "family": 28
+  },
+  {
+   "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+   "repo": "richardyoung/Mistral-7B-Instruct-v0.3-abliterated",
+   "layers": 21,
+   "window": [
+    11,
+    31
+   ],
+   "own_spread": 0.9999906545243156,
+   "adjacent": 0.9999938122021006,
+   "far": 0.9999840272784527,
+   "mode": "one direction",
+   "family": 28
+  },
+  {
+   "parent": "mistralai/Mistral-Nemo-Instruct-2407",
+   "repo": "DuoNeural/Mistral-NeMo-12B-Abliterated",
+   "layers": 40,
+   "window": [
+    0,
+    39
+   ],
+   "own_spread": 0.9999256076899568,
+   "adjacent": 0.9999521178683612,
+   "far": 0.9999146125379959,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Mistral-Nemo-Instruct-2407",
+   "repo": "grimjim/mistralai-Mistral-Nemo-Instruct-2407-extensive-BP-abliteration-12B",
+   "layers": 35,
+   "window": [
+    3,
+    37
+   ],
+   "own_spread": 0.6450364763367868,
+   "adjacent": 0.9999419908556282,
+   "far": 0.3294754380931621,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "repo": "Pranavz/Hearthfire-24B-heretic",
+   "layers": 40,
+   "window": [
+    0,
+    39
+   ],
+   "own_spread": 0.016182556611971252,
+   "adjacent": 0.6075608503117178,
+   "far": 0.009438414332343497,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "repo": "coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic",
+   "layers": 12,
+   "window": [
+    18,
+    29
+   ],
+   "own_spread": 0.6786736398758484,
+   "adjacent": 0.9097098621416184,
+   "far": 0.3622070943067183,
+   "mode": "mixed",
+   "family": 29
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "repo": "darkc0de/Mistral-Small-3.2-24B-Instruct-2506-heretic",
+   "layers": 36,
+   "window": [
+    4,
+    39
+   ],
+   "own_spread": 0.2878828311226117,
+   "adjacent": 0.8654678100209587,
+   "far": 0.1199799288804679,
+   "mode": "per layer",
+   "family": 29
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "repo": "llmfan46/Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic",
+   "layers": 8,
+   "window": [
+    12,
+    31
+   ],
+   "own_spread": 0.030810083632152454,
+   "adjacent": 0.0646771968262327,
+   "far": 0.014448563308613691,
+   "mode": "arbitrary rank",
+   "family": "none"
+  },
+  {
+   "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+   "repo": "nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed",
+   "layers": 40,
+   "window": [
+    0,
+    39
+   ],
+   "own_spread": 0.9999941378478104,
+   "adjacent": 0.9999964838151894,
+   "far": 0.9999913607891026,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+   "repo": "huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated",
+   "layers": 6,
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7401187784209668,
+   "adjacent": 0.9999967651768069,
+   "far": null,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+   "repo": "llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic",
+   "layers": 39,
+   "window": [
+    9,
+    47
+   ],
+   "own_spread": 0.9624382663373341,
+   "adjacent": 0.9845364269335306,
+   "far": 0.9563275340586295,
+   "mode": "one direction",
+   "family": "none"
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+   "repo": "huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
+   "layers": 6,
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412908793614319,
+   "adjacent": 0.9999949635088596,
+   "far": null,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+   "repo": "llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic",
+   "layers": 45,
+   "window": [
+    3,
+    47
+   ],
+   "own_spread": 0.9429639484794468,
+   "adjacent": 0.9820910600017745,
+   "far": 0.9271565770951172,
+   "mode": "one direction",
+   "family": 30
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+   "repo": "richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic",
+   "layers": 33,
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.9554499913399244,
+   "adjacent": 0.9846599498209827,
+   "far": 0.9527776401659364,
+   "mode": "one direction",
+   "family": 30
+  },
+  {
+   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+   "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
+   "layers": 47,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.023865912230829348,
+   "adjacent": 0.40402558700916524,
+   "far": 0.01818861510418635,
+   "mode": "mixed",
+   "family": 30
+  },
+  {
+   "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+   "repo": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1",
+   "layers": 18,
+   "window": [
+    12,
+    38
+   ],
+   "own_spread": 0.03288767597641347,
+   "adjacent": 0.1186336895987456,
+   "far": 0.016488086492526824,
+   "mode": "arbitrary rank",
+   "family": 31
+  },
+  {
+   "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+   "repo": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2",
+   "layers": 18,
+   "window": [
+    12,
+    39
+   ],
+   "own_spread": 0.02159187926423392,
+   "adjacent": 0.06927741826194575,
+   "far": 0.014208498744878926,
+   "mode": "arbitrary rank",
+   "family": 31
+  }
+ ]
+}
