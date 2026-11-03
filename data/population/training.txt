@@ -1,0 +1,10 @@
+# Read copies whose change is training laid over a parent, as their cards say; judged from the leading direction in the reading notes and finding 1.
+ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored
+richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic
+Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning
+DavidAU/gemma-3-4b-it-vl-Heretic-4-Horsemen-Uncensored
+jwest33/gemma-3-4b-null-space-abliterated-RP-writer
+nbeerbower/Gemma4-Gutenberg-31B-Heretic
+Tetratype/Gemma-4-26B-A4B-it-heretic-antislop
+DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2
+AlSamCur123/gemma-4-E4B-it-uncensored-continued

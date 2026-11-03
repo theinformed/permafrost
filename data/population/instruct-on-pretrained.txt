@@ -1,0 +1,4 @@
+# Copies measured against the pretrained base their base_model field names that stand on the instruct checkpoint their card names; judged by byte range in findings 153 and 158.
+nchapman/Ministral-3-14B-Instruct-2512-heretic-BF16
+nchapman/Ministral-3-3B-Instruct-2512-heretic-BF16
+OS-Software/CyberStag-Security-26B-A4B-V1-Uncensored-Heretic

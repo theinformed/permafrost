@@ -1,0 +1,12 @@
+# Read copies whose weights carry a parent or a change their cards do not name; judged in the reading notes (docs/cards/*.reading.md) and finding 1.
+3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated
+lemuralabs/Gemma-4-12B-uncensored-bf16
+Felldude/Ministral-3-8B-Uncensored
+Felldude/gemma-4-E4B-uncensored
+Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP
+Kooten/gemma-4-31b-abliterated-v1.1
+NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn
+DuoNeural/gemma-4-26B-A4B-it-abliterated
+chulcher/gemma-4-e4b-abliterated
+NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn
+SOMEHOTMEAL/Ministral-3-14B-Janus-Abliterated-V2-Base_And_GGUF

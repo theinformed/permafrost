@@ -2,3 +2,4 @@
 google
 mistralai
 essentialai
+qwen
