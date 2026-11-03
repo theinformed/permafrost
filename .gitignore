@@ -10,6 +10,7 @@ data/prompts/*
 *.gguf
 __pycache__/
 .venv/
+.venv-cluster-vps-copy/
 .tmp/
 
 # Modified: SDE 2026-10-14  keep the pinned batch records.
