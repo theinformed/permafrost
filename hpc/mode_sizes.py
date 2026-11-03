@@ -1,6 +1,7 @@
 # mode_sizes.py -- Join each census copy's edit mode with the size of its measured weight change, per mode and per copy.
 # Created by LT Sean Egan, PhD
 # Modified: SDE 2026-11-03  first pass: per-copy size figures from the weight report, medians per mode, markdown and json.
+# Modified: SDE 2026-11-03  quartiles beside the per-mode medians, a per-parent table and the singular-share crossings line.
 """Join each census copy's edit mode with the size of its measured weight change.
 
 --modes names a json whose copies[] list has rows {parent, repo, layers, mode}.
@@ -12,7 +13,8 @@ min_first_singular_energy_share and changed_kinds. Per copy the changed
 tensor count, the count of distinct layers among the changed names, the
 median and max relative difference over the changed records, the singular
 share and the kinds are taken. The markdown goes to --out with a per-mode
-table and a per-copy table, and the same stem with .json beside it.
+table (quartiles beside the medians), a per-parent table, a crossings line
+and a per-copy table, and the same stem with .json beside it.
 """
 
 import argparse
@@ -64,19 +66,52 @@ def three(value):
     return 'none' if value is None else f'{value:.3f}'
 
 
-def write_markdown(path, mode_rows, rows):
+def quartiles(values):
+    """Return the lower and upper quartiles of the non-None values, else (None, None)."""
+    values = [value for value in values if value is not None]
+    if not values:
+        return None, None
+    if len(values) < 2:
+        return values[0], values[0]
+    q1, _, q3 = statistics.quantiles(values, n=4, method='inclusive')
+    return q1, q3
+
+
+def triple(q1, median, q3):
+    return f'{three(q1)} / {three(median)} / {three(q3)}'
+
+
+def write_markdown(path, mode_rows, parent_rows, crossings, rows):
     lines = [
         f'# {path.stem} -- every census copy joined to the size of its measured weight change.',
         '',
-        '| mode | copies | changed tensors | changed layers | median relative '
-        '| max relative | singular share |',
+        '| mode | copies | changed tensors (q1 / median / q3) | changed layers '
+        '| median relative (q1 / median / q3) | max relative '
+        '| singular share (q1 / median / q3) |',
         '| --- | --- | --- | --- | --- | --- | --- |',
     ]
     for mode, figures in mode_rows:
         lines.append(
-            f"| {mode} | {figures['copies']} | {three(figures['changed_tensors'])} "
-            f"| {three(figures['changed_layers'])} | {three(figures['median_relative'])} "
-            f"| {three(figures['max_relative'])} | {three(figures['singular_share'])} |")
+            f"| {mode} | {figures['copies']} "
+            f"| {triple(figures['changed_tensors_q1'], figures['changed_tensors'], figures['changed_tensors_q3'])} "
+            f"| {three(figures['changed_layers'])} "
+            f"| {triple(figures['median_relative_q1'], figures['median_relative'], figures['median_relative_q3'])} "
+            f"| {three(figures['max_relative'])} "
+            f"| {triple(figures['singular_share_q1'], figures['singular_share'], figures['singular_share_q3'])} |")
+    lines += [
+        '',
+        crossings,
+        '',
+        '## per parent',
+        '',
+        '| parent | mode | copies | changed tensors | median relative | singular share |',
+        '| --- | --- | --- | --- | --- | --- |',
+    ]
+    for row in parent_rows:
+        lines.append(
+            f"| {row['parent']} | {row['mode']} | {row['copies']} "
+            f"| {three(row['changed_tensors'])} | {three(row['median_relative'])} "
+            f"| {three(row['singular_share'])} |")
     lines += [
         '',
         '## per copy',
@@ -128,13 +163,55 @@ def main(argv=None):
         for key in ('changed_tensors', 'changed_layers', 'median_relative',
                     'max_relative', 'singular_share'):
             figures[key] = median_of([row[key] for row in measured])
+        for key in ('changed_tensors', 'median_relative', 'singular_share'):
+            q1, q3 = quartiles([row[key] for row in measured])
+            figures[key + '_q1'] = q1
+            figures[key + '_q3'] = q3
         mode_rows.append((mode, figures))
+
+    parent_rows = []
+    pairs = sorted({(str(row['parent']), str(row['mode'])) for row in rows
+                    if row['kinds'] != 'no report'})
+    for parent, mode in pairs:
+        measured = [row for row in rows if str(row['parent']) == parent
+                    and str(row['mode']) == mode and row['kinds'] != 'no report']
+        parent_rows.append({
+            'parent': parent,
+            'mode': mode,
+            'copies': len(measured),
+            'changed_tensors': median_of([row['changed_tensors'] for row in measured]),
+            'median_relative': median_of([row['median_relative'] for row in measured]),
+            'singular_share': median_of([row['singular_share'] for row in measured]),
+        })
+
+    arbitrary = [row for row in rows
+                 if row['mode'] == 'arbitrary rank' and row['kinds'] != 'no report']
+    other = [row for row in rows
+             if row['mode'] != 'arbitrary rank' and row['mode'] != 'no file'
+             and row['kinds'] != 'no report']
+    crossings = {
+        'arbitrary_high_share': sum(1 for row in arbitrary
+                                    if row['singular_share'] is not None
+                                    and row['singular_share'] >= 0.9),
+        'arbitrary_measured': len(arbitrary),
+        'other_low_share': sum(1 for row in other
+                               if row['singular_share'] is not None
+                               and row['singular_share'] < 0.9),
+        'other_measured': len(other),
+    }
+    crossings_line = (
+        f"arbitrary rank copies with singular share 0.9 or more: "
+        f"{crossings['arbitrary_high_share']} of {crossings['arbitrary_measured']}; "
+        f"other-mode copies under 0.9: "
+        f"{crossings['other_low_share']} of {crossings['other_measured']}")
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    write_markdown(out, mode_rows, rows)
+    write_markdown(out, mode_rows, parent_rows, crossings_line, rows)
     document = {
         'modes': {mode: figures for mode, figures in mode_rows},
+        'parents': parent_rows,
+        'crossings': crossings,
         'copies': rows,
     }
     out.with_suffix('.json').write_text(json.dumps(document, indent=1) + '\n')

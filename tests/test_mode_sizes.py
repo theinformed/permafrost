@@ -1,6 +1,7 @@
 # test_mode_sizes.py -- Check the per-copy size figures, the no-report row and the per-mode medians.
 # Created by LT Sean Egan, PhD
 # Modified: SDE 2026-11-03  three copies, two reports, one missing report.
+# Modified: SDE 2026-11-03  a fourth copy for the quartiles, the per-parent rows and the crossings.
 import contextlib
 import io
 import json
@@ -31,6 +32,7 @@ class ModeSizesTest(unittest.TestCase):
             {'parent': 'org/P', 'repo': 'one/a', 'layers': 2, 'mode': 'per layer'},
             {'parent': 'org/P', 'repo': 'two/b', 'layers': 1, 'mode': 'arbitrary rank'},
             {'parent': 'org/P', 'repo': 'three/c', 'layers': 1, 'mode': 'mixed'},
+            {'parent': 'org/Q', 'repo': 'four/d', 'layers': 1, 'mode': 'arbitrary rank'},
         ]}
         self.modes = self.root / 'modes.json'
         self.modes.write_text(json.dumps(modes))
@@ -46,6 +48,10 @@ class ModeSizesTest(unittest.TestCase):
             'model.layers.4.mlp.down_proj.weight': {'changed': True,
                                                     'relative_difference': 0.5},
         }, 0.6, ['feed_forward_down'])))
+        (self.weights / 'four-d.json').write_text(json.dumps(report({
+            'model.layers.2.mlp.down_proj.weight': {'changed': True,
+                                                    'relative_difference': 0.7},
+        }, 0.95, ['feed_forward_down'])))
         self.out = self.root / 'sizes.md'
         with contextlib.redirect_stdout(io.StringIO()):
             mode_sizes.main(['--modes', str(self.modes), '--weights', str(self.weights),
@@ -82,6 +88,31 @@ class ModeSizesTest(unittest.TestCase):
         self.assertEqual(figures['changed_tensors'], 2)
         self.assertAlmostEqual(figures['median_relative'], 0.2)
         self.assertIn('## per copy', self.markdown)
+
+    def test_arbitrary_rank_quartiles(self):
+        figures = self.document['modes']['arbitrary rank']
+        self.assertEqual(figures['copies'], 2)
+        self.assertEqual(figures['changed_tensors_q1'], 1)
+        self.assertEqual(figures['changed_tensors_q3'], 1)
+        self.assertAlmostEqual(figures['singular_share_q1'], 0.6875)
+        self.assertAlmostEqual(figures['singular_share_q3'], 0.8625)
+        self.assertAlmostEqual(figures['median_relative'], 0.6)
+
+    def test_crossings(self):
+        crossings = self.document['crossings']
+        self.assertEqual(crossings['arbitrary_high_share'], 1)
+        self.assertEqual(crossings['arbitrary_measured'], 2)
+        self.assertEqual(crossings['other_low_share'], 0)
+        self.assertEqual(crossings['other_measured'], 1)
+        self.assertIn('arbitrary rank copies with singular share 0.9 or more: 1 of 2',
+                      self.markdown)
+
+    def test_per_parent(self):
+        parents = self.document['parents']
+        self.assertIn({'parent': 'org/Q', 'mode': 'arbitrary rank', 'copies': 1,
+                       'changed_tensors': 1, 'median_relative': 0.7,
+                       'singular_share': 0.95}, parents)
+        self.assertIn('## per parent', self.markdown)
 
 
 if __name__ == '__main__':
