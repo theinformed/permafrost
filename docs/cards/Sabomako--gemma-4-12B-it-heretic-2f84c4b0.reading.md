@@ -16,8 +16,7 @@ per layer projected on the output side from 31 matrices in three bands, at weigh
 projections and under 0.4 on most of the rest, with every row restored.
 
 - 31 of 677 tensors changed: both writers of layers 18 to 23, the down projections alone of 24 to 30, and both
-  writers of 34 to 39. Nothing else moved; the largest relative change outside the changed set is exactly 0 on
-  all 646 other tensors.
+  writers of 34 to 39. The largest relative change outside the changed set is 0.00009, on an attention output inside the edit's window and below the threshold; nothing else moved.
 - Rank one on every matrix (first shares 0.741 to 0.992, the small changes carrying the larger rounding share)
   and one direction per layer: the two writers of a layer at 0.984 to 1.000, the layers at 0.11 to 0.70 to
   layer 27 on the down projections.
