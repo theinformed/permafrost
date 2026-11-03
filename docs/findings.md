@@ -6523,6 +6523,61 @@ Evidence: `results/directions/modes.md` and `modes.json` (every copy's figures a
 by family), `results/directions/layers/` for the five Gemma 4 parents, `results/directions/google-gemma-4-E4B-it.json`
 and `results/directions/google-gemma-4-12B-it.json` for the Dingdust and Paul691 pair figures.
 
+## 182. The arbitrary-rank copies change a third of the tensors and half the layers of the other modes, in every parent that holds both, and their changes are not rank one inside a matrix either
+
+The edit mode of finding 181 is read from how a copy's saved direction rotates between layers. Set beside the
+size figures of each copy's weight comparison, the mode sorts the census a second way. Over the 200 copies with
+a mode and a report, the median arbitrary-rank copy changes 24 tensors on 17 layers; the median one-direction
+copy changes 63.5 tensors on 34 layers and the median per-layer copy 67 tensors on 31 layers, with the twelve
+mixed copies at 55 and 32.5. The quartiles do not meet: the upper quartile of changed tensors under arbitrary
+rank is 38, the lower quartile under one direction 50 and under per layer 42.
+
+The same holds inside each parent. Eleven parents hold at least one arbitrary-rank copy beside at least one
+one-direction or per-layer copy, and in all eleven the arbitrary-rank median count of changed tensors is below
+both of the other medians: the 12B 40 against 55 and 66, the 31B 46 against 120 and 94, the E2B 18 against
+49.5 and 70, the E4B 24.5 against 68 and 84, the 26B-A4B 27 against 50 and 51.5, Mistral Small 3.2 8 against
+80 and 174.5, Magistral Small 33.5 against 64, and the QAT and diffusion parents likewise.
+
+The smallest first-singular energy share among a copy's changed matrices, the share of each difference's
+energy in its leading direction as the comparison estimates it, reads 0.466 at the arbitrary-rank median, with
+quartiles 0.022 and 0.862, against 0.981 under one direction (0.963 to 0.994) and 0.978 under per layer (0.593
+to 0.991). Within the eleven parents the arbitrary-rank median is below both other medians in nine; the two
+exceptions are parents whose per-layer copies are themselves low, the diffusion 26B-A4B at 0.002 and Mistral
+Small 3.2 at 0.495. So a copy whose direction rotates arbitrarily between layers is also, as a rule, a copy
+whose change inside a matrix has more than one direction in it. The two readings come from different
+measurements, the rotation from the saved vectors across layers and the share from the singular values of one
+difference, and a per-layer edit that was rank one in each matrix with a fresh direction at every layer would
+read high on the share and arbitrary on the rotation.
+
+The crossing counts say where the rule bends. Fourteen of the 65 arbitrary-rank copies read a share of 0.9 or
+more, and eleven of them are the small kernel passes of finding 181's name table: 7 to 18 changed matrices on
+as many layers, attention output only, at shares between 0.910 and 0.950, one rank-one edit per layer with a
+fresh direction at each, the case the two readings were built to tell apart. Forty-three of the 135 copies of
+the other modes read under 0.9. Nineteen of them change more than 100 matrices, the fine-tunes over an
+ablation (Felldude, lemuralabs, Paul691, sh0ck0r's Artemis, richardyoung's coder pass among them), where the
+smallest share over hundreds of changed matrices is low by construction; among the rest, the four identical
+26B-A4B per-layer copies at 0.881 and the two diffusion copies at 0.002 carry the mixture's expert tensors in
+their changed set.
+
+The size of each change per tensor does not sort by mode. The median relative difference over the changed
+tensors is 0.030 at the arbitrary-rank median against 0.021 and 0.020, but within the eleven parents the
+arbitrary-rank value is above both other medians in seven, between them in two and below both in two (the E2B
+and the diffusion 26B-A4B); it is a lean, not a rule.
+
+Why it matters. Finding 181 read three modes from the directions alone. This finding says the arbitrary-rank
+mode is a different kind of edit rather than a noisier version of the same one: it touches fewer matrices on
+fewer layers, its change inside a matrix is not rank one, and it does so in every parent where it can be
+compared. A method that models an abliteration as one low-rank projection applied layer by layer describes two
+thirds of the census and not this third. The share floor of 0.9 the direction comparison applies to both sides
+of a key cuts into exactly this third, which is why the arbitrary-rank copies carry a median of 40 shared keys
+per comparison against 86 to 90 under the other modes.
+
+Evidence. `hpc/mode_sizes.py --modes results/directions/modes.json --weights results/weights --out
+results/directions/mode-sizes.md`, with its json beside it: the per-mode table with quartiles, the crossings by
+name, the per-parent table and the per-copy rows. The modes are those of finding 181
+(`results/directions/modes.json`); the size figures are read from each copy's saved weight report under
+`results/weights/`; the shared-key medians are read from the census comparisons under `results/directions/`.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
