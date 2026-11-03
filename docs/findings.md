@@ -6453,6 +6453,63 @@ figures, `results/directions/families.json` for the family lists; the layer figu
 `results/directions/layers/google-gemma-4-<parent>.md`, written by `hpc/direction_layers.py` from the o_proj left
 vectors in each pull's `weights.directions.safetensors`, set against TrevorJS's copy on each parent.
 
+## 181. Read from their own layer rotation, the 201 census copies fall into three edit modes, 69 per layer, 54 one direction and 65 arbitrary rank, the word in the name predicts the mode poorly, and a family is an agreement set that can hold two modes
+
+The mode table, `results/directions/modes.md`, written by `hpc/direction_modes.py`, reads each copy's o_proj left
+vectors alone and takes two figures from them: the median |cos| between layers one apart (adjacent) and between
+layers ten or more apart (far). A copy is one direction when far is 0.9 or more, per layer when adjacent is 0.5 or
+more and far 0.2 or less, arbitrary rank when adjacent is under 0.2, and mixed otherwise. Of 202 census copies one
+(Jiunsong's E4B) has no directions file; the 201 others sort 69 per layer, 54 one direction, 65 arbitrary rank and
+12 mixed. The three groups stand apart: the per-layer copies read adjacent 0.61 to 0.87 and far 0.12 or less
+(TrevorJS's E4B 0.684 and 0.014, BinxNet's 26B-A4B 0.814 and 0.033, Pranavz's Mistral Small 0.608 and 0.009,
+FredyRivera-dev's diffusiongemma 0.849 and 0.035, ccharnkij's Ministral 0.710 and 0.047), the one-direction copies
+far 0.93 or more, the kernel passes among them (p-e-w's E4B 0.974 and 0.941: the kernel weights the layers and
+leaves the direction one), and the arbitrary-rank copies adjacent 0.05 to 0.13 (coder3101's E4B 0.063, wnfldchen's
+12B 0.073, llmfan46's 26B-A4B 0.129). The modes are the lines of findings 177 to 180 read without a card: per layer
+is the per-layer line, one direction is the kernel line and the difference-of-means projection together, arbitrary
+rank is the 1.2 line.
+
+The word in the name says little. Of 112 copies with heretic in the name 55 are arbitrary rank, 29 one direction,
+25 per layer and 3 mixed; of 60 with abliterated, 26 per layer, 19 one direction, 7 arbitrary rank, 7 mixed and the
+one without a file; of 29 with uncensored, 18 per layer, 6 one direction, 3 arbitrary rank, 2 mixed. By parent the
+E4B is the arbitrary-rank parent (18, against 10 one direction and 9 per layer), the 12B, 26B-A4B, 31B and E2B are
+per-layer parents (13, 12, 11 and 10 per layer), the Mistral 7B's five copies are all one direction and the
+quantised-and-restored parents are mostly arbitrary rank (6 of 10 on the 12B, 5 of 8 on the 26B-A4B, 4 of 4 on
+the 31B). The twelve mixed copies are of three kinds that the two figures tell apart: fine-tunes over an ablation,
+where the fine-tune's delta buries the direction (DavidAU's Gemma 3 27B 0.466 and 0.024, chulcher's and Felldude's
+E4B 0.282 and 0.009, tpls's 12B coder 0.404 and 0.018); one-direction passes on short windows, where far has few
+pairs and the direction drifts (coder3101's Mistral Small on 12 layers 0.910 and 0.362, 3MPER0RR's 31B on 20 layers
+0.884 and 0.226, AISafety-Student's Ministral on 19 layers 0.908 and 0.250, AEON-7's 12B 0.764 and 0.204); and
+copies with adjacent 0.98 to 1.000 and far 0.33 to 0.86, one direction between neighbours and another across the
+depth, two blocks of one direction each (huihui-ai's 12B-qat 1.000 and 0.656, eadx's 26B-A4B-qat re-upload 1.000 and
+0.712, grimjim's Nemo 1.000 and 0.329, lemuralabs's 12B 0.978 and 0.861).
+
+A family is an agreement set, a median over shared keys of 0.9 or more, and five of the 31 families hold more than
+one mode. Three hold a near member: the 31B's per-layer family has 3MPER0RR's short-window pass at 0.884 and 0.226,
+the Mistral Small per-layer pair has coder3101's at 0.910 and 0.362, and the 12B coder fine-tune's one-direction
+family has tpls's fine-tune over an ablation. Two join a per-layer copy to one-direction copies. On the E4B the
+index-31 kernel family (p-e-w, his reproduction, sh0ck0r, BinxNet) holds Dingdust's per-layer pass (0.652 and
+0.015) through sh0ck0r's window alone: sh0ck0r edits layers 19 to 41 and on layers 25 to 41 Dingdust's directions
+are within 0.9 of the index-31 direction, 32 of 60 shared keys, median 0.926; against p-e-w's wider window, 11 to
+41, the same copy reads 0.055, and against TrevorJS's per-layer pass 0.051, agreeing only at layers 31 and 32. On
+the 12B the index-29 kernel family (MoonRide, BinxNet, prithivMLmods, 3MPER0RR) holds Paul691's per-layer pass
+(0.745 and 0.019) through lemuralabs's copy: the two agree at 1.000 on every gate, up, q, k and v projection, 228
+keys, and disagree on every o_proj and down_proj, 96 keys, so they share one input-side edit and differ in the
+output-side rule, Paul691's turning with depth and lemuralabs's one direction with a second block. The median takes
+the 228 and joins them.
+
+Why it matters. The mode is in the saved vectors, and a pull now carries it before any card is read or any byte of
+weights is fetched at home: the placement step picks a parent's per-layer reference by this signature and the
+mode table names what each copy did. The name is no guide (heretic is arbitrary rank in half the cases, one
+direction in a quarter and per layer in a quarter) and the family is a guide with two known exceptions, both made
+by a median over keys that a short window or a shared input-side edit can carry past 0.9. The three modes are the
+three places a direction comes from (finding 180): each layer's own, one layer's spread over a window, and a search
+that is no layer's own.
+
+Evidence: `results/directions/modes.md` and `modes.json` (every copy's figures and mode, the counts by name word and
+by family), `results/directions/layers/` for the five Gemma 4 parents, `results/directions/google-gemma-4-E4B-it.json`
+and `results/directions/google-gemma-4-12B-it.json` for the Dingdust and Paul691 pair figures.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
