@@ -4,6 +4,7 @@
 # Modified: SDE 2026-11-03  number a family by its 1-based position among the families of the same parent, not the whole list.
 # Modified: SDE 2026-11-03  skip the command's own modes.json and any copies list without pull and pair when reading the census.
 # Modified: SDE 2026-11-03  add the pair figure: median |cos| between the copy's o_proj and down_proj left vectors of the same layer.
+# Modified: SDE 2026-11-03  read a copy's mode from down_proj when its o_proj change has no leading direction and its down_proj change has one.
 """Sort every census copy into an edit mode by its own layer rotation.
 
 --directions names a census folder of <parent id>.json files, each with a
@@ -17,8 +18,14 @@ adjacent median is at least 0.5 and the far median at most 0.2, "arbitrary
 rank" when the adjacent median is under 0.2, and "mixed" otherwise. The pair
 figure is the median |cos| between the copy's --kind left vector and its
 down_proj left vector (o_proj when --kind is down_proj) of the same layer,
-over the layers carrying both, and none when no layer carries both. The
-markdown goes to --out and the same stem with .json beside it.
+over the layers carrying both, and none when no layer carries both. With
+--weights DIR, each copy's weight report DIR/<repo with '/' as '-'>.json
+gives the median first_singular_energy_share of its changed attention_output
+records (o share) and feed_forward_down records (down share). When the o
+share is under 0.5 and the down share is at least 0.9, the copy's vectors are
+loaded with kind down_proj and the other with kind o_proj, and the row says
+it was read from down_proj. The markdown goes to --out and the same stem
+with .json beside it.
 """
 
 import argparse
@@ -32,6 +39,8 @@ ONE_DIRECTION = 0.9
 PER_LAYER_ADJACENT = 0.5
 PER_LAYER_FAR = 0.2
 ARBITRARY_ADJACENT = 0.2
+OPROJ_NOISE = 0.5
+DOWN_CLEAR = 0.9
 
 MODES = ('per layer', 'one direction', 'arbitrary rank', 'mixed', 'few layers', 'no file')
 WORDS = ('heretic', 'abliterated', 'uncensored', 'other')
@@ -68,6 +77,36 @@ def pair_of(vectors, other):
             continue
         values.append(abs(float(a @ b)) / norm)
     return statistics.median(values) if values else None
+
+
+def share_of(report, kind_name):
+    """Return the median first_singular_energy_share of a report's changed records of a kind."""
+    if not isinstance(report, dict):
+        return None
+    tensors = report.get('tensors')
+    if not isinstance(tensors, dict):
+        return None
+    values = []
+    for record in tensors.values():
+        if not isinstance(record, dict):
+            continue
+        if record.get('changed') is not True or record.get('kind') != kind_name:
+            continue
+        share = record.get('first_singular_energy_share')
+        if isinstance(share, (int, float)) and not isinstance(share, bool):
+            values.append(float(share))
+    return statistics.median(values) if values else None
+
+
+def read_report(folder, repo):
+    """Return a copy's weight report from DIR/<repo with '/' as '-'>.json, else None."""
+    if folder is None or repo is None:
+        return None
+    path = Path(folder) / (str(repo).replace('/', '-') + '.json')
+    try:
+        return json.loads(path.read_text())
+    except (OSError, ValueError):
+        return None
 
 
 def name_word(repo):
@@ -160,15 +199,17 @@ def write_markdown(path, rows, counts, by_name, family_rows):
                      + ' | '.join(str(row['counts'][mode]) for mode in MODES[:5]) + ' |')
     lines += [
         '',
-        '| parent | copy | layers | window | own spread | adjacent | far | pair | mode | family |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| parent | copy | layers | window | own spread | adjacent | far | pair '
+        '| read from | o share | down share | mode | family |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         window = 'none' if row['window'] is None else f"{row['window'][0]}..{row['window'][1]}"
         lines.append(
             f"| {row['parent']} | {row['repo']} | {row['layers']} | {window} "
             f"| {three(row['own_spread'])} | {three(row['adjacent'])} | {three(row['far'])} "
-            f"| {three(row['pair'])} | {row['mode']} | {row['family']} |")
+            f"| {three(row['pair'])} | {row['read_from']} | {three(row['o_share'])} "
+            f"| {three(row['down_share'])} | {row['mode']} | {row['family']} |")
     path.write_text('\n'.join(lines) + '\n')
 
 
@@ -180,6 +221,8 @@ def main(argv=None):
                         help='pull roots holding <pull>/measurements/pair-<pair> folders')
     parser.add_argument('--families', help='families.json with families[] {parent, members[]}')
     parser.add_argument('--kind', default='o_proj', help='tensor-name suffix (default o_proj)')
+    parser.add_argument('--weights', default=None,
+                        help='folder of <repo with / as ->.json weight reports')
     parser.add_argument('--out', required=True, help='output markdown file')
     args = parser.parse_args(argv)
 
@@ -198,11 +241,20 @@ def main(argv=None):
                 continue
             seen.add((parent, repo))
             path = find_file(args.pulls, copy)
-            vectors = load_layers(path, args.kind) if path else {}
+            report = read_report(args.weights, repo)
+            o_share = share_of(report, 'attention_output')
+            down_share = share_of(report, 'feed_forward_down')
+            if (o_share is not None and o_share < OPROJ_NOISE
+                    and down_share is not None and down_share >= DOWN_CLEAR):
+                kind, other_kind, read_from = 'down_proj', 'o_proj', 'down_proj'
+            else:
+                kind, other_kind, read_from = args.kind, other_kind, args.kind
+            vectors = load_layers(path, kind) if path else {}
             other = load_layers(path, other_kind) if path else {}
             row = {'parent': parent, 'repo': repo, 'layers': len(vectors),
                    'window': None, 'own_spread': None, 'adjacent': None, 'far': None,
                    'pair': pair_of(vectors, other),
+                   'read_from': read_from, 'o_share': o_share, 'down_share': down_share,
                    'mode': 'no file', 'family': family_of(numbers, parent, repo)}
             if vectors:
                 figures = place(vectors, {})
