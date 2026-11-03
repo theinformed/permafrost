@@ -6334,6 +6334,49 @@ prompt set: the E4B said it does not move the 1.2 direction and the 12B says one
 Evidence: `results/directions/12b-families-parameters.md`, `results/directions/google-gemma-4-12B-it.json` for the
 pair figures, `results/directions/families.json` for the family lists.
 
+## 179. On the 31B the largest family is the per-layer line, where three Heretic versions and the biprojection meet at 0.96 to 1.000, the 1.2 line stays one direction under ARA sets and a custom system prompt and moves to 0.54 under a Japanese set, and the three lines stand at 0.02 to 0.13
+
+The 31B table, `results/directions/31b-families-parameters.md`, sets the 25 measured copies of google/gemma-4-31B-it
+beside their four families and the figures their reading notes record (25 notes, 8 with a version, 4 saying one
+direction per layer, 5 with kernels). The largest family here is not the 1.2 line but the per-layer one. Family 1,
+seven copies, is TrevorJS's norm-preserving biprojection at scale 1.0 on 120 matrices with ressl's export at 0.989
+to it on all 120 (a card that names no tool), callmegrr's Heretic 1.4.0 pass with one direction per layer under two
+printed kernels at 0.984 on 12, germlag's Heretic 1.2.0 "magnitude-preserving orthogonalisation" per layer (coder3101's
+second export, finding 105) at 0.962 on 65 and at 1.000 to callmegrr's and Vampelium's, Vampelium's at 0.969 on 47,
+3MPER0RR's at 0.966 on 41 and Sabomako's Heretic 1.3.0 "custom ORBA abliteration" at 0.876 on 8. Three versions of
+the tool run per layer, a biprojection and two cards that name no tool land on one direction per layer: a per-layer
+direction is the layer's own difference of means, the same whoever takes it, and finding 105's 1.000 between four
+makers was this line. Family 2, four copies, is the 1.2.0 arbitrary-rank line: coder3101's (start layer 1, end 59),
+llmfan46's (30 to 48) and MoonRide's two, the ARA pass (30 to 54) and the ARA pass with a custom system prompt (30 to
+57), at 0.938 to 0.994 to each other. Family 3 is huihui-ai's difference-of-means projection, the first version at
+weight 1.00 with prithivMLmods's re-shard and the second at 1.5 on layers 5 to 59 with akpsahan's re-upload. Family
+4 is wangzhang's Abliterix orthogonal projection with jcxu97's duplicate, at 0.838 to TrevorJS's and 0.206 to
+huihui-ai's. Across the lines: the per-layer line against the 1.2 line 0.032 on 58 matrices, against huihui-ai's
+0.125 on 120, the 1.2 line against huihui-ai's 0.018 on 58.
+
+The prompt-set question of finding 178 gets both answers on one parent. MoonRide's ARA set and his custom system
+prompt leave the 1.2 direction where coder3101's shipped set put it (0.978 and 0.938 to coder3101's), as NullpoLab's
+ARA sets did on the E4B; Jim-darby's 1.2.0 search on a set of 80 percent Japanese prompts (ja80en20, 400 harmless)
+stands at 0.544 to 0.621 to the four and in no family, as RumiaChannel's ARA searches did on the 12B. A set can move
+the 1.2 direction and need not; the tables record which sets did and do not say what in them does it. The kernel
+line with a printed direction index, the E4B's and 12B's second family, has one copy on the 31B, sh0ck0r's 1.4.0 pass
+over TheDrummer's Artemis fine-tune, 603 changed matrices with the fine-tune inside them, alone at 0.494 to
+callmegrr's. The rest stand where their lines put them: Bahushruth's L-BFGS ablation on 7,356 harmful prompts at
+0.65 to 0.69 to the 1.2 line, null-space's eight-direction projection at 0.653 to callmegrr's, Kooten's linear-kernel
+Heretic pass at 0.851 to Sabomako's on 8, nguyenthilaitrieulong's five-surface edit (WWTCyberLab's duplicate, finding
+64) at 0.80 to 0.85 to the per-layer line, DuoNeural's rank-one projection (finding 107) at 0.477 to everything, and
+cosmicoptima's projection along a direction that is not a refusal direction (finding 106) at 0.079 or less.
+
+Why it matters. Three parents now sort by the same lines and the lines are now four: the 1.2 arbitrary-rank
+direction, the kernel line's indexed direction, the per-layer direction, and the difference-of-means projection,
+pairwise at 0.02 to 0.13 on every parent measured. The per-layer line is the one that needs no tool to place: any
+method that takes each layer's own direction lands in it, whatever its name or version, which is why four makers
+read 1.000 in finding 105 and why Abliterix's projection sits at 0.84 beside it. The 1.2 line is the one the
+prompt set can move, and the E2B and 26B-A4B tables add their cases.
+
+Evidence: `results/directions/31b-families-parameters.md`, `results/directions/google-gemma-4-31B-it.json` for the
+pair figures, `results/directions/families.json` for the family lists.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
