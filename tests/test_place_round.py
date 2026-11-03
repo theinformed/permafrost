@@ -4,6 +4,7 @@
 # Modified: SDE 2026-11-03  a flipped census copy and a flipped new pair, both read at median 1.000.
 # Modified: SDE 2026-11-03  a parent whose only census copy carries one direction, placed with no best layer.
 # Modified: SDE 2026-11-03  the reference is a per-layer copy (9 degrees a layer); a parent with no per-layer copy reads "none (no per-layer copy)".
+# Modified: SDE 2026-11-03  --batches: same, different and missing weight-file checksums; without it every row reads "none".
 import contextlib
 import io
 import json
@@ -99,17 +100,41 @@ def build(root):
     write_metadata(pair4, 'new/w', 'org/R')
     save_file({key(layer): reference[7].float() for layer in range(2, 10)},
               str(pair4 / 'weights.directions.safetensors'))
-    return census, families, round_dir
+    pair5 = round_dir / 'pair-5'
+    write_metadata(pair5, 'new/v', 'org/P')
+    save_file({key(layer): reference[7].float() for layer in range(5, 13)},
+              str(pair5 / 'weights.directions.safetensors'))
+
+    batches = Path(root) / 'batches'
+    batches.mkdir()
+    (batches / 'round-1-batch-1.json').write_text(json.dumps({'pairs': [
+        {'modified': {'hub_id': 'one/b', 'revision': 'r1',
+                      'weight_files_sha256': {'a.safetensors': 'aa',
+                                              'b.safetensors': 'bb'}},
+         'original': {'hub_id': 'org/P', 'revision': 'r0'}},
+        {'modified': {'hub_id': 'new/x', 'revision': 'r2',
+                      'weight_files_sha256': {'a.safetensors': 'aa',
+                                              'b.safetensors': 'bb'}},
+         'original': {'hub_id': 'org/P', 'revision': 'r0'}},
+    ]}))
+    (batches / 'round-2-batch-1.json').write_text(json.dumps({'pairs': [
+        {'modified': {'hub_id': 'new/z', 'revision': 'r3',
+                      'weight_files_sha256': {'a.safetensors': 'cc'}},
+         'original': {'hub_id': 'org/P', 'revision': 'r0'}},
+    ]}))
+    return census, families, round_dir, batches
 
 
-def run(round_dir, census, families, out):
+def run(round_dir, census, families, out, batches=None):
     stream = io.StringIO()
     errors = io.StringIO()
+    argv = ['--measurements', str(round_dir), '--directions', str(census),
+            '--families', str(families), '--pulls', str(round_dir.parent),
+            '--out', str(out)]
+    if batches is not None:
+        argv += ['--batches', str(batches)]
     with contextlib.redirect_stdout(stream), contextlib.redirect_stderr(errors):
-        code = place_round.main(
-            ['--measurements', str(round_dir), '--directions', str(census),
-             '--families', str(families), '--pulls', str(round_dir.parent),
-             '--out', str(out)])
+        code = place_round.main(argv)
     return code, stream.getvalue(), errors.getvalue()
 
 
@@ -118,13 +143,13 @@ class PlaceRoundTest(unittest.TestCase):
     def test_placement(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            census, families, round_dir = build(root)
+            census, families, round_dir, batches = build(root)
             out = root / 'out' / 'round-54.md'
-            code, _, _ = run(round_dir, census, families, out)
+            code, _, _ = run(round_dir, census, families, out, batches)
             self.assertEqual(code, 0)
             document = json.loads(out.with_suffix('.json').read_text())
             rows = {row['copy']: row for row in document['rows']}
-            self.assertEqual(len(document['rows']), 4)
+            self.assertEqual(len(document['rows']), 5)
             self.assertEqual(document['skipped'], [])
 
             placed = rows['new/x']
@@ -139,6 +164,7 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertEqual(placed['best_layer'], 7)
             self.assertAlmostEqual(placed['cos'], 1.0, places=6)
             self.assertEqual(placed['note'], '')
+            self.assertEqual(placed['checksums'], 'same weight files')
 
             flipped = rows['new/z']
             self.assertEqual(flipped['parent'], 'org/P')
@@ -146,6 +172,13 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertAlmostEqual(flipped['median'], 1.0, places=6)
             self.assertEqual(flipped['keys'], 8)
             self.assertEqual(flipped['family'], 1)
+            self.assertEqual(flipped['checksums'], 'different weight files')
+
+            missing = rows['new/v']
+            self.assertEqual(missing['parent'], 'org/P')
+            self.assertEqual(missing['partner'], 'one/b')
+            self.assertAlmostEqual(missing['median'], 1.0, places=6)
+            self.assertEqual(missing['checksums'], 'checksums missing for copy')
 
             fresh = rows['new/y']
             self.assertEqual(fresh['parent'], 'org/Q')
@@ -153,6 +186,7 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertIsNone(fresh['partner'])
             self.assertIsNone(fresh['best_layer'])
             self.assertEqual(fresh['family'], 'none')
+            self.assertEqual(fresh['checksums'], 'none')
 
             single = rows['new/w']
             self.assertEqual(single['parent'], 'org/R')
@@ -164,30 +198,48 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertEqual(single['partner'], 'single/e')
             self.assertAlmostEqual(single['median'], 1.0, places=6)
             self.assertEqual(single['family'], 1)
+            self.assertEqual(single['checksums'], 'checksums missing for both')
+
+    def test_checksums_without_batches(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            census, families, round_dir, _ = build(root)
+            out = root / 'out' / 'round-54.md'
+            code, _, _ = run(round_dir, census, families, out)
+            self.assertEqual(code, 0)
+            document = json.loads(out.with_suffix('.json').read_text())
+            self.assertEqual(len(document['rows']), 5)
+            for row in document['rows']:
+                self.assertEqual(row['checksums'], 'none')
 
     def test_markdown_rows(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            census, families, round_dir = build(root)
+            census, families, round_dir, batches = build(root)
             out = root / 'out' / 'round-54.md'
-            run(round_dir, census, families, out)
+            run(round_dir, census, families, out, batches)
             lines = out.read_text().splitlines()
             self.assertEqual(
                 lines[0],
                 '# round-54 -- new copies placed against the census of saved directions.')
             self.assertEqual(lines[1], '')
             table = [line for line in lines[4:] if line.startswith('| ')]
-            self.assertEqual(len(table), 4)
+            self.assertEqual(len(table), 5)
             self.assertTrue(table[0].startswith(
-                '| new/x | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 | ref/a |'))
+                '| new/x | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 '
+                '| ref/a | same weight files |'))
             self.assertTrue(table[1].startswith(
                 '| new/y | org/Q | none | none | none | none | none | none | none | none '
-                '| none | new parent |'))
+                '| none | none | new parent |'))
             self.assertTrue(table[2].startswith(
-                '| new/z | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 | ref/a |'))
+                '| new/z | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 '
+                '| ref/a | different weight files |'))
             self.assertTrue(table[3].startswith(
                 '| new/w | org/R | single/e | 1.000 | 8 | 1 | 2..9 | 1.000 | none | none '
-                '| none (no per-layer copy) |'))
+                '| none (no per-layer copy) | checksums missing for both |'))
+            self.assertTrue(table[4].startswith(
+                '| new/v | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 '
+                '| ref/a | checksums missing for copy |'))
 
     def test_constants(self):
         self.assertEqual(place_round.PER_LAYER_ADJACENT, 0.5)
@@ -196,7 +248,7 @@ class PlaceRoundTest(unittest.TestCase):
     def test_missing_measurements(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
-            census, families, round_dir = build(root)
+            census, families, round_dir, _ = build(root)
             out = root / 'out' / 'round-54.md'
             code, _, errors = run(root / 'absent', census, families, out)
             self.assertEqual(code, 2)

@@ -4,6 +4,7 @@
 # Modified: SDE 2026-11-03  median |cos| taken over the row's cosines list, not the signed median, so a flipped partner reads 1.000.
 # Modified: SDE 2026-11-03  a parent whose census copies all carry one direction reads "<repo> (one direction)" with no best layer.
 # Modified: SDE 2026-11-03  the reference is the census copy whose layers rotate per layer (adjacent |cos| >= 0.5, far <= 0.2), largest adjacent minus far; none reads "none (no per-layer copy)".
+# Modified: SDE 2026-11-03  --batches reads the pin records; a row at median 0.9999 or more says whether it and its partner carry the same weight files.
 """Place the new copies of one pulled round against the census of saved directions.
 
 --measurements names a round's pull: pair-* folders with metadata.json and
@@ -25,6 +26,16 @@ new copy is placed against it with direction_layers.place. When no census copy
 qualifies there is no reference: the reference reads "none (no per-layer
 copy)" and best layer and cos stay none. The markdown goes to
 --out and the same stem with .json beside it.
+
+--batches names a folder of pin records (round-N-batch-1.json), each with a
+pairs[] list whose modified entries carry hub_id and weight_files_sha256 (a
+mapping of file name to sha256, or a list of values, null in older records).
+Every *.json with a pairs list is read in sorted file order and the last
+non-null mapping per hub_id is kept. When a row's partner median is at least
+CHECKSUM_MEDIAN the row's checksums field says whether the copy and its partner
+carry the same weight files: "same weight files", "different weight files",
+"overlapping weight files", or "checksums missing for <copy|partner|both>";
+without --batches, or under the median, it reads "none".
 """
 
 import argparse
@@ -40,9 +51,10 @@ import direction_layers
 
 PER_LAYER_ADJACENT = 0.5
 PER_LAYER_FAR = 0.2
+CHECKSUM_MEDIAN = 0.9999
 
 FIELDS = ('copy', 'parent', 'partner', 'median', 'keys', 'family', 'window',
-          'own_spread', 'best_layer', 'cos', 'reference', 'note')
+          'own_spread', 'best_layer', 'cos', 'reference', 'checksums', 'note')
 
 
 def census_copies(document):
@@ -122,11 +134,72 @@ def reference_copy(copies, pulls, kind):
 def empty_row(copy, parent, note):
     row = {field: None for field in FIELDS}
     row.update({'copy': copy, 'parent': parent, 'family': 'none',
-                'reference': 'none', 'note': note})
+                'reference': 'none', 'checksums': 'none', 'note': note})
     return row
 
 
-def place_pair(folder, census_dir, families, pulls, kind):
+def checksum_values(record):
+    """The sha256 values of a pin record's weight_files_sha256, or None."""
+    if not isinstance(record, dict):
+        return None
+    files = record.get('weight_files_sha256')
+    if isinstance(files, dict):
+        return set(files.values())
+    if isinstance(files, list):
+        return set(files)
+    return None
+
+
+def read_batches(folder):
+    """Map hub_id to its weight-file sha256 set from the pin records.
+
+    Every *.json with a pairs list is read in sorted file order; per hub_id the
+    last record with a non-null mapping wins, and a hub_id seen only with null
+    mappings maps to None.
+    """
+    known = {}
+    for path in sorted(Path(folder).glob('*.json')):
+        try:
+            document = json.loads(path.read_text())
+        except (OSError, ValueError):
+            continue
+        if not isinstance(document, dict) or not isinstance(document.get('pairs'), list):
+            continue
+        for pair in document['pairs']:
+            if not isinstance(pair, dict):
+                continue
+            record = pair.get('modified')
+            if not isinstance(record, dict):
+                continue
+            hub_id = record.get('hub_id')
+            if hub_id is None:
+                continue
+            values = checksum_values(record)
+            if values is not None or hub_id not in known:
+                known[hub_id] = values
+    return known
+
+
+def checksums_of(copy, partner, batches):
+    """Whether the copy and its partner carry the same weight files."""
+    if batches is None:
+        return 'none'
+    mine = batches.get(copy)
+    theirs = batches.get(partner)
+    if mine is None and theirs is None:
+        return 'checksums missing for both'
+    if mine is None:
+        return 'checksums missing for copy'
+    if theirs is None:
+        return 'checksums missing for partner'
+    if mine == theirs:
+        return 'same weight files'
+    if mine & theirs:
+        return 'overlapping weight files'
+    return 'different weight files'
+
+
+def place_pair(folder, census_dir, families, pulls, kind, batches=None):
     copy, parent = direction_cosines.read_metadata(folder)
     weights = folder / 'weights.directions.safetensors'
     path = census_dir / f'{direction_cosines.parent_id(parent)}.json'
@@ -159,6 +232,8 @@ def place_pair(folder, census_dir, families, pulls, kind):
         row['median'] = best[0][0]
         row['keys'] = best[0][1]
         row['family'] = family_of(families, parent, partner['repo'])
+        if row['median'] >= CHECKSUM_MEDIAN:
+            row['checksums'] = checksums_of(copy, partner['repo'], batches)
 
     reference, reference_vectors = reference_copy(copies, pulls, kind)
     row['reference'] = reference['repo'] if reference is not None else 'none (no per-layer copy)'
@@ -186,8 +261,8 @@ def write_markdown(path, rows):
         f'# {path.stem} -- new copies placed against the census of saved directions.',
         '',
         '| copy | parent | partner | median | keys | family | window | own spread '
-        '| best layer | cos | reference | note |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| best layer | cos | reference | checksums | note |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         window = ('none' if row['window'] is None
@@ -196,7 +271,8 @@ def write_markdown(path, rows):
             f"| {row['copy']} | {row['parent']} | {row['partner'] or 'none'} "
             f"| {three(row['median'])} | {whole(row['keys'])} | {row['family']} "
             f"| {window} | {three(row['own_spread'])} | {whole(row['best_layer'])} "
-            f"| {three(row['cos'])} | {row['reference']} | {row['note']} |")
+            f"| {three(row['cos'])} | {row['reference']} | {row['checksums']} "
+            f"| {row['note']} |")
     path.write_text('\n'.join(lines) + '\n')
 
 
@@ -210,6 +286,8 @@ def main(argv=None):
     parser.add_argument('--pulls', nargs='+', required=True,
                         help='pull roots holding <pull>/measurements/pair-<pair> folders')
     parser.add_argument('--kind', default='o_proj', help='tensor-name suffix (default o_proj)')
+    parser.add_argument('--batches', default=None,
+                        help='folder of pin records (round-N-batch-1.json) with pairs[]')
     parser.add_argument('--out', required=True, help='output markdown file')
     args = parser.parse_args(argv)
 
@@ -220,6 +298,7 @@ def main(argv=None):
 
     census_dir = Path(args.directions)
     families = json.loads(Path(args.families).read_text()).get('families', [])
+    batches = read_batches(args.batches) if args.batches else None
 
     folders = sorted((f for f in measurements.glob('pair-*') if f.is_dir()),
                      key=lambda f: (int(f.name[len('pair-'):])
@@ -232,7 +311,8 @@ def main(argv=None):
             skipped.append(folder.name)
             continue
         try:
-            rows.append(place_pair(folder, census_dir, families, args.pulls, args.kind))
+            rows.append(place_pair(folder, census_dir, families, args.pulls,
+                                   args.kind, batches))
         except (OSError, ValueError, KeyError, TypeError) as error:
             first = str(error).splitlines()[0] if str(error) else type(error).__name__
             print(f'{folder.name}: {first}', file=sys.stderr)
