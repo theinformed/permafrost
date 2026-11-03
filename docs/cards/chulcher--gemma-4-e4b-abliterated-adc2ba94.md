@@ -1,16 +1,14 @@
 # Stage 1: chulcher/gemma-4-e4b-abliterated
 
-Original: `google/gemma-4-E4B-it`
+Original: `google/gemma-4-E4B`
 
 Verdict: **unexplained differences**
 
-Revisions: modified `627232c914a3b14eff301937af73ef70e4a9ea86`; original `292a7e278a400932df35f9fd4b1501edd04133a5`.
+Revisions: modified `627232c914a3b14eff301937af73ef70e4a9ea86`; original `7aa32e6889efd6300124851b164f8b364314c3d8`.
 
 Changed fields:
 
-- `special_token_ids.eos_token_id` (unexplained)
-- `generation.eos_token_id` (unexplained)
-- `config.eos_token_id` (unexplained)
+- `template.default` (unexplained)
 
 ## Explained by re-save: `generation.transformers_version`
 
@@ -36,8 +34,11 @@ Modified file: `config.json`.
 
 The saved version string changed.
 
-The fixed conversation renders identically with the `default` template.
+Missing evidence:
+
+- original: chat template missing
+- template default absent on one side
 
 This metadata audit does not certify the absence of hidden behavior.
 
-Weights: recipe_violations. Nearest recipe: single-projection.
+Weights: recipe_violations. Nearest recipe: directional-per-layer-selected.
