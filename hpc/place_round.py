@@ -3,6 +3,7 @@
 # Modified: SDE 2026-11-03  first pass: nearest census copy by median |cos|, family, reference layer placement, markdown and json.
 # Modified: SDE 2026-11-03  median |cos| taken over the row's cosines list, not the signed median, so a flipped partner reads 1.000.
 # Modified: SDE 2026-11-03  a parent whose census copies all carry one direction reads "<repo> (one direction)" with no best layer.
+# Modified: SDE 2026-11-03  the reference is the census copy whose layers rotate per layer (adjacent |cos| >= 0.5, far <= 0.2), largest adjacent minus far; none reads "none (no per-layer copy)".
 """Place the new copies of one pulled round against the census of saved directions.
 
 --measurements names a round's pull: pair-* folders with metadata.json and
@@ -17,11 +18,12 @@ each is compared with the new copy as direction_cosines compares two copies
 (median |cos| over shared keys, right side, absolute values) and the best
 partner is kept. The family is the 1-based index of the family under the parent
 whose members hold the partner. The reference is the census copy of the parent
-with the lowest own spread by direction_layers.place (ties: more layers); the
-new copy is placed against it with direction_layers.place. When every census
-copy of the parent carries one direction (lowest own spread ONE_DIRECTION or
-more) there is no per-layer reference: the reference reads "<repo> (one
-direction)" and best layer and cos stay none. The markdown goes to
+whose layers rotate per layer: its adjacent-layer median |cos| is at least
+PER_LAYER_ADJACENT and its far-pair (ten or more apart) median at most
+PER_LAYER_FAR, the largest adjacent minus far winning (ties: more layers); the
+new copy is placed against it with direction_layers.place. When no census copy
+qualifies there is no reference: the reference reads "none (no per-layer
+copy)" and best layer and cos stay none. The markdown goes to
 --out and the same stem with .json beside it.
 """
 
@@ -36,7 +38,8 @@ from safetensors import safe_open
 import direction_cosines
 import direction_layers
 
-ONE_DIRECTION = 0.9
+PER_LAYER_ADJACENT = 0.5
+PER_LAYER_FAR = 0.2
 
 FIELDS = ('copy', 'parent', 'partner', 'median', 'keys', 'family', 'window',
           'own_spread', 'best_layer', 'cos', 'reference', 'note')
@@ -94,24 +97,25 @@ def family_of(families, parent, partner):
 
 
 def reference_copy(copies, pulls, kind):
-    """The census copy with the lowest own spread; ties go to more layers."""
+    """The census copy whose layers rotate per layer; ties go to more layers."""
     best = None
     for copy in copies:
         path = direction_layers.find_file(pulls, copy)
         vectors = direction_layers.load_layers(path, kind) if path else {}
-        if not vectors:
+        if len(vectors) < 2:
             continue
-        placed = direction_layers.place(vectors, {})
-        spread = placed['own_spread']
-        if spread is None:
+        rot = direction_layers.rotation(vectors)
+        adjacent = rot['adjacent_median']
+        far = rot['far_median']
+        if adjacent is None or far is None:
             continue
-        key = (spread, -len(vectors))
-        if best is None or key < best[0]:
+        if adjacent < PER_LAYER_ADJACENT or far > PER_LAYER_FAR:
+            continue
+        key = (adjacent - far, len(vectors))
+        if best is None or key > best[0]:
             best = (key, copy, vectors)
     if best is None:
         return None, {}
-    if best[0][0] >= ONE_DIRECTION:
-        return best[1], {}
     return best[1], best[2]
 
 
@@ -157,18 +161,15 @@ def place_pair(folder, census_dir, families, pulls, kind):
         row['family'] = family_of(families, parent, partner['repo'])
 
     reference, reference_vectors = reference_copy(copies, pulls, kind)
-    if reference is not None:
-        one_direction = not reference_vectors
-        row['reference'] = (f"{reference['repo']} (one direction)" if one_direction
-                            else reference['repo'])
-        vectors = direction_layers.load_layers(weights, kind)
-        if vectors:
-            placed = direction_layers.place(vectors, reference_vectors)
-            row['window'] = placed['window']
-            row['own_spread'] = placed['own_spread']
-            if placed['best'] and not one_direction:
-                row['best_layer'] = placed['best'][0]
-                row['cos'] = placed['best'][1]
+    row['reference'] = reference['repo'] if reference is not None else 'none (no per-layer copy)'
+    vectors = direction_layers.load_layers(weights, kind)
+    if vectors:
+        placed = direction_layers.place(vectors, reference_vectors)
+        row['window'] = placed['window']
+        row['own_spread'] = placed['own_spread']
+        if reference is not None and placed['best']:
+            row['best_layer'] = placed['best'][0]
+            row['cos'] = placed['best'][1]
     return row
 
 

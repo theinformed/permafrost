@@ -3,6 +3,7 @@
 # Modified: SDE 2026-11-03  two new pairs, one placed and one under a new parent.
 # Modified: SDE 2026-11-03  a flipped census copy and a flipped new pair, both read at median 1.000.
 # Modified: SDE 2026-11-03  a parent whose only census copy carries one direction, placed with no best layer.
+# Modified: SDE 2026-11-03  the reference is a per-layer copy (9 degrees a layer); a parent with no per-layer copy reads "none (no per-layer copy)".
 import contextlib
 import io
 import json
@@ -53,7 +54,7 @@ def write_metadata(folder, copy, parent):
 
 
 def build(root):
-    reference = {layer: at(layer * 15) for layer in range(12)}
+    reference = {layer: at(layer * 9) for layer in range(12)}
     write_copy(root, 't1', 1, reference)
     write_copy(root, 't1', 2, {layer: reference[7] for layer in range(5, 13)})
     write_copy(root, 'flip', 3, {layer: -reference[7] for layer in range(5, 13)})
@@ -155,7 +156,7 @@ class PlaceRoundTest(unittest.TestCase):
 
             single = rows['new/w']
             self.assertEqual(single['parent'], 'org/R')
-            self.assertEqual(single['reference'], 'single/e (one direction)')
+            self.assertEqual(single['reference'], 'none (no per-layer copy)')
             self.assertIsNone(single['best_layer'])
             self.assertIsNone(single['cos'])
             self.assertEqual(single['window'], [2, 9])
@@ -186,7 +187,11 @@ class PlaceRoundTest(unittest.TestCase):
                 '| new/z | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 | ref/a |'))
             self.assertTrue(table[3].startswith(
                 '| new/w | org/R | single/e | 1.000 | 8 | 1 | 2..9 | 1.000 | none | none '
-                '| single/e (one direction) |'))
+                '| none (no per-layer copy) |'))
+
+    def test_constants(self):
+        self.assertEqual(place_round.PER_LAYER_ADJACENT, 0.5)
+        self.assertEqual(place_round.PER_LAYER_FAR, 0.2)
 
     def test_missing_measurements(self):
         with tempfile.TemporaryDirectory() as tmp:
