@@ -231,11 +231,13 @@ the far median 0.2 or less, arbitrary rank when the adjacent median is under 0.2
 modes by the word in the copy's name and by family.
 
 `hpc/place_round.py --measurements PULL/measurements --directions results/directions --families
-results/directions/families.json --pulls DIR --out FILE.md` is the step a read-out runs after the digest: each new
-copy of the pulled round is set against the census copies of its parent, keeping the nearest by median absolute
-cosine with its family number, and against the parent's per-layer reference, chosen by the same rotation signature,
-giving the layer its direction matches best; a parent with no census copies reads as new, and one with no per-layer
-copy gives no layer. After the pull, `direction_cosines.py` and `direction_families.py` are run again so the census
+results/directions/families.json --pulls DIR --batches data/batches --out FILE.md` is the step a read-out runs after
+the digest: each new copy of the pulled round is set against the census copies of its parent, keeping the nearest by
+median absolute cosine with its family number, and against the parent's per-layer reference, chosen by the same
+rotation signature, giving the layer its direction matches best; a parent with no census copies reads as new, and
+one with no per-layer copy gives no layer. A partner at a median of 0.9999 or more comes with a reading of the pin
+records' weight-file checksums, the same files, different files or an overlap, so a re-upload and a second pass of
+one tool are told apart before any byte is read. After the pull, `direction_cosines.py` and `direction_families.py` are run again so the census
 includes the round.
 
 Weight differences alone cannot certify the absence of hidden behavior.
