@@ -1,0 +1,163 @@
+project: model-audit
+system: wheat
+host: wheat-r15-cp39b
+round: 51
+job: 387625
+event: finished
+exit: 0
+when: 2026-11-03T00:38:57Z
+build: 2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff
+snapshot: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+pinned: /p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round
+{
+  "v": 1,
+  "job": "387625",
+  "what": "Compare checkpoint pair 2 on CPU",
+  "study": "Checkpoint census",
+  "row": "MODEL-AUDIT-1",
+  "project": "model-audit",
+  "logs": [
+    "/p/work/sdegan/model-audit/rounds/51/logs/387625.out"
+  ],
+  "started": "2026-11-03T00:21:54Z",
+  "host": "wheat-r15-cp39b",
+  "cluster": "wheat",
+  "snapshot": {
+    "sha256": "a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec",
+    "archive": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round.tar",
+    "directory": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round",
+    "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff"
+  },
+  "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff",
+  "job_started_epoch": "1793665314.040840827"
+}
+{
+  "pair": 2,
+  "measurement_sha256": "9b117a323b01c6922bcbf1be1afa026153e3f7ce8d72bb49ae50d381f95c9b55",
+  "card_sha256": "4a1dd6eadec0a7a6c0f146a71c8dcd15e66e7a4119c81d351fa99adb55af72ce",
+  "metadata_sha256": "02f884217828ecbc3efeb42af68b81fe22656fbd1452f7b81b0e8d785844a0f1",
+  "deleted_checkpoints": [
+    "/p/work/sdegan/model-audit/rounds/51/inputs/5317bdc9b533cfd3301813057b25721a22d6520a8e22311c69be789da00206f8",
+    "/p/work/sdegan/model-audit/rounds/51/derived/pair-2"
+  ],
+  "shared_original": false
+}
+# Stage 1: nchapman/Ministral-3-14B-Instruct-2512-heretic-BF16
+
+Original: `mistralai/Ministral-3-14B-Base-2512`
+
+Verdict: **unexplained differences**
+
+Revisions: modified `13da8880fbeee4b88f28960443632756835da291`; original `5b0ceedbb42dff466ae60b258ba296f32da51384`.
+
+Changed fields:
+
+- `template.default` (unexplained)
+
+## Explained by re-save: `generation.transformers_version`
+
+Original file: `generation_config.json`.
+
+Modified file: `generation_config.json`.
+
+The saved version string changed.
+
+## Explained by re-save: `config.text_config.bos_token_id`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 4.56.2.
+
+## Explained by re-save: `config.text_config.dtype`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The sub-configuration repeats the data type the top-level configuration already declares.
+
+## Explained by re-save: `config.text_config.eos_token_id`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 4.56.2.
+
+## Explained by re-save: `config.text_config.pad_token_id`
+
+Original file: `generation_config.json`.
+
+Modified file: `config.json`.
+
+The sub-configuration repeats the value the generation settings already declare.
+
+## Explained by re-save: `config.text_config.tie_word_embeddings`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 4.56.2.
+
+## Explained by re-save: `config.tie_word_embeddings`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 4.56.2.
+
+## Explained by re-save: `config.transformers_version`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The saved version string changed.
+
+## Explained by re-save: `config.vision_config.dtype`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The sub-configuration repeats the data type the top-level configuration already declares.
+
+## Explained by re-save: `config.vision_config.rope_theta`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The field is absent on the other side and loads as this same default in transformers 4.56.2.
+
+Missing evidence:
+
+- template default absent on one side
+- original: chat template missing
+
+This metadata audit does not certify the absence of hidden behavior.
+
+Weights: recipe_violations. Nearest recipe: single-projection.
+snapshot verified: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+node: wheat-r15-cp39b
+cores: 1 visible; grant 1; affinity 0-3,6,7,10-99,102,103,106-191; cgroup quota -1
+memory: 385069 MB total, 359663 MB free, 358684 MB available
+python: Python 3.6.8
+fips: off, nothing applied
+Lineage passed: 8 pairs
+Python: standalone Python 3.11.18 from /p/work/sdegan/model-audit/python/a87ee63646c8f843
+compute Python: 3.11.18
+compute venv: another compare is building it; waiting
+compute venv: reusing pins 9352c308c0fe373ffe60e688443a72cfd4e3be15ecb49aa68a77c43ea36a4d15
+recipe_violations: 285/585 tensors changed
+Nearest recipe: single-projection; 366 violations
+Minimum first-value energy share: 0.001783090
+Minimum direction cosine: 0.000071814
+Report: /p/work/sdegan/model-audit/rounds/51/measurements/pair-2/weights.json
+measurement passed: pair 2; metadata unexplained differences; re-save fields 10
+modified weights deleted; the original waits for the sweep
+VERDICT compare pair 2 OK

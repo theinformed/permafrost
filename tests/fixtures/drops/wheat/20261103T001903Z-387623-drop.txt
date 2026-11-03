@@ -1,0 +1,151 @@
+project: model-audit
+system: wheat
+host: wheat-r16-dt37b
+round: 51
+job: 387623
+event: finished
+exit: 0
+when: 2026-11-03T00:19:02Z
+build: 2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff
+snapshot: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+pinned: /p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round
+{
+  "v": 1,
+  "job": "387623",
+  "what": "Download and verify 8 checkpoint pairs",
+  "study": "Checkpoint census",
+  "row": "MODEL-AUDIT-1",
+  "project": "model-audit",
+  "logs": [
+    "/p/work/sdegan/model-audit/rounds/51/logs/387623.out"
+  ],
+  "started": "2026-11-02T23:21:22Z",
+  "host": "wheat-r16-dt37b.wheat.erdc",
+  "cluster": "wheat",
+  "snapshot": {
+    "sha256": "a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec",
+    "archive": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round.tar",
+    "directory": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round",
+    "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff"
+  },
+  "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff",
+  "job_started_epoch": "1793661681.967389841"
+}
+snapshot verified: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+2026-11-02T23:21:22Z step: lineage, storage and request readings
+fips: on; OpenSSL set to its default provider
+Lineage passed: 8 pairs
+Project: 1008.0 GB; requested: 1024.0 GB
+Work quota remaining: 398799.3 GB; filesystem free: 398799.3 GB
+PBS request: qsub -v HPC_PROJECT=model-audit,WORKDIR=/p/work/sdegan,AUDIT_PINNED_ROUND=/p/work/sdega
+n/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round,AUDIT_PAIR=1 -q backgroun
+d -A NRLMR5762B403 -l select=1:ncpus=92:mpiprocs=1 -l walltime=03:55:00 -N model-audit-census-compar
+e -S /bin/bash -j oe -o /p/work/sdegan/model-audit/rounds/51/logs/model-audit-census-compare-2026110
+2T232206-1351827-1.out jobs/project.sh
+PBS request: qsub -v HPC_PROJECT=model-audit,WORKDIR=/p/work/sdegan,AUDIT_PINNED_ROUND=/p/work/sdega
+n/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round,AUDIT_PAIR=1 -q backgroun
+d -A NRLMR5762B403 -l select=1:ncpus=92:mpiprocs=1 -l walltime=00:30:00 -N model-audit-census-sweep 
+-S /bin/bash -j oe -o /p/work/sdegan/model-audit/rounds/51/logs/model-audit-census-sweep-20261102T23
+2206-1351827-1.out jobs/sweep.sh
+PBS request: qsub -v HPC_PROJECT=model-audit,WORKDIR=/p/work/sdegan,AUDIT_PINNED_ROUND=/p/work/sdega
+n/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round,AUDIT_PAIR=1 -q backgroun
+d -A NRLMR5762B403 -l select=1:ncpus=92:mpiprocs=1 -l walltime=00:05:00 -N model-audit-census-timing
+ -S /bin/bash -j oe -o /p/work/sdegan/model-audit/rounds/51/logs/model-audit-census-timing-20261102T
+232206-1351827-1.out jobs/timing.sh
+Python: standalone Python 3.11.18 from /p/work/sdegan/model-audit/python/a87ee63646c8f843
+compute Python: 3.11.18
+2026-11-02T23:22:06Z step: download tools
+Collecting huggingface_hub==0.35.3
+  Downloading huggingface_hub-0.35.3-py3-none-any.whl.metadata (14 kB)
+Collecting filelock (from huggingface_hub==0.35.3)
+  Downloading filelock-4.2.7-py3-none-any.whl.metadata (2.0 kB)
+Collecting fsspec>=2023.5.0 (from huggingface_hub==0.35.3)
+  Downloading fsspec-2026.9.0-py3-none-any.whl.metadata (10 kB)
+Collecting packaging>=20.9 (from huggingface_hub==0.35.3)
+  Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+Collecting pyyaml>=5.1 (from huggingface_hub==0.35.3)
+  Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86
+_64.whl.metadata (2.4 kB)
+Collecting requests (from huggingface_hub==0.35.3)
+  Downloading requests-2.34.2-py3-none-any.whl.metadata (4.8 kB)
+Collecting tqdm>=4.42.1 (from huggingface_hub==0.35.3)
+  Downloading tqdm-4.70.1-py3-none-any.whl.metadata (57 kB)
+Collecting typing-extensions>=3.7.4.3 (from huggingface_hub==0.35.3)
+  Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+Collecting hf-xet<2.0.0,>=1.1.3 (from huggingface_hub==0.35.3)
+  Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (4.9 kB
+)
+Collecting charset_normalizer<4,>=2 (from requests->huggingface_hub==0.35.3)
+  Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manyli
+nux_2_28_x86_64.whl.metadata (46 kB)
+Collecting idna<4,>=2.5 (from requests->huggingface_hub==0.35.3)
+  Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+Collecting urllib3<3,>=1.26 (from requests->huggingface_hub==0.35.3)
+  Downloading urllib3-2.8.0-py3-none-any.whl.metadata (7.4 kB)
+Collecting certifi>=2023.5.7 (from requests->huggingface_hub==0.35.3)
+  Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+Downloading huggingface_hub-0.35.3-py3-none-any.whl (564 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 564.3/564.3 kB 4.2 MB/s  0:00:00
+Downloading hf_xet-1.8.0-cp38-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (4.3 MB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.3/4.3 MB 15.1 MB/s  0:00:00
+Downloading fsspec-2026.9.0-py3-none-any.whl (221 kB)
+Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Downloading pyyaml-6.0.3-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_6
+4.whl (806 kB)
+   ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 806.6/806.6 kB 9.5 MB/s  0:00:00
+Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Downloading filelock-4.2.7-py3-none-any.whl (164 kB)
+Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Downloading charset_normalizer-3.5.2-cp311-cp311-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinu
+x_2_28_x86_64.whl (269 kB)
+Downloading idna-3.20-py3-none-any.whl (69 kB)
+Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+Installing collected packages: urllib3, typing-extensions, tqdm, pyyaml, packaging, idna, hf-xet, fs
+spec, filelock, charset_normalizer, certifi, requests, huggingface_hub
+
+Successfully installed certifi-2026.10.23 charset_normalizer-3.5.2 filelock-4.2.7 fsspec-2026.9.0 hf
+-xet-1.8.0 huggingface_hub-0.35.3 idna-3.20 packaging-26.3 pyyaml-6.0.3 requests-2.34.2 tqdm-4.70.1 
+typing-extensions-4.16.0 urllib3-2.8.0
+2026-11-02T23:22:26Z step: wheels: reusing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f
+node: wheat-r16-dt37b
+cores: 1 visible; grant 1; affinity 0-3,6,7,10-99,102,103,106-191; cgroup quota -1
+memory: 772141 MB total, 147439 MB free, 731341 MB available
+python: Python 3.11.18
+2026-11-02T23:22:26Z step: hub fetch: 8 pairs
+PROBE OK 164 TheDrummer/Magidonia-24B-v4.3
+Batch download plan: 581.7 GB
+Published checksums passed:
+  TheDrummer/Magidonia-24B-v4.3
+Published checksums passed:
+  grayarea/Magidonia-24B-v4.3-heretic-v1.2
+Published checksums passed:
+  mistralai/Ministral-3-14B-Base-2512
+Published checksums passed:
+  nchapman/Ministral-3-14B-Instruct-2512-heretic-BF16
+Published checksums passed:
+  TheDrummer/Skyfall-31B-v4.1
+Published checksums passed:
+  grayarea/Skyfall-31B-v4.1-Heretic-v1.2
+Published checksums passed:
+  mistralai/Mistral-Small-3.2-24B-Instruct-2506
+Published checksums passed:
+  darkc0de/Mistral-Small-3.2-24B-Instruct-2506-heretic
+Published checksums passed:
+  google/gemma-4-26B-A4B-it
+Published checksums passed:
+  keithtyser/gemma-4-26B-A4B-it-local-abliterated-sota-internal-t34
+Published checksums passed:
+  unsloth/gemma-4-E4B-it
+Published checksums passed:
+  AlSamCur123/gemma-4-E4B-it-uncensored-continued
+Published checksums passed:
+  mistralai/Ministral-3-3B-Base-2512
+Published checksums passed:
+  nchapman/Ministral-3-3B-Instruct-2512-heretic-BF16
+Published checksums passed:
+  google/gemma-4-26b-a4b
+Published checksums passed:
+  OS-Software/CyberStag-Security-26B-A4B-V1-Uncensored-Heretic
+2026-11-03T00:19:02Z step: download complete

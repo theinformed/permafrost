@@ -1,0 +1,26 @@
+project: model-audit
+system: wheat
+host: wheat01
+round: 51
+job: round-51-kit-1839902
+event: finished
+exit: 0
+when: 2026-11-02T23:21:08Z
+build: unknown
+snapshot: none
+pinned: none
+{
+ "v": 1,
+ "job": "round-51-kit-1839902",
+ "what": "Install the shared job reporting tools",
+ "study": "Checkpoint census",
+ "row": "MODEL-AUDIT-1",
+ "project": "model-audit",
+ "logs": ["/p/work/sdegan/model-audit/rounds/51/logs/round-51-kit-1839902.out"],
+ "started": "2026-11-02T23:20:31Z",
+ "host": "wheat01.erdc.hpc.mil",
+ "cluster": "wheat"
+}
+kit version: 20261102.225704
+ipv4 report: 1
+VERDICT kit OK

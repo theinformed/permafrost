@@ -1,0 +1,244 @@
+project: model-audit
+system: wheat
+host: wheat-r15-cp39a
+round: 51
+job: 387624
+event: finished
+exit: 0
+when: 2026-11-03T00:45:28Z
+build: 2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff
+snapshot: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+pinned: /p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round
+{
+  "v": 1,
+  "job": "387624",
+  "what": "Compare checkpoint pair 1 on CPU",
+  "study": "Checkpoint census",
+  "row": "MODEL-AUDIT-1",
+  "project": "model-audit",
+  "logs": [
+    "/p/work/sdegan/model-audit/rounds/51/logs/387624.out"
+  ],
+  "started": "2026-11-03T00:19:18Z",
+  "host": "wheat-r15-cp39a",
+  "cluster": "wheat",
+  "snapshot": {
+    "sha256": "a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec",
+    "archive": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round.tar",
+    "directory": "/p/work/sdegan/model-audit/rounds/51/submissions/20261102T232118.263681Z-ed8a287a/round",
+    "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff"
+  },
+  "build_stamp": "2bdf60d80f062f718f6b07be7be42d3af000b206ae8574371247b318b435b6ff",
+  "job_started_epoch": "1793665158.294485580"
+}
+{
+  "pair": 1,
+  "measurement_sha256": "54cb04750a42393e4b1b4ca74c6cb2070b2ff1d0ad18ab9a3b4d2f5b343a5aa9",
+  "card_sha256": "6807cfb99dbd07db8a5b24cf9a8ce3164c6f8c6e56f0dbecf6da6ccb559b24be",
+  "metadata_sha256": "7b2e44bc9bc2076c290b0071a7613cc572b2f10ddcf253d23abb20892bf5e172",
+  "deleted_checkpoints": [
+    "/p/work/sdegan/model-audit/rounds/51/inputs/0ab887c4afc2d038451798683da2af766c020df2d0e75a91b63e2d641a0cca8d",
+    "/p/work/sdegan/model-audit/rounds/51/derived/pair-1"
+  ],
+  "shared_original": false
+}
+# Stage 1: grayarea/Magidonia-24B-v4.3-heretic-v1.2
+
+Original: `TheDrummer/Magidonia-24B-v4.3`
+
+Verdict: **consistent with re-save noted**
+
+Revisions: modified `52756d951d28e8466ebd95144422bc1c6095623f`; original `5e5b5e158c247fbcc86641777ef89b40a61d8279`.
+
+## Explained by re-save: `generation.transformers_version`
+
+Original file: `generation_config.json`.
+
+Modified file: `generation_config.json`.
+
+The saved version string changed.
+
+## Explained by re-save: `config.transformers_version`
+
+Original file: `config.json`.
+
+Modified file: `config.json`.
+
+The saved version string changed.
+
+The fixed conversation renders identically with the `default` template.
+
+This metadata audit does not certify the absence of hidden behavior.
+
+Weights: recipe_violations. Nearest recipe: directional-per-layer-selected.
+snapshot verified: a3bd98e38e74cda78edf950553552ebd42e8cb81781aeac77c9837da4c7910ec
+node: wheat-r15-cp39a
+cores: 1 visible; grant 1; affinity 0-3,6,7,10-99,102,103,106-191; cgroup quota -1
+memory: 385070 MB total, 359711 MB free, 358774 MB available
+python: Python 3.6.8
+fips: off, nothing applied
+Lineage passed: 8 pairs
+Python: standalone Python 3.11.18 from /p/work/sdegan/model-audit/python/a87ee63646c8f843
+compute Python: 3.11.18
+compute venv: building for pins 9352c308c0fe373ffe60e688443a72cfd4e3be15ecb49aa68a77c43ea36a4d15
+Looking in links: /p/work/sdegan/model-audit/wheels/9352c308c0fe373f
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/torch-2.8.0-cp311-cp311-manylinux_2_28
+_x86_64.whl (from -r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/transformers-4.56.2-py3-none-any.whl (
+from -r compute-requirements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/huggingface_hub-0.35.3-py3-none-any.wh
+l (from -r compute-requirements.txt (line 6))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/safetensors-0.6.2-cp38-abi3-manylinux_
+2_17_x86_64.manylinux2014_x86_64.whl (from -r compute-requirements.txt (line 7))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/accelerate-1.10.1-py3-none-any.whl (fr
+om -r compute-requirements.txt (line 8))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/requests-2.32.5-py3-none-any.whl (from
+ -r compute-requirements.txt (line 9))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/jinja2-3.1.6-py3-none-any.whl (from -r
+ compute-requirements.txt (line 10))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/sentencepiece-0.2.1-cp311-cp311-manyli
+nux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r compute-requirements.txt (line 11))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pillow-11.3.0-cp311-cp311-manylinux_2_
+27_x86_64.manylinux_2_28_x86_64.whl (from -r compute-requirements.txt (line 12))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/mistral_common-1.8.5-py3-none-any.whl 
+(from -r compute-requirements.txt (line 14))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pydantic-2.14.1-py3-none-any.whl (from
+ -r compute-requirements.txt (line 15))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pydantic_core-2.50.1-cp311-cp311-manyl
+inux_2_17_x86_64.manylinux2014_x86_64.whl (from -r compute-requirements.txt (line 16))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pydantic_extra_types-2.11.1-py3-none-a
+ny.whl (from -r compute-requirements.txt (line 17))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pycountry-26.2.16-py3-none-any.whl (fr
+om -r compute-requirements.txt (line 18))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/annotated_types-0.8.0-py3-none-any.whl
+ (from -r compute-requirements.txt (line 19))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/typing_inspection-0.4.4-py3-none-any.w
+hl (from -r compute-requirements.txt (line 20))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/jsonschema-4.26.0-py3-none-any.whl (fr
+om -r compute-requirements.txt (line 21))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/jsonschema_specifications-2025.9.1-py3
+-none-any.whl (from -r compute-requirements.txt (line 22))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/referencing-0.37.0-py3-none-any.whl (f
+rom -r compute-requirements.txt (line 23))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/rpds_py-2026.9.1-cp311-cp311-manylinux
+_2_17_x86_64.manylinux2014_x86_64.whl (from -r compute-requirements.txt (line 24))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/attrs-26.1.0-py3-none-any.whl (from -r
+ compute-requirements.txt (line 25))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/tiktoken-0.14.0-cp311-cp311-manylinux_
+2_28_x86_64.whl (from -r compute-requirements.txt (line 26))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/protobuf-6.32.1-cp39-abi3-manylinux201
+4_x86_64.whl (from -r compute-requirements.txt (line 28))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/filelock-4.2.6-py3-none-any.whl (from 
+torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/typing_extensions-4.16.0-py3-none-any.
+whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/sympy-1.14.0-py3-none-any.whl (from to
+rch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/networkx-3.6.1-py3-none-any.whl (from 
+torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/fsspec-2026.9.0-py3-none-any.whl (from
+ torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cuda_nvrtc_cu12-12.8.93-py3-non
+e-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (li
+ne 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cuda_runtime_cu12-12.8.90-py3-n
+one-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (
+line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cuda_cupti_cu12-12.8.90-py3-non
+e-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (li
+ne 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cudnn_cu12-9.10.2.21-py3-none-m
+anylinux_2_27_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cublas_cu12-12.8.4.1-py3-none-m
+anylinux_2_27_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cufft_cu12-11.3.3.83-py3-none-m
+anylinux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 
+4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_curand_cu12-10.3.9.90-py3-none-
+manylinux_2_27_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cusolver_cu12-11.7.3.90-py3-non
+e-manylinux_2_27_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cusparse_cu12-12.5.8.93-py3-non
+e-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (li
+ne 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cusparselt_cu12-0.7.1-py3-none-
+manylinux2014_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_nccl_cu12-2.27.3-py3-none-manyl
+inux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_nvtx_cu12-12.8.90-py3-none-many
+linux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_nvjitlink_cu12-12.8.93-py3-none
+-manylinux2010_x86_64.manylinux_2_12_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (lin
+e 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/nvidia_cufile_cu12-1.13.1.3-py3-none-m
+anylinux2014_x86_64.manylinux_2_17_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 
+4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/triton-3.4.0-cp311-cp311-manylinux_2_2
+7_x86_64.manylinux_2_28_x86_64.whl (from torch==2.8.0->-r compute-requirements.txt (line 4))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/numpy-2.4.6-cp311-cp311-manylinux_2_27
+_x86_64.manylinux_2_28_x86_64.whl (from transformers==4.56.2->-r compute-requirements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/packaging-26.3-py3-none-any.whl (from 
+transformers==4.56.2->-r compute-requirements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/pyyaml-6.0.3-cp311-cp311-manylinux2014
+_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from transformers==4.56.2->-r compute-requi
+rements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/regex-2026.9.29-cp311-cp311-manylinux2
+014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from transformers==4.56.2->-r compute-re
+quirements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/tokenizers-0.22.2-cp39-abi3-manylinux_
+2_17_x86_64.manylinux2014_x86_64.whl (from transformers==4.56.2->-r compute-requirements.txt (line 5
+))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/tqdm-4.70.1-py3-none-any.whl (from tra
+nsformers==4.56.2->-r compute-requirements.txt (line 5))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/hf_xet-1.8.0-cp38-abi3-manylinux2014_x
+86_64.manylinux_2_17_x86_64.whl (from huggingface_hub==0.35.3->-r compute-requirements.txt (line 6))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/psutil-7.2.2-cp36-abi3-manylinux2010_x
+86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (from accelerate==1.10.1->-r compute-requireme
+nts.txt (line 8))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/charset_normalizer-3.5.2-cp311-cp311-m
+anylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from requests==2.32.5->-r compu
+te-requirements.txt (line 9))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/idna-3.20-py3-none-any.whl (from reque
+sts==2.32.5->-r compute-requirements.txt (line 9))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/urllib3-2.8.0-py3-none-any.whl (from r
+equests==2.32.5->-r compute-requirements.txt (line 9))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/certifi-2026.10.23-py3-none-any.whl (f
+rom requests==2.32.5->-r compute-requirements.txt (line 9))
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/markupsafe-3.0.4-cp311-cp311-manylinux
+2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (from jinja2==3.1.6->-r compute-requirem
+ents.txt (line 10))
+Requirement already satisfied: setuptools>=40.8.0 in /p/work/sdegan/model-audit/rounds/51/venv/lib/p
+ython3.11/site-packages (from triton==3.4.0->torch==2.8.0->-r compute-requirements.txt (line 4)) (79
+.0.1)
+Processing /p/work/sdegan/model-audit/wheels/9352c308c0fe373f/mpmath-1.3.0-py3-none-any.whl (from sy
+mpy>=1.13.3->torch==2.8.0->-r compute-requirements.txt (line 4))
+Installing collected packages: nvidia-cusparselt-cu12, mpmath, urllib3, typing-extensions, triton, t
+qdm, sympy, sentencepiece, safetensors, rpds-py, regex, pyyaml, pycountry, psutil, protobuf, pillow,
+ packaging, nvidia-nvtx-cu12, nvidia-nvjitlink-cu12, nvidia-nccl-cu12, nvidia-curand-cu12, nvidia-cu
+file-cu12, nvidia-cuda-runtime-cu12, nvidia-cuda-nvrtc-cu12, nvidia-cuda-cupti-cu12, nvidia-cublas-c
+u12, numpy, networkx, MarkupSafe, idna, hf-xet, fsspec, filelock, charset_normalizer, certifi, attrs
+, annotated-types, typing-inspection, requests, referencing, pydantic-core, nvidia-cusparse-cu12, nv
+idia-cufft-cu12, nvidia-cudnn-cu12, jinja2, tiktoken, pydantic, nvidia-cusolver-cu12, jsonschema-spe
+cifications, huggingface_hub, torch, tokenizers, pydantic-extra-types, jsonschema, transformers, acc
+elerate, mistral-common
+
+Successfully installed MarkupSafe-3.0.4 accelerate-1.10.1 annotated-types-0.8.0 attrs-26.1.0 certifi
+-2026.10.23 charset_normalizer-3.5.2 filelock-4.2.6 fsspec-2026.9.0 hf-xet-1.8.0 huggingface_hub-0.3
+5.3 idna-3.20 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 mistral-common-1.8.5
+ mpmath-1.3.0 networkx-3.6.1 numpy-2.4.6 nvidia-cublas-cu12-12.8.4.1 nvidia-cuda-cupti-cu12-12.8.90 
+nvidia-cuda-nvrtc-cu12-12.8.93 nvidia-cuda-runtime-cu12-12.8.90 nvidia-cudnn-cu12-9.10.2.21 nvidia-c
+ufft-cu12-11.3.3.83 nvidia-cufile-cu12-1.13.1.3 nvidia-curand-cu12-10.3.9.90 nvidia-cusolver-cu12-11
+.7.3.90 nvidia-cusparse-cu12-12.5.8.93 nvidia-cusparselt-cu12-0.7.1 nvidia-nccl-cu12-2.27.3 nvidia-n
+vjitlink-cu12-12.8.93 nvidia-nvtx-cu12-12.8.90 packaging-26.3 pillow-11.3.0 protobuf-6.32.1 psutil-7
+.2.2 pycountry-26.2.16 pydantic-2.14.1 pydantic-core-2.50.1 pydantic-extra-types-2.11.1 pyyaml-6.0.3
+ referencing-0.37.0 regex-2026.9.29 requests-2.32.5 rpds-py-2026.9.1 safetensors-0.6.2 sentencepiece
+-0.2.1 sympy-1.14.0 tiktoken-0.14.0 tokenizers-0.22.2 torch-2.8.0 tqdm-4.70.1 transformers-4.56.2 tr
+iton-3.4.0 typing-extensions-4.16.0 typing-inspection-0.4.4 urllib3-2.8.0
+recipe_violations: 63/363 tensors changed
+Nearest recipe: directional-per-layer-selected; 35 violations
+Minimum first-value energy share: 0.960557537
+Minimum direction cosine: 0.973142074
+Report: /p/work/sdegan/model-audit/rounds/51/measurements/pair-1/weights.json
+measurement passed: pair 1; metadata consistent with re-save noted; re-save fields 2
+modified weights deleted; the original waits for the sweep
+VERDICT compare pair 1 OK
