@@ -1,0 +1,463 @@
+{
+ "parent": "google/gemma-4-12B-it",
+ "reference": "TrevorJS/gemma-4-12B-it-uncensored",
+ "kind": "o_proj",
+ "rotation": {
+  "adjacent_median": 0.7809023238993323,
+  "adjacent_count": 32,
+  "far_median": 0.06091003469872698,
+  "far_count": 276,
+  "far_min": 7.456043087937611e-05
+ },
+ "copies": [
+  {
+   "repo": "3MPER0RR/gemma-4-12b-it-3MPER0RR-abliterated",
+   "window": [
+    19,
+    47
+   ],
+   "own_spread": 0.9704031457470486,
+   "best": [
+    30,
+    0.7527805298911263
+   ],
+   "next": [
+    29,
+    0.7511394472993306
+   ]
+  },
+  {
+   "repo": "AEON-7/Gemma-4-12B-it-AEON-Abliterated-K4-BF16",
+   "window": [
+    21,
+    45
+   ],
+   "own_spread": 0.3187263553230697,
+   "best": [
+    26,
+    0.6707444592540861
+   ],
+   "next": [
+    37,
+    0.6023600629568054
+   ]
+  },
+  {
+   "repo": "AlekseyCalvin/Lyrical_Translator_ru2en_on_Gemma4_12b_heretic_SFT_Run2",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.01345877417869197,
+   "best": [
+    40,
+    0.03425509924656267
+   ],
+   "next": [
+    41,
+    0.028340758992497
+   ]
+  },
+  {
+   "repo": "BinxNet/gemma-4-12B-it-heretic",
+   "window": [
+    4,
+    47
+   ],
+   "own_spread": 0.9440377839555092,
+   "best": [
+    29,
+    0.7189013100137513
+   ],
+   "next": [
+    30,
+    0.6423091853217988
+   ]
+  },
+  {
+   "repo": "Carlosian/Gemma-4-12b-it-Abliterated",
+   "window": [
+    14,
+    34
+   ],
+   "own_spread": 0.2639219651589918,
+   "best": [
+    24,
+    0.6782508253825548
+   ],
+   "next": [
+    23,
+    0.6154896715303504
+   ]
+  },
+  {
+   "repo": "Iambackup/gemma-4-12B-it-uncensored",
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "best": [
+    31,
+    1.0000000000000018
+   ],
+   "next": [
+    30,
+    0.8432307924344176
+   ]
+  },
+  {
+   "repo": "Ishowbackup/Huihui-gemma-4-12B-it-abliterated",
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "best": [
+    26,
+    0.7947075116073774
+   ],
+   "next": [
+    25,
+    0.5088382125932122
+   ]
+  },
+  {
+   "repo": "Ishowbackup/gemma-4-12B-it-uncensored",
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "best": [
+    31,
+    1.0000000000000018
+   ],
+   "next": [
+    30,
+    0.8432307924344176
+   ]
+  },
+  {
+   "repo": "Justbackup/gemma-4-12B-it-uncensored",
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "best": [
+    31,
+    1.0000000000000018
+   ],
+   "next": [
+    30,
+    0.8432307924344176
+   ]
+  },
+  {
+   "repo": "MeFFyLe/gemma-4-12B-it-uncensored-heretic",
+   "window": [
+    24,
+    39
+   ],
+   "own_spread": 0.030748858058647126,
+   "best": [
+    32,
+    0.38802625119453177
+   ],
+   "next": [
+    29,
+    0.3399831255178909
+   ]
+  },
+  {
+   "repo": "MoonRide/gemma-4-12B-it-heretic",
+   "window": [
+    17,
+    47
+   ],
+   "own_spread": 0.9747953383977684,
+   "best": [
+    30,
+    0.7424930962442485
+   ],
+   "next": [
+    29,
+    0.7178747260193692
+   ]
+  },
+  {
+   "repo": "Paul691/gemma-4-12B-it-abliterated-uncensored",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.027167941510205653,
+   "best": [
+    23,
+    0.7938616442716695
+   ],
+   "next": [
+    24,
+    0.710012672274577
+   ]
+  },
+  {
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals2",
+   "window": [
+    23,
+    42
+   ],
+   "own_spread": 0.037472991185580486,
+   "best": [
+    32,
+    0.11299939645209602
+   ],
+   "next": [
+    33,
+    0.10610191312834537
+   ]
+  },
+  {
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals4",
+   "window": [
+    24,
+    36
+   ],
+   "own_spread": 0.037454033980637166,
+   "best": [
+    29,
+    0.06444537815310195
+   ],
+   "next": [
+    16,
+    0.03134306228269974
+   ]
+  },
+  {
+   "repo": "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9",
+   "window": [
+    14,
+    43
+   ],
+   "own_spread": 0.08363484666242381,
+   "best": [
+    28,
+    0.29314129607636286
+   ],
+   "next": [
+    29,
+    0.24081704533851744
+   ]
+  },
+  {
+   "repo": "Sabomako/gemma-4-12B-it-heretic",
+   "window": [
+    18,
+    39
+   ],
+   "own_spread": 0.11252415650819184,
+   "best": [
+    34,
+    0.9906110747927196
+   ],
+   "next": [
+    35,
+    0.8312494778218613
+   ]
+  },
+  {
+   "repo": "TimelessSoul/Huihui-gemma-4-12B-it-abliterated",
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "best": [
+    26,
+    0.7947075116073774
+   ],
+   "next": [
+    25,
+    0.5088382125932122
+   ]
+  },
+  {
+   "repo": "Vampelium/gemma-4-12B-it-heretic",
+   "window": [
+    5,
+    47
+   ],
+   "own_spread": 0.9915709561179001,
+   "best": [
+    33,
+    0.9348085163386134
+   ],
+   "next": [
+    34,
+    0.9270757920768197
+   ]
+  },
+  {
+   "repo": "coder3101/gemma-4-12B-it-heretic",
+   "window": [
+    2,
+    44
+   ],
+   "own_spread": 0.019432677432581247,
+   "best": [
+    22,
+    0.07743239839423795
+   ],
+   "next": [
+    47,
+    0.056235143581734655
+   ]
+  },
+  {
+   "repo": "enkato64bit/SuperGemma-4-12b-abliterated",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.014241225167746709,
+   "best": [
+    28,
+    0.8230300677030316
+   ],
+   "next": [
+    29,
+    0.5943740825801558
+   ]
+  },
+  {
+   "repo": "huihui-ai/Huihui-gemma-4-12B-it-abliterated",
+   "window": [
+    23,
+    28
+   ],
+   "own_spread": 0.7412719140714734,
+   "best": [
+    26,
+    0.7947075116073774
+   ],
+   "next": [
+    25,
+    0.5088382125932122
+   ]
+  },
+  {
+   "repo": "igorls/gemma-4-12B-it-heretic-v1",
+   "window": [
+    29,
+    37
+   ],
+   "own_spread": 0.9912522223421816,
+   "best": [
+    33,
+    0.9686468934062047
+   ],
+   "next": [
+    32,
+    0.8115347025951848
+   ]
+  },
+  {
+   "repo": "jwest33/gemma-4-12B-it-null-space-abliterated",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.9783866867647641,
+   "best": [
+    30,
+    0.5703280891249938
+   ],
+   "next": [
+    29,
+    0.5612655036064804
+   ]
+  },
+  {
+   "repo": "laladream/gemma-4-12B-it-uncensored",
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.14635955360154645,
+   "best": [
+    31,
+    1.0000000000000018
+   ],
+   "next": [
+    30,
+    0.8432307924344176
+   ]
+  },
+  {
+   "repo": "lemuralabs/Gemma-4-12B-uncensored-bf16",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.910671499630755,
+   "best": [
+    30,
+    0.8525734310452646
+   ],
+   "next": [
+    29,
+    0.8435735867061689
+   ]
+  },
+  {
+   "repo": "llmfan46/gemma-4-12B-it-uncensored-heretic",
+   "window": [
+    24,
+    39
+   ],
+   "own_spread": 0.030748858058647126,
+   "best": [
+    32,
+    0.38802625119453177
+   ],
+   "next": [
+    29,
+    0.3399831255178909
+   ]
+  },
+  {
+   "repo": "prithivMLmods/gemma-4-12B-it-heretic_decensored",
+   "window": [
+    15,
+    47
+   ],
+   "own_spread": 0.9705990078406284,
+   "best": [
+    30,
+    0.909649640469282
+   ],
+   "next": [
+    29,
+    0.8868891624581999
+   ]
+  },
+  {
+   "repo": "richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic",
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.0446461633344412,
+   "best": [
+    28,
+    0.7736327672513565
+   ],
+   "next": [
+    29,
+    0.6091930431790917
+   ]
+  }
+ ],
+ "skipped": []
+}

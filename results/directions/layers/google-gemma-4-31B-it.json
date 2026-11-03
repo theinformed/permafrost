@@ -1,0 +1,399 @@
+{
+ "parent": "google/gemma-4-31B-it",
+ "reference": "TrevorJS/gemma-4-31B-it-uncensored",
+ "kind": "o_proj",
+ "rotation": {
+  "adjacent_median": 0.8433247538170593,
+  "adjacent_count": 59,
+  "far_median": 0.016191229701352415,
+  "far_count": 1275,
+  "far_min": 9.146070644939358e-06
+ },
+ "copies": [
+  {
+   "repo": "3MPER0RR/gemma-4-31b-it-3MPER0RR-abliterated",
+   "window": [
+    40,
+    59
+   ],
+   "own_spread": 0.46271187037700773,
+   "best": [
+    50,
+    0.9470620996806204
+   ],
+   "next": [
+    49,
+    0.8333126515525744
+   ]
+  },
+  {
+   "repo": "Bahushruth/gemma-4-31B-it-abliterated",
+   "window": [
+    17,
+    49
+   ],
+   "own_spread": 0.029839402927426227,
+   "best": [
+    33,
+    0.23078391630132605
+   ],
+   "next": [
+    34,
+    0.21241322206868626
+   ]
+  },
+  {
+   "repo": "DuoNeural/Gemma4-31B-IT-Abliterated",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.06864068733454298,
+   "best": [
+    30,
+    0.4176938738328215
+   ],
+   "next": [
+    31,
+    0.3864016347658157
+   ]
+  },
+  {
+   "repo": "Jim-darby/gemma-4-31B-it-heretic-ara-ja80en20",
+   "window": [
+    27,
+    46
+   ],
+   "own_spread": 0.05778589905715989,
+   "best": [
+    38,
+    0.06144452415459602
+   ],
+   "next": [
+    37,
+    0.059484445495136484
+   ]
+  },
+  {
+   "repo": "Kooten/gemma-4-31b-abliterated-v1.1",
+   "window": [
+    24,
+    50
+   ],
+   "own_spread": 0.9999740122682488,
+   "best": [
+    31,
+    0.9386910940176487
+   ],
+   "next": [
+    32,
+    0.8190653619700723
+   ]
+  },
+  {
+   "repo": "MoonRide/gemma-4-31B-it-heretic-ara",
+   "window": [
+    30,
+    53
+   ],
+   "own_spread": 0.029460541649740723,
+   "best": [
+    43,
+    0.1389624196341523
+   ],
+   "next": [
+    42,
+    0.13756345015464275
+   ]
+  },
+  {
+   "repo": "MoonRide/gemma-4-31B-it-heretic-ara-custom",
+   "window": [
+    30,
+    56
+   ],
+   "own_spread": 0.02996862273468185,
+   "best": [
+    43,
+    0.1394613051348334
+   ],
+   "next": [
+    44,
+    0.12017112151760626
+   ]
+  },
+  {
+   "repo": "Sabomako/gemma-4-31B-it-heretic",
+   "window": [
+    31,
+    34
+   ],
+   "own_spread": 0.7862031408800396,
+   "best": [
+    33,
+    0.9296248750698823
+   ],
+   "next": [
+    34,
+    0.7846326691641159
+   ]
+  },
+  {
+   "repo": "Vampelium/gemma-4-31B-it-heretic",
+   "window": [
+    34,
+    59
+   ],
+   "own_spread": 0.35368947663071193,
+   "best": [
+    47,
+    0.9665512599791374
+   ],
+   "next": [
+    46,
+    0.8973501424763011
+   ]
+  },
+  {
+   "repo": "akpsahan/Huihui-gemma-4-31B-it-abliterated-v2",
+   "window": [
+    5,
+    59
+   ],
+   "own_spread": 0.999995976696785,
+   "best": [
+    35,
+    0.8558764039858956
+   ],
+   "next": [
+    36,
+    0.7220736691444419
+   ]
+  },
+  {
+   "repo": "callmegrr/gemma-4-31B-it-heretic-z",
+   "window": [
+    37,
+    46
+   ],
+   "own_spread": 0.6317947194629379,
+   "best": [
+    42,
+    0.9819188524094832
+   ],
+   "next": [
+    43,
+    0.8704498390246369
+   ]
+  },
+  {
+   "repo": "coder3101/gemma-4-31B-it-heretic",
+   "window": [
+    1,
+    58
+   ],
+   "own_spread": 0.05523352701594979,
+   "best": [
+    30,
+    0.29403409512638434
+   ],
+   "next": [
+    32,
+    0.25253342292961467
+   ]
+  },
+  {
+   "repo": "cosmicoptima/gemma4-31b-consciousness-abliterated",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999923972909738,
+   "best": [
+    35,
+    0.03914301531700203
+   ],
+   "next": [
+    38,
+    0.03901896502987462
+   ]
+  },
+  {
+   "repo": "germlag/gemma-4-31B-it-heretic-v2",
+   "window": [
+    29,
+    59
+   ],
+   "own_spread": 0.28395716379220565,
+   "best": [
+    44,
+    0.9835563068218074
+   ],
+   "next": [
+    45,
+    0.8853819412955781
+   ]
+  },
+  {
+   "repo": "huihui-ai/Huihui-gemma-4-31B-it-abliterated",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999901266635035,
+   "best": [
+    35,
+    0.8673464943504056
+   ],
+   "next": [
+    36,
+    0.7380817253885323
+   ]
+  },
+  {
+   "repo": "huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2",
+   "window": [
+    5,
+    59
+   ],
+   "own_spread": 0.999995976696785,
+   "best": [
+    35,
+    0.8558764039858956
+   ],
+   "next": [
+    36,
+    0.7220736691444419
+   ]
+  },
+  {
+   "repo": "jcxu97/gemma-4-31B-it-abliterated",
+   "window": [
+    29,
+    59
+   ],
+   "own_spread": 0.3497704833377275,
+   "best": [
+    44,
+    0.8699896411348775
+   ],
+   "next": [
+    45,
+    0.7879907387352808
+   ]
+  },
+  {
+   "repo": "llmfan46/gemma-4-31B-it-uncensored-heretic",
+   "window": [
+    30,
+    47
+   ],
+   "own_spread": 0.03947068919504905,
+   "best": [
+    39,
+    0.31059389764135176
+   ],
+   "next": [
+    40,
+    0.2500956175957505
+   ]
+  },
+  {
+   "repo": "nguyenthilaitrieulong/gemma-4-31B-it-abliterated",
+   "window": [
+    25,
+    59
+   ],
+   "own_spread": 0.19374358779190226,
+   "best": [
+    44,
+    0.8496036623462394
+   ],
+   "next": [
+    43,
+    0.7760293134359862
+   ]
+  },
+  {
+   "repo": "null-space/gemma-4-31b-it-abliterated",
+   "window": [
+    20,
+    59
+   ],
+   "own_spread": 0.9984864627863568,
+   "best": [
+    40,
+    0.9084042213400434
+   ],
+   "next": [
+    41,
+    0.7541834069895164
+   ]
+  },
+  {
+   "repo": "prithivMLmods/gemma-4-31B-it-Uncensored-MAX",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.9999901266635035,
+   "best": [
+    35,
+    0.8673464943504056
+   ],
+   "next": [
+    36,
+    0.7380817253885323
+   ]
+  },
+  {
+   "repo": "ressl/gemma-4-31B-it-uncensored",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.04262800433069272,
+   "best": [
+    30,
+    0.9794860822661526
+   ],
+   "next": [
+    31,
+    0.7817074851677901
+   ]
+  },
+  {
+   "repo": "sh0ck0r/Artemis-31B-v1.1-heretic",
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.14496185723822266,
+   "best": [
+    46,
+    0.2859282850119209
+   ],
+   "next": [
+    45,
+    0.26436037096384835
+   ]
+  },
+  {
+   "repo": "wangzhang/gemma-4-31B-it-abliterated",
+   "window": [
+    18,
+    57
+   ],
+   "own_spread": 0.16637959174174538,
+   "best": [
+    38,
+    0.8612823064894781
+   ],
+   "next": [
+    37,
+    0.7435345369781726
+   ]
+  }
+ ],
+ "skipped": []
+}

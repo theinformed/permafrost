@@ -1,0 +1,616 @@
+{
+ "parent": "google/gemma-4-E4B-it",
+ "reference": "TrevorJS/gemma-4-E4B-it-uncensored",
+ "kind": "o_proj",
+ "rotation": {
+  "adjacent_median": 0.6839869820079559,
+  "adjacent_count": 41,
+  "far_median": 0.013769034340860468,
+  "far_count": 528,
+  "far_min": 3.3844886430781096e-05
+ },
+ "copies": [
+  {
+   "repo": "Bahushruth/gemma-4-E4B-it-abliterated",
+   "window": [
+    21,
+    32
+   ],
+   "own_spread": 0.04605448352777862,
+   "best": [
+    27,
+    0.14514603859902778
+   ],
+   "next": [
+    28,
+    0.12932362713344764
+   ]
+  },
+  {
+   "repo": "BinxNet/gemma-4-E4B-it-heretic",
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9481751289217055,
+   "best": [
+    32,
+    0.9641705298483569
+   ],
+   "next": [
+    33,
+    0.883159155602051
+   ]
+  },
+  {
+   "repo": "Cup4/gemma-4-E4B-it-uncensored-heretic",
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "best": [
+    26,
+    0.11667308270431205
+   ],
+   "next": [
+    27,
+    0.10092627481288505
+   ]
+  },
+  {
+   "repo": "Cup5/gemma-4-E4B-it-uncensored-heretic",
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "best": [
+    26,
+    0.11667308270431205
+   ],
+   "next": [
+    27,
+    0.10092627481288505
+   ]
+  },
+  {
+   "repo": "Dingdust/ContextPilot-E4B-heretic",
+   "window": [
+    1,
+    41
+   ],
+   "own_spread": 0.021989322781829117,
+   "best": [
+    9,
+    0.0486213055465309
+   ],
+   "next": [
+    18,
+    0.047565547950212284
+   ]
+  },
+  {
+   "repo": "DuoNeural/Gemma-4-E4B-Heretic",
+   "window": [
+    10,
+    41
+   ],
+   "own_spread": 0.9999565727102881,
+   "best": [
+    17,
+    0.8574658791848759
+   ],
+   "next": [
+    16,
+    0.8209543229463265
+   ]
+  },
+  {
+   "repo": "Felldude/gemma-4-E4B-uncensored",
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.031522972660570636,
+   "best": [
+    7,
+    0.04295201596697734
+   ],
+   "next": [
+    32,
+    0.03902660993431811
+   ]
+  },
+  {
+   "repo": "Himanshuoo8/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking",
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.021213549163258582,
+   "best": [
+    21,
+    0.09911050899762004
+   ],
+   "next": [
+    14,
+    0.09129636923995656
+   ]
+  },
+  {
+   "repo": "Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP",
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.026069442444102982,
+   "best": [
+    6,
+    0.048886682758095525
+   ],
+   "next": [
+    22,
+    0.03630892106270099
+   ]
+  },
+  {
+   "repo": "ImanolSuarez/gemma-4-E4B-it-heretic-seguridadDeLaInformacion",
+   "window": [
+    18,
+    35
+   ],
+   "own_spread": 0.9466319747336759,
+   "best": [
+    29,
+    0.9503658849891861
+   ],
+   "next": [
+    30,
+    0.8238608621486915
+   ]
+  },
+  {
+   "repo": "Jiunsong/supergemma4-e4b-abliterated",
+   "window": null,
+   "own_spread": null,
+   "best": null,
+   "next": null
+  },
+  {
+   "repo": "JokeHer/gemma-4-E4B-it-heretic",
+   "window": [
+    19,
+    38
+   ],
+   "own_spread": 0.027887683140468043,
+   "best": [
+    29,
+    0.200233284626426
+   ],
+   "next": [
+    30,
+    0.17736256875836834
+   ]
+  },
+  {
+   "repo": "Madras1/Gemma-4-E4B-Abliterated-Uncensored",
+   "window": [
+    8,
+    34
+   ],
+   "own_spread": 0.9999934887970614,
+   "best": [
+    28,
+    0.6201215179282501
+   ],
+   "next": [
+    27,
+    0.37930765436986447
+   ]
+  },
+  {
+   "repo": "MoonRide/gemma-4-E4B-it-heretic-ara",
+   "window": [
+    21,
+    37
+   ],
+   "own_spread": 0.04395588511092513,
+   "best": [
+    29,
+    0.20702380804080833
+   ],
+   "next": [
+    30,
+    0.18284682136787123
+   ]
+  },
+  {
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals3",
+   "window": [
+    19,
+    31
+   ],
+   "own_spread": 0.027230535315815905,
+   "best": [
+    25,
+    0.2542746465181299
+   ],
+   "next": [
+    26,
+    0.20682764545006854
+   ]
+  },
+  {
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals5",
+   "window": [
+    19,
+    36
+   ],
+   "own_spread": 0.03445806237416808,
+   "best": [
+    28,
+    0.1940196100318332
+   ],
+   "next": [
+    24,
+    0.14855321255602322
+   ]
+  },
+  {
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn",
+   "window": [
+    21,
+    36
+   ],
+   "own_spread": 0.04341163579995552,
+   "best": [
+    29,
+    0.2145898892552604
+   ],
+   "next": [
+    30,
+    0.18621835257419064
+   ]
+  },
+  {
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8",
+   "window": [
+    21,
+    34
+   ],
+   "own_spread": 0.036385324601977645,
+   "best": [
+    28,
+    0.1917377964431132
+   ],
+   "next": [
+    24,
+    0.152381809195249
+   ]
+  },
+  {
+   "repo": "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn",
+   "window": [
+    17,
+    31
+   ],
+   "own_spread": 0.025763385480592534,
+   "best": [
+    24,
+    0.3323133958839142
+   ],
+   "next": [
+    25,
+    0.30952946394057224
+   ]
+  },
+  {
+   "repo": "OS-Software/gemma-4-E4B-it-uncensored-heretic",
+   "window": [
+    18,
+    27
+   ],
+   "own_spread": 0.020956560333581335,
+   "best": [
+    23,
+    0.2259062602426072
+   ],
+   "next": [
+    24,
+    0.10703059796480512
+   ]
+  },
+  {
+   "repo": "Pound1320/gemma-4-E4B-it-uncensored-heretic",
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "best": [
+    26,
+    0.11667308270431205
+   ],
+   "next": [
+    27,
+    0.10092627481288505
+   ]
+  },
+  {
+   "repo": "SassyDiffusion/gemma-4-E4B-it-heretic",
+   "window": [
+    21,
+    41
+   ],
+   "own_spread": 0.033607744353025826,
+   "best": [
+    9,
+    0.053471090396061266
+   ],
+   "next": [
+    31,
+    0.05245099142857611
+   ]
+  },
+  {
+   "repo": "TheUmbraWalker/gemma-4-E4B-it-2-heretic",
+   "window": [
+    4,
+    41
+   ],
+   "own_spread": 0.01947179707837869,
+   "best": [
+    23,
+    0.05899030766955527
+   ],
+   "next": [
+    0,
+    0.03562384649028189
+   ]
+  },
+  {
+   "repo": "TheUmbraWalker/gemma-4-E4B-it-heretic",
+   "window": [
+    4,
+    41
+   ],
+   "own_spread": 0.02446090522626583,
+   "best": [
+    23,
+    0.9487552429769002
+   ],
+   "next": [
+    24,
+    0.5398483864691095
+   ]
+  },
+  {
+   "repo": "alphakek/gemma-4-E4B-it-heretic-mythos-v1",
+   "window": [
+    11,
+    27
+   ],
+   "own_spread": 0.024202806137426938,
+   "best": [
+    20,
+    0.07572456370966993
+   ],
+   "next": [
+    19,
+    0.06548399562076192
+   ]
+  },
+  {
+   "repo": "chulcher/gemma-4-e4b-abliterated",
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.012434950524616493,
+   "best": [
+    20,
+    0.051444626268180096
+   ],
+   "next": [
+    3,
+    0.03880796508574519
+   ]
+  },
+  {
+   "repo": "coder3101/gemma-4-E4B-it-heretic",
+   "window": [
+    21,
+    41
+   ],
+   "own_spread": 0.04211709338364529,
+   "best": [
+    31,
+    0.07328850430196909
+   ],
+   "next": [
+    32,
+    0.06276846454924774
+   ]
+  },
+  {
+   "repo": "huihui-ai/Huihui-gemma-4-E4B-it-abliterated",
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9999985729409994,
+   "best": [
+    17,
+    0.7969136886799326
+   ],
+   "next": [
+    18,
+    0.4865081645184931
+   ]
+  },
+  {
+   "repo": "jokernifty/gemma-4-e4b-it-abliterated",
+   "window": [
+    20,
+    34
+   ],
+   "own_spread": 0.9999999243255204,
+   "best": [
+    24,
+    0.9113598269139355
+   ],
+   "next": [
+    25,
+    0.6969874822536308
+   ]
+  },
+  {
+   "repo": "llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic",
+   "window": [
+    18,
+    35
+   ],
+   "own_spread": 0.032298461562195964,
+   "best": [
+    27,
+    0.1681695193646835
+   ],
+   "next": [
+    28,
+    0.1341037549859422
+   ]
+  },
+  {
+   "repo": "llmfan46/gemma-4-E4B-it-uncensored-heretic",
+   "window": [
+    21,
+    35
+   ],
+   "own_spread": 0.03456257476206839,
+   "best": [
+    26,
+    0.11667308270431205
+   ],
+   "next": [
+    27,
+    0.10092627481288505
+   ]
+  },
+  {
+   "repo": "p-e-w/gemma-4-E4B-it-heretic",
+   "window": [
+    11,
+    41
+   ],
+   "own_spread": 0.9485898271895614,
+   "best": [
+    31,
+    0.9695792793571013
+   ],
+   "next": [
+    32,
+    0.925675158574214
+   ]
+  },
+  {
+   "repo": "p-e-w/gemma-4-E4B-it-heretic-REPRODUCED-2",
+   "window": [
+    11,
+    41
+   ],
+   "own_spread": 0.9485860530404837,
+   "best": [
+    31,
+    0.9695760120244713
+   ],
+   "next": [
+    32,
+    0.9256728140798904
+   ]
+  },
+  {
+   "repo": "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX",
+   "window": [
+    7,
+    41
+   ],
+   "own_spread": 0.9999985729409994,
+   "best": [
+    17,
+    0.7969136886799326
+   ],
+   "next": [
+    18,
+    0.4865081645184931
+   ]
+  },
+  {
+   "repo": "senjiangchen/gemma-4-E4B-it-uncensored",
+   "window": [
+    0,
+    41
+   ],
+   "own_spread": 0.02205380810035741,
+   "best": [
+    21,
+    1.000000000000001
+   ],
+   "next": [
+    20,
+    0.4960436730097886
+   ]
+  },
+  {
+   "repo": "sh0ck0r/gemma-4-E4B-it-heretic",
+   "window": [
+    19,
+    41
+   ],
+   "own_spread": 0.949031800938963,
+   "best": [
+    32,
+    0.9570143120314346
+   ],
+   "next": [
+    31,
+    0.9105529071695337
+   ]
+  },
+  {
+   "repo": "treadon/gemma4-E4B-it-Abliterated-AND-Disinhibited-USE-THIS",
+   "window": [
+    17,
+    40
+   ],
+   "own_spread": 0.22543661492378436,
+   "best": [
+    22,
+    0.03563088468278437
+   ],
+   "next": [
+    25,
+    0.03391149348979528
+   ]
+  },
+  {
+   "repo": "treadon/gemma4-E4B-it-abliterated",
+   "window": [
+    17,
+    35
+   ],
+   "own_spread": 0.18582050650627913,
+   "best": [
+    27,
+    0.8726152463735692
+   ],
+   "next": [
+    26,
+    0.6803049153522986
+   ]
+  }
+ ],
+ "skipped": [
+  "Jiunsong/supergemma4-e4b-abliterated"
+ ]
+}

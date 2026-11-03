@@ -1,6 +1,7 @@
 # direction_layers.py -- Place every copy's saved edit direction against a per-layer reference copy, layer by layer, and measure how the reference's own direction rotates with depth.
 # Created by SDE
 # Modified: SDE 2026-11-03  first pass: reference rotation, per-copy window and best layer, markdown and json.
+# Modified: SDE 2026-11-03  print layer numbers as whole integers (whole), not three-decimal cosines.
 """Place the edit directions of every copy of one parent against a reference copy.
 
 --group names a results/directions/<parent>.json with a parent and a copies[]
@@ -101,6 +102,10 @@ def three(value):
     return 'none' if value is None else f'{value:.3f}'
 
 
+def whole(value):
+    return 'none' if value is None else str(int(value))
+
+
 def write_markdown(path, reference, parent, rot, rows):
     adjacent = (f"adjacent layers median {three(rot['adjacent_median'])} "
                 f"on {rot['adjacent_count']} pairs")
@@ -120,8 +125,8 @@ def write_markdown(path, reference, parent, rot, rows):
         nxt = row['next'] or [None, None]
         lines.append(
             f"| {row['repo']} | {window} | {three(row['own_spread'])} "
-            f"| {three(best[0])} | {three(best[1])} "
-            f"| {three(nxt[0])} | {three(nxt[1])} |")
+            f"| {whole(best[0])} | {three(best[1])} "
+            f"| {whole(nxt[0])} | {three(nxt[1])} |")
     path.write_text('\n'.join(lines) + '\n')
 
 

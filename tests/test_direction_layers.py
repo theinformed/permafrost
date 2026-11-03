@@ -114,6 +114,8 @@ class DirectionLayersTest(unittest.TestCase):
             self.assertIn('adjacent layers median', lines[2])
             table = [line for line in lines[6:] if line.startswith('| ')]
             self.assertEqual(len(table), 2)
+            self.assertTrue(table[0].startswith('| one/b | 5..12 | 1.000 | 7 | 1.000 | '))
+            self.assertNotIn(' 7.000 ', out.read_text())
 
     def test_missing_reference(self):
         with tempfile.TemporaryDirectory() as tmp:

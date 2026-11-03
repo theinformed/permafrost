@@ -6449,8 +6449,9 @@ the pinner.
 
 Evidence: `results/directions/e2b-families-parameters.md`, `results/directions/26b-families-parameters.md`,
 `results/directions/google-gemma-4-E2B-it.json` and `results/directions/google-gemma-4-26B-A4B-it.json` for the pair
-figures, `results/directions/families.json` for the family lists; the layer figures are the o_proj left vectors in
-each pull's `weights.directions.safetensors`, set against TrevorJS's copy on each parent.
+figures, `results/directions/families.json` for the family lists; the layer figures are in
+`results/directions/layers/google-gemma-4-<parent>.md`, written by `hpc/direction_layers.py` from the o_proj left
+vectors in each pull's `weights.directions.safetensors`, set against TrevorJS's copy on each parent.
 
 ## Not yet established
 
