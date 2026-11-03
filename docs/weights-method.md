@@ -203,4 +203,39 @@ exits with an error when a list names a hub id no report carries.
 - A small value is a nonzero outside value on matrices the method weighted near zero or did not name, judged per copy and listed in `small-outside.txt`, and the script counts the other nonzero values, which finding 1 names one by one.
 - A copy measured against the pretrained base its field names while it stands on the instruct checkpoint its card names is listed in `instruct-on-pretrained.txt`, judged by byte range.
 
+## Comparing the saved directions
+
+Each comparison saves, for every changed matrix, the leading left and right singular directions of the difference
+as float32 unit vectors in `weights.directions.safetensors` beside the report, the sign fixed by the largest left
+entry, so the sign is a convention and every comparison below reads the absolute cosine. Five commands under `hpc/`
+read those files across the census; none of them touches a checkpoint.
+
+`hpc/direction_cosines.py --pulls DIR... --out results/directions` groups every measured copy by parent and compares
+each pair of copies under a parent key by key, one copy's tensors loaded at a time, writing one json per parent
+(every pair's per-side median, count, high and flipped fractions and the cosines themselves) and an index.
+`hpc/direction_families.py` reads those files and writes `results/directions/families.md` and `.json`: the
+distribution of the pooled cosines, per parent the families (connected components at a median absolute cosine of
+0.9 or more over the shared right vectors) and the copies with no partner at 0.5, the same figures by name class,
+the restriction to the keys where both reports read a first-singular energy share of 0.9 or more, and the pairs
+whose signed and absolute medians differ. The parameter tables beside them, one per Gemma 4 parent, set each copy's
+family beside the tool figures its reading note records.
+
+`hpc/direction_layers.py --group results/directions/<parent>.json --pulls DIR --reference REPO --out FILE.md` takes
+one copy that carries a direction per layer as the reference and reads, from the o_proj left vectors, how far the
+reference's own direction turns between adjacent layers and between layers ten or more apart, and for every other
+copy of the parent its window, its own spread, its own adjacent and far medians, and the reference layer its
+middle-layer direction matches best. `hpc/direction_modes.py --directions results/directions --pulls DIR --families
+results/directions/families.json --out results/directions/modes.md` sorts every census copy by those two figures of
+its own: one direction when the far median is 0.9 or more, per layer when the adjacent median is 0.5 or more and
+the far median 0.2 or less, arbitrary rank when the adjacent median is under 0.2, mixed otherwise, and counts the
+modes by the word in the copy's name and by family.
+
+`hpc/place_round.py --measurements PULL/measurements --directions results/directions --families
+results/directions/families.json --pulls DIR --out FILE.md` is the step a read-out runs after the digest: each new
+copy of the pulled round is set against the census copies of its parent, keeping the nearest by median absolute
+cosine with its family number, and against the parent's per-layer reference, chosen by the same rotation signature,
+giving the layer its direction matches best; a parent with no census copies reads as new, and one with no per-layer
+copy gives no layer. After the pull, `direction_cosines.py` and `direction_families.py` are run again so the census
+includes the round.
+
 Weight differences alone cannot certify the absence of hidden behavior.
