@@ -230,10 +230,14 @@ one copy that carries a direction per layer as the reference and reads, from the
 reference's own direction turns between adjacent layers and between layers ten or more apart, and for every other
 copy of the parent its window, its own spread, its own adjacent and far medians, and the reference layer its
 middle-layer direction matches best. `hpc/direction_modes.py --directions results/directions --pulls DIR --families
-results/directions/families.json --out results/directions/modes.md` sorts every census copy by those two figures of
-its own: one direction when the far median is 0.9 or more, per layer when the adjacent median is 0.5 or more and
-the far median 0.2 or less, arbitrary rank when the adjacent median is under 0.2, mixed otherwise, and counts the
-modes by the word in the copy's name and by family.
+results/directions/families.json --weights results/weights --out results/directions/modes.md` sorts every census
+copy by those two figures of its own: one direction when the far median is 0.9 or more, per layer when the
+adjacent median is 0.5 or more and the far median 0.2 or less, arbitrary rank when the adjacent median is under
+0.2, mixed otherwise, and counts the modes by the word in the copy's name and by family. The rotation is read from
+the attention-output vectors unless the copy's weight report says they carry no edit: when the median
+first-singular share of its changed attention-output matrices is under 0.5 while that of its changed
+down projections is 0.9 or more, the rotation is read from the down projections instead, and the table says
+which matrix each mode was read from with both shares beside it.
 
 `hpc/place_round.py --measurements PULL/measurements --directions results/directions --families
 results/directions/families.json --pulls DIR --batches data/batches --out FILE.md` is the step a read-out runs after

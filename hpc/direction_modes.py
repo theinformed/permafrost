@@ -5,6 +5,7 @@
 # Modified: SDE 2026-11-03  skip the command's own modes.json and any copies list without pull and pair when reading the census.
 # Modified: SDE 2026-11-03  add the pair figure: median |cos| between the copy's o_proj and down_proj left vectors of the same layer.
 # Modified: SDE 2026-11-03  read a copy's mode from down_proj when its o_proj change has no leading direction and its down_proj change has one.
+# Modified: SDE 2026-11-03  keep the default other kind in default_other so a switched copy does not leak into the copies after it.
 """Sort every census copy into an edit mode by its own layer rotation.
 
 --directions names a census folder of <parent id>.json files, each with a
@@ -230,7 +231,7 @@ def main(argv=None):
     if args.families:
         families = json.loads(Path(args.families).read_text()).get('families', [])
     numbers = family_numbers(families)
-    other_kind = 'down_proj' if args.kind == 'o_proj' else 'o_proj'
+    default_other = 'down_proj' if args.kind == 'o_proj' else 'o_proj'
 
     rows = []
     seen = set()
@@ -248,7 +249,7 @@ def main(argv=None):
                     and down_share is not None and down_share >= DOWN_CLEAR):
                 kind, other_kind, read_from = 'down_proj', 'o_proj', 'down_proj'
             else:
-                kind, other_kind, read_from = args.kind, other_kind, args.kind
+                kind, other_kind, read_from = args.kind, default_other, args.kind
             vectors = load_layers(path, kind) if path else {}
             other = load_layers(path, other_kind) if path else {}
             row = {'parent': parent, 'repo': repo, 'layers': len(vectors),

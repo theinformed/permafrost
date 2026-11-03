@@ -15,18 +15,18 @@
    "singular_share_q3": 0.8624228354392105
   },
   "mixed": {
-   "copies": 12,
-   "changed_tensors": 55.0,
-   "changed_layers": 32.5,
-   "median_relative": 0.01934282144976865,
-   "max_relative": 0.034225802146351195,
-   "singular_share": 0.9183047265077167,
-   "changed_tensors_q1": 44.0,
-   "changed_tensors_q3": 349.5,
-   "median_relative_q1": 0.013205669215633075,
-   "median_relative_q3": 0.02611870325150563,
-   "singular_share_q1": 0.19427430292851977,
-   "singular_share_q3": 0.9873307975126249
+   "copies": 11,
+   "changed_tensors": 50,
+   "changed_layers": 30,
+   "median_relative": 0.01964601568809792,
+   "max_relative": 0.03449947239643774,
+   "singular_share": 0.9807864464397215,
+   "changed_tensors_q1": 43.0,
+   "changed_tensors_q3": 251.0,
+   "median_relative_q1": 0.016475825783457222,
+   "median_relative_q3": 0.028268451367747346,
+   "singular_share_q1": 0.27032278617700256,
+   "singular_share_q3": 0.9879910240376875
   },
   "no file": {
    "copies": 1,
@@ -43,18 +43,18 @@
    "singular_share_q3": null
   },
   "one direction": {
-   "copies": 54,
-   "changed_tensors": 63.5,
-   "changed_layers": 34.0,
-   "median_relative": 0.021005991600021413,
+   "copies": 55,
+   "changed_tensors": 64,
+   "changed_layers": 34,
+   "median_relative": 0.020858411411770868,
    "max_relative": 0.02811312067371858,
-   "singular_share": 0.9806641098732491,
+   "singular_share": 0.9804913063859989,
    "changed_tensors_q1": 50.0,
    "changed_tensors_q3": 80.0,
-   "median_relative_q1": 0.01565710171333414,
-   "median_relative_q3": 0.025651445715288174,
-   "singular_share_q1": 0.9628299428680006,
-   "singular_share_q3": 0.9941795040652527
+   "median_relative_q1": 0.015394663729969626,
+   "median_relative_q3": 0.02563353377859997,
+   "singular_share_q1": 0.9609731908159929,
+   "singular_share_q3": 0.9940076234106383
   },
   "per layer": {
    "copies": 69,
@@ -506,19 +506,11 @@
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
-   "mode": "mixed",
-   "copies": 1,
-   "changed_tensors": 322,
-   "median_relative": 0.0014700641938081632,
-   "singular_share": 0.0008654853165103078
-  },
-  {
-   "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
    "mode": "one direction",
-   "copies": 2,
-   "changed_tensors": 321.0,
-   "median_relative": 0.01087566575338416,
-   "singular_share": 0.503746672271752
+   "copies": 3,
+   "changed_tensors": 322,
+   "median_relative": 0.004503390658684749,
+   "singular_share": 0.024942316546061685
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -733,17 +725,6 @@
     "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
    },
    {
-    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
-    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
-    "mode": "mixed",
-    "changed_tensors": 322,
-    "changed_layers": 48,
-    "median_relative": 0.0014700641938081632,
-    "max_relative": 0.03287762426925772,
-    "singular_share": 0.0008654853165103078,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
-   },
-   {
     "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
     "repo": "coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic",
     "mode": "mixed",
@@ -786,6 +767,17 @@
     "max_relative": 0.022372360175681096,
     "singular_share": 0.8022118984152256,
     "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up"
+   },
+   {
+    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
+    "mode": "one direction",
+    "changed_tensors": 322,
+    "changed_layers": 48,
+    "median_relative": 0.0014700641938081632,
+    "max_relative": 0.03287762426925772,
+    "singular_share": 0.0008654853165103078,
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -3356,7 +3348,7 @@
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
-   "mode": "mixed",
+   "mode": "one direction",
    "changed_tensors": 322,
    "changed_layers": 48,
    "median_relative": 0.0014700641938081632,

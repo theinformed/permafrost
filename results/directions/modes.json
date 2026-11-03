@@ -1,9 +1,9 @@
 {
  "counts": {
   "per layer": 69,
-  "one direction": 54,
+  "one direction": 55,
   "arbitrary rank": 65,
-  "mixed": 12,
+  "mixed": 11,
   "few layers": 0,
   "no file": 1
  },
@@ -16,7 +16,7 @@
   },
   "one direction": {
    "heretic": 29,
-   "abliterated": 19,
+   "abliterated": 20,
    "uncensored": 6,
    "other": 0
   },
@@ -28,7 +28,7 @@
   },
   "mixed": {
    "heretic": 3,
-   "abliterated": 7,
+   "abliterated": 6,
    "uncensored": 2,
    "other": 0
   },
@@ -429,9 +429,9 @@
    "members": 3,
    "counts": {
     "per layer": 0,
-    "one direction": 2,
+    "one direction": 3,
     "arbitrary rank": 0,
-    "mixed": 1,
+    "mixed": 0,
     "few layers": 0,
     "no file": 0
    }
@@ -463,6 +463,9 @@
    "adjacent": 0.9498889342549238,
    "far": null,
    "pair": 0.9999510804304659,
+   "read_from": "o_proj",
+   "o_share": 0.9840376379499254,
+   "down_share": 0.9903448998023269,
    "mode": "per layer",
    "family": "none"
   },
@@ -478,6 +481,9 @@
    "adjacent": 0.9999949070880602,
    "far": 0.999991185067223,
    "pair": 0.9999601887808547,
+   "read_from": "o_proj",
+   "o_share": 0.9877189761126032,
+   "down_share": 0.9820430650423997,
    "mode": "one direction",
    "family": 1
   },
@@ -493,6 +499,9 @@
    "adjacent": 0.9981673544039751,
    "far": 0.9938040967129673,
    "pair": 0.9965679223295985,
+   "read_from": "o_proj",
+   "o_share": 0.980723943106837,
+   "down_share": 0.9901664274546589,
    "mode": "one direction",
    "family": 1
   },
@@ -508,6 +517,9 @@
    "adjacent": 0.9974811220552848,
    "far": 0.9658572783871366,
    "pair": 0.9864554105372924,
+   "read_from": "o_proj",
+   "o_share": 0.9820540733249621,
+   "down_share": 0.9812181304973733,
    "mode": "one direction",
    "family": "none"
   },
@@ -523,6 +535,9 @@
    "adjacent": 0.958029789771518,
    "far": null,
    "pair": 0.9999916436724244,
+   "read_from": "o_proj",
+   "o_share": 0.9840009467962143,
+   "down_share": 0.9910647663564323,
    "mode": "per layer",
    "family": "none"
   },
@@ -538,6 +553,9 @@
    "adjacent": 0.9999973448053199,
    "far": 0.9999957865998589,
    "pair": 0.9998847779050752,
+   "read_from": "o_proj",
+   "o_share": 0.9928895440536516,
+   "down_share": 0.9763835148279809,
    "mode": "one direction",
    "family": "none"
   },
@@ -553,6 +571,9 @@
    "adjacent": 0.9986868360528567,
    "far": 0.9946406185867174,
    "pair": 0.9976328158756131,
+   "read_from": "o_proj",
+   "o_share": 0.9904572026934552,
+   "down_share": 0.9888898130376842,
    "mode": "one direction",
    "family": "none"
   },
@@ -568,6 +589,9 @@
    "adjacent": 0.46592953682717475,
    "far": 0.023877660086158173,
    "pair": 0.45237036686537746,
+   "read_from": "o_proj",
+   "o_share": 0.6752524221665341,
+   "down_share": 0.8500874792264836,
    "mode": "mixed",
    "family": "none"
   },
@@ -583,21 +607,27 @@
    "adjacent": 0.6501532805972408,
    "far": 0.036119659527840436,
    "pair": 0.63697216288402,
+   "read_from": "o_proj",
+   "o_share": 0.6667340130710702,
+   "down_share": 0.7720646421077915,
    "mode": "per layer",
    "family": "none"
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
    "repo": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
-   "layers": 25,
+   "layers": 23,
    "window": [
-    5,
+    7,
     29
    ],
-   "own_spread": 0.0695818714049562,
-   "adjacent": 0.8486935890821811,
-   "far": 0.03450835242616421,
+   "own_spread": 0.16118767998417852,
+   "adjacent": 0.7992121547909177,
+   "far": 0.05174135209293816,
    "pair": 0.07521759233334945,
+   "read_from": "down_proj",
+   "o_share": 0.011813167846812866,
+   "down_share": 0.9808273853879833,
    "mode": "per layer",
    "family": 1
   },
@@ -613,6 +643,9 @@
    "adjacent": 0.15748380146510296,
    "far": null,
    "pair": 0.02512958014755187,
+   "read_from": "o_proj",
+   "o_share": 0.8841203847711623,
+   "down_share": 0.6609491508760496,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -628,21 +661,27 @@
    "adjacent": 0.1879231531742031,
    "far": 0.019509041217739644,
    "pair": 0.028607306326389824,
+   "read_from": "o_proj",
+   "o_share": 0.6092025216047425,
+   "down_share": 0.7324336498828627,
    "mode": "arbitrary rank",
    "family": "none"
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
    "repo": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
-   "layers": 25,
+   "layers": 23,
    "window": [
-    5,
+    7,
     29
    ],
-   "own_spread": 0.0695818714049562,
-   "adjacent": 0.8486935890821811,
-   "far": 0.03450835242616421,
+   "own_spread": 0.16118767998417852,
+   "adjacent": 0.7992121547909177,
+   "far": 0.05174135209293816,
    "pair": 0.07521759233334945,
+   "read_from": "down_proj",
+   "o_share": 0.011813167846812866,
+   "down_share": 0.9808273853879833,
    "mode": "per layer",
    "family": 1
   },
@@ -658,6 +697,9 @@
    "adjacent": 0.9845722299666871,
    "far": 0.9703900610834048,
    "pair": 0.9769425525858022,
+   "read_from": "o_proj",
+   "o_share": 0.9951847530123196,
+   "down_share": 0.9953961586202543,
    "mode": "one direction",
    "family": 1
   },
@@ -673,6 +715,9 @@
    "adjacent": 0.7636981587434051,
    "far": 0.20397341672817937,
    "pair": 0.874460483340114,
+   "read_from": "o_proj",
+   "o_share": 0.2697225493325421,
+   "down_share": 0.27097522354655246,
    "mode": "mixed",
    "family": "none"
   },
@@ -688,6 +733,9 @@
    "adjacent": 0.08308696122740139,
    "far": 0.010920023563315288,
    "pair": 0.0694733991375209,
+   "read_from": "o_proj",
+   "o_share": 0.34210373154693147,
+   "down_share": 0.41441057414583965,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -703,6 +751,9 @@
    "adjacent": 0.9831839450880737,
    "far": 0.9282626655712685,
    "pair": 0.9750576051282286,
+   "read_from": "o_proj",
+   "o_share": 0.9916221854173591,
+   "down_share": 0.99578282821214,
    "mode": "one direction",
    "family": 1
   },
@@ -718,6 +769,9 @@
    "adjacent": 0.7148091076403509,
    "far": 0.13675433068504927,
    "pair": 0.9747480217881193,
+   "read_from": "o_proj",
+   "o_share": 0.7163932303248561,
+   "down_share": 0.7097699480110682,
    "mode": "per layer",
    "family": "none"
   },
@@ -733,6 +787,9 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "pair": 0.9947780626540055,
+   "read_from": "o_proj",
+   "o_share": 0.992046802816403,
+   "down_share": 0.992815749477102,
    "mode": "per layer",
    "family": 2
   },
@@ -748,6 +805,9 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "pair": 0.9999969179239425,
+   "read_from": "o_proj",
+   "o_share": 0.9957406299245624,
+   "down_share": 0.9957622487333486,
    "mode": "per layer",
    "family": 3
   },
@@ -763,6 +823,9 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "pair": 0.9947780626540055,
+   "read_from": "o_proj",
+   "o_share": 0.992046802816403,
+   "down_share": 0.992815749477102,
    "mode": "per layer",
    "family": 2
   },
@@ -778,6 +841,9 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "pair": 0.9947780626540055,
+   "read_from": "o_proj",
+   "o_share": 0.992046802816403,
+   "down_share": 0.992815749477102,
    "mode": "per layer",
    "family": 2
   },
@@ -793,6 +859,9 @@
    "adjacent": 0.10505974526023633,
    "far": 0.02477860543179887,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9639428702398156,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 4
   },
@@ -808,6 +877,9 @@
    "adjacent": 0.9851850481836708,
    "far": 0.9749750795547496,
    "pair": 0.977515741604056,
+   "read_from": "o_proj",
+   "o_share": 0.9945529733524178,
+   "down_share": 0.9953135287093169,
    "mode": "one direction",
    "family": 1
   },
@@ -823,6 +895,9 @@
    "adjacent": 0.7445024453717191,
    "far": 0.01862843432523381,
    "pair": 0.9999383471521319,
+   "read_from": "o_proj",
+   "o_share": 0.8415093821157675,
+   "down_share": 0.8336602327685011,
    "mode": "per layer",
    "family": 1
   },
@@ -838,6 +913,9 @@
    "adjacent": 0.07767489161641164,
    "far": 0.02887531912530459,
    "pair": 0.024495302062499114,
+   "read_from": "o_proj",
+   "o_share": 0.9254325407644547,
+   "down_share": 0.8513740434261772,
    "mode": "arbitrary rank",
    "family": 5
   },
@@ -853,6 +931,9 @@
    "adjacent": 0.06823001154923754,
    "far": 0.023396604323149474,
    "pair": 0.04271150630693198,
+   "read_from": "o_proj",
+   "o_share": 0.9296795505178758,
+   "down_share": 0.6014000355122842,
    "mode": "arbitrary rank",
    "family": 5
   },
@@ -868,6 +949,9 @@
    "adjacent": 0.14203012996725445,
    "far": 0.07790114305060175,
    "pair": 0.04823611608073409,
+   "read_from": "o_proj",
+   "o_share": 0.09399431123903038,
+   "down_share": 0.869729691905279,
    "mode": "arbitrary rank",
    "family": 5
   },
@@ -883,6 +967,9 @@
    "adjacent": 0.7934226274150386,
    "far": 0.054342358900443595,
    "pair": 0.9971754075521246,
+   "read_from": "o_proj",
+   "o_share": 0.8582406050478223,
+   "down_share": 0.9214385519145095,
    "mode": "per layer",
    "family": 2
   },
@@ -898,6 +985,9 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "pair": 0.9999969179239425,
+   "read_from": "o_proj",
+   "o_share": 0.9957406299245624,
+   "down_share": 0.9957622487333486,
    "mode": "per layer",
    "family": 3
   },
@@ -913,6 +1003,9 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "pair": 0.9947780626540055,
+   "read_from": "o_proj",
+   "o_share": 0.992046802816403,
+   "down_share": 0.992815749477102,
    "mode": "per layer",
    "family": 2
   },
@@ -928,6 +1021,9 @@
    "adjacent": 0.9952504925292855,
    "far": 0.9889284707931003,
    "pair": 0.9966385850843329,
+   "read_from": "o_proj",
+   "o_share": 0.988803735727258,
+   "down_share": 0.9901349287143902,
    "mode": "one direction",
    "family": 6
   },
@@ -943,6 +1039,9 @@
    "adjacent": 0.055674426898636054,
    "far": 0.016207712946349782,
    "pair": 0.02982301025015707,
+   "read_from": "o_proj",
+   "o_share": 0.9368444766159205,
+   "down_share": 0.9232770119836968,
    "mode": "arbitrary rank",
    "family": 4
   },
@@ -958,6 +1057,9 @@
    "adjacent": 0.843950602683067,
    "far": 0.01035120084001084,
    "pair": 0.999504561065307,
+   "read_from": "o_proj",
+   "o_share": 0.6652679467209792,
+   "down_share": 0.7530200626882628,
    "mode": "per layer",
    "family": "none"
   },
@@ -973,6 +1075,9 @@
    "adjacent": 0.9999823024909152,
    "far": null,
    "pair": 0.9999969179239425,
+   "read_from": "o_proj",
+   "o_share": 0.9957406299245624,
+   "down_share": 0.9957622487333486,
    "mode": "per layer",
    "family": 3
   },
@@ -988,6 +1093,9 @@
    "adjacent": 0.9933060976890441,
    "far": null,
    "pair": 0.9941153486057237,
+   "read_from": "o_proj",
+   "o_share": 0.9843620107242113,
+   "down_share": 0.9951384112738606,
    "mode": "one direction",
    "family": 6
   },
@@ -1003,6 +1111,9 @@
    "adjacent": 0.9962720891233453,
    "far": 0.9755897823159065,
    "pair": 0.9999768316725786,
+   "read_from": "o_proj",
+   "o_share": 0.9773880379721918,
+   "down_share": 0.9732552459190593,
    "mode": "one direction",
    "family": "none"
   },
@@ -1018,6 +1129,9 @@
    "adjacent": 0.7809023238993323,
    "far": 0.06091003469872698,
    "pair": 0.9947780626540055,
+   "read_from": "o_proj",
+   "o_share": 0.992046802816403,
+   "down_share": 0.992815749477102,
    "mode": "per layer",
    "family": 2
   },
@@ -1033,6 +1147,9 @@
    "adjacent": 0.977506216878225,
    "far": 0.8609722917691022,
    "pair": 0.9405802422652694,
+   "read_from": "o_proj",
+   "o_share": 0.9753321182711845,
+   "down_share": 0.9769703429790179,
    "mode": "mixed",
    "family": 1
   },
@@ -1048,6 +1165,9 @@
    "adjacent": 0.10505974526023633,
    "far": 0.02477860543179887,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9639428702398156,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 4
   },
@@ -1063,6 +1183,9 @@
    "adjacent": 0.984922613473953,
    "far": 0.9695619453351939,
    "pair": 0.9805021564377541,
+   "read_from": "o_proj",
+   "o_share": 0.9936548014769332,
+   "down_share": 0.9946182682517474,
    "mode": "one direction",
    "family": 1
   },
@@ -1078,6 +1201,9 @@
    "adjacent": 0.9544394502109872,
    "far": 0.01884934345892908,
    "pair": 0.45205808031312,
+   "read_from": "o_proj",
+   "o_share": 0.9493658859088292,
+   "down_share": 0.4464844831946636,
    "mode": "per layer",
    "family": "none"
   },
@@ -1093,6 +1219,9 @@
    "adjacent": 0.9834965730297227,
    "far": 0.9807134612834312,
    "pair": 0.9824166815153996,
+   "read_from": "o_proj",
+   "o_share": 0.9953854891495703,
+   "down_share": 0.9959336430201593,
    "mode": "one direction",
    "family": "none"
   },
@@ -1108,6 +1237,9 @@
    "adjacent": 0.07962474973682178,
    "far": 0.016503595382697148,
    "pair": 0.021914583615871154,
+   "read_from": "o_proj",
+   "o_share": 0.9565847628835329,
+   "down_share": 0.9205357140040906,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1123,6 +1255,9 @@
    "adjacent": 0.10139236693077329,
    "far": 0.016825557676579492,
    "pair": 0.02263913568062468,
+   "read_from": "o_proj",
+   "o_share": 0.610107022662743,
+   "down_share": 0.5423496235363985,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1138,6 +1273,9 @@
    "adjacent": 0.09914173210740997,
    "far": null,
    "pair": 0.03553311718259447,
+   "read_from": "o_proj",
+   "o_share": 0.9751019148661061,
+   "down_share": 0.8619935288112507,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1153,6 +1291,9 @@
    "adjacent": 0.04913463004442335,
    "far": 0.017441398378295926,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9251497483737047,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1168,6 +1309,9 @@
    "adjacent": 0.999992769190175,
    "far": 0.6562677381068844,
    "pair": 0.9999922963365855,
+   "read_from": "o_proj",
+   "o_share": 0.9952303812119898,
+   "down_share": 0.9942862344694607,
    "mode": "mixed",
    "family": "none"
   },
@@ -1183,6 +1327,9 @@
    "adjacent": 0.8119701185867407,
    "far": 0.07079690937586022,
    "pair": 0.9945114701503517,
+   "read_from": "o_proj",
+   "o_share": 0.9961076686143463,
+   "down_share": 0.9963852121717637,
    "mode": "per layer",
    "family": "none"
   },
@@ -1198,6 +1345,9 @@
    "adjacent": 0.08223024730730252,
    "far": 0.012620185110115797,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9255138308104057,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1213,6 +1363,9 @@
    "adjacent": 0.7943933739894096,
    "far": 0.049277012042599946,
    "pair": 0.9999952229511231,
+   "read_from": "o_proj",
+   "o_share": 0.9951833856257671,
+   "down_share": 0.9948420122956527,
    "mode": "per layer",
    "family": "none"
   },
@@ -1228,6 +1381,9 @@
    "adjacent": 0.07254179213756026,
    "far": 0.016594721639859384,
    "pair": 0.03467785623499468,
+   "read_from": "o_proj",
+   "o_share": 0.9970646699807547,
+   "down_share": 0.9930191598594226,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1243,6 +1399,9 @@
    "adjacent": 0.8138456002284375,
    "far": 0.03309973334359897,
    "pair": 0.9546147453332214,
+   "read_from": "o_proj",
+   "o_share": 0.9970648994427159,
+   "down_share": 0.9942105298607962,
    "mode": "per layer",
    "family": 1
   },
@@ -1258,6 +1417,9 @@
    "adjacent": 0.800231418393881,
    "far": 0.023723514939295254,
    "pair": 0.9773508761925742,
+   "read_from": "o_proj",
+   "o_share": 0.9930582934054735,
+   "down_share": 0.992243729838171,
    "mode": "per layer",
    "family": 1
   },
@@ -1273,6 +1435,9 @@
    "adjacent": 0.8338973997472883,
    "far": 0.10181811061376542,
    "pair": 0.9673458848902255,
+   "read_from": "o_proj",
+   "o_share": 0.992756671784664,
+   "down_share": 0.9921068230047134,
    "mode": "per layer",
    "family": 1
   },
@@ -1288,6 +1453,9 @@
    "adjacent": 0.1283255792866652,
    "far": 0.02005787396760262,
    "pair": 0.022147591184551934,
+   "read_from": "o_proj",
+   "o_share": 0.937512424057776,
+   "down_share": 0.9695930907522693,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1303,6 +1471,9 @@
    "adjacent": 0.811696710266172,
    "far": 0.029281536026779024,
    "pair": 0.962898196712334,
+   "read_from": "o_proj",
+   "o_share": 0.9972315883014535,
+   "down_share": 0.9945187862622158,
    "mode": "per layer",
    "family": 1
   },
@@ -1318,6 +1489,9 @@
    "adjacent": 0.8002006836384558,
    "far": 0.02373762360973878,
    "pair": 0.9773560853280406,
+   "read_from": "o_proj",
+   "o_share": 0.9930597889492585,
+   "down_share": 0.9922415036065197,
    "mode": "per layer",
    "family": 1
   },
@@ -1333,6 +1507,9 @@
    "adjacent": 0.8177730559755138,
    "far": 0.05586959883237767,
    "pair": 0.8878025845375415,
+   "read_from": "o_proj",
+   "o_share": 0.9232369216289448,
+   "down_share": 0.6261919316248185,
    "mode": "per layer",
    "family": "none"
   },
@@ -1348,6 +1525,9 @@
    "adjacent": 0.8002006836384558,
    "far": 0.02373762360973878,
    "pair": 0.9773560853280406,
+   "read_from": "o_proj",
+   "o_share": 0.9930597889492585,
+   "down_share": 0.9922415036065197,
    "mode": "per layer",
    "family": 1
   },
@@ -1363,6 +1543,9 @@
    "adjacent": 0.09081920226259663,
    "far": 0.016774148474511384,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9088371712686767,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1378,6 +1561,9 @@
    "adjacent": 0.8002006881343939,
    "far": 0.023737623126186685,
    "pair": 0.9773560970911754,
+   "read_from": "o_proj",
+   "o_share": 0.9930600944296801,
+   "down_share": 0.9922413485094213,
    "mode": "per layer",
    "family": 1
   },
@@ -1393,6 +1579,9 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "pair": 0.9999981681482445,
+   "read_from": "o_proj",
+   "o_share": 0.9994352016061463,
+   "down_share": 0.9988598920651298,
    "mode": "one direction",
    "family": 3
   },
@@ -1408,6 +1597,9 @@
    "adjacent": 0.8299302856211102,
    "far": 0.08779669922175762,
    "pair": 0.9652598428863567,
+   "read_from": "o_proj",
+   "o_share": 0.9963744132654859,
+   "down_share": 0.975547174826084,
    "mode": "per layer",
    "family": "none"
   },
@@ -1423,6 +1615,9 @@
    "adjacent": 0.12876155243029352,
    "far": 0.015001325536335607,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9268052940436823,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1438,6 +1633,9 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "pair": 0.9999981681482445,
+   "read_from": "o_proj",
+   "o_share": 0.9994352016061463,
+   "down_share": 0.9988598920651298,
    "mode": "one direction",
    "family": 3
   },
@@ -1453,6 +1651,9 @@
    "adjacent": 0.9999995226171914,
    "far": 0.9999988048700625,
    "pair": 0.9999981681482445,
+   "read_from": "o_proj",
+   "o_share": 0.9994352016061463,
+   "down_share": 0.9988598920651298,
    "mode": "one direction",
    "family": 3
   },
@@ -1468,6 +1669,9 @@
    "adjacent": 0.8206235987809536,
    "far": 0.057925065897559906,
    "pair": 0.9573971030762303,
+   "read_from": "o_proj",
+   "o_share": 0.9967792587798231,
+   "down_share": 0.9913932937477964,
    "mode": "per layer",
    "family": 1
   },
@@ -1483,6 +1687,9 @@
    "adjacent": 0.8002006881343939,
    "far": 0.023737623126186685,
    "pair": 0.9773560970911754,
+   "read_from": "o_proj",
+   "o_share": 0.9930600944296801,
+   "down_share": 0.9922413485094213,
    "mode": "per layer",
    "family": 1
   },
@@ -1498,6 +1705,9 @@
    "adjacent": 0.8366769432475596,
    "far": 0.16397233851977727,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9996440146787768,
+   "down_share": null,
    "mode": "per layer",
    "family": 1
   },
@@ -1513,6 +1723,9 @@
    "adjacent": 0.9924693365628219,
    "far": 0.9638137934061062,
    "pair": 0.9457286297936833,
+   "read_from": "o_proj",
+   "o_share": 0.9968815672968752,
+   "down_share": 0.9949129360976485,
    "mode": "one direction",
    "family": "none"
   },
@@ -1528,6 +1741,9 @@
    "adjacent": 0.16760569377885273,
    "far": 0.02543212661822211,
    "pair": 0.04514965475733433,
+   "read_from": "o_proj",
+   "o_share": 0.6253814349850243,
+   "down_share": 0.5751433512616444,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1543,6 +1759,9 @@
    "adjacent": 0.1366261531239907,
    "far": null,
    "pair": 0.06339634894347107,
+   "read_from": "o_proj",
+   "o_share": 0.913441476508476,
+   "down_share": 0.8238931005759669,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1558,6 +1777,9 @@
    "adjacent": 0.11463716153687675,
    "far": null,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9419439051619131,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1573,6 +1795,9 @@
    "adjacent": 0.9999996396682932,
    "far": 0.7119473155399161,
    "pair": 0.99999865686811,
+   "read_from": "o_proj",
+   "o_share": 0.9995602675069637,
+   "down_share": 0.9993421660356938,
    "mode": "mixed",
    "family": "none"
   },
@@ -1588,6 +1813,9 @@
    "adjacent": 0.1386272663022654,
    "far": 0.030121594867208945,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.8269234988364244,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1603,6 +1831,9 @@
    "adjacent": 0.12060823382274295,
    "far": 0.044450737192111345,
    "pair": 0.02941400173851171,
+   "read_from": "o_proj",
+   "o_share": 0.9984519929825886,
+   "down_share": 0.9988404360235585,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -1618,6 +1849,9 @@
    "adjacent": 0.7763897092558626,
    "far": 0.02543305403946626,
    "pair": 0.9745239471193499,
+   "read_from": "o_proj",
+   "o_share": 0.9931089193055411,
+   "down_share": 0.9924448741376652,
    "mode": "per layer",
    "family": "none"
   },
@@ -1633,6 +1867,9 @@
    "adjacent": 0.8842454723145498,
    "far": 0.2255085009921836,
    "pair": 0.9958159063190266,
+   "read_from": "o_proj",
+   "o_share": 0.982872904624036,
+   "down_share": 0.9941392130047979,
    "mode": "mixed",
    "family": 1
   },
@@ -1648,6 +1885,9 @@
    "adjacent": 0.0889749396393467,
    "far": 0.018625719148087853,
    "pair": 0.02694125103356949,
+   "read_from": "o_proj",
+   "o_share": 0.44984021527122525,
+   "down_share": 0.47068923177828254,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1663,6 +1903,9 @@
    "adjacent": 0.8940806679977241,
    "far": 0.03396647812817201,
    "pair": 0.9996881295420745,
+   "read_from": "o_proj",
+   "o_share": 0.9907406660540123,
+   "down_share": 0.9694273241526679,
    "mode": "per layer",
    "family": "none"
   },
@@ -1678,6 +1921,9 @@
    "adjacent": 0.12917863615227293,
    "far": 0.02801056421438597,
    "pair": 0.0474519794652995,
+   "read_from": "o_proj",
+   "o_share": 0.8133859174777497,
+   "down_share": 0.4938141128873218,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -1693,6 +1939,9 @@
    "adjacent": 0.9999945259591557,
    "far": 0.9999553522350313,
    "pair": 0.9999813576294591,
+   "read_from": "o_proj",
+   "o_share": 0.9930624971735652,
+   "down_share": 0.9905210568747105,
    "mode": "one direction",
    "family": "none"
   },
@@ -1708,6 +1957,9 @@
    "adjacent": 0.06336799658862782,
    "far": 0.021341727882746915,
    "pair": 0.031138888220413545,
+   "read_from": "o_proj",
+   "o_share": 0.9472182472982567,
+   "down_share": 0.9389472202320898,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1723,6 +1975,9 @@
    "adjacent": 0.07071998365254348,
    "far": 0.020312887351293468,
    "pair": 0.03548243126738732,
+   "read_from": "o_proj",
+   "o_share": 0.9331175872870655,
+   "down_share": 0.9132651462094384,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1738,6 +1993,9 @@
    "adjacent": 0.8445445654598047,
    "far": null,
    "pair": 0.9991157611015349,
+   "read_from": "o_proj",
+   "o_share": 0.9887050957029825,
+   "down_share": 0.9872982093489153,
    "mode": "per layer",
    "family": 1
   },
@@ -1753,6 +2011,9 @@
    "adjacent": 0.8433247538170593,
    "far": 0.016191229701352415,
    "pair": 0.9953649309516023,
+   "read_from": "o_proj",
+   "o_share": 0.9901771533413806,
+   "down_share": 0.9907935818036923,
    "mode": "per layer",
    "family": 1
   },
@@ -1768,6 +2029,9 @@
    "adjacent": 0.8716384348122418,
    "far": 0.1644854450499652,
    "pair": 0.9961281941858127,
+   "read_from": "o_proj",
+   "o_share": 0.9829225786495348,
+   "down_share": 0.9932534446784007,
    "mode": "per layer",
    "family": 1
   },
@@ -1783,6 +2047,9 @@
    "adjacent": 0.9999979459617945,
    "far": 0.9999951593584855,
    "pair": 0.9999982677571914,
+   "read_from": "o_proj",
+   "o_share": 0.9956509977160614,
+   "down_share": 0.9952553269376601,
    "mode": "one direction",
    "family": 3
   },
@@ -1798,6 +2065,9 @@
    "adjacent": 0.8662366053748571,
    "far": null,
    "pair": 0.9959870234150149,
+   "read_from": "o_proj",
+   "o_share": 0.9819940141475855,
+   "down_share": 0.9941085815673631,
    "mode": "per layer",
    "family": 1
   },
@@ -1813,6 +2083,9 @@
    "adjacent": 0.10624943481358623,
    "far": 0.05352076675364954,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9424607354438886,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1828,6 +2101,9 @@
    "adjacent": 0.9999954513928613,
    "far": 0.9999912951263094,
    "pair": 0.9999959513385628,
+   "read_from": "o_proj",
+   "o_share": 0.9884718264951522,
+   "down_share": 0.9882756787729472,
    "mode": "one direction",
    "family": "none"
   },
@@ -1843,6 +2119,9 @@
    "adjacent": 0.8719952723218146,
    "far": 0.10686287620772682,
    "pair": 0.9955508851090566,
+   "read_from": "o_proj",
+   "o_share": 0.9944223542000474,
+   "down_share": 0.9940534825141205,
    "mode": "per layer",
    "family": 1
   },
@@ -1858,6 +2137,9 @@
    "adjacent": 0.9999945494653018,
    "far": 0.9999886264308038,
    "pair": 0.9999954054650008,
+   "read_from": "o_proj",
+   "o_share": 0.9903662354250331,
+   "down_share": 0.9899660565342339,
    "mode": "one direction",
    "family": 3
   },
@@ -1873,6 +2155,9 @@
    "adjacent": 0.9999979459617945,
    "far": 0.9999951593584855,
    "pair": 0.9999982677571914,
+   "read_from": "o_proj",
+   "o_share": 0.9956509977160614,
+   "down_share": 0.9952553269376601,
    "mode": "one direction",
    "family": 3
   },
@@ -1888,6 +2173,9 @@
    "adjacent": 0.8705474751176637,
    "far": 0.1746908633877848,
    "pair": 0.9999727469712756,
+   "read_from": "o_proj",
+   "o_share": 0.9955330503804489,
+   "down_share": 0.9977690700208588,
    "mode": "per layer",
    "family": 4
   },
@@ -1903,6 +2191,9 @@
    "adjacent": 0.0988211196423833,
    "far": 0.013040519052331152,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9608340982041232,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 2
   },
@@ -1918,6 +2209,9 @@
    "adjacent": 0.8687000377920177,
    "far": 0.036212375323918834,
    "pair": 0.9999916235872885,
+   "read_from": "o_proj",
+   "o_share": 0.9863582011094633,
+   "down_share": 0.9855416679301902,
    "mode": "per layer",
    "family": "none"
   },
@@ -1933,6 +2227,9 @@
    "adjacent": 0.9996722647939114,
    "far": 0.9977735336857401,
    "pair": 0.9997833690367133,
+   "read_from": "o_proj",
+   "o_share": 0.655708532623246,
+   "down_share": 0.660763459013421,
    "mode": "one direction",
    "family": "none"
   },
@@ -1948,6 +2245,9 @@
    "adjacent": 0.9999945494653018,
    "far": 0.9999886264308038,
    "pair": 0.9999954054650008,
+   "read_from": "o_proj",
+   "o_share": 0.9903662354250331,
+   "down_share": 0.9899660565342339,
    "mode": "one direction",
    "family": 3
   },
@@ -1963,6 +2263,9 @@
    "adjacent": 0.8419215212169756,
    "far": 0.016141499291829703,
    "pair": 0.9954095385728665,
+   "read_from": "o_proj",
+   "o_share": 0.9901015866505036,
+   "down_share": 0.990772144340941,
    "mode": "per layer",
    "family": 1
   },
@@ -1978,6 +2281,9 @@
    "adjacent": 0.9721300064685304,
    "far": 0.09430974856451801,
    "pair": 0.1881024842687569,
+   "read_from": "o_proj",
+   "o_share": 0.011357244457978182,
+   "down_share": 0.021556218644315676,
    "mode": "per layer",
    "family": "none"
   },
@@ -1993,6 +2299,9 @@
    "adjacent": 0.8543391920365854,
    "far": 0.06416144509885553,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9977499899650982,
+   "down_share": null,
    "mode": "per layer",
    "family": 4
   },
@@ -2008,6 +2317,9 @@
    "adjacent": 0.1759151870613711,
    "far": 0.013270006078031152,
    "pair": 0.028366586232927118,
+   "read_from": "o_proj",
+   "o_share": 0.879618574615726,
+   "down_share": 0.6606621887343516,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2023,6 +2335,9 @@
    "adjacent": 0.13223759647452504,
    "far": 0.046783444746237454,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9597779695013918,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2038,6 +2353,9 @@
    "adjacent": 0.15116317867506995,
    "far": 0.024127486990904175,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9630563880202274,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2053,6 +2371,9 @@
    "adjacent": 0.07053209004308814,
    "far": 0.015152405815908815,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.7838477653730418,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2068,6 +2389,9 @@
    "adjacent": 0.03175205771036469,
    "far": null,
    "pair": 0.035987436107001704,
+   "read_from": "o_proj",
+   "o_share": 0.49218410694448117,
+   "down_share": 0.31509970572457247,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2083,6 +2407,9 @@
    "adjacent": 0.13744599908088867,
    "far": 0.02013937377928562,
    "pair": 0.1893942444568206,
+   "read_from": "o_proj",
+   "o_share": 0.8162066042330386,
+   "down_share": 0.9308031042114159,
    "mode": "arbitrary rank",
    "family": 3
   },
@@ -2098,6 +2425,9 @@
    "adjacent": 0.9999973326865365,
    "far": 0.9999963810146153,
    "pair": 0.9999971328638395,
+   "read_from": "o_proj",
+   "o_share": 0.9970825421503478,
+   "down_share": 0.9969248443636555,
    "mode": "one direction",
    "family": 2
   },
@@ -2113,6 +2443,9 @@
    "adjacent": 0.9999995575960269,
    "far": 0.9999995057228654,
    "pair": 0.9999997089995245,
+   "read_from": "o_proj",
+   "o_share": 0.9993514095176648,
+   "down_share": 0.999354369953358,
    "mode": "one direction",
    "family": 2
   },
@@ -2128,6 +2461,9 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "pair": 0.9898147384498286,
+   "read_from": "o_proj",
+   "o_share": 0.9946120222028545,
+   "down_share": 0.9958440281649026,
    "mode": "per layer",
    "family": 1
   },
@@ -2143,6 +2479,9 @@
    "adjacent": 0.9999975009219477,
    "far": 0.9999969189066148,
    "pair": 0.9999981682491124,
+   "read_from": "o_proj",
+   "o_share": 0.9971704116870894,
+   "down_share": 0.9977557426211023,
    "mode": "one direction",
    "family": 2
   },
@@ -2158,6 +2497,9 @@
    "adjacent": 0.04157802129837678,
    "far": null,
    "pair": 0.019049313982788064,
+   "read_from": "o_proj",
+   "o_share": 0.8933314800291565,
+   "down_share": 0.09516395888630894,
    "mode": "arbitrary rank",
    "family": 3
   },
@@ -2173,6 +2515,9 @@
    "adjacent": 0.04809490352426473,
    "far": 0.021706619398777164,
    "pair": 0.02534969291478123,
+   "read_from": "o_proj",
+   "o_share": 0.8940193974672301,
+   "down_share": 0.6782942381743866,
    "mode": "arbitrary rank",
    "family": 3
   },
@@ -2188,6 +2533,9 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "pair": 0.9898147384498286,
+   "read_from": "o_proj",
+   "o_share": 0.9946120222028545,
+   "down_share": 0.9958440281649026,
    "mode": "per layer",
    "family": 1
   },
@@ -2203,6 +2551,9 @@
    "adjacent": 0.6964593931819096,
    "far": 0.030891770223996327,
    "pair": 0.9999960444428552,
+   "read_from": "o_proj",
+   "o_share": 0.9978555940689839,
+   "down_share": 0.9977851788919201,
    "mode": "per layer",
    "family": 1
   },
@@ -2218,6 +2569,9 @@
    "adjacent": 0.5128278908338412,
    "far": 0.020455898838053106,
    "pair": 0.40518306108550645,
+   "read_from": "o_proj",
+   "o_share": 0.49557152869823634,
+   "down_share": 0.7195541176145044,
    "mode": "per layer",
    "family": 1
   },
@@ -2233,6 +2587,9 @@
    "adjacent": 0.06498334875696864,
    "far": 0.01865482990942844,
    "pair": 0.0186016012780235,
+   "read_from": "o_proj",
+   "o_share": 0.9881602521236263,
+   "down_share": 0.9820268374005894,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2248,6 +2605,9 @@
    "adjacent": 0.7367130710487053,
    "far": null,
    "pair": 0.9999989622172475,
+   "read_from": "o_proj",
+   "o_share": 0.9985246266235612,
+   "down_share": 0.9988193791720388,
    "mode": "per layer",
    "family": 1
   },
@@ -2263,6 +2623,9 @@
    "adjacent": 0.9999961756285034,
    "far": 0.9999953906822837,
    "pair": 0.9999972679463633,
+   "read_from": "o_proj",
+   "o_share": 0.9962554423528771,
+   "down_share": 0.9962484303382565,
    "mode": "one direction",
    "family": 2
   },
@@ -2278,6 +2641,9 @@
    "adjacent": 0.5908966417493483,
    "far": 0.019464890550376143,
    "pair": 0.9898147384498286,
+   "read_from": "o_proj",
+   "o_share": 0.9946120222028545,
+   "down_share": 0.9958440281649026,
    "mode": "per layer",
    "family": 1
   },
@@ -2293,6 +2659,9 @@
    "adjacent": 0.03518180085267432,
    "far": null,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9590475876918542,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 3
   },
@@ -2308,6 +2677,9 @@
    "adjacent": 0.9999961756285034,
    "far": 0.9999953906822837,
    "pair": 0.9999972679463633,
+   "read_from": "o_proj",
+   "o_share": 0.9962554423528771,
+   "down_share": 0.9962484303382565,
    "mode": "one direction",
    "family": 2
   },
@@ -2323,6 +2695,9 @@
    "adjacent": 0.6922020174969532,
    "far": 0.030353174124117845,
    "pair": 0.9989760516796694,
+   "read_from": "o_proj",
+   "o_share": 0.5924106186213263,
+   "down_share": 0.5995765608825496,
    "mode": "per layer",
    "family": "none"
   },
@@ -2338,6 +2713,9 @@
    "adjacent": 0.6977291225035045,
    "far": 0.029094371101703344,
    "pair": 0.9999959274379628,
+   "read_from": "o_proj",
+   "o_share": 0.9974605599151748,
+   "down_share": 0.9984666838246978,
    "mode": "per layer",
    "family": 1
   },
@@ -2353,6 +2731,9 @@
    "adjacent": 0.9999930586894343,
    "far": 0.9999930564025601,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9996479515092015,
+   "down_share": null,
    "mode": "one direction",
    "family": 2
   },
@@ -2368,6 +2749,9 @@
    "adjacent": 0.840041663414127,
    "far": 0.09729843424424986,
    "pair": 0.9992948619918028,
+   "read_from": "o_proj",
+   "o_share": 0.9997505694059332,
+   "down_share": 0.9997340065436305,
    "mode": "per layer",
    "family": 1
   },
@@ -2383,6 +2767,9 @@
    "adjacent": 0.6853379002570742,
    "far": 0.03613128074081388,
    "pair": 0.9999780531049378,
+   "read_from": "o_proj",
+   "o_share": 0.997713771902834,
+   "down_share": 0.9962231664540523,
    "mode": "per layer",
    "family": "none"
   },
@@ -2398,6 +2785,9 @@
    "adjacent": 0.09571163739375876,
    "far": null,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9930559570252697,
+   "down_share": 0.9863078801247382,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2413,6 +2803,9 @@
    "adjacent": 0.2819261780874736,
    "far": 0.008662820943639397,
    "pair": 0.2072417481773115,
+   "read_from": "o_proj",
+   "o_share": 0.06294101823196846,
+   "down_share": 0.011645299910077563,
    "mode": "mixed",
    "family": "none"
   },
@@ -2428,6 +2821,9 @@
    "adjacent": 0.6572128313803645,
    "far": 0.01246004614139868,
    "pair": 0.999963207087693,
+   "read_from": "o_proj",
+   "o_share": 0.9966480321691207,
+   "down_share": 0.9934250409725622,
    "mode": "per layer",
    "family": "none"
   },
@@ -2443,6 +2839,9 @@
    "adjacent": 0.08582998866740515,
    "far": 0.00932882145254883,
    "pair": 0.025739347215217142,
+   "read_from": "o_proj",
+   "o_share": 0.270190341427245,
+   "down_share": 0.2531788289102931,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2458,6 +2857,9 @@
    "adjacent": 0.9718053027704162,
    "far": 0.9386787291101406,
    "pair": 0.9703262656544539,
+   "read_from": "o_proj",
+   "o_share": 0.9937487278144922,
+   "down_share": 0.9957950749935691,
    "mode": "one direction",
    "family": 2
   },
@@ -2473,6 +2875,9 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.948128880796877,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2488,6 +2893,9 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.948128880796877,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2503,6 +2911,9 @@
    "adjacent": 0.651556756493109,
    "far": 0.015332740338697456,
    "pair": 0.7094418248638308,
+   "read_from": "o_proj",
+   "o_share": 0.020809749879927487,
+   "down_share": 0.016552692358826306,
    "mode": "per layer",
    "family": 2
   },
@@ -2518,6 +2929,9 @@
    "adjacent": 0.9999756828135169,
    "far": 0.9999452087630789,
    "pair": 0.9999364084012916,
+   "read_from": "o_proj",
+   "o_share": 0.9895333876960217,
+   "down_share": 0.99696047813324,
    "mode": "one direction",
    "family": "none"
   },
@@ -2533,6 +2947,9 @@
    "adjacent": 0.6123730228764712,
    "far": 0.014518633342306912,
    "pair": 0.6062257803532483,
+   "read_from": "o_proj",
+   "o_share": 0.06294101823196846,
+   "down_share": 0.011645299910077563,
    "mode": "per layer",
    "family": "none"
   },
@@ -2548,6 +2965,9 @@
    "adjacent": 0.1429471636219806,
    "far": 0.015166663025195704,
    "pair": 0.04853343535459026,
+   "read_from": "o_proj",
+   "o_share": 0.7666159256784406,
+   "down_share": 0.7918601991053756,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2563,6 +2983,9 @@
    "adjacent": 0.570104421686973,
    "far": 0.015949835253269855,
    "pair": 0.6256637075896894,
+   "read_from": "o_proj",
+   "o_share": 0.07126817400648319,
+   "down_share": 0.16594095600315317,
    "mode": "per layer",
    "family": "none"
   },
@@ -2578,6 +3001,9 @@
    "adjacent": 0.9818526943789917,
    "far": 0.908479120809897,
    "pair": 0.9697589490839638,
+   "read_from": "o_proj",
+   "o_share": 0.9933560628221167,
+   "down_share": 0.9950145105665152,
    "mode": "one direction",
    "family": "none"
   },
@@ -2590,6 +3016,9 @@
    "adjacent": null,
    "far": null,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": null,
+   "down_share": null,
    "mode": "no file",
    "family": "none"
   },
@@ -2605,6 +3034,9 @@
    "adjacent": 0.058717975786957484,
    "far": 0.019432936217813782,
    "pair": 0.02638525547729031,
+   "read_from": "o_proj",
+   "o_share": 0.9713210285327589,
+   "down_share": 0.9657721295719215,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2620,6 +3052,9 @@
    "adjacent": 0.9999956407326436,
    "far": 0.9999930535152132,
    "pair": 0.9999962854054207,
+   "read_from": "o_proj",
+   "o_share": 0.996561797483278,
+   "down_share": 0.9965736868337804,
    "mode": "one direction",
    "family": "none"
   },
@@ -2635,6 +3070,9 @@
    "adjacent": 0.08665750822542598,
    "far": 0.023163913569661285,
    "pair": 0.02062253048605186,
+   "read_from": "o_proj",
+   "o_share": 0.9518479513790196,
+   "down_share": 0.8808076665000205,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2650,6 +3088,9 @@
    "adjacent": 0.06661504624948893,
    "far": 0.00785904703493175,
    "pair": 0.022926500447427587,
+   "read_from": "o_proj",
+   "o_share": 0.43969615680824187,
+   "down_share": 0.361483767776098,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2665,6 +3106,9 @@
    "adjacent": 0.09123423879036602,
    "far": 0.019273488431866395,
    "pair": 0.03294372023301019,
+   "read_from": "o_proj",
+   "o_share": 0.9603087397705283,
+   "down_share": 0.9543544241134513,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2680,6 +3124,9 @@
    "adjacent": 0.0861813322044314,
    "far": 0.01636366977128096,
    "pair": 0.02587403282264185,
+   "read_from": "o_proj",
+   "o_share": 0.9224888643036506,
+   "down_share": 0.6466729558900585,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2695,6 +3142,9 @@
    "adjacent": 0.09047018277084218,
    "far": 0.019581422620200767,
    "pair": 0.024469078691729353,
+   "read_from": "o_proj",
+   "o_share": 0.8309493094188733,
+   "down_share": 0.36644249727403433,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2710,6 +3160,9 @@
    "adjacent": 0.06742594674740024,
    "far": 0.012870474476791552,
    "pair": 0.0317674742666523,
+   "read_from": "o_proj",
+   "o_share": 0.9128367040181895,
+   "down_share": 0.8292945822834286,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2725,6 +3178,9 @@
    "adjacent": 0.03827079606814525,
    "far": null,
    "pair": 0.044441833716082346,
+   "read_from": "o_proj",
+   "o_share": 0.8136929077203856,
+   "down_share": 0.7714014129426121,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -2740,6 +3196,9 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.948128880796877,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2755,6 +3214,9 @@
    "adjacent": 0.08094983539925801,
    "far": 0.024131226323107446,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.8357095253143714,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2770,6 +3232,9 @@
    "adjacent": 0.6854957936780361,
    "far": 0.012601056280628076,
    "pair": 0.9612316633878419,
+   "read_from": "o_proj",
+   "o_share": 0.9943547678950999,
+   "down_share": 0.9974096750103157,
    "mode": "per layer",
    "family": 3
   },
@@ -2785,6 +3250,9 @@
    "adjacent": 0.6996253509391016,
    "far": 0.013946111574945443,
    "pair": 0.9851483594319699,
+   "read_from": "o_proj",
+   "o_share": 0.9959873419645319,
+   "down_share": 0.9975162581668648,
    "mode": "per layer",
    "family": 3
   },
@@ -2800,6 +3268,9 @@
    "adjacent": 0.6839869820079559,
    "far": 0.013769034340860468,
    "pair": 0.9864128964856536,
+   "read_from": "o_proj",
+   "o_share": 0.9937012943025811,
+   "down_share": 0.9949378404716613,
    "mode": "per layer",
    "family": 3
   },
@@ -2815,6 +3286,9 @@
    "adjacent": 0.09619101077106362,
    "far": 0.01978011852199845,
    "pair": 0.03029166524829905,
+   "read_from": "o_proj",
+   "o_share": 0.9233046550661331,
+   "down_share": 0.8700791312629236,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2830,6 +3304,9 @@
    "adjacent": 0.2819422705765009,
    "far": 0.008596958286133471,
    "pair": 0.20715248666207517,
+   "read_from": "o_proj",
+   "o_share": 0.9966480321691207,
+   "down_share": 0.9934250409725622,
    "mode": "mixed",
    "family": "none"
   },
@@ -2845,6 +3322,9 @@
    "adjacent": 0.06263919098684234,
    "far": 0.029495334681462062,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9494097505243089,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2860,6 +3340,9 @@
    "adjacent": 0.9999988238191536,
    "far": 0.9999985504245797,
    "pair": 0.9999991781533162,
+   "read_from": "o_proj",
+   "o_share": 0.9989989072907817,
+   "down_share": 0.9989963518095932,
    "mode": "one direction",
    "family": 4
   },
@@ -2875,6 +3358,9 @@
    "adjacent": 0.9999999263837658,
    "far": 0.9999999135095742,
    "pair": 0.9999999570587527,
+   "read_from": "o_proj",
+   "o_share": 0.9998939865781925,
+   "down_share": 0.9998930080770441,
    "mode": "one direction",
    "family": "none"
   },
@@ -2890,6 +3376,9 @@
    "adjacent": 0.1028352431956866,
    "far": 0.017756280968398635,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9621267289834545,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2905,6 +3394,9 @@
    "adjacent": 0.09395322519541902,
    "far": 0.026672842541050464,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.948128880796877,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -2920,6 +3412,9 @@
    "adjacent": 0.9737299393340755,
    "far": 0.94052413381328,
    "pair": 0.9757984279102963,
+   "read_from": "o_proj",
+   "o_share": 0.9856708502450963,
+   "down_share": 0.9946705357308281,
    "mode": "one direction",
    "family": 2
   },
@@ -2935,6 +3430,9 @@
    "adjacent": 0.9737275570794779,
    "far": 0.9405134774967214,
    "pair": 0.9758039046314126,
+   "read_from": "o_proj",
+   "o_share": 0.985671707547483,
+   "down_share": 0.994670083611242,
    "mode": "one direction",
    "family": 2
   },
@@ -2950,6 +3448,9 @@
    "adjacent": 0.9999988238191536,
    "far": 0.9999985504245797,
    "pair": 0.9999991781533162,
+   "read_from": "o_proj",
+   "o_share": 0.9989989072907817,
+   "down_share": 0.9989963518095932,
    "mode": "one direction",
    "family": 4
   },
@@ -2965,6 +3466,9 @@
    "adjacent": 0.6839869820079559,
    "far": 0.013769034340860468,
    "pair": 0.9864128964856536,
+   "read_from": "o_proj",
+   "o_share": 0.9937012943025811,
+   "down_share": 0.9949378404716613,
    "mode": "per layer",
    "family": 3
   },
@@ -2980,6 +3484,9 @@
    "adjacent": 0.9747341591607163,
    "far": 0.932319656653513,
    "pair": 0.9733083582255461,
+   "read_from": "o_proj",
+   "o_share": 0.9941358393831625,
+   "down_share": 0.9964530441764436,
    "mode": "one direction",
    "family": 2
   },
@@ -2995,6 +3502,9 @@
    "adjacent": 0.8758828419495808,
    "far": 0.039548308197981774,
    "pair": 0.9982458936306207,
+   "read_from": "o_proj",
+   "o_share": 0.7052476996632583,
+   "down_share": 0.6933726380357101,
    "mode": "per layer",
    "family": "none"
   },
@@ -3010,6 +3520,9 @@
    "adjacent": 0.766647665956954,
    "far": 0.01199564749947858,
    "pair": 0.9999908653346281,
+   "read_from": "o_proj",
+   "o_share": 0.9928253748161725,
+   "down_share": 0.9941753930080013,
    "mode": "per layer",
    "family": "none"
   },
@@ -3025,6 +3538,9 @@
    "adjacent": 0.061019192266140186,
    "far": 0.014692350686177982,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.8585543937925704,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -3040,6 +3556,9 @@
    "adjacent": 0.06698782458666458,
    "far": 0.023401870481989197,
    "pair": 0.02289189333418383,
+   "read_from": "o_proj",
+   "o_share": 0.840762000930099,
+   "down_share": 0.8115866904551963,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -3055,6 +3574,9 @@
    "adjacent": 0.9812180050912884,
    "far": 0.9342835852702159,
    "pair": 0.9734228916275023,
+   "read_from": "o_proj",
+   "o_share": 0.995797751987624,
+   "down_share": 0.9948174752920222,
    "mode": "one direction",
    "family": "none"
   },
@@ -3070,6 +3592,9 @@
    "adjacent": 0.999927586093065,
    "far": 0.9994358977697385,
    "pair": 0.99999673507263,
+   "read_from": "o_proj",
+   "o_share": 0.9926530289853623,
+   "down_share": 0.9913539938956936,
    "mode": "one direction",
    "family": 1
   },
@@ -3085,6 +3610,9 @@
    "adjacent": 0.9999980631831877,
    "far": 0.9999968175023775,
    "pair": 0.9999982589068732,
+   "read_from": "o_proj",
+   "o_share": 0.9949812861391227,
+   "down_share": 0.9942910280193855,
    "mode": "one direction",
    "family": 1
   },
@@ -3100,6 +3628,9 @@
    "adjacent": 0.9984856885663208,
    "far": 0.9945818480851254,
    "pair": 0.9970623370895557,
+   "read_from": "o_proj",
+   "o_share": 0.9937563106051719,
+   "down_share": 0.9906348725926822,
    "mode": "one direction",
    "family": "none"
   },
@@ -3115,6 +3646,9 @@
    "adjacent": 0.07333221185470154,
    "far": null,
    "pair": 0.09605552781022382,
+   "read_from": "o_proj",
+   "o_share": 0.9162446101771273,
+   "down_share": 0.9017485923793315,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -3130,6 +3664,9 @@
    "adjacent": 0.07005152918260099,
    "far": 0.016375391697388546,
    "pair": 0.046412324024400035,
+   "read_from": "o_proj",
+   "o_share": 0.9261969458132001,
+   "down_share": 0.9148632928830158,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -3145,6 +3682,9 @@
    "adjacent": 0.9077925237066632,
    "far": 0.25005165260765305,
    "pair": 0.999995487896973,
+   "read_from": "o_proj",
+   "o_share": 0.9918264500689425,
+   "down_share": 0.9952072622912033,
    "mode": "mixed",
    "family": "none"
   },
@@ -3160,6 +3700,9 @@
    "adjacent": 0.7096900993453086,
    "far": 0.0467783405086199,
    "pair": 0.6172156466488905,
+   "read_from": "o_proj",
+   "o_share": 0.3915632546542779,
+   "down_share": 0.2608525121485751,
    "mode": "per layer",
    "family": "none"
   },
@@ -3175,6 +3718,9 @@
    "adjacent": 0.997899715099965,
    "far": 0.9920905481083504,
    "pair": 0.9937123317121557,
+   "read_from": "o_proj",
+   "o_share": 0.49648530600372,
+   "down_share": 0.24449290023243464,
    "mode": "one direction",
    "family": 1
   },
@@ -3190,6 +3736,9 @@
    "adjacent": 0.9999983414936429,
    "far": 0.999997114366637,
    "pair": 0.9999755447457459,
+   "read_from": "o_proj",
+   "o_share": 0.9948888339120838,
+   "down_share": 0.9872725216480459,
    "mode": "one direction",
    "family": 1
   },
@@ -3205,6 +3754,9 @@
    "adjacent": 0.9999969221866373,
    "far": 0.9999957544854938,
    "pair": 0.9999974687842998,
+   "read_from": "o_proj",
+   "o_share": 0.9910293795387006,
+   "down_share": 0.9902118786906584,
    "mode": "one direction",
    "family": 1
   },
@@ -3220,6 +3772,9 @@
    "adjacent": 0.9980036567637223,
    "far": 0.9914215792084702,
    "pair": 0.9937662778379,
+   "read_from": "o_proj",
+   "o_share": 0.994431319819744,
+   "down_share": 0.9926308665880087,
    "mode": "one direction",
    "family": 1
   },
@@ -3235,6 +3790,9 @@
    "adjacent": 0.9999938122021006,
    "far": 0.9999840272784527,
    "pair": 0.9999483216614278,
+   "read_from": "o_proj",
+   "o_share": 0.9841835680972967,
+   "down_share": 0.9938055140941454,
    "mode": "one direction",
    "family": 1
   },
@@ -3250,6 +3808,9 @@
    "adjacent": 0.9999521178683612,
    "far": 0.9999146125379959,
    "pair": 0.9999471904203423,
+   "read_from": "o_proj",
+   "o_share": 0.921928313990405,
+   "down_share": 0.9192542415217897,
    "mode": "one direction",
    "family": "none"
   },
@@ -3265,6 +3826,9 @@
    "adjacent": 0.9999419908556282,
    "far": 0.3294754380931621,
    "pair": 0.9999966968460732,
+   "read_from": "o_proj",
+   "o_share": 0.9904336356824933,
+   "down_share": 0.9888142799175575,
    "mode": "mixed",
    "family": "none"
   },
@@ -3276,10 +3840,13 @@
     0,
     39
    ],
-   "own_spread": 0.016182556611971252,
-   "adjacent": 0.6075608503117178,
-   "far": 0.009438414332343497,
+   "own_spread": 0.14358549958510788,
+   "adjacent": 0.8165868123853399,
+   "far": 0.0652507968368998,
    "pair": 0.029654555786743225,
+   "read_from": "down_proj",
+   "o_share": 0.161271253542919,
+   "down_share": 0.9887390941586096,
    "mode": "per layer",
    "family": "none"
   },
@@ -3295,6 +3862,9 @@
    "adjacent": 0.9097098621416184,
    "far": 0.3622070943067183,
    "pair": 0.9999754269697074,
+   "read_from": "o_proj",
+   "o_share": 0.9870598950748153,
+   "down_share": 0.9927104940517084,
    "mode": "mixed",
    "family": 1
   },
@@ -3310,6 +3880,9 @@
    "adjacent": 0.8654678100209587,
    "far": 0.1199799288804679,
    "pair": 0.9977441313737603,
+   "read_from": "o_proj",
+   "o_share": 0.9908728833145255,
+   "down_share": 0.9925104338096873,
    "mode": "per layer",
    "family": 1
   },
@@ -3325,6 +3898,9 @@
    "adjacent": 0.0646771968262327,
    "far": 0.014448563308613691,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9626321265765245,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": "none"
   },
@@ -3340,6 +3916,9 @@
    "adjacent": 0.9999964838151894,
    "far": 0.9999913607891026,
    "pair": 0.9999968431905681,
+   "read_from": "o_proj",
+   "o_share": 0.9912838740940815,
+   "down_share": 0.9890682812227447,
    "mode": "one direction",
    "family": "none"
   },
@@ -3355,6 +3934,9 @@
    "adjacent": 0.9999967651768069,
    "far": null,
    "pair": 0.9999971673486979,
+   "read_from": "o_proj",
+   "o_share": 0.9937741880857357,
+   "down_share": 0.9941776175941804,
    "mode": "per layer",
    "family": "none"
   },
@@ -3370,6 +3952,9 @@
    "adjacent": 0.9845364269335306,
    "far": 0.9563275340586295,
    "pair": 0.9764768370364761,
+   "read_from": "o_proj",
+   "o_share": 0.9994330229981319,
+   "down_share": 0.9998669467144669,
    "mode": "one direction",
    "family": "none"
   },
@@ -3385,6 +3970,9 @@
    "adjacent": 0.9999949635088596,
    "far": null,
    "pair": 0.9999961163664622,
+   "read_from": "o_proj",
+   "o_share": 0.9943770029215268,
+   "down_share": 0.9951796240942667,
    "mode": "per layer",
    "family": "none"
   },
@@ -3400,6 +3988,9 @@
    "adjacent": 0.9820910600017745,
    "far": 0.9271565770951172,
    "pair": 0.9701076625041574,
+   "read_from": "o_proj",
+   "o_share": 0.9989191392395609,
+   "down_share": 0.9991136951264807,
    "mode": "one direction",
    "family": 1
   },
@@ -3415,22 +4006,28 @@
    "adjacent": 0.9846599498209827,
    "far": 0.9527776401659364,
    "pair": 0.9749596001020789,
+   "read_from": "o_proj",
+   "o_share": 0.9493658859088292,
+   "down_share": 0.4464844831946636,
    "mode": "one direction",
    "family": 1
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated",
-   "layers": 47,
+   "layers": 43,
    "window": [
     0,
     47
    ],
-   "own_spread": 0.023865912230829348,
-   "adjacent": 0.40402558700916524,
-   "far": 0.01818861510418635,
+   "own_spread": 0.9510469740539487,
+   "adjacent": 0.9936882115534909,
+   "far": 0.9328346393671336,
    "pair": 0.10906693381303381,
-   "mode": "mixed",
+   "read_from": "down_proj",
+   "o_share": 0.058777590643348525,
+   "down_share": 0.989794269412843,
+   "mode": "one direction",
    "family": 1
   },
   {
@@ -3445,6 +4042,9 @@
    "adjacent": 0.1186336895987456,
    "far": 0.016488086492526824,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.8225474327935085,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   },
@@ -3460,6 +4060,9 @@
    "adjacent": 0.06927741826194575,
    "far": 0.014208498744878926,
    "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9020821420021115,
+   "down_share": null,
    "mode": "arbitrary rank",
    "family": 1
   }

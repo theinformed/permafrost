@@ -3,9 +3,9 @@
 | mode | copies | changed tensors (q1 / median / q3) | changed layers | median relative (q1 / median / q3) | max relative | singular share (q1 / median / q3) |
 | --- | --- | --- | --- | --- | --- | --- |
 | arbitrary rank | 65 | 17.000 / 24.000 / 38.000 | 17.000 | 0.023 / 0.030 / 0.037 | 0.060 | 0.022 / 0.466 / 0.862 |
-| mixed | 12 | 44.000 / 55.000 / 349.500 | 32.500 | 0.013 / 0.019 / 0.026 | 0.034 | 0.194 / 0.918 / 0.987 |
+| mixed | 11 | 43.000 / 50.000 / 251.000 | 30.000 | 0.016 / 0.020 / 0.028 | 0.034 | 0.270 / 0.981 / 0.988 |
 | no file | 1 | 0.000 / 0.000 / 0.000 | 0.000 | none / none / none | none | none / none / none |
-| one direction | 54 | 50.000 / 63.500 / 80.000 | 34.000 | 0.016 / 0.021 / 0.026 | 0.028 | 0.963 / 0.981 / 0.994 |
+| one direction | 55 | 50.000 / 64.000 / 80.000 | 34.000 | 0.015 / 0.021 / 0.026 | 0.028 | 0.961 / 0.980 / 0.994 |
 | per layer | 69 | 42.000 / 67.000 / 94.000 | 31.000 | 0.017 / 0.020 / 0.027 | 0.034 | 0.593 / 0.978 / 0.991 |
 
 arbitrary rank copies with singular share 0.9 or more: 14 of 65; other-mode copies under 0.9: 43 of 135
@@ -38,11 +38,11 @@ other-mode copies with singular share under 0.9
 | google/gemma-4-E4B | Felldude/gemma-4-E4B-uncensored | mixed | 595.000 | 42.000 | 0.002 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
 | google/gemma-4-12B-it | lemuralabs/Gemma-4-12B-uncensored-bf16 | mixed | 553.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
 | coder3101/gemma-3-27b-it-heretic | DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2 | mixed | 432.000 | 62.000 | 0.282 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
-| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | mixed | 322.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
 | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic | mixed | 50.000 | 38.000 | 0.856 | attention_output, feed_forward_down |
 | google/gemma-4-12B-it | AEON-7/Gemma-4-12B-it-AEON-Abliterated-K4-BF16 | mixed | 48.000 | 24.000 | 0.258 | attention_output, feed_forward_down |
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | one direction | 557.000 | 48.000 | 0.025 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
 | google/gemma-4-12B-it | jwest33/gemma-4-12B-it-null-space-abliterated | one direction | 329.000 | 48.000 | 0.802 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up |
+| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | one direction | 322.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
 | google/gemma-4-31B-it | Kooten/gemma-4-31b-abliterated-v1.1 | one direction | 256.000 | 60.000 | 0.005 | attention_output, feed_forward_down, other |
 | mistralai/Mistral-7B-Instruct-v0.3 | 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated | one direction | 226.000 | 32.000 | 0.005 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head |
 | google/gemma-4-31B-it | null-space/gemma-4-31b-it-abliterated | one direction | 80.000 | 40.000 | 0.584 | attention_output, feed_forward_down |
@@ -137,8 +137,7 @@ other-mode copies with singular share under 0.9
 | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | per layer | 2 | 174.500 | 0.015 | 0.495 |
 | yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2 | one direction | 1 | 67.000 | 0.024 | 0.988 |
 | yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2 | per layer | 1 | 12.000 | 0.020 | 0.991 |
-| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | mixed | 1 | 322.000 | 0.001 | 0.001 |
-| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | one direction | 2 | 321.000 | 0.011 | 0.504 |
+| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | one direction | 3 | 322.000 | 0.005 | 0.025 |
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | per layer | 1 | 12.000 | 0.021 | 0.993 |
 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | arbitrary rank | 2 | 18.000 | 0.033 | 0.654 |
 
@@ -344,6 +343,6 @@ other-mode copies with singular share under 0.9
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | per layer | 12.000 | 6.000 | 0.021 | 0.031 | 0.993 | attention_output, feed_forward_down |
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic | one direction | 85.000 | 45.000 | 0.017 | 0.027 | 0.983 | attention_output, feed_forward_down |
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | one direction | 557.000 | 48.000 | 0.005 | 0.086 | 0.025 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
-| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | mixed | 322.000 | 48.000 | 0.001 | 0.033 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | one direction | 322.000 | 48.000 | 0.001 | 0.033 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1 | arbitrary rank | 18.000 | 18.000 | 0.031 | 0.043 | 0.591 | attention_output |
 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2 | arbitrary rank | 18.000 | 18.000 | 0.035 | 0.052 | 0.717 | attention_output |

@@ -4,6 +4,7 @@
 # Modified: SDE 2026-11-03  a stale modes.json in the census folder is skipped, even when --out writes beside it.
 # Modified: SDE 2026-11-03  down_proj keys give the pair figure: 1.000, 0.000 and none.
 # Modified: SDE 2026-11-03  read a copy's mode from down_proj when its o_proj change has no leading direction and its down_proj change has one.
+# Modified: SDE 2026-11-03  a switched copy before the pull t1 pair 2 copy leaves that copy's pair at 0.0 read from o_proj.
 import contextlib
 import io
 import json
@@ -81,6 +82,17 @@ def build(root):
     path = census / 'families.json'
     path.write_text(json.dumps(families))
     return census, path
+
+
+def build_guard_first(root):
+    """Return build's census with six/guard listed first in org/P's copies."""
+    census, families = build(root)
+    path = census / 'org-P.json'
+    group = json.loads(path.read_text())
+    guard = next(copy for copy in group['copies'] if copy['repo'] == 'six/guard')
+    group['copies'] = [guard] + [copy for copy in group['copies'] if copy is not guard]
+    path.write_text(json.dumps(group))
+    return census, families
 
 
 def run(census, families, root, out, weights=None):
@@ -188,6 +200,20 @@ class DirectionModesTest(unittest.TestCase):
             self.assertEqual(document['counts']['one direction'], 3)
             self.assertEqual(document['counts']['arbitrary rank'], 1)
             self.assertIn('| read from | o share | down share |', out.read_text())
+
+    def test_switched_copy_does_not_leak_into_the_next(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp) / 'pulls'
+            out = Path(tmp) / 'out' / 'modes.md'
+            census, families = build_guard_first(root)
+            weights = write_weights(Path(tmp) / 'weights')
+            code, _, _ = run(census, families, root, out, weights=weights)
+            self.assertEqual(code, 0)
+            document = json.loads(out.with_suffix('.json').read_text())
+            rows = {row['repo']: row for row in document['copies']}
+            self.assertEqual(rows['six/guard']['read_from'], 'down_proj')
+            self.assertEqual(rows['one/b-heretic']['read_from'], 'o_proj')
+            self.assertAlmostEqual(rows['one/b-heretic']['pair'], 0.0, delta=1e-6)
 
     def test_own_output_in_census_folder_is_skipped(self):
         with tempfile.TemporaryDirectory() as tmp:
