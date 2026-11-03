@@ -1,6 +1,8 @@
 # place_round.py -- Place each new measured copy of a pulled round against the census of saved directions: nearest census copy, its family, and the layer of the parent's reference its direction matches best.
 # Created by SDE
 # Modified: SDE 2026-11-03  first pass: nearest census copy by median |cos|, family, reference layer placement, markdown and json.
+# Modified: SDE 2026-11-03  median |cos| taken over the row's cosines list, not the signed median, so a flipped partner reads 1.000.
+# Modified: SDE 2026-11-03  a parent whose census copies all carry one direction reads "<repo> (one direction)" with no best layer.
 """Place the new copies of one pulled round against the census of saved directions.
 
 --measurements names a round's pull: pair-* folders with metadata.json and
@@ -16,7 +18,10 @@ each is compared with the new copy as direction_cosines compares two copies
 partner is kept. The family is the 1-based index of the family under the parent
 whose members hold the partner. The reference is the census copy of the parent
 with the lowest own spread by direction_layers.place (ties: more layers); the
-new copy is placed against it with direction_layers.place. The markdown goes to
+new copy is placed against it with direction_layers.place. When every census
+copy of the parent carries one direction (lowest own spread ONE_DIRECTION or
+more) there is no per-layer reference: the reference reads "<repo> (one
+direction)" and best layer and cos stay none. The markdown goes to
 --out and the same stem with .json beside it.
 """
 
@@ -30,6 +35,8 @@ from safetensors import safe_open
 
 import direction_cosines
 import direction_layers
+
+ONE_DIRECTION = 0.9
 
 FIELDS = ('copy', 'parent', 'partner', 'median', 'keys', 'family', 'window',
           'own_spread', 'best_layer', 'cos', 'reference', 'note')
@@ -58,11 +65,21 @@ def median_abs(copy_a, copy_b):
     row = direction_cosines.compare(copy_a, copy_b)
     right = row['right']
     if right['count']:
-        return right['median'], right['count']
+        return median_abs_of(right), right['count']
     # A directions file holding only left vectors has no right side; the
     # comparison is then read from the left side, still absolute values.
     left = row['left']
-    return left['median'], left['count']
+    return median_abs_of(left), left['count']
+
+
+def median_abs_of(side):
+    """Median of the absolute values of a side's [key, value] cosines.
+
+    The side's own median is of signed cosines, so a partner whose vectors
+    point the other way reads -1.000; the absolute values read 1.000.
+    """
+    values = [abs(value) for _, value in side['cosines']]
+    return statistics.median(abs(value) for value in values) if values else None
 
 
 def family_of(families, parent, partner):
@@ -93,6 +110,8 @@ def reference_copy(copies, pulls, kind):
             best = (key, copy, vectors)
     if best is None:
         return None, {}
+    if best[0][0] >= ONE_DIRECTION:
+        return best[1], {}
     return best[1], best[2]
 
 
@@ -139,13 +158,15 @@ def place_pair(folder, census_dir, families, pulls, kind):
 
     reference, reference_vectors = reference_copy(copies, pulls, kind)
     if reference is not None:
-        row['reference'] = reference['repo']
+        one_direction = not reference_vectors
+        row['reference'] = (f"{reference['repo']} (one direction)" if one_direction
+                            else reference['repo'])
         vectors = direction_layers.load_layers(weights, kind)
         if vectors:
             placed = direction_layers.place(vectors, reference_vectors)
             row['window'] = placed['window']
             row['own_spread'] = placed['own_spread']
-            if placed['best']:
+            if placed['best'] and not one_direction:
                 row['best_layer'] = placed['best'][0]
                 row['cos'] = placed['best'][1]
     return row

@@ -1,6 +1,8 @@
 # test_place_round.py -- Check the placement of a round's new copies against the census, the markdown and json, and a missing measurements folder.
 # Created by SDE
 # Modified: SDE 2026-11-03  two new pairs, one placed and one under a new parent.
+# Modified: SDE 2026-11-03  a flipped census copy and a flipped new pair, both read at median 1.000.
+# Modified: SDE 2026-11-03  a parent whose only census copy carries one direction, placed with no best layer.
 import contextlib
 import io
 import json
@@ -54,6 +56,8 @@ def build(root):
     reference = {layer: at(layer * 15) for layer in range(12)}
     write_copy(root, 't1', 1, reference)
     write_copy(root, 't1', 2, {layer: reference[7] for layer in range(5, 13)})
+    write_copy(root, 'flip', 3, {layer: -reference[7] for layer in range(5, 13)})
+    write_copy(root, 'single', 4, {layer: reference[7] for layer in range(2, 10)})
 
     census = Path(root) / 'census'
     census.mkdir()
@@ -62,11 +66,19 @@ def build(root):
         'copies': [
             {'repo': 'ref/a', 'pull': 't1', 'pair': 1},
             {'repo': 'one/b', 'pull': 't1', 'pair': 2},
+            {'repo': 'flip/d', 'pull': 'flip', 'pair': 3},
+        ],
+    }))
+    (census / 'org-R.json').write_text(json.dumps({
+        'parent': 'org/R',
+        'copies': [
+            {'repo': 'single/e', 'pull': 'single', 'pair': 4},
         ],
     }))
     families = Path(root) / 'families.json'
     families.write_text(json.dumps({
-        'families': [{'parent': 'org/P', 'members': ['ref/a', 'one/b']}],
+        'families': [{'parent': 'org/P', 'members': ['ref/a', 'one/b', 'flip/d']},
+                     {'parent': 'org/R', 'members': ['single/e']}],
     }))
 
     round_dir = Path(root) / 'round'
@@ -78,6 +90,14 @@ def build(root):
     write_metadata(pair2, 'new/y', 'org/Q')
     save_file({key(layer): reference[layer].float() for layer in range(4)},
               str(pair2 / 'weights.directions.safetensors'))
+    pair3 = round_dir / 'pair-3'
+    write_metadata(pair3, 'new/z', 'org/P')
+    save_file({key(layer): (-reference[7]).float() for layer in range(5, 13)},
+              str(pair3 / 'weights.directions.safetensors'))
+    pair4 = round_dir / 'pair-4'
+    write_metadata(pair4, 'new/w', 'org/R')
+    save_file({key(layer): reference[7].float() for layer in range(2, 10)},
+              str(pair4 / 'weights.directions.safetensors'))
     return census, families, round_dir
 
 
@@ -103,7 +123,7 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertEqual(code, 0)
             document = json.loads(out.with_suffix('.json').read_text())
             rows = {row['copy']: row for row in document['rows']}
-            self.assertEqual(len(document['rows']), 2)
+            self.assertEqual(len(document['rows']), 4)
             self.assertEqual(document['skipped'], [])
 
             placed = rows['new/x']
@@ -119,12 +139,30 @@ class PlaceRoundTest(unittest.TestCase):
             self.assertAlmostEqual(placed['cos'], 1.0, places=6)
             self.assertEqual(placed['note'], '')
 
+            flipped = rows['new/z']
+            self.assertEqual(flipped['parent'], 'org/P')
+            self.assertEqual(flipped['partner'], 'one/b')
+            self.assertAlmostEqual(flipped['median'], 1.0, places=6)
+            self.assertEqual(flipped['keys'], 8)
+            self.assertEqual(flipped['family'], 1)
+
             fresh = rows['new/y']
             self.assertEqual(fresh['parent'], 'org/Q')
             self.assertEqual(fresh['note'], 'new parent')
             self.assertIsNone(fresh['partner'])
             self.assertIsNone(fresh['best_layer'])
             self.assertEqual(fresh['family'], 'none')
+
+            single = rows['new/w']
+            self.assertEqual(single['parent'], 'org/R')
+            self.assertEqual(single['reference'], 'single/e (one direction)')
+            self.assertIsNone(single['best_layer'])
+            self.assertIsNone(single['cos'])
+            self.assertEqual(single['window'], [2, 9])
+            self.assertAlmostEqual(single['own_spread'], 1.0, places=6)
+            self.assertEqual(single['partner'], 'single/e')
+            self.assertAlmostEqual(single['median'], 1.0, places=6)
+            self.assertEqual(single['family'], 1)
 
     def test_markdown_rows(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -138,12 +176,17 @@ class PlaceRoundTest(unittest.TestCase):
                 '# round-54 -- new copies placed against the census of saved directions.')
             self.assertEqual(lines[1], '')
             table = [line for line in lines[4:] if line.startswith('| ')]
-            self.assertEqual(len(table), 2)
+            self.assertEqual(len(table), 4)
             self.assertTrue(table[0].startswith(
                 '| new/x | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 | ref/a |'))
             self.assertTrue(table[1].startswith(
                 '| new/y | org/Q | none | none | none | none | none | none | none | none '
                 '| none | new parent |'))
+            self.assertTrue(table[2].startswith(
+                '| new/z | org/P | one/b | 1.000 | 8 | 1 | 5..12 | 1.000 | 7 | 1.000 | ref/a |'))
+            self.assertTrue(table[3].startswith(
+                '| new/w | org/R | single/e | 1.000 | 8 | 1 | 2..9 | 1.000 | none | none '
+                '| single/e (one direction) |'))
 
     def test_missing_measurements(self):
         with tempfile.TemporaryDirectory() as tmp:
