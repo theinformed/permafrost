@@ -1,0 +1,43 @@
+{
+ "schema_version": 1,
+ "original": {
+  "source": "/p/work/sdegan/model-audit/rounds/45/originals/abc"
+ },
+ "modified": {
+  "source": "/p/work/sdegan/model-audit/rounds/45/derived/pair-1"
+ },
+ "summary": {
+  "max_relative_difference_outside_changed_set": 0.0,
+  "assessment": "recipe_match",
+  "changed_set": [
+   "a",
+   "b"
+  ],
+  "min_first_singular_energy_share": 0.99
+ },
+ "recipe_matching": {
+  "nearest_recipe": "single-projection-selected",
+  "matched": true
+ },
+ "census": {
+  "modified": {
+   "hub_id": "Alpha/copy-one",
+   "maker": "alpha",
+   "revision": "r1",
+   "declared_base_model": [
+    "google/gemma-x"
+   ],
+   "base_model_chain": [],
+   "lineage_known": true,
+   "publisher_root": false,
+   "created_at": "2026-01-01T00:00:00+00:00",
+   "revision_date": "2026-01-02T00:00:00+00:00"
+  },
+  "original": {
+   "hub_id": "google/gemma-x",
+   "maker": "google",
+   "publisher_root": true,
+   "lineage_known": true
+  }
+ }
+}

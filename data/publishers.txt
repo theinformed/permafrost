@@ -1,0 +1,4 @@
+# Publisher organisations whose checkpoints count as originals in the population header; one name per line, lower case.
+google
+mistralai
+essentialai
