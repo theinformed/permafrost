@@ -1506,6 +1506,46 @@ class RateLimitWaitTests(unittest.TestCase):
                                     [{'path': 'config.json'}], 'tok', tries=1, pause=0)
         self.assertEqual(sleeps, [310, 310, 310])
 
+    def run_probe(self, flaky):
+        calls = []
+        sleeps = []
+        folder = Path(os.environ['AUDIT_WORK']) / 'probe'
+        api = SimpleNamespace(model_info=lambda hub_id, **kwargs: SimpleNamespace(
+            id=hub_id, siblings=[SimpleNamespace(rfilename='config.json', size=2, blob_id='b', lfs=None)]))
+
+        def counted(hub_id, **kwargs):
+            calls.append(hub_id)
+            flaky(folder, len(calls))
+
+        with patch.object(self.download, 'snapshot_download', counted), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                patch.object(self.download, 'check_file', lambda path, row: 'sha'), \
+                patch.object(self.download, 'pair', lambda index: {'original': {'hub_id': 'a/b', 'revision': 'r'}}), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.download.probe(api, 'tok')
+        return calls, sleeps
+
+    def test_the_probe_waits_out_a_rate_limit_then_passes(self):
+        def flaky(folder, call):
+            if call == 1:
+                raise Exception('429 Client Error: Too Many Requests for url: x')
+            folder.mkdir(parents=True, exist_ok=True)
+            (folder / 'config.json').write_bytes(b'{}')
+
+        calls, sleeps = self.run_probe(flaky)
+        self.assertEqual(sleeps, [310])
+        self.assertEqual(len(calls), 2)
+
+    def test_the_probe_treats_a_silent_partial_return_as_a_rate_limit(self):
+        def silent(folder, call):
+            if call > 1:
+                folder.mkdir(parents=True, exist_ok=True)
+                (folder / 'config.json').write_bytes(b'{}')
+
+        calls, sleeps = self.run_probe(silent)
+        self.assertEqual(sleeps, [310])
+        self.assertEqual(len(calls), 2)
+
     def test_other_errors_do_not_wait(self):
         sleeps = []
         directory = os.path.join(self.folder.name, 'fetch')

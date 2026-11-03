@@ -74,6 +74,17 @@ def check_file(path, row):
     return sha
 
 
+def fetched(model, directory, rows, credential):
+    """Pull ROWS into DIRECTORY; a hub client that returns without a file is treated as a 429."""
+    snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
+                      local_dir=str(directory),
+                      allow_patterns=[row['path'] for row in rows], max_workers=1)
+    for row in rows:
+        if not (Path(directory) / row['path']).is_file():
+            raise RuntimeError('hub client returned without {}: treated as 429 Too Many Requests'.format(
+                row['path']))
+
+
 def probe(api, credential):
     """Fetch one small published file through the same client before any shard.
 
@@ -94,8 +105,7 @@ def probe(api, credential):
         folder = Path(os.environ['AUDIT_WORK']) / 'probe'
         if folder.exists():
             shutil.rmtree(str(folder))
-        snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
-                          local_dir=str(folder), allow_patterns=[row['path']], max_workers=1)
+        patient(lambda: fetched(model, folder, [row], credential), model['hub_id'])
         check_file(folder / row['path'], row)
         shutil.rmtree(str(folder))
     except Exception as error:
@@ -114,18 +124,9 @@ def fetch(model, directory, rows, credential, tries=3, pause=120):
     message about locating files on the Hub; the cause it chains is printed so the log names the fault.
     A retry resumes the files already on disk (Blueback 3392481 died on its third checkpoint, 23 min in).
     """
-    def pull():
-        snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
-                          local_dir=str(directory),
-                          allow_patterns=[row['path'] for row in rows], max_workers=1)
-        for row in rows:
-            if not (Path(directory) / row['path']).is_file():
-                raise RuntimeError('hub client returned without {}: treated as 429 Too Many Requests'.format(
-                    row['path']))
-
     for attempt in range(1, tries + 1):
         try:
-            patient(pull, model['hub_id'])
+            patient(lambda: fetched(model, directory, rows, credential), model['hub_id'])
             return
         except Exception as error:
             cause = error.__cause__ or error.__context__
