@@ -21,6 +21,7 @@
 # Modified: SDE  a copy or original whose hub id carries a restricted maker's model name is refused before any hub call.
 # Modified: SDE  a pair the lineage screen would hold is refused at pin time.
 # Modified: SDE  a party whose file list holds no safetensors weights is refused at pin time.
+# Modified: SDE 2026-11-03  meter and memoise hub calls; stop the pass on the first 429.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -54,6 +55,54 @@ class Restricted(ValueError):
 
 class Unpublished(ValueError):
     """A party's published file list holds no safetensors weights for the names step to read."""
+
+
+class RateLimited(ValueError):
+    """The hub answered 429; the pass stops rather than spending more calls."""
+
+
+def _rate_limited(error):
+    """True when the error, or the error it was raised from, names a 429."""
+    seen = set()
+    while error is not None and id(error) not in seen:
+        seen.add(id(error))
+        text = str(error)
+        if '429' in text or 'Too Many Requests' in text:
+            return True
+        error = error.__cause__ or error.__context__
+    return False
+
+
+class Metered:
+    """Wrap an HfApi-like object: memoise metadata calls, count them, stop on a 429."""
+
+    def __init__(self, api):
+        self.api = api
+        self.calls = 0
+        self._cache = {}
+
+    def _call(self, name, args, kwargs):
+        key = (name, args, tuple(sorted(kwargs.items())))
+        if key in self._cache:
+            return self._cache[key]
+        self.calls += 1
+        try:
+            value = getattr(self.api, name)(*args, **kwargs)
+        except Exception as error:
+            if _rate_limited(error):
+                raise RateLimited('hub rate limit after {} calls'.format(self.calls)) from error
+            raise
+        self._cache[key] = value
+        return value
+
+    def model_info(self, repo, revision=None, files_metadata=False):
+        return self._call('model_info', (repo,), {'revision': revision, 'files_metadata': files_metadata})
+
+    def list_repo_commits(self, repo):
+        return self._call('list_repo_commits', (repo,), {})
+
+    def __getattr__(self, name):
+        return getattr(self.api, name)
 
 
 RESTRICTED = None
@@ -771,11 +820,16 @@ def main():
     record = json.loads(path.read_text()) if path.exists() else new_record(path, args)
     if any(row['modified']['hub_id'] == args.pair[0] for row in record['pairs']):
         raise ValueError('pair already pinned: ' + args.pair[0])
+    api = Metered(HfApi())
     try:
-        row = pin(HfApi(), *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
+        row = pin(api, *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
+    except RateLimited as error:
+        print('refused {}: {}; stop the pass'.format(args.pair[0], error))
+        sys.exit(3)
     except (Duplicate, Restricted, Unpublished) as error:
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
+    print('hub calls: {}'.format(api.calls))
     copy = row['modified']
     if copy.get('card_parent') and copy['card_parent'].lower() != row['original']['hub_id'].lower():
         print('warning: {} card names {} where base_model names {}; pinned against {}'.format(

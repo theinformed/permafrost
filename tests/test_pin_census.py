@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
 from huggingface_hub.utils import RepositoryNotFoundError
-from pin_census import already_measured, card_opening, card_parent, Duplicate, measured_copies, names, pin, pairing, qat_original, same_weights, size_of, unpaired
+from pin_census import already_measured, card_opening, card_parent, Duplicate, measured_copies, Metered, names, pin, pairing, qat_original, RateLimited, same_weights, size_of, unpaired
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
 
@@ -509,6 +509,67 @@ class NamePairingTests(unittest.TestCase):
         self.assertIn('; pair 2 names: tensor names cannot be paired: 0 of 12 modified names pair with the 7 original names', message)
         self.assertNotIn('pair 3 names', message)
         self.assertIn('refused pair 2 names: tensor names cannot be paired', out.getvalue())
+
+
+class RecordingApi:
+    """A hub stand-in that records each metadata call and answers with a fresh object."""
+
+    def __init__(self, error=None):
+        self.seen = []
+        self.error = error
+        self.whoami = 'recorded'
+
+    def model_info(self, repo, revision=None, files_metadata=False):
+        self.seen.append(('model_info', repo, revision, files_metadata))
+        if self.error is not None:
+            raise self.error
+        return SimpleNamespace(repo=repo, revision=revision)
+
+    def list_repo_commits(self, repo):
+        self.seen.append(('list_repo_commits', repo))
+        if self.error is not None:
+            raise self.error
+        return [SimpleNamespace(commit_id='a' * 40)]
+
+
+class MeteredTests(unittest.TestCase):
+    def test_model_info_is_memoised_per_argument_tuple(self):
+        fake = RecordingApi()
+        metered = Metered(fake)
+        first = metered.model_info('owner/copy')
+        second = metered.model_info('owner/copy')
+        self.assertIs(first, second)
+        self.assertEqual(len(fake.seen), 1)
+        self.assertEqual(metered.calls, 1)
+        metered.model_info('owner/copy', revision='c' * 40)
+        self.assertEqual(len(fake.seen), 2)
+        self.assertEqual(metered.calls, 2)
+
+    def test_list_repo_commits_is_memoised(self):
+        fake = RecordingApi()
+        metered = Metered(fake)
+        first = metered.list_repo_commits('owner/copy')
+        second = metered.list_repo_commits('owner/copy')
+        self.assertIs(first, second)
+        self.assertEqual(len(fake.seen), 1)
+        self.assertEqual(metered.calls, 1)
+
+    def test_a_429_raises_rate_limited_with_the_call_count(self):
+        metered = Metered(RecordingApi(Exception('429 Client Error: Too Many Requests')))
+        with self.assertRaisesRegex(RateLimited, 'hub rate limit after 1 calls'):
+            metered.model_info('owner/copy')
+        self.assertEqual(metered.calls, 1)
+
+    def test_other_errors_pass_through_unchanged(self):
+        metered = Metered(RecordingApi(ValueError('boom')))
+        with self.assertRaises(ValueError) as caught:
+            metered.model_info('owner/copy')
+        self.assertNotIsInstance(caught.exception, RateLimited)
+        self.assertEqual(str(caught.exception), 'boom')
+
+    def test_unknown_attributes_forward_to_the_wrapped_api(self):
+        metered = Metered(RecordingApi())
+        self.assertEqual(metered.whoami, 'recorded')
 
 
 if __name__ == '__main__':
