@@ -22,6 +22,8 @@
 # Modified: SDE  a pair the lineage screen would hold is refused at pin time.
 # Modified: SDE  a party whose file list holds no safetensors weights is refused at pin time.
 # Modified: SDE 2026-11-03  meter and memoise hub calls; stop the pass on the first 429.
+# Modified: SDE 2026-11-03  a 429 from the hub stops the pass wherever it arrives: a repository check, a
+#   bounded read or a file list, and the names step, rather than reading as a missing repository or a refused pair.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -277,7 +279,11 @@ def size_of(hub_id):
 def repo_exists(api, repo):
     try:
         api.model_info(repo)
-    except Exception:
+    except RateLimited:
+        raise
+    except Exception as error:
+        if _rate_limited(error):
+            raise RateLimited('hub rate limit: ' + repo) from error
         return False
     return True
 
@@ -499,6 +505,8 @@ def bounded_get(hub, repo, revision, filename, limit=HEADER_LIMIT):
     with hub.session.get(hf_hub_url(repo, filename, revision=revision), stream=True, timeout=15) as response:
         if response.status_code == 404:
             return None
+        if response.status_code == 429:
+            raise RateLimited('hub rate limit: {} {}'.format(repo, filename))
         response.raise_for_status()
         data = bytearray()
         for chunk in response.iter_content(65536):
@@ -526,6 +534,8 @@ def weight_files(hub, repo, revision):
     hub.pause()
     url = 'https://huggingface.co/api/models/{}/revision/{}'.format(quote(repo, safe='/'), quote(revision, safe=''))
     response = hub.session.get(url, timeout=15)
+    if response.status_code == 429:
+        raise RateLimited('hub rate limit: {} {}'.format(repo, revision))
     response.raise_for_status()
     return sorted(item['rfilename'] for item in response.json().get('siblings', [])
                   if item['rfilename'].endswith('.safetensors'))
@@ -754,6 +764,9 @@ def names(manifest, out, hub=None):
                 if scales:
                     # The same checkpoint without the config block: the scales in the names say so.
                     raise ValueError('original is quantised ({} scale tensors, {} first): {}'.format(len(scales), scales[0], model['hub_id']))
+            except RateLimited:
+                # The hub's limit stops the pass; main exits 3 on it rather than spending more calls.
+                raise
             except (ValueError, OSError) as error:
                 # A hub refusal or a broken read is an OSError (requests raises one); the pair is
                 # refused with the message rather than stopping the step for the whole batch.

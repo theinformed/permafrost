@@ -4,6 +4,8 @@
 # Modified: SDE  a hub id measured at the same revision is refused with its round.
 # Modified: SDE  a qat-named copy whose card names the instruct model pins against the QAT checkpoint.
 # Modified: SDE  a parent the card's opening names, other than the field's, is recorded with a warning.
+# Modified: SDE 2026-11-03  a 429 stops the pass wherever it arrives: a repository check, a bounded read, a file
+#   list or the names step, rather than reading as a missing repository or a refused pair.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -19,7 +21,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'hpc'))
 import pin_census
 from huggingface_hub.utils import RepositoryNotFoundError
-from pin_census import already_measured, card_opening, card_parent, Duplicate, measured_copies, Metered, names, pin, pairing, qat_original, RateLimited, same_weights, size_of, unpaired
+from pin_census import already_measured, bounded_get, card_opening, card_parent, Duplicate, measured_copies, Metered, names, pin, pairing, qat_original, RateLimited, repo_exists, same_weights, size_of, unpaired, weight_files
 
 FIXTURES = ROOT / 'tests/fixtures/round2'
 
@@ -570,6 +572,79 @@ class MeteredTests(unittest.TestCase):
     def test_unknown_attributes_forward_to_the_wrapped_api(self):
         metered = Metered(RecordingApi())
         self.assertEqual(metered.whoami, 'recorded')
+
+
+class FailingApi:
+    """A hub stand-in whose model_info raises the given error."""
+
+    def __init__(self, error):
+        self.error = error
+
+    def model_info(self, repo, revision=None, **kwargs):
+        raise self.error
+
+
+class FakeResponse:
+    """A hub response with a status code; raise_for_status would raise something else, so it is never reached."""
+
+    def __init__(self, status_code):
+        self.status_code = status_code
+
+    def raise_for_status(self):
+        raise AssertionError('raise_for_status reached on a {}'.format(self.status_code))
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *exc):
+        return False
+
+    def iter_content(self, size):
+        return iter(())
+
+
+class FakeHub:
+    """A hub whose session.get answers with one response."""
+
+    def __init__(self, response):
+        self.session = SimpleNamespace(get=lambda url, **kwargs: response)
+
+    def pause(self):
+        pass
+
+
+class RateLimitTests(unittest.TestCase):
+    def test_a_429_on_a_repository_check_is_a_rate_limit_not_a_missing_repository(self):
+        with self.assertRaises(RateLimited):
+            repo_exists(FailingApi(Exception('429 Client Error: Too Many Requests for url')), 'google/gemma-4-12B-it-qat-q4_0-unquantized')
+        self.assertFalse(repo_exists(FailingApi(Exception('404 Client Error: Repository Not Found')), 'owner/gone'))
+        with self.assertRaises(RateLimited):
+            repo_exists(FailingApi(RateLimited('x')), 'owner/copy')
+
+    def test_a_429_on_a_bounded_read_or_a_file_list_is_a_rate_limit(self):
+        with self.assertRaises(RateLimited):
+            bounded_get(FakeHub(FakeResponse(429)), 'owner/copy', 'b' * 40, 'config.json')
+        with self.assertRaises(RateLimited):
+            weight_files(FakeHub(FakeResponse(429)), 'owner/copy', 'b' * 40)
+
+    def test_the_names_step_stops_on_a_rate_limit_instead_of_refusing_the_pair(self):
+        def bounded_get(hub, repo, revision, filename):
+            raise RateLimited('hub rate limit: {} {}'.format(repo, filename))
+
+        def side(hub_id, revision):
+            return {'hub_id': hub_id, 'revision': revision}
+        manifest = {'round': 40, 'pairs': [
+            {'original': side('maker/base', 'a' * 40), 'modified': side('owner/copy', 'b' * 40)}]}
+        with tempfile.TemporaryDirectory() as temporary:
+            path = Path(temporary) / 'round-40-batch-1.json'
+            path.write_text(json.dumps(manifest))
+            out = io.StringIO()
+            with patch.object(pin_census, 'bounded_get', bounded_get), contextlib.redirect_stdout(out), \
+                    self.assertRaises(RateLimited):
+                names(path, Path(temporary) / 'names', hub=object())
+            written = list((Path(temporary) / 'names').iterdir())
+        self.assertEqual(written, [])
+        self.assertNotIn('refused', out.getvalue())
 
 
 if __name__ == '__main__':
