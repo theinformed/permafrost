@@ -6,6 +6,7 @@
 # Modified: SDE 2026-10-29  batches of any size, parallel compares and the sweep, systems table, PBS.
 # Modified: SDE 2026-10-30  a copy pinned against its stated parent, itself a copy, passes the screen.
 # Modified: SDE  the pin stubs take the listing flag the duplicate check passes.
+# Modified: SDE  the names fixture test stubs the published weight file list.
 import ast
 from datetime import datetime, timezone
 import hashlib
@@ -1348,19 +1349,27 @@ class NamesFixtureTests(unittest.TestCase):
                 return json.dumps({'metadata': {}, 'weight_map': weight_map}).encode()
             return json.dumps(stored['config']).encode()
         model = {'hub_id': stored['hub_id'], 'revision': stored['revision']}
+        published = sorted(set(weight_map.values()))
         with patch.object(pin_census, 'bounded_get', get), \
-                patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[shard])):
+                patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[shard])), \
+                patch.object(pin_census, 'weight_files', lambda hub, repo, revision: list(published)):
             self.assertEqual(pin_census.fixture(object(), model), stored)
             with tempfile.TemporaryDirectory(dir=ROOT / '.tmp') as temporary:
                 path = Path(temporary) / 'batch.json'
                 record = manifest()
                 record['pairs'] = [{'original': model, 'modified': model}]
                 path.write_text(json.dumps(record))
-                with patch('builtins.print'):
+                with patch('builtins.print'), \
+                        patch.object(pin_census, 'bounded_get', get), \
+                        patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[shard])), \
+                        patch.object(pin_census, 'weight_files', lambda hub, repo, revision: list(published)):
                     written = pin_census.names(path, temporary, hub=object())
                 self.assertEqual([item.name for item in written], ['419b2efe4219.json'])
                 self.assertEqual(written[0].read_text(), (NAMES / '419b2efe4219.json').read_text())
-                with patch('builtins.print'):
+                with patch('builtins.print'), \
+                        patch.object(pin_census, 'bounded_get', get), \
+                        patch.object(pin_census, 'shard_header', lambda hub, repo, revision, shard: dict(headers[shard])), \
+                        patch.object(pin_census, 'weight_files', lambda hub, repo, revision: list(published)):
                     self.assertEqual(pin_census.names(path, temporary, hub=object()), [])
 
     def test_one_refused_checkpoint_does_not_stop_the_names_step(self):
