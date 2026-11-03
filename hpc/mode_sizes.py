@@ -2,6 +2,7 @@
 # Created by LT Sean Egan, PhD
 # Modified: SDE 2026-11-03  first pass: per-copy size figures from the weight report, medians per mode, markdown and json.
 # Modified: SDE 2026-11-03  quartiles beside the per-mode medians, a per-parent table and the singular-share crossings line.
+# Modified: SDE 2026-11-03  a crossings section listing the arbitrary-rank high-share and other-mode low-share copies by name.
 """Join each census copy's edit mode with the size of its measured weight change.
 
 --modes names a json whose copies[] list has rows {parent, repo, layers, mode}.
@@ -13,8 +14,10 @@ min_first_singular_energy_share and changed_kinds. Per copy the changed
 tensor count, the count of distinct layers among the changed names, the
 median and max relative difference over the changed records, the singular
 share and the kinds are taken. The markdown goes to --out with a per-mode
-table (quartiles beside the medians), a per-parent table, a crossings line
-and a per-copy table, and the same stem with .json beside it.
+table (quartiles beside the medians), a crossings section (the count line,
+then the arbitrary-rank copies at singular share 0.9 or more and the
+other-mode copies under 0.9, by name), a per-parent table and a per-copy
+table, and the same stem with .json beside it.
 """
 
 import argparse
@@ -81,7 +84,27 @@ def triple(q1, median, q3):
     return f'{three(q1)} / {three(median)} / {three(q3)}'
 
 
-def write_markdown(path, mode_rows, parent_rows, crossings, rows):
+CROSSING_COLUMNS = ('parent', 'repo', 'mode', 'changed_tensors', 'changed_layers',
+                    'singular_share', 'kinds')
+
+
+def crossing_table(rows):
+    """Return the markdown lines of one crossings table, or 'none' when empty."""
+    if not rows:
+        return ['none']
+    lines = [
+        '| parent | copy | mode | changed tensors | changed layers | singular share | kinds |',
+        '| --- | --- | --- | --- | --- | --- | --- |',
+    ]
+    for row in rows:
+        lines.append(
+            f"| {row['parent']} | {row['repo']} | {row['mode']} "
+            f"| {three(row['changed_tensors'])} | {three(row['changed_layers'])} "
+            f"| {three(row['singular_share'])} | {row['kinds']} |")
+    return lines
+
+
+def write_markdown(path, mode_rows, parent_rows, crossings, crossing_rows, rows):
     lines = [
         f'# {path.stem} -- every census copy joined to the size of its measured weight change.',
         '',
@@ -101,6 +124,20 @@ def write_markdown(path, mode_rows, parent_rows, crossings, rows):
     lines += [
         '',
         crossings,
+        '',
+        '## crossings',
+        '',
+        'arbitrary rank copies with singular share 0.9 or more',
+        '',
+    ]
+    lines += crossing_table(crossing_rows['arbitrary_high'])
+    lines += [
+        '',
+        'other-mode copies with singular share under 0.9',
+        '',
+    ]
+    lines += crossing_table(crossing_rows['other_low'])
+    lines += [
         '',
         '## per parent',
         '',
@@ -199,6 +236,17 @@ def main(argv=None):
                                and row['singular_share'] < 0.9),
         'other_measured': len(other),
     }
+    arbitrary_high = sorted(
+        (row for row in arbitrary
+         if row['singular_share'] is not None and row['singular_share'] >= 0.9),
+        key=lambda r: (str(r['parent']), r['repo']))
+    other_low = sorted(
+        (row for row in other
+         if row['singular_share'] is not None and row['singular_share'] < 0.9),
+        key=lambda r: (str(r['mode']), -r['changed_tensors'], r['repo']))
+    crossing_rows = {'arbitrary_high': arbitrary_high, 'other_low': other_low}
+    crossings['arbitrary_high'] = arbitrary_high
+    crossings['other_low'] = other_low
     crossings_line = (
         f"arbitrary rank copies with singular share 0.9 or more: "
         f"{crossings['arbitrary_high_share']} of {crossings['arbitrary_measured']}; "
@@ -207,7 +255,7 @@ def main(argv=None):
 
     out = Path(args.out)
     out.parent.mkdir(parents=True, exist_ok=True)
-    write_markdown(out, mode_rows, parent_rows, crossings_line, rows)
+    write_markdown(out, mode_rows, parent_rows, crossings_line, crossing_rows, rows)
     document = {
         'modes': {mode: figures for mode, figures in mode_rows},
         'parents': parent_rows,

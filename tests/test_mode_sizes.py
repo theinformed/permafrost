@@ -2,6 +2,7 @@
 # Created by LT Sean Egan, PhD
 # Modified: SDE 2026-11-03  three copies, two reports, one missing report.
 # Modified: SDE 2026-11-03  a fourth copy for the quartiles, the per-parent rows and the crossings.
+# Modified: SDE 2026-11-03  the crossings section by name, and a fifth copy for the other-mode low-share table.
 import contextlib
 import io
 import json
@@ -106,6 +107,43 @@ class ModeSizesTest(unittest.TestCase):
         self.assertEqual(crossings['other_measured'], 1)
         self.assertIn('arbitrary rank copies with singular share 0.9 or more: 1 of 2',
                       self.markdown)
+        high = crossings['arbitrary_high']
+        self.assertIsInstance(high, list)
+        self.assertEqual(len(high), 1)
+        self.assertEqual(high[0]['repo'], 'four/d')
+        self.assertEqual(crossings['other_low'], [])
+        self.assertIn('## crossings', self.markdown)
+        self.assertIn('| org/Q | four/d | arbitrary rank |', self.markdown)
+        low = self.markdown.index('other-mode copies with singular share under 0.9')
+        self.assertIn('none', self.markdown[low:].split('## per parent')[0])
+        self.assertLess(low, self.markdown.index('## per parent'))
+
+    def test_crossings_other_low(self):
+        modes = json.loads(self.modes.read_text())
+        modes['copies'].append({'parent': 'org/P', 'repo': 'five/e', 'layers': 1,
+                                'mode': 'per layer'})
+        self.modes.write_text(json.dumps(modes))
+        (self.weights / 'five-e.json').write_text(json.dumps(report({
+            'model.layers.0.mlp.down_proj.weight': {'changed': True,
+                                                    'relative_difference': 0.2},
+            'model.layers.3.mlp.down_proj.weight': {'changed': True,
+                                                    'relative_difference': 0.4},
+        }, 0.3, ['feed_forward_down'])))
+        out = self.root / 'sizes-five.md'
+        with contextlib.redirect_stdout(io.StringIO()):
+            mode_sizes.main(['--modes', str(self.modes), '--weights', str(self.weights),
+                             '--out', str(out)])
+        document = json.loads(out.with_suffix('.json').read_text())
+        low = document['crossings']['other_low']
+        self.assertEqual(len(low), 1)
+        self.assertEqual(low[0]['repo'], 'five/e')
+        self.assertEqual(low[0]['changed_tensors'], 2)
+        rows = {(row['parent'], row['repo']): row for row in document['copies']}
+        self.assertEqual(rows[('org/P', 'one/a')]['changed_tensors'], 2)
+        self.assertAlmostEqual(rows[('org/P', 'one/a')]['singular_share'], 0.95)
+        self.assertEqual(rows[('org/P', 'two/b')]['changed_tensors'], 1)
+        self.assertAlmostEqual(rows[('org/P', 'two/b')]['singular_share'], 0.6)
+        self.assertIn('| org/P | five/e | per layer | 2.000 | 2.000 | 0.300 |', out.read_text())
 
     def test_per_parent(self):
         parents = self.document['parents']

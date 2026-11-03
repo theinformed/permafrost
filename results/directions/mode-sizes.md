@@ -10,6 +10,75 @@
 
 arbitrary rank copies with singular share 0.9 or more: 14 of 65; other-mode copies under 0.9: 43 of 135
 
+## crossings
+
+arbitrary rank copies with singular share 0.9 or more
+
+| parent | copy | mode | changed tensors | changed layers | singular share | kinds |
+| --- | --- | --- | --- | --- | --- | --- |
+| google/gemma-4-12B-it | MeFFyLe/gemma-4-12B-it-uncensored-heretic | arbitrary rank | 16.000 | 16.000 | 0.914 | attention_output |
+| google/gemma-4-12B-it | llmfan46/gemma-4-12B-it-uncensored-heretic | arbitrary rank | 16.000 | 16.000 | 0.914 | attention_output |
+| google/gemma-4-12B-it-qat-q4_0-unquantized | wnfldchen/gemma-4-12B-it-qat-q4_0-unquantized-heretic | arbitrary rank | 46.000 | 23.000 | 0.975 | attention_output, feed_forward_down |
+| google/gemma-4-26B-A4B-it-qat-q4_0-unquantized | mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara | arbitrary rank | 24.000 | 12.000 | 0.932 | attention_output, feed_forward_down |
+| google/gemma-4-31B-it | llmfan46/gemma-4-31B-it-uncensored-heretic | arbitrary rank | 18.000 | 18.000 | 0.910 | attention_output |
+| google/gemma-4-E2B-it | amkkk/Gemma4_E2B_Abliterated_Baked_HF_Ready | arbitrary rank | 96.000 | 24.000 | 0.977 | attention_output, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-E2B-it | llmfan46/gemma-4-E2B-it-ultra-uncensored-heretic | arbitrary rank | 7.000 | 7.000 | 0.950 | attention_output |
+| google/gemma-4-E2B-it | yuna1126/gemma-4-E2B-Tema_Q-Abliterated | arbitrary rank | 7.000 | 7.000 | 0.948 | attention_output, feed_forward_down |
+| google/gemma-4-E4B-it | Cup4/gemma-4-E4B-it-uncensored-heretic | arbitrary rank | 11.000 | 11.000 | 0.920 | attention_output |
+| google/gemma-4-E4B-it | Cup5/gemma-4-E4B-it-uncensored-heretic | arbitrary rank | 11.000 | 11.000 | 0.920 | attention_output |
+| google/gemma-4-E4B-it | Pound1320/gemma-4-E4B-it-uncensored-heretic | arbitrary rank | 11.000 | 11.000 | 0.920 | attention_output |
+| google/gemma-4-E4B-it | llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic | arbitrary rank | 17.000 | 17.000 | 0.936 | attention_output |
+| google/gemma-4-E4B-it | llmfan46/gemma-4-E4B-it-uncensored-heretic | arbitrary rank | 11.000 | 11.000 | 0.920 | attention_output |
+| mistralai/Mistral-Small-3.2-24B-Instruct-2506 | llmfan46/Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic | arbitrary rank | 8.000 | 8.000 | 0.941 | attention_output |
+
+other-mode copies with singular share under 0.9
+
+| parent | copy | mode | changed tensors | changed layers | singular share | kinds |
+| --- | --- | --- | --- | --- | --- | --- |
+| google/gemma-4-E4B | Felldude/gemma-4-E4B-uncensored | mixed | 595.000 | 42.000 | 0.002 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| google/gemma-4-12B-it | lemuralabs/Gemma-4-12B-uncensored-bf16 | mixed | 553.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| coder3101/gemma-3-27b-it-heretic | DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2 | mixed | 432.000 | 62.000 | 0.282 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated | mixed | 322.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| mistralai/Mistral-Small-3.2-24B-Instruct-2506 | coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic | mixed | 50.000 | 38.000 | 0.856 | attention_output, feed_forward_down |
+| google/gemma-4-12B-it | AEON-7/Gemma-4-12B-it-AEON-Abliterated-K4-BF16 | mixed | 48.000 | 24.000 | 0.258 | attention_output, feed_forward_down |
+| yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | one direction | 557.000 | 48.000 | 0.025 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| google/gemma-4-12B-it | jwest33/gemma-4-12B-it-null-space-abliterated | one direction | 329.000 | 48.000 | 0.802 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-31B-it | Kooten/gemma-4-31b-abliterated-v1.1 | one direction | 256.000 | 60.000 | 0.005 | attention_output, feed_forward_down, other |
+| mistralai/Mistral-7B-Instruct-v0.3 | 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated | one direction | 226.000 | 32.000 | 0.005 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head |
+| google/gemma-4-31B-it | null-space/gemma-4-31b-it-abliterated | one direction | 80.000 | 40.000 | 0.584 | attention_output, feed_forward_down |
+| google/gemma-4-12B-it | Vampelium/gemma-4-12B-it-heretic | one direction | 75.000 | 43.000 | 0.794 | attention_output, feed_forward_down |
+| TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic-v4 | one direction | 65.000 | 36.000 | 0.852 | attention_output, feed_forward_down |
+| TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic-v2 | one direction | 57.000 | 33.000 | 0.756 | attention_output, feed_forward_down |
+| google/gemma-4-12B-it | BinxNet/gemma-4-12B-it-heretic | one direction | 55.000 | 44.000 | 0.839 | attention_output, feed_forward_down |
+| google/gemma-4-31B-it | sh0ck0r/Artemis-31B-v1.1-heretic | per layer | 603.000 | 60.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, other |
+| google/gemma-4-E4B-it | Felldude/gemma-4-E4B-uncensored | per layer | 595.000 | 42.000 | 0.002 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| google/gemma-4-12B-it | richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic | per layer | 557.000 | 48.000 | 0.025 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| google/gemma-4-12B-it | Paul691/gemma-4-12B-it-abliterated-uncensored | per layer | 553.000 | 48.000 | 0.001 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization |
+| google/gemma-4-E4B-it | Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP | per layer | 526.000 | 42.000 | 0.005 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other |
+| coder3101/gemma-3-27b-it-heretic | Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning | per layer | 418.000 | 62.000 | 0.239 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-12B-it | enkato64bit/SuperGemma-4-12b-abliterated | per layer | 320.000 | 48.000 | 0.119 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-E4B-it | Dingdust/ContextPilot-E4B-heretic | per layer | 285.000 | 42.000 | 0.003 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other |
+| mistralai/Mistral-Small-3.2-24B-Instruct-2506 | Pranavz/Hearthfire-24B-heretic | per layer | 282.000 | 40.000 | 0.004 | attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head |
+| mistralai/Ministral-3-8B-Reasoning-2512 | ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored | per layer | 238.000 | 34.000 | 0.146 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-E2B-it | aifeifei798/Heretic-Scalpel-E2B | per layer | 179.000 | 35.000 | 0.113 | attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-26B-A4B-it | DuoNeural/gemma-4-26B-A4B-it-abliterated | per layer | 90.000 | 30.000 | 0.881 | attention_output, expert_down, feed_forward_down |
+| google/gemma-4-26B-A4B-it | claymorecrystal/gemma-4-26B-A4B-it-uncensored | per layer | 90.000 | 30.000 | 0.881 | attention_output, expert_down, feed_forward_down |
+| google/gemma-4-26B-A4B-it | erunda337/gemma-4-26B-A4B-it-uncensored | per layer | 90.000 | 30.000 | 0.881 | attention_output, expert_down, feed_forward_down |
+| google/gemma-4-26B-A4B-it | sitten1/gemma-4-26B-A4B-it-uncensored | per layer | 90.000 | 30.000 | 0.881 | attention_output, expert_down, feed_forward_down |
+| google/gemma-4-31B-it | nguyenthilaitrieulong/gemma-4-31B-it-abliterated | per layer | 77.000 | 32.000 | 0.362 | attention_key, attention_output, attention_query, embedding, feed_forward_down, feed_forward_gate, feed_forward_up |
+| google/gemma-4-E4B-it | TheUmbraWalker/gemma-4-E4B-it-2-heretic | per layer | 73.000 | 38.000 | 0.504 | attention_output, feed_forward_down |
+| google/diffusiongemma-26B-A4B-it | FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored | per layer | 67.000 | 25.000 | 0.002 | attention_output, expert_down, feed_forward_down |
+| google/diffusiongemma-26B-A4B-it | nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored | per layer | 67.000 | 25.000 | 0.002 | attention_output, expert_down, feed_forward_down |
+| google/gemma-4-26B-A4B-it | WWTCyberLab/gemma-4-26B-A4B-it-abliterated | per layer | 55.000 | 18.000 | 0.245 | attention_output, embedding, expert_down, feed_forward_down |
+| google/gemma-4-E2B-it | treadon/gemma4-E2B-it-Abliterated-AND-Disinhibited-USE-THIS | per layer | 48.000 | 24.000 | 0.538 | attention_output, feed_forward_down |
+| google/gemma-4-31B-it | Vampelium/gemma-4-31B-it-heretic | per layer | 47.000 | 26.000 | 0.792 | attention_output, feed_forward_down |
+| google/gemma-4-12B-it | Carlosian/Gemma-4-12b-it-Abliterated | per layer | 42.000 | 21.000 | 0.593 | attention_output, feed_forward_down |
+| google/gemma-4-E4B-it | treadon/gemma4-E4B-it-Abliterated-AND-Disinhibited-USE-THIS | per layer | 42.000 | 21.000 | 0.659 | attention_output, feed_forward_down |
+| TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic | per layer | 37.000 | 31.000 | 0.891 | attention_output, feed_forward_down |
+| google/gemma-4-26B-A4B-it | keithtyser/gemma-4-26B-A4B-it-local-abliterated-sota-internal-t34 | per layer | 35.000 | 18.000 | 0.834 | attention_output, feed_forward_down |
+| google/gemma-4-12B-it | Sabomako/gemma-4-12B-it-heretic | per layer | 31.000 | 19.000 | 0.741 | attention_output, feed_forward_down |
+| google/gemma-4-31B-it | Sabomako/gemma-4-31B-it-heretic | per layer | 8.000 | 4.000 | 0.734 | attention_output, feed_forward_down |
+
 ## per parent
 
 | parent | mode | copies | changed tensors | median relative | singular share |
