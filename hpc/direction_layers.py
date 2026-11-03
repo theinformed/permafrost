@@ -2,6 +2,7 @@
 # Created by SDE
 # Modified: SDE 2026-11-03  first pass: reference rotation, per-copy window and best layer, markdown and json.
 # Modified: SDE 2026-11-03  print layer numbers as whole integers (whole), not three-decimal cosines.
+# Modified: SDE 2026-11-03  add each copy's own adjacent and far |cos| medians beside its own spread.
 """Place the edit directions of every copy of one parent against a reference copy.
 
 --group names a results/directions/<parent>.json with a parent and a copies[]
@@ -85,17 +86,21 @@ def rotation(vectors):
 
 
 def place(vectors, reference):
-    """Window, own spread and the middle layer placed against every reference layer."""
+    """Window, own spread, own adjacent and far medians, and the middle layer placed."""
     layers = sorted(vectors)
     window = [layers[0], layers[-1]]
     own = [abs_cos(vectors[a], vectors[b]) for a, b in itertools.combinations(layers, 2)]
     own_spread = statistics.median(own) if len(own) >= 2 else None
+    rot = rotation(vectors)
+    adjacent = rot['adjacent_median'] if len(layers) >= 2 else None
+    far = rot['far_median'] if len(layers) >= 2 else None
     middle = vectors[layers[len(layers) // 2]]
     scored = sorted(((abs_cos(middle, reference[layer]), layer) for layer in sorted(reference)),
                     key=lambda item: (-item[0], item[1]))
     best = [scored[0][1], scored[0][0]] if scored else None
     nxt = [scored[1][1], scored[1][0]] if len(scored) > 1 else None
-    return {'window': window, 'own_spread': own_spread, 'best': best, 'next': nxt}
+    return {'window': window, 'own_spread': own_spread, 'adjacent': adjacent,
+            'far': far, 'best': best, 'next': nxt}
 
 
 def three(value):
@@ -116,8 +121,8 @@ def write_markdown(path, reference, parent, rot, rows):
         '',
         f'{adjacent}; {far}',
         '',
-        '| copy | window | own spread | best layer | cos | next layer | cos |',
-        '| --- | --- | --- | --- | --- | --- | --- |',
+        '| copy | window | own spread | adjacent | far | best layer | cos | next layer | cos |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         window = 'none' if row['window'] is None else f"{row['window'][0]}..{row['window'][1]}"
@@ -125,6 +130,7 @@ def write_markdown(path, reference, parent, rot, rows):
         nxt = row['next'] or [None, None]
         lines.append(
             f"| {row['repo']} | {window} | {three(row['own_spread'])} "
+            f"| {three(row['adjacent'])} | {three(row['far'])} "
             f"| {whole(best[0])} | {three(best[1])} "
             f"| {whole(nxt[0])} | {three(nxt[1])} |")
     path.write_text('\n'.join(lines) + '\n')
@@ -169,7 +175,7 @@ def main(argv=None):
         if not vectors:
             skipped.append(repo)
             rows.append({'repo': repo, 'window': None, 'own_spread': None,
-                         'best': None, 'next': None})
+                         'adjacent': None, 'far': None, 'best': None, 'next': None})
             continue
         row = {'repo': repo}
         row.update(place(vectors, reference))

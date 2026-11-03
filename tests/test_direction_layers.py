@@ -95,11 +95,15 @@ class DirectionLayersTest(unittest.TestCase):
             self.assertEqual(one['best'][0], 7)
             self.assertAlmostEqual(one['best'][1], 1.0, places=6)
             self.assertEqual(one['window'], [5, 12])
+            self.assertAlmostEqual(one['adjacent'], 1.0, places=6)
+            self.assertIsNone(one['far'])
             per = rows['per/c']
             self.assertLess(per['own_spread'], 0.9)
             self.assertEqual(per['best'][0], 6)
             self.assertAlmostEqual(per['best'][1], 1.0, places=6)
             self.assertIn(per['next'][0], (5, 7))
+            self.assertAlmostEqual(per['adjacent'], 0.966, delta=0.01)
+            self.assertIsNone(per['far'])
             self.assertEqual(document['skipped'], [])
 
     def test_markdown_rows(self):
@@ -112,9 +116,14 @@ class DirectionLayersTest(unittest.TestCase):
             self.assertTrue(lines[0].startswith('# org-P -- ref/a placed layer by layer'))
             self.assertEqual(lines[1], '')
             self.assertIn('adjacent layers median', lines[2])
-            table = [line for line in lines[6:] if line.startswith('| ')]
+            header = next(line for line in lines if line.startswith('| copy |'))
+            self.assertEqual(header, '| copy | window | own spread | adjacent | far | '
+                                     'best layer | cos | next layer | cos |')
+            start = next(i for i, line in enumerate(lines) if line.startswith('| --- |'))
+            table = [line for line in lines[start + 1:] if line.startswith('| ')]
             self.assertEqual(len(table), 2)
-            self.assertTrue(table[0].startswith('| one/b | 5..12 | 1.000 | 7 | 1.000 | '))
+            self.assertTrue(table[0].startswith(
+                '| one/b | 5..12 | 1.000 | 1.000 | none | 7 | 1.000 | '))
             self.assertNotIn(' 7.000 ', out.read_text())
 
     def test_missing_reference(self):
