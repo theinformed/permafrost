@@ -6295,6 +6295,45 @@ Evidence: `results/directions/e4b-families-parameters.md` (one row per copy, fig
 `docs/cards/<copy>.reading.md`), `results/directions/google-gemma-4-E4B-it.json` for the pair figures quoted, and
 `results/directions/families.json` for the family lists.
 
+## 178. On the 12B the same four lines hold at 0.02 to each other, the kernel line's direction is the index's and not the kernel's, and one maker's three ARA searches on the 1.2 line stand apart from the shipped-set passes at 0.45 to 0.78
+
+The 12B table, `results/directions/12b-families-parameters.md`, sets the 29 measured copies of google/gemma-4-12B-it
+beside their six families and the figures their reading notes record (29 notes, 8 with a version, 5 with a
+direction index, 5 with kernels). The lines of finding 177 hold. Family 1 is the kernel line, Heretic 1.3.0 and
+1.4.0 at a direction index of 28.91 to 29.60: BinxNet's, MoonRide's and prithivMLmods's passes stand at 0.957 to
+1.000 to each other, and MoonRide's and prithivMLmods's at 1.000 on 52 matrices carry indices of 29.60 and 29.56
+under different kernels (attention peaks 1.35 at 31.80 against 1.18 at 39.94, widths against positions), so the
+direction is the index's and the kernel sets only where and how hard it is applied. With them stand 3MPER0RR's
+export, whose card names no tool, at 0.972 to BinxNet's on 40 matrices, and lemuralabs's 1.3.0 directional ablation
+over the coder fine-tune at 0.965 to BinxNet's on 55 and at 1.000 to Paul691's "custom abliteration framework" on
+324, both of them 553 changed matrices on that fine-tune. Family 4 is the 1.2.0 arbitrary-rank line, coder3101's and
+llmfan46's passes at 0.940 on 16 with MeFFyLe's re-upload, and family 1 against family 4 is 0.021 on 52 matrices,
+the E4B's 0.065 again. Family 2 is TrevorJS's norm-preserving biprojection of layers 15 to 47 with its four
+re-uploads (finding 56) and Sabomako's Heretic 1.3.0 "custom ORBA abliteration" at 0.989 to it on 31, the 12B's
+TheUmbraWalker case; family 3 is huihui-ai's difference-of-means projection with two re-uploads; family 6 is
+Vampelium's Heretic pass and igorls's norm-preserving Heretic branch at 0.919 on 22.
+
+Family 5 is new. RumiaChannel's three Heretic 1.2.0 searches on ARA refusal sets (Refusals2, 4 and 9, start layers
+14 to 24, end layers 37 to 44, preserve 0.18 to 0.91) stand at 0.981 to 0.993 to each other and at 0.45 to 0.78 to
+the shipped-set 1.2.0 passes of family 4 (0.452 to 0.708 to coder3101's, 0.687 to 0.781 to llmfan46's), at 0.052 to
+TrevorJS's and at 0.02 to the kernel line. On the E4B, NullpoLab's five ARA searches on the same line sat inside the
+shipped-set family at 0.96; on the 12B one maker's ARA searches are their own family, partway from the shipped set,
+and the table does not say whether the set or the maker's other settings moved them. The copies in no family stand
+where the lines predict: richardyoung's 1.4.0 pass at index 28.16 over the coder fine-tune at 0.813 to BinxNet's
+(28.91), the 12B's reading of the E4B's 29 against 31; Carlosian's "clean-cone" biprojection at 0.591 to TrevorJS's;
+enkato64bit's single projection over a merged adapter at 0.603 to the kernel line; jwest33's null-space projection
+on 5,000 harmful and 1,226 harmless prompts at 0.644 to huihui-ai's; AEON-7's four-direction biprojection at 0.484
+to everything; and AlekseyCalvin's fine-tune over igorls's edit alone.
+
+Why it matters. Two parents now read the same way, so the rule is the tool's line and, within the kernel line, the
+direction index: 1.000 between two makers' passes at indices 0.04 apart under different kernels is the same
+direction twice, not a copy, and 0.81 between indices 0.75 apart is the index moving. The one open figure is the
+prompt set: the E4B said it does not move the 1.2 direction and the 12B says one maker's ARA searches moved it to
+0.45 to 0.78. The 31B, E2B and 26B-A4B tables decide which parent is the rule.
+
+Evidence: `results/directions/12b-families-parameters.md`, `results/directions/google-gemma-4-12B-it.json` for the
+pair figures, `results/directions/families.json` for the family lists.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
