@@ -6453,14 +6453,17 @@ figures, `results/directions/families.json` for the family lists; the layer figu
 `results/directions/layers/google-gemma-4-<parent>.md`, written by `hpc/direction_layers.py` from the o_proj left
 vectors in each pull's `weights.directions.safetensors`, set against TrevorJS's copy on each parent.
 
-## 181. Read from their own layer rotation, the 201 census copies fall into three edit modes, 69 per layer, 54 one direction and 65 arbitrary rank, the word in the name predicts the mode poorly, and a family is an agreement set that can hold two modes
+## 181. Read from their own layer rotation, the 201 census copies fall into three edit modes, 69 per layer, 55 one direction and 65 arbitrary rank, the word in the name predicts the mode poorly, and a family is an agreement set that can hold two modes
 
 The mode table, `results/directions/modes.md`, written by `hpc/direction_modes.py`, reads each copy's o_proj left
 vectors alone and takes two figures from them: the median |cos| between layers one apart (adjacent) and between
 layers ten or more apart (far). A copy is one direction when far is 0.9 or more, per layer when adjacent is 0.5 or
 more and far 0.2 or less, arbitrary rank when adjacent is under 0.2, and mixed otherwise. Of 202 census copies one
-(Jiunsong's E4B) has no directions file; the 201 others sort 69 per layer, 54 one direction, 65 arbitrary rank and
-12 mixed. The three groups stand apart: the per-layer copies read adjacent 0.61 to 0.87 and far 0.12 or less
+(Jiunsong's E4B) has no directions file; the 201 others sort 69 per layer, 55 one direction, 65 arbitrary rank and
+11 mixed. The rotation is read from the attention-output vectors, or from the down-projection vectors for the four
+copies whose attention-output change is noise beside their edit (the two diffusion copies, Pranavz's and tpls's,
+with first-singular shares of 0.012 to 0.161 on the one matrix and 0.98 or more on the other). The three groups
+stand apart: the per-layer copies read adjacent 0.61 to 0.87 and far 0.12 or less
 (TrevorJS's E4B 0.684 and 0.014, BinxNet's 26B-A4B 0.814 and 0.033, Pranavz's Mistral Small 0.608 and 0.009,
 FredyRivera-dev's diffusiongemma 0.849 and 0.035, ccharnkij's Ministral 0.710 and 0.047), the one-direction copies
 far 0.93 or more, the kernel passes among them (p-e-w's E4B 0.974 and 0.941: the kernel weights the layers and
@@ -6470,14 +6473,16 @@ is the per-layer line, one direction is the kernel line and the difference-of-me
 rank is the 1.2 line.
 
 The word in the name says little. Of 112 copies with heretic in the name 55 are arbitrary rank, 29 one direction,
-25 per layer and 3 mixed; of 60 with abliterated, 26 per layer, 19 one direction, 7 arbitrary rank, 7 mixed and the
+25 per layer and 3 mixed; of 60 with abliterated, 26 per layer, 20 one direction, 7 arbitrary rank, 6 mixed and the
 one without a file; of 29 with uncensored, 18 per layer, 6 one direction, 3 arbitrary rank, 2 mixed. By parent the
 E4B is the arbitrary-rank parent (18, against 10 one direction and 9 per layer), the 12B, 26B-A4B, 31B and E2B are
 per-layer parents (13, 12, 11 and 10 per layer), the Mistral 7B's five copies are all one direction and the
 quantised-and-restored parents are mostly arbitrary rank (6 of 10 on the 12B, 5 of 8 on the 26B-A4B, 4 of 4 on
-the 31B). The twelve mixed copies are of three kinds that the two figures tell apart: fine-tunes over an ablation,
+the 31B). The eleven mixed copies are of three kinds that the two figures tell apart: fine-tunes over an ablation,
 where the fine-tune's delta buries the direction (DavidAU's Gemma 3 27B 0.466 and 0.024, chulcher's and Felldude's
-E4B 0.282 and 0.009, tpls's 12B coder 0.404 and 0.018); one-direction passes on short windows, where far has few
+E4B 0.282 and 0.009; tpls's 12B coder read 0.404 and 0.018 on its attention outputs, whose change is noise at a
+share of 0.059, and reads one direction, 0.994 and 0.933, on the down projections that carry its edit); one-direction
+passes on short windows, where far has few
 pairs and the direction drifts (coder3101's Mistral Small on 12 layers 0.910 and 0.362, 3MPER0RR's 31B on 20 layers
 0.884 and 0.226, AISafety-Student's Ministral on 19 layers 0.908 and 0.250, AEON-7's 12B 0.764 and 0.204); and
 copies with adjacent 0.98 to 1.000 and far 0.33 to 0.86, one direction between neighbours and another across the
@@ -6487,10 +6492,11 @@ direction on layers 23 to 26 and another on 27 to 36, eadx's 26B-A4B-qat re-uplo
 lemuralabs's 12B (0.978 and 0.861) a direction of its own on each of layers 0 to 9 and then four blocks over layers
 12 to 47.
 
-A family is an agreement set, a median over shared keys of 0.9 or more, and five of the 31 families hold more than
-one mode. Three hold a near member: the 31B's per-layer family has 3MPER0RR's short-window pass at 0.884 and 0.226,
-the Mistral Small per-layer pair has coder3101's at 0.910 and 0.362, and the 12B coder fine-tune's one-direction
-family has tpls's fine-tune over an ablation. Two join a per-layer copy to one-direction copies. On the E4B the
+A family is an agreement set, a median over shared keys of 0.9 or more, and four of the 31 families hold more than
+one mode. Two hold a near member: the 31B's per-layer family has 3MPER0RR's short-window pass at 0.884 and 0.226
+and the Mistral Small per-layer pair has coder3101's at 0.910 and 0.362 (the 12B coder fine-tune's one-direction
+family held tpls's fine-tune over an ablation as mixed while its mode was read from the attention outputs; read
+from its down projections it is one direction with the rest). Two join a per-layer copy to one-direction copies. On the E4B the
 index-31 kernel family (p-e-w, his reproduction, sh0ck0r, BinxNet) holds Dingdust's per-layer pass (0.652 and
 0.015) through sh0ck0r's window alone: sh0ck0r edits layers 19 to 41 and on layers 25 to 41 Dingdust's directions
 are within 0.9 of the index-31 direction, 32 of 60 shared keys, median 0.926; against p-e-w's wider window, 11 to
@@ -6503,7 +6509,8 @@ them.
 
 One more figure from the same vectors, the pair column, separates the modes further: the agreement between a copy's
 o_proj direction and its down_proj direction in the same layer. Every one-direction copy that edits both matrices
-projects one direction on both (53 of 53 at 0.9 or more), and so do 55 of the 69 per-layer copies: a per-layer pass
+projects one direction on both (53 of 54 at 0.9 or more; the one under, tpls at 0.109, sets its down-projection
+direction against the noise on its attention outputs), and so do 55 of the 69 per-layer copies: a per-layer pass
 takes one direction per layer, the layer's own, and writes it on both output projections. The arbitrary-rank copies
 never do: 39 carry two directions (pair 0.02 to 0.19) and 26 edit no down_proj at all, as a search over one matrix
 at a time would. Four per-layer copies read two directions per layer (Pranavz's Mistral Small 0.030, the two
@@ -6532,8 +6539,8 @@ and `results/directions/google-gemma-4-12B-it.json` for the Dingdust and Paul691
 The edit mode of finding 181 is read from how a copy's saved direction rotates between layers. Set beside the
 size figures of each copy's weight comparison, the mode sorts the census a second way. Over the 200 copies with
 a mode and a report, the median arbitrary-rank copy changes 24 tensors on 17 layers; the median one-direction
-copy changes 63.5 tensors on 34 layers and the median per-layer copy 67 tensors on 31 layers, with the twelve
-mixed copies at 55 and 32.5. The quartiles do not meet: the upper quartile of changed tensors under arbitrary
+copy changes 64 tensors on 34 layers and the median per-layer copy 67 tensors on 31 layers, with the eleven
+mixed copies at 50 and 30. The quartiles do not meet: the upper quartile of changed tensors under arbitrary
 rank is 38, the lower quartile under one direction 50 and under per layer 42.
 
 The same holds inside each parent. Eleven parents hold at least one arbitrary-rank copy beside at least one
@@ -6544,7 +6551,7 @@ both of the other medians: the 12B 40 against 55 and 66, the 31B 46 against 120 
 
 The smallest first-singular energy share among a copy's changed matrices, the share of each difference's
 energy in its leading direction as the comparison estimates it, reads 0.466 at the arbitrary-rank median, with
-quartiles 0.022 and 0.862, against 0.981 under one direction (0.963 to 0.994) and 0.978 under per layer (0.593
+quartiles 0.022 and 0.862, against 0.980 under one direction (0.961 to 0.994) and 0.978 under per layer (0.593
 to 0.991). Within the eleven parents the arbitrary-rank median is below both other medians in nine; the two
 exceptions are parents whose per-layer copies are themselves low, the diffusion 26B-A4B at 0.002 and Mistral
 Small 3.2 at 0.495. So a copy whose direction rotates arbitrarily between layers is also, as a rule, a copy
