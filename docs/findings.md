@@ -6377,6 +6377,81 @@ prompt set can move, and the E2B and 26B-A4B tables add their cases.
 Evidence: `results/directions/31b-families-parameters.md`, `results/directions/google-gemma-4-31B-it.json` for the
 pair figures, `results/directions/families.json` for the family lists.
 
+## 180. The E2B and 26B-A4B tables put the last two Gemma 4 parents on the same lines, and a layer-by-layer read says what the lines are: a kernel pass takes the per-layer direction of the layer its index names, huihui-ai's code takes one mid-depth layer's, the arbitrary-rank optimum is no layer's own, and the per-layer direction turns with depth
+
+The E2B table, `results/directions/e2b-families-parameters.md`, sets the 23 measured copies of google/gemma-4-E2B-it
+(huihui-ai's edit measured twice) beside three families (23 notes, 5 with a version, 7 with an index or one direction
+per layer, 6 with kernels). Family 1, eight copies, is the per-layer line: TrevorJS's biprojection with Ishowbackup's
+and lessans's byte-identical re-uploads, anlord's Gaussian-decay Abliterator at 0.990 on 29, tvall43's Heretic 1.2.0
+v1 pass with one direction per layer at 0.974 on 23, treadon's biprojection at scale 1.75 at 0.880 on 48,
+WWTCyberLab's two-pass edit at 0.838 and aifeifei798's edit over a fine-tune at 0.624 on 62, the last two joined
+through the others. Family 2, six copies, is where the E2B differs from the E4B and 12B: huihui-ai's difference-of-means
+projection (Dzluck's and prithivMLmods's re-uploads at 1.000 on 50) and the kernel line sit in one family, MoonRide's
+1.2.0 kernel pass at index 16.97 at 0.969 on 44 to huihui-ai's, tvall43's v0 at index 17.07 at 0.948 on 19,
+DuoNeural's at 0.925 on 45. On the E4B the same two lines stood at 0.013. Family 3 is the 1.2.0 arbitrary-rank line:
+MoonRide's ARA pass and his ARA pass with a custom system prompt at 0.893 on 14, llmfan46's at 0.973 to the ARA pass
+on 6, DavidAU's fine-tune over an ablation at 0.974 to llmfan46's on 7 and 0.024 to MoonRide's ARA pass on 16, a
+placement on few keys. One maker, one tool version, two modes: MoonRide's kernel pass stands at 0.047 and 0.015 to
+his two arbitrary-rank passes, and tvall43's v1 per-layer pass at 0.083 to his v0 kernel pass on 10 matrices. Across
+the lines, the per-layer line against huihui-ai's 0.049 on 50, huihui-ai's against llmfan46's 0.050 on 7. The five
+copies outside a family each have a partner between 0.5 and 0.9: treadon's abliteration over a disinhibition edit at
+0.90 to his plain abliteration on 48, a hair under the line, wangzhang's four-component edit at 0.887 to anlord's on
+41, amkkk's baked module-input projection at 0.702 to MoonRide's custom-prompt ARA pass on 36, Bahushruth's L-BFGS
+solver at 0.709 to llmfan46's on 7, yuna1126's SCAPE search at 0.681 to anlord's on 2.
+
+The 26B-A4B table, `results/directions/26b-families-parameters.md`, sets its 18 copies beside three families and adds
+a column for whether the expert tensors were edited (18 notes, 5 with a version, 6 with an index or one direction per
+layer, 4 with kernels). Family 1, ten copies, is the per-layer line and the largest family on any Gemma 4 parent:
+TrevorJS's biprojection on 90 matrices with the experts edited, claymorecrystal's, erunda337's and sitten1's
+byte-identical re-uploads, DuoNeural's expert-granular abliteration at 1.000 on 90, Rootkit7's Solutus expert-granular
+pass at scale 0.721 at 0.932 on 48, and four Heretic passes that touch no expert: sh0ck0r's 1.3.0 at 0.981 on 38,
+SevenOfNine's 1.3.0 fork at 0.981 on 40, BinxNet's 1.4.0 "full" row-normalisation pass at 0.975 on 44 (1.000 to
+sh0ck0r's on 38) and tvall43's 1.2.0 per-layer pass at 0.964 on 14. Family 2 is the 1.2.0 arbitrary-rank line,
+coder3101's (layers 10 to 30) with llmfan46's at 0.989 on 20 and SassyDiffusion's ARA pass at 0.981 on 18, the ARA
+set leaving the direction where it was, as on the E4B and 31B. Family 3 is huihui-ai's projection at weight 3.0 on
+layers 5 to 29 with prithivMLmods's two re-uploads. Across the lines: per-layer against arbitrary-rank 0.098 on 20,
+per-layer against huihui-ai's 0.220 on 50, arbitrary-rank against huihui-ai's 0.039 on 20. keithtyser's "Heretic
+backend, full row normalization" pass per layer on layers 12 to 29 stands at 0.898 to SevenOfNine's and 0.897 to
+sh0ck0r's and BinxNet's, under the line by two thousandths; WWTCyberLab's three-stage edit with token-embedding
+suppression at 0.643 to BinxNet's on 34.
+
+What the lines are can be read inside the copies. On each parent the per-layer reference copy's o_proj directions
+(TrevorJS's) turn with depth: adjacent layers agree at a median of 0.591 (E2B), 0.684 (E4B), 0.781 (12B), 0.843
+(31B) and 0.800 (26B-A4B), and layers ten or more apart at 0.014 to 0.061, with minima at 0.000. A one-direction
+copy's vector set against every layer of the reference has one best layer, and for a kernel pass it is the layer its
+printed index names: on the E4B p-e-w's index 31.26 lands on layer 31 at 0.970 (layer 32 next at 0.926), sh0ck0r's
+31.87 on layer 32 at 0.957, ImanolSuarez's 29.08 on layer 29 at 0.950 (30 next at 0.824); on the E2B MoonRide's
+16.97 on layer 17 at 0.981 (16 next at 0.689) and tvall43's 17.07 on layer 17 at 0.963; on the 12B BinxNet's 28.91
+on layer 29 at 0.719, MoonRide's 29.60 on layer 30 at 0.742 and richardyoung's 28.16, a pass over a fine-tune, on
+layer 28 at 0.774. huihui-ai's projection is one layer's direction too, taken near mid-depth: layer 17 of 35 on the
+E2B at 0.957, 17 of 42 on the E4B at 0.797, 26 of 48 on the 12B at 0.795, 35 of 60 on the 31B at 0.867, 13 of 30 on
+the 26B-A4B at 0.774; so are Madras1's projection (layer 28 at 0.620) and jokernifty's (layer 24 at 0.911) on the
+E4B. That is why the kernel line and huihui-ai's line are one family on the E2B, where index 17 and mid-depth
+coincide, and 0.013 apart on the E4B, where the index is 31 and mid-depth is 17. The arbitrary-rank optimum is not
+any layer's direction: coder3101's vectors differ from layer to layer within his own copy (median 0.019 to 0.055
+between them) and match no layer of the reference above 0.29 on any parent (E4B 0.073, 12B 0.077, 31B 0.294,
+26B-A4B 0.205; llmfan46's E2B pass 0.052). The 26B-A4B's Heretic members of family 1 are per-layer passes by the
+same test: BinxNet's vectors differ layer to layer (0.178) and his middle layer lands on the reference's layer 17 at
+0.975.
+
+Why it matters. Finding 177 read the E4B's split as one between tool versions; it is a split between modes, and the
+version does not fix the mode: Heretic 1.2.0 ran MoonRide's E2B kernel pass and his two arbitrary-rank passes, 0.02
+to 0.05 apart. The lines of finding 179 differ in where the direction comes from. A per-layer pass takes each
+layer's own difference of means, so every per-layer tool lands in one family whatever its name or version (ten
+copies on the 26B-A4B, seven on the 31B). A one-direction pass takes one layer's direction and spreads it over a
+window, so two one-direction tools agree only where their source layers coincide: the printed index names the layer
+for a kernel pass, mid-depth is the layer for huihui-ai's code, and because the direction turns with depth a
+one-direction pass cannot join the per-layer family across a window. The arbitrary-rank search finds a direction
+that is no layer's own, the same one for every maker who keeps the shipped prompt set and another when the set is
+changed enough (findings 178, 179). A new copy's saved vectors set against the reference per-layer copy of its
+parent therefore place it, and name its source layer, before any byte of its weights is read; that step belongs in
+the pinner.
+
+Evidence: `results/directions/e2b-families-parameters.md`, `results/directions/26b-families-parameters.md`,
+`results/directions/google-gemma-4-E2B-it.json` and `results/directions/google-gemma-4-26B-A4B-it.json` for the pair
+figures, `results/directions/families.json` for the family lists; the layer figures are the o_proj left vectors in
+each pull's `weights.directions.safetensors`, set against TrevorJS's copy on each parent.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
