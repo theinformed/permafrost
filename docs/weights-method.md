@@ -253,9 +253,10 @@ one tool are told apart before any byte is read.
 
 `hpc/mode_sizes.py --modes results/directions/modes.json --weights results/weights --out FILE.md` sets each
 copy's mode beside the size figures of its weight report (changed tensors and layers, the median and largest
-relative difference over the changed tensors, the smallest first-singular energy share) and writes the medians
-with quartiles per mode, the copies whose share crosses their mode's line by name, the same figures per parent
-and the per-copy rows. After the pull, `direction_cosines.py` and `direction_families.py` are run again so the census
+relative difference over the changed tensors, the smallest first-singular energy share, the edited window as a
+fraction of the parent's depth) and writes the medians with quartiles per mode with the count of copies reaching
+the last layer, the copies whose share crosses their mode's line by name, the same figures per parent and the
+per-copy rows. After the pull, `direction_cosines.py` and `direction_families.py` are run again so the census
 includes the round.
 
 Weight differences alone cannot certify the absence of hidden behavior.
