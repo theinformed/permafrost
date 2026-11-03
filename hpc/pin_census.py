@@ -24,6 +24,8 @@
 # Modified: SDE 2026-11-03  meter and memoise hub calls; stop the pass on the first 429.
 # Modified: SDE 2026-11-03  a 429 from the hub stops the pass wherever it arrives: a repository check, a
 #   bounded read or a file list, and the names step, rather than reading as a missing repository or a refused pair.
+# Modified: SDE 2026-11-03  a quantised original is refused at pin time, from its config at the pinned revision,
+#   rather than after the fixture download; the record keeps the original's dtype and quantisation.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -401,13 +403,34 @@ def settle_roots(copy, base):
     walk(base)
 
 
-def pin(api, modified, original, known=(), allow_duplicate=False):
+def original_config(api, original, revision):
+    """The original's config.json at the pinned revision, and whether it was read.
+
+    A hub stand-in with no download reads nothing; a read that fails for any reason other than a
+    rate limit leaves the config unknown rather than stopping the pin."""
+    download = getattr(api, 'hf_hub_download', None)
+    if download is None:
+        return None, False
+    try:
+        path = download(repo_id=original, filename='config.json', revision=revision)
+        return json.loads(Path(path).read_text(encoding='utf-8')), True
+    except RateLimited:
+        raise
+    except Exception as error:
+        if _rate_limited(error):
+            raise RateLimited('hub rate limit: ' + original) from error
+        return None, True
+
+
+def pin(api, modified, original, known=(), allow_duplicate=False, allow_quantised_original=False):
     """Choose the newest original commit no later than the copy's creation.
 
     A copy whose weight files carry the checksums of a copy already measured (or pinned) is its
     parent's measurement and is refused before the lineage is read, unless the caller allows it; a
     repository the hub duplicated whose weights since changed is pinned with its parent recorded.
-    A hub id carrying a restricted maker's model name is refused before any hub call."""
+    A hub id carrying a restricted maker's model name is refused before any hub call. An original whose
+    config at the pinned revision declares quantised weights is refused here, before the fixture
+    download, unless the caller allows it."""
     for hub_id in (modified, original):
         word = restricted_name(hub_id)
         if word:
@@ -439,6 +462,9 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     if not eligible:
         raise ValueError('no original revision predates creation or the modified revision: ' + modified)
     commit = max(eligible, key=lambda row: row.created_at)
+    config, read = original_config(api, original, commit.commit_id)
+    if config is not None and quantised(config) and not allow_quantised_original:
+        raise ValueError('original is quantised (quantization_config): ' + original)
     if unpublished(api.model_info(original, revision=commit.commit_id)):
         raise Unpublished('publishes no safetensors weights: ' + original)
     seen = set()
@@ -486,6 +512,9 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
         node['allow_duplicate'] = True
     base = lineage(original, commit.commit_id)
     base['revision_date'] = commit.created_at.isoformat()
+    if read is True:
+        base['original_dtype'] = (config.get('torch_dtype') or config.get('dtype')) if config else None
+        base['original_quantised'] = quantised(config) if config else None
     settle_roots(node, base)
     return {'modified': node, 'original': base,
         'original_selection': {'cutoff': cutoff.isoformat(), 'rule': rule,
@@ -828,6 +857,8 @@ def main():
     parser.add_argument('--batch', type=int, help='for a new manifest')
     parser.add_argument('--allow-duplicate', action='store_true',
                         help='pin a copy the census has already measured, at this revision or by its weight files')
+    parser.add_argument('--allow-quantised-original', action='store_true',
+                        help='pin a pair whose original declares quantised weights')
     args = parser.parse_args()
     path = Path(args.manifest)
     record = json.loads(path.read_text()) if path.exists() else new_record(path, args)
@@ -835,11 +866,17 @@ def main():
         raise ValueError('pair already pinned: ' + args.pair[0])
     api = Metered(HfApi())
     try:
-        row = pin(api, *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
+        row = pin(api, *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate,
+                  allow_quantised_original=args.allow_quantised_original)
     except RateLimited as error:
         print('refused {}: {}; stop the pass'.format(args.pair[0], error))
         sys.exit(3)
     except (Duplicate, Restricted, Unpublished) as error:
+        print('refused {}: {}'.format(args.pair[0], error))
+        sys.exit(1)
+    except ValueError as error:
+        if not str(error).startswith('original is quantised'):
+            raise
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     print('hub calls: {}'.format(api.calls), file=sys.stderr)

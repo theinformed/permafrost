@@ -6,6 +6,8 @@
 # Modified: SDE  a parent the card's opening names, other than the field's, is recorded with a warning.
 # Modified: SDE 2026-11-03  a 429 stops the pass wherever it arrives: a repository check, a bounded read, a file
 #   list or the names step, rather than reading as a missing repository or a refused pair.
+# Modified: SDE 2026-11-03  a quantised original is refused at pin time from its config, and the record keeps
+#   the original's dtype and quantisation.
 import contextlib
 from datetime import datetime, timezone
 import io
@@ -36,8 +38,10 @@ MEASURED = [{'hub_id': 'owner/copy', 'state': 'measured', 'round': 13, 'revision
             {'hub_id': 'owner/copy', 'state': 'pinned', 'round': 40, 'revision': 'c' * 40, 'sha256': {SHA_B}}]
 
 
-def api(first_title, sha=SHA_A):
-    """A hub whose copy has one weight file and a first commit with the given title."""
+def api(first_title, sha=SHA_A, config=None):
+    """A hub whose copy has one weight file and a first commit with the given title.
+
+    With a config the hub serves it as config.json; without one it has no download at all."""
     history = [SimpleNamespace(commit_id='a' * 40, created_at=datetime(2026, 1, 1, tzinfo=timezone.utc), title='Upload')]
     siblings = [SimpleNamespace(rfilename='model.safetensors', lfs=SimpleNamespace(sha256=sha, size=1, pointer_size=1)),
                 SimpleNamespace(rfilename='config.json', lfs=None)]
@@ -53,6 +57,13 @@ def api(first_title, sha=SHA_A):
                 return [SimpleNamespace(commit_id='d' * 40, created_at=datetime(2026, 1, 3, tzinfo=timezone.utc), title='Later edit'),
                         SimpleNamespace(commit_id='c' * 40, created_at=CREATED, title=first_title)]
             return history
+
+    if config is not None:
+        def hf_hub_download(self, repo_id, filename, revision=None):
+            path = Path(tempfile.mkdtemp()) / filename
+            path.write_text(json.dumps(config))
+            return str(path)
+        API.hf_hub_download = hf_hub_download
     return API()
 
 
@@ -396,6 +407,59 @@ class CardParentTests(unittest.TestCase):
                 pin_census.main()
             self.assertEqual(out.getvalue().strip(), '')
             self.assertEqual(json.loads(manifest.read_text())['pairs'][0]['modified']['card_parent'], ARTEMIS)
+
+
+class QuantisedOriginalTests(unittest.TestCase):
+    QUANTISED = {'quantization_config': {'quant_method': 'fp8'}, 'torch_dtype': 'bfloat16'}
+
+    def test_a_quantised_original_is_refused_at_pin_time(self):
+        with self.assertRaises(ValueError) as stop:
+            pin(api('Upload', config=self.QUANTISED), 'owner/copy', 'publisher/base')
+        self.assertTrue(str(stop.exception).endswith('publisher/base'), str(stop.exception))
+        self.assertEqual(str(stop.exception), 'original is quantised (quantization_config): publisher/base')
+
+    def test_an_allowed_quantised_original_is_pinned_with_its_dtype_and_quantisation(self):
+        row = pin(api('Upload', config=self.QUANTISED), 'owner/copy', 'publisher/base', allow_quantised_original=True)
+        self.assertIs(row['original']['original_quantised'], True)
+        self.assertEqual(row['original']['original_dtype'], 'bfloat16')
+
+    def test_a_float_original_is_recorded_as_unquantised(self):
+        row = pin(api('Upload', config={'torch_dtype': 'bfloat16'}), 'owner/copy', 'publisher/base')
+        self.assertIs(row['original']['original_quantised'], False)
+        self.assertEqual(row['original']['original_dtype'], 'bfloat16')
+
+    def test_a_hub_with_no_download_records_neither_key(self):
+        row = pin(api('Upload'), 'owner/copy', 'publisher/base')
+        self.assertNotIn('original_quantised', row['original'])
+        self.assertNotIn('original_dtype', row['original'])
+
+    def test_a_config_that_cannot_be_read_is_recorded_as_unknown(self):
+        hub = api('Upload')
+
+        def hf_hub_download(self, repo_id, filename, revision=None):
+            raise OSError('404')
+        hub.hf_hub_download = hf_hub_download.__get__(hub)
+        row = pin(hub, 'owner/copy', 'publisher/base')
+        self.assertIsNone(row['original']['original_quantised'])
+        self.assertIsNone(row['original']['original_dtype'])
+
+    def test_command_refuses_in_one_line_and_pins_with_the_flag(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            manifest = Path(temporary) / 'round-44-batch-1.json'
+            argv = ['pin_census.py', str(manifest), '--pair', 'owner/copy', 'publisher/base']
+            with patch.object(pin_census, 'HfApi', lambda: api('Upload', config=self.QUANTISED)), \
+                    patch.object(pin_census, 'measured_copies', lambda: []):
+                out = io.StringIO()
+                with patch.object(sys, 'argv', argv), contextlib.redirect_stdout(out), self.assertRaises(SystemExit) as stop:
+                    pin_census.main()
+                self.assertEqual(stop.exception.code, 1)
+                self.assertEqual(out.getvalue().strip(), 'refused owner/copy: original is quantised (quantization_config): publisher/base')
+                self.assertFalse(manifest.exists())
+                out = io.StringIO()
+                with patch.object(sys, 'argv', argv + ['--allow-quantised-original']), contextlib.redirect_stdout(out):
+                    pin_census.main()
+            record = json.loads(manifest.read_text())
+            self.assertIs(record['pairs'][0]['original']['original_quantised'], True)
 
 
 class NamePairingTests(unittest.TestCase):
