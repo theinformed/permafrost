@@ -182,4 +182,25 @@ files it does publish; and an original whose weights are float8, whether its fix
 earlier pass. Mistral's `consolidated*.safetensors`, the maker's own format published beside the HF
 files, are left out of the fixture as the kit's download leaves them out of the checkpoint.
 
+## How the population is counted
+
+`hpc/population.py` counts the reports in `results/weights/` against the organisations in `data/publishers.txt`,
+and it reads the judged lists in `data/population/`, one hub id per line. The reading notes in `docs/cards/` and
+the findings decide which list a copy joins; a read-out adds each new copy to its list and reruns the script, which
+exits with an error when a list names a hub id no report carries.
+
+- A report is one file in `results/weights/`; the two calibration edits are reports that name no copy.
+- A measurement is one comparison of a copy's folder with an original's folder, so a second report over the same two folders (the five round 2 second passes) adds no measurement.
+- A distinct copy is keyed on its hub id alone, taken from the census block or, in the five Qwen reports written before that block existed, from the modified source; no two hub ids differ only in case.
+- A repeated measurement is a further measurement of a copy already measured, against a second original or against the same original in a later round.
+- An original is a checkpoint whose organisation is in `data/publishers.txt`.
+- A community parent is any other repository a copy is measured against, and it counts as neither an original nor a copy unless it is measured against its own parent (finding 117), even when its files are a publisher's by object id.
+- A copy on a community parent has at least one measurement against one, and the header separates the copies measured against no publisher's original.
+- A re-upload is a copy whose weight files are another repository's by object id or checksum; the script counts those its census block marks (`duplicate_of`, or `same_weights_as` naming another repository), and `re-uploads.txt` lists every one the round notes judged.
+- A copy is read unless `not-read.txt` lists it, as it lists the re-uploads read as another repository's report and the two copies whose comparison read nothing (one paired no tensor, one has a float8 original).
+- A read copy is what its card says unless `differs.txt` lists it, and such a copy is training when `training.txt` lists it, its parent's files unchanged when `parent-files.txt` lists it, and an ablation otherwise, as its leading direction reads in the reading note.
+- A copy's outside value is `summary.max_relative_difference_outside_changed_set` in its reading measurement, the report named after the copy, and the script counts the copies that read as their cards say with that value exactly 0.
+- A small value is a nonzero outside value on matrices the method weighted near zero or did not name, judged per copy and listed in `small-outside.txt`, and the script counts the other nonzero values, which finding 1 names one by one.
+- A copy measured against the pretrained base its field names while it stands on the instruct checkpoint its card names is listed in `instruct-on-pretrained.txt`, judged by byte range.
+
 Weight differences alone cannot certify the absence of hidden behavior.

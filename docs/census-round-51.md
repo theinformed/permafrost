@@ -192,4 +192,10 @@ v4.2 and jenerallee78's edit. The byte-range cache is kept at `/var/tmp/permafro
 forty-one saved direction files were indexed across the pull copies of every round, and the comparisons made from
 them are listed in the reading notes.
 
-Weight differences alone cannot certify the absence of hidden behavior.
+The population header of the findings was later rebuilt from the reports with `hpc/population.py` and the lists in
+`data/population/`, and it now counts two hundred and forty distinct copies, the one re-upload the first header
+folded into its parent included, on thirty-four originals, the three community parents measured before round 42 no
+longer among them. In finding 1 one hundred and fifty-one copies read exactly 0 outside the changed set and thirty-one
+carry small values, because byroneverson's copy and Sabomako's 12B copy carry 0.00069 and 0.00009 in their reports
+and Ilya626's copy, one of the eleven, had also been counted among the one hundred and ninety-five. Weight
+differences alone cannot certify the absence of hidden behavior.
