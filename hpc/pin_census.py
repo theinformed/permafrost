@@ -829,7 +829,7 @@ def main():
     except (Duplicate, Restricted, Unpublished) as error:
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
-    print('hub calls: {}'.format(api.calls))
+    print('hub calls: {}'.format(api.calls), file=sys.stderr)
     copy = row['modified']
     if copy.get('card_parent') and copy['card_parent'].lower() != row['original']['hub_id'].lower():
         print('warning: {} card names {} where base_model names {}; pinned against {}'.format(
