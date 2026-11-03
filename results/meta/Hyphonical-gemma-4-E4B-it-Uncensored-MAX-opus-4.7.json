@@ -1,0 +1,2840 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "Hyphonical/gemma-4-E4B-it-Uncensored-MAX-opus-4.7",
+    "sha": "af78a5292cdd704257e02540dbb9bcb0b769820a",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "510a11606967440f4a8c0e15f693e0001a163cea15913bc4298d2eca73d6fcec",
+        "bytes": 19106
+      },
+      "tokenizer.json": {
+        "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "bytes": 32169626
+      },
+      "config.json": {
+        "sha256": "5dce319517922f1d5679bc19816a815cecb6db6cc0767f086c918f6378a9af6d",
+        "bytes": 6156
+      },
+      "chat_template.jinja": {
+        "sha256": "55572b8d3c8342044e25874c73fe5234b661fa0a57a57f6ef75b58e03d7d959a",
+        "bytes": 11926
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{%- macro format_parameters(properties, required) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'OBJECT' -%}\n                ,properties:{\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                {%- elif value is mapping -%}\n                    {{- format_parameters(value, value['required'] | default([])) -}}\n                {%- endif -%}\n                }\n                {%- if value['required'] -%}\n                    ,required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    ,items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(prev_message_type=None) -%}\n{%- set loop_messages = messages -%}\n{{ bos_token }}\n{#- Handle System/Tool Definitions Block -#}\n{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n    {{- '<|turn>system\\n' -}}\n\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking is defined and enable_thinking -%}\n        {{- '<|think|>' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n\n    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n        {{- messages[0]['content'] | trim -}}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n            {%- if message['tool_calls'] -%}\n                {%- for tool_call in message['tool_calls'] -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is string -%}\n                        {{- function['arguments'] -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- if message['tool_responses'] -%}\n                {#- Tool Response handling -#}\n                {%- for tool_response in message['tool_responses'] -%}\n                    {{- '<|tool_response>' -}}\n                    {%- if tool_response['response'] is mapping -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{' -}}\n                        {%- for key, value in tool_response['response'] | dictsort -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                            {%- if not loop.last %},{% endif -%}\n                        {%- endfor -%}\n                        {{- '}' -}}\n                    {%- else -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{value:' + format_argument(tool_response['response'], escape_keys=False) + '}' -}}\n                    {%- endif -%}\n                    {{- '<tool_response|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_response' -%}\n            {%- endif -%}\n\n            {%- if message['content'] is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message['content'] is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item['type'] == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item['type'] == 'image' -%}\n                        {{- '\\n\\n<|image|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'image' -%}\n                    {%- elif item['type'] == 'audio' -%}\n                        {{- '<|audio|>' -}}\n                        {%- set ns.prev_message_type = 'audio' -%}\n                    {%- elif item['type'] == 'video' -%}\n                        {{- '\\n\\n<|video|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'video' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n        {%- if not (message['tool_responses'] and not message['content']) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' -%}\n        {{- '<|turn>model\\n' -}}\n    {%- endif -%}\n{%- endif -%}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:0": {
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:1": {
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:2": {
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:3": {
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:4": {
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:46": {
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:47": {
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:48": {
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:49": {
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:50": {
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:51": {
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:52": {
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:98": {
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:100": {
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:101": {
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:105": {
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:106": {
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:255999": {
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:256000": {
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:258880": {
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:258881": {
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:258882": {
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:258883": {
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "added_tokens_decoder:258884": {
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoa_token_id": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "pad_token_id": 0,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": {
+          "0": {
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "1": {
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "2": {
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "3": {
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "4": {
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "46": {
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "47": {
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "48": {
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "49": {
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "50": {
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "51": {
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "52": {
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "98": {
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "100": {
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "101": {
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "105": {
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "106": {
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "255999": {
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "256000": {
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "258880": {
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "258881": {
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "258882": {
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "258883": {
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          "258884": {
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        },
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": null,
+      "config": {
+        "architectures": [
+          "Gemma4ForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "attention_chunk_size": 12,
+          "attention_context_left": 13,
+          "attention_context_right": 0,
+          "attention_invalid_logits_value": -1000000000.0,
+          "attention_logit_cap": 50.0,
+          "chunk_size_feed_forward": 0,
+          "conv_kernel_size": 5,
+          "torch_dtype": "bfloat16",
+          "gradient_clipping": 10000000000.0,
+          "hidden_act": "silu",
+          "hidden_size": 1024,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_audio",
+          "num_attention_heads": 8,
+          "num_hidden_layers": 12,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 1536,
+          "problem_type": null,
+          "residual_weight": 0.5,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06,
+          "subsampling_conv_channels": [
+            128,
+            32
+          ],
+          "use_clipped_linears": true
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "torch_dtype": "bfloat16",
+        "eoa_token_id": 258883,
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_name": "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX",
+        "model_type": "gemma4",
+        "pad_token_id": 0,
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": false,
+          "bos_token_id": 2,
+          "torch_dtype": "bfloat16",
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "expert_intermediate_size": null,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 2560,
+          "hidden_size_per_layer_input": 256,
+          "initializer_range": 0.02,
+          "intermediate_size": 10240,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 131072,
+          "model_type": "gemma4_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 8,
+          "num_experts": null,
+          "num_global_key_value_heads": null,
+          "num_hidden_layers": 42,
+          "num_key_value_heads": 2,
+          "num_kv_shared_layers": 18,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 512,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": null,
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "unsloth_version": "2026.4.7",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "chunk_size_feed_forward": 0,
+          "default_output_length": 280,
+          "torch_dtype": "bfloat16",
+          "global_head_dim": 64,
+          "head_dim": 64,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 768,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "intermediate_size": 3072,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "max_position_embeddings": 131072,
+          "model_type": "gemma4_vision",
+          "num_attention_heads": 12,
+          "num_hidden_layers": 16,
+          "num_key_value_heads": 12,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "position_embedding_size": 10240,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "rope_theta": 100.0,
+            "rope_type": "axial"
+          },
+          "standardize": false,
+          "use_clipped_linears": true
+        },
+        "vision_soft_tokens_per_image": 280
+      }
+    }
+  },
+  "original": {
+    "repo": "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX",
+    "sha": "a236367acd38efb74098113aff9590ccc6b037b7",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "820ad481cb4152f8df6061f4ae6ae20255777c39b77a9970f1e3cbd427b21511",
+        "bytes": 2686
+      },
+      "tokenizer.json": {
+        "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "bytes": 32169626
+      },
+      "generation_config.json": {
+        "sha256": "002fcdd119e744ae5863f4cf21455b8831d43a280ce7291fbc6ec54cb5f6b818",
+        "bytes": 208
+      },
+      "config.json": {
+        "sha256": "1d57f2cd1d5564f10374d31a93af3f51e6fec725ab87e23884285e49fd2d5f8a",
+        "bytes": 5180
+      },
+      "chat_template.jinja": {
+        "sha256": "55572b8d3c8342044e25874c73fe5234b661fa0a57a57f6ef75b58e03d7d959a",
+        "bytes": 11926
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{%- macro format_parameters(properties, required) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'OBJECT' -%}\n                ,properties:{\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                {%- elif value is mapping -%}\n                    {{- format_parameters(value, value['required'] | default([])) -}}\n                {%- endif -%}\n                }\n                {%- if value['required'] -%}\n                    ,required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    ,items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(prev_message_type=None) -%}\n{%- set loop_messages = messages -%}\n{{ bos_token }}\n{#- Handle System/Tool Definitions Block -#}\n{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n    {{- '<|turn>system\\n' -}}\n\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking is defined and enable_thinking -%}\n        {{- '<|think|>' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n\n    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n        {{- messages[0]['content'] | trim -}}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n            {%- if message['tool_calls'] -%}\n                {%- for tool_call in message['tool_calls'] -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is string -%}\n                        {{- function['arguments'] -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- if message['tool_responses'] -%}\n                {#- Tool Response handling -#}\n                {%- for tool_response in message['tool_responses'] -%}\n                    {{- '<|tool_response>' -}}\n                    {%- if tool_response['response'] is mapping -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{' -}}\n                        {%- for key, value in tool_response['response'] | dictsort -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                            {%- if not loop.last %},{% endif -%}\n                        {%- endfor -%}\n                        {{- '}' -}}\n                    {%- else -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{value:' + format_argument(tool_response['response'], escape_keys=False) + '}' -}}\n                    {%- endif -%}\n                    {{- '<tool_response|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_response' -%}\n            {%- endif -%}\n\n            {%- if message['content'] is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message['content'] is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item['type'] == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item['type'] == 'image' -%}\n                        {{- '\\n\\n<|image|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'image' -%}\n                    {%- elif item['type'] == 'audio' -%}\n                        {{- '<|audio|>' -}}\n                        {%- set ns.prev_message_type = 'audio' -%}\n                    {%- elif item['type'] == 'video' -%}\n                        {{- '\\n\\n<|video|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'video' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n        {%- if not (message['tool_responses'] and not message['content']) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' -%}\n        {{- '<|turn>model\\n' -}}\n    {%- endif -%}\n{%- endif -%}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoa_token_id": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": null,
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": {
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "pad_token_id": 0,
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.6.0.dev0"
+      },
+      "config": {
+        "architectures": [
+          "Gemma4ForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "attention_chunk_size": 12,
+          "attention_context_left": 13,
+          "attention_context_right": 0,
+          "attention_invalid_logits_value": -1000000000.0,
+          "attention_logit_cap": 50.0,
+          "chunk_size_feed_forward": 0,
+          "conv_kernel_size": 5,
+          "dtype": "bfloat16",
+          "gradient_clipping": 10000000000.0,
+          "hidden_act": "silu",
+          "hidden_size": 1024,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_audio",
+          "num_attention_heads": 8,
+          "num_hidden_layers": 12,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 1536,
+          "problem_type": null,
+          "residual_weight": 0.5,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06,
+          "subsampling_conv_channels": [
+            128,
+            32
+          ],
+          "use_clipped_linears": true
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "dtype": "bfloat16",
+        "eoa_token_id": 258883,
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_type": "gemma4",
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": false,
+          "bos_token_id": 2,
+          "dtype": "bfloat16",
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "expert_intermediate_size": null,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 2560,
+          "hidden_size_per_layer_input": 256,
+          "initializer_range": 0.02,
+          "intermediate_size": 10240,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 131072,
+          "model_type": "gemma4_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 8,
+          "num_experts": null,
+          "num_global_key_value_heads": null,
+          "num_hidden_layers": 42,
+          "num_key_value_heads": 2,
+          "num_kv_shared_layers": 18,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 512,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": null,
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "transformers_version": "5.6.0.dev0",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "chunk_size_feed_forward": 0,
+          "default_output_length": 280,
+          "dtype": "bfloat16",
+          "global_head_dim": 64,
+          "head_dim": 64,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 768,
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "intermediate_size": 3072,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "max_position_embeddings": 131072,
+          "model_type": "gemma4_vision",
+          "num_attention_heads": 12,
+          "num_hidden_layers": 16,
+          "num_key_value_heads": 12,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "position_embedding_size": 10240,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "rope_theta": 100.0,
+            "rope_type": "axial"
+          },
+          "standardize": false,
+          "use_clipped_linears": true
+        },
+        "vision_soft_tokens_per_image": 280
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "special_tokens.added_tokens_decoder:0",
+      "original": null,
+      "modified": {
+        "content": "<pad>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:1",
+      "original": null,
+      "modified": {
+        "content": "<eos>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:100",
+      "original": null,
+      "modified": {
+        "content": "<|channel>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:101",
+      "original": null,
+      "modified": {
+        "content": "<channel|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:105",
+      "original": null,
+      "modified": {
+        "content": "<|turn>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:106",
+      "original": null,
+      "modified": {
+        "content": "<turn|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:2",
+      "original": null,
+      "modified": {
+        "content": "<bos>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:255999",
+      "original": null,
+      "modified": {
+        "content": "<|image>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:256000",
+      "original": null,
+      "modified": {
+        "content": "<|audio>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:258880",
+      "original": null,
+      "modified": {
+        "content": "<|image|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:258881",
+      "original": null,
+      "modified": {
+        "content": "<|audio|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:258882",
+      "original": null,
+      "modified": {
+        "content": "<image|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:258883",
+      "original": null,
+      "modified": {
+        "content": "<audio|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:258884",
+      "original": null,
+      "modified": {
+        "content": "<|video|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:3",
+      "original": null,
+      "modified": {
+        "content": "<unk>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:4",
+      "original": null,
+      "modified": {
+        "content": "<mask>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:46",
+      "original": null,
+      "modified": {
+        "content": "<|tool>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:47",
+      "original": null,
+      "modified": {
+        "content": "<tool|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:48",
+      "original": null,
+      "modified": {
+        "content": "<|tool_call>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:49",
+      "original": null,
+      "modified": {
+        "content": "<tool_call|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:50",
+      "original": null,
+      "modified": {
+        "content": "<|tool_response>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:51",
+      "original": null,
+      "modified": {
+        "content": "<tool_response|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:52",
+      "original": null,
+      "modified": {
+        "content": "<|\"|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_tokens.added_tokens_decoder:98",
+      "original": null,
+      "modified": {
+        "content": "<|think|>",
+        "single_word": false,
+        "lstrip": false,
+        "rstrip": false,
+        "normalized": false,
+        "special": true
+      },
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "The entry repeats the added-token record, with its ID and flags, of the tokenizer.json both sides share."
+    },
+    {
+      "path": "special_token_ids.pad_token_id",
+      "original": null,
+      "modified": 0,
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "added_tokens.decoder",
+      "original": null,
+      "modified": {
+        "0": {
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "1": {
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "2": {
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "3": {
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "4": {
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "46": {
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "47": {
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "48": {
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "49": {
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "50": {
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "51": {
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "52": {
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "98": {
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "100": {
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "101": {
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "105": {
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "106": {
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "255999": {
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "256000": {
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "258880": {
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "258881": {
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "258882": {
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "258883": {
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "258884": {
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "tokenizer.json"
+        ],
+        "modified": [
+          "tokenizer_config.json"
+        ]
+      },
+      "reason": "Every entry of the map repeats an added-token record of the tokenizer.json both sides share."
+    },
+    {
+      "path": "generation",
+      "original": {
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "pad_token_id": 0,
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.6.0.dev0"
+      },
+      "modified": null,
+      "class": "unexplained"
+    },
+    {
+      "path": "config.audio_config.dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.audio_config.torch_dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": false
+    },
+    {
+      "path": "config.model_name",
+      "original": null,
+      "modified": "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX",
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.pad_token_id",
+      "original": null,
+      "modified": 0,
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.text_config.dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.text_config.torch_dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.torch_dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "5.6.0.dev0",
+      "modified": null,
+      "class": "unexplained",
+      "original_present": true,
+      "modified_present": false
+    },
+    {
+      "path": "config.unsloth_version",
+      "original": null,
+      "modified": "2026.4.7",
+      "class": "unexplained",
+      "original_present": false,
+      "modified_present": true
+    },
+    {
+      "path": "config.vision_config.dtype",
+      "original": "bfloat16",
+      "modified": null,
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": false,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "config.vision_config.torch_dtype",
+      "original": null,
+      "modified": "bfloat16",
+      "class": "explained by re-save",
+      "original_present": false,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The sub-configuration repeats the data type the top-level configuration already declares."
+    },
+    {
+      "path": "template_source.tokenizer_config",
+      "original": null,
+      "modified": "{%- macro format_parameters(properties, required) -%}\n    {%- set standard_keys = ['description', 'type', 'properties', 'required', 'nullable'] -%}\n    {%- set ns = namespace(found_first=false) -%}\n    {%- for key, value in properties | dictsort -%}\n        {%- set add_comma = false -%}\n        {%- if key not in standard_keys -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {{ key }}:{\n            {%- if value['description'] -%}\n                description:<|\"|>{{ value['description'] }}<|\"|>\n                {%- set add_comma = true -%}\n            {%- endif -%}\n            {%- if value['nullable'] %}\n                {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                nullable:true\n            {%- endif -%}\n            {%- if value['type'] | upper == 'STRING' -%}\n                {%- if value['enum'] -%}\n                    {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n                    enum:{{ format_argument(value['enum']) }}\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'OBJECT' -%}\n                ,properties:{\n                {%- if value['properties'] is defined and value['properties'] is mapping -%}\n                    {{- format_parameters(value['properties'], value['required'] | default([])) -}}\n                {%- elif value is mapping -%}\n                    {{- format_parameters(value, value['required'] | default([])) -}}\n                {%- endif -%}\n                }\n                {%- if value['required'] -%}\n                    ,required:[\n                    {%- for item in value['required'] | default([]) -%}\n                        <|\"|>{{- item -}}<|\"|>\n                        {%- if not loop.last %},{% endif -%}\n                    {%- endfor -%}\n                    ]\n                {%- endif -%}\n            {%- elif value['type'] | upper == 'ARRAY' -%}\n                {%- if value['items'] is mapping and value['items'] -%}\n                    ,items:{\n                    {%- set ns_items = namespace(found_first=false) -%}\n                    {%- for item_key, item_value in value['items'] | dictsort -%}\n                        {%- if item_value is not none -%}\n                            {%- if ns_items.found_first %},{% endif -%}\n                            {%- set ns_items.found_first = true -%}\n                            {%- if item_key == 'properties' -%}\n                                properties:{\n                                {%- if item_value is mapping -%}\n                                    {{- format_parameters(item_value, value['items']['required'] | default([])) -}}\n                                {%- endif -%}\n                                }\n                            {%- elif item_key == 'required' -%}\n                                required:[\n                                {%- for req_item in item_value -%}\n                                    <|\"|>{{- req_item -}}<|\"|>\n                                    {%- if not loop.last %},{% endif -%}\n                                {%- endfor -%}\n                                ]\n                            {%- elif item_key == 'type' -%}\n                                {%- if item_value is string -%}\n                                    type:{{ format_argument(item_value | upper) }}\n                                {%- else -%}\n                                    type:{{ format_argument(item_value | map('upper') | list) }}\n                                {%- endif -%}\n                            {%- else -%}\n                                {{ item_key }}:{{ format_argument(item_value) }}\n                            {%- endif -%}\n                        {%- endif -%}\n                    {%- endfor -%}\n                    }\n                {%- endif -%}\n            {%- endif -%}\n            {%- if add_comma %},{%- else -%} {%- set add_comma = true -%} {% endif -%}\n            type:<|\"|>{{ value['type'] | upper }}<|\"|>}\n        {%- endif -%}\n    {%- endfor -%}\n{%- endmacro -%}\n{%- macro format_function_declaration(tool_data) -%}\n    declaration:{{- tool_data['function']['name'] -}}{description:<|\"|>{{- tool_data['function']['description'] -}}<|\"|>\n    {%- set params = tool_data['function']['parameters'] -%}\n    {%- if params -%}\n        ,parameters:{\n        {%- if params['properties'] -%}\n            properties:{ {{- format_parameters(params['properties'], params['required']) -}} },\n        {%- endif -%}\n        {%- if params['required'] -%}\n            required:[\n            {%- for item in params['required'] -%}\n                <|\"|>{{- item -}}<|\"|>\n                {{- ',' if not loop.last -}}\n            {%- endfor -%}\n            ],\n        {%- endif -%}\n        {%- if params['type'] -%}\n            type:<|\"|>{{- params['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    {%- if 'response' in tool_data['function'] -%}\n        {%- set response_declaration = tool_data['function']['response'] -%}\n        ,response:{\n        {%- if response_declaration['description'] -%}\n            description:<|\"|>{{- response_declaration['description'] -}}<|\"|>,\n        {%- endif -%}\n        {%- if response_declaration['type'] | upper == 'OBJECT' -%}\n            type:<|\"|>{{- response_declaration['type'] | upper -}}<|\"|>}\n        {%- endif -%}\n    {%- endif -%}\n    }\n{%- endmacro -%}\n{%- macro format_argument(argument, escape_keys=True) -%}\n    {%- if argument is string -%}\n        {{- '<|\"|>' + argument + '<|\"|>' -}}\n    {%- elif argument is boolean -%}\n        {{- 'true' if argument else 'false' -}}\n    {%- elif argument is mapping -%}\n        {{- '{' -}}\n        {%- set ns = namespace(found_first=false) -%}\n        {%- for key, value in argument | dictsort -%}\n            {%- if ns.found_first %},{% endif -%}\n            {%- set ns.found_first = true -%}\n            {%- if escape_keys -%}\n                {{- '<|\"|>' + key + '<|\"|>' -}}\n            {%- else -%}\n                {{- key -}}\n            {%- endif -%}\n            :{{- format_argument(value, escape_keys=escape_keys) -}}\n        {%- endfor -%}\n        {{- '}' -}}\n    {%- elif argument is sequence -%}\n        {{- '[' -}}\n        {%- for item in argument -%}\n            {{- format_argument(item, escape_keys=escape_keys) -}}\n            {%- if not loop.last %},{% endif -%}\n        {%- endfor -%}\n        {{- ']' -}}\n    {%- else -%}\n        {{- argument -}}\n    {%- endif -%}\n{%- endmacro -%}\n{%- macro strip_thinking(text) -%}\n    {%- set ns = namespace(result='') -%}\n    {%- for part in text.split('<channel|>') -%}\n        {%- if '<|channel>' in part -%}\n            {%- set ns.result = ns.result + part.split('<|channel>')[0] -%}\n        {%- else -%}\n            {%- set ns.result = ns.result + part -%}\n        {%- endif -%}\n    {%- endfor -%}\n    {{- ns.result | trim -}}\n{%- endmacro -%}\n\n{%- set ns = namespace(prev_message_type=None) -%}\n{%- set loop_messages = messages -%}\n{{ bos_token }}\n{#- Handle System/Tool Definitions Block -#}\n{%- if (enable_thinking is defined and enable_thinking) or tools or messages[0]['role'] in ['system', 'developer'] -%}\n    {{- '<|turn>system\\n' -}}\n\n    {#- Inject Thinking token at the very top of the FIRST system turn -#}\n    {%- if enable_thinking is defined and enable_thinking -%}\n        {{- '<|think|>' -}}\n        {%- set ns.prev_message_type = 'think' -%}\n    {%- endif -%}\n\n    {%- if messages[0]['role'] in ['system', 'developer'] -%}\n        {{- messages[0]['content'] | trim -}}\n        {%- set loop_messages = messages[1:] -%}\n    {%- endif -%}\n\n    {%- if tools -%}\n        {%- for tool in tools %}\n            {{- '<|tool>' -}}\n            {{- format_function_declaration(tool) | trim -}}\n            {{- '<tool|>' -}}\n        {%- endfor %}\n        {%- set ns.prev_message_type = 'tool' -%}\n    {%- endif -%}\n\n    {{- '<turn|>\\n' -}}\n{%- endif %}\n\n{#- Loop through messages -#}\n{%- for message in loop_messages -%}\n    {%- set ns.prev_message_type = None -%}\n    {%- set role = 'model' if message['role'] == 'assistant' else message['role'] -%}\n        {{- '<|turn>' + role + '\\n' }}\n\n            {%- if message['tool_calls'] -%}\n                {%- for tool_call in message['tool_calls'] -%}\n                    {%- set function = tool_call['function'] -%}\n                    {{- '<|tool_call>call:' + function['name'] + '{' -}}\n                    {%- if function['arguments'] is mapping -%}\n                        {%- set ns_args = namespace(found_first=false) -%}\n                        {%- for key, value in function['arguments'] | dictsort -%}\n                            {%- if ns_args.found_first %},{% endif -%}\n                            {%- set ns_args.found_first = true -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                        {%- endfor -%}\n                    {%- elif function['arguments'] is string -%}\n                        {{- function['arguments'] -}}\n                    {%- endif -%}\n                    {{- '}<tool_call|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_call' -%}\n            {%- endif -%}\n\n            {%- if message['tool_responses'] -%}\n                {#- Tool Response handling -#}\n                {%- for tool_response in message['tool_responses'] -%}\n                    {{- '<|tool_response>' -}}\n                    {%- if tool_response['response'] is mapping -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{' -}}\n                        {%- for key, value in tool_response['response'] | dictsort -%}\n                            {{- key -}}:{{- format_argument(value, escape_keys=False) -}}\n                            {%- if not loop.last %},{% endif -%}\n                        {%- endfor -%}\n                        {{- '}' -}}\n                    {%- else -%}\n                        {{- 'response:' + tool_response['name'] | default('unknown') + '{value:' + format_argument(tool_response['response'], escape_keys=False) + '}' -}}\n                    {%- endif -%}\n                    {{- '<tool_response|>' -}}\n                {%- endfor -%}\n                {%- set ns.prev_message_type = 'tool_response' -%}\n            {%- endif -%}\n\n            {%- if message['content'] is string -%}\n                {%- if role == 'model' -%}\n                    {{- strip_thinking(message['content']) -}}\n                {%- else -%}\n                    {{- message['content'] | trim -}}\n                {%- endif -%}\n            {%- elif message['content'] is sequence -%}\n                {%- for item in message['content'] -%}\n                    {%- if item['type'] == 'text' -%}\n                        {%- if role == 'model' -%}\n                            {{- strip_thinking(item['text']) -}}\n                        {%- else -%}\n                            {{- item['text'] | trim -}}\n                        {%- endif -%}\n                    {%- elif item['type'] == 'image' -%}\n                        {{- '\\n\\n<|image|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'image' -%}\n                    {%- elif item['type'] == 'audio' -%}\n                        {{- '<|audio|>' -}}\n                        {%- set ns.prev_message_type = 'audio' -%}\n                    {%- elif item['type'] == 'video' -%}\n                        {{- '\\n\\n<|video|>\\n\\n' -}}\n                        {%- set ns.prev_message_type = 'video' -%}\n                    {%- endif -%}\n                {%- endfor -%}\n            {%- endif -%}\n\n        {%- if not (message['tool_responses'] and not message['content']) -%}\n            {{- '<turn|>\\n' -}}\n        {%- endif -%}\n{%- endfor -%}\n\n{%- if add_generation_prompt -%}\n    {%- if ns.prev_message_type != 'tool_response' -%}\n        {{- '<|turn>model\\n' -}}\n    {%- endif -%}\n{%- endif -%}",
+      "class": "unexplained"
+    }
+  ],
+  "missing": [
+    "modified: generation_config.json missing"
+  ],
+  "rendered": {
+    "default": {
+      "original": "<bos><|turn>system\nYou are a careful assistant.<turn|>\n<|turn>user\nWhat is two plus two?<turn|>\n<|turn>model\nFour.<turn|>\n<|turn>user\nWrite that as a word.<turn|>\n<|turn>model\n",
+      "modified": "<bos><|turn>system\nYou are a careful assistant.<turn|>\n<|turn>user\nWhat is two plus two?<turn|>\n<|turn>model\nFour.<turn|>\n<|turn>user\nWrite that as a word.<turn|>\n<|turn>model\n"
+    }
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "unexplained differences",
+  "reclassification": {
+    "changed_paths": [
+      "special_tokens.added_tokens_decoder:0",
+      "special_tokens.added_tokens_decoder:1",
+      "special_tokens.added_tokens_decoder:100",
+      "special_tokens.added_tokens_decoder:101",
+      "special_tokens.added_tokens_decoder:105",
+      "special_tokens.added_tokens_decoder:106",
+      "special_tokens.added_tokens_decoder:2",
+      "special_tokens.added_tokens_decoder:255999",
+      "special_tokens.added_tokens_decoder:256000",
+      "special_tokens.added_tokens_decoder:258880",
+      "special_tokens.added_tokens_decoder:258881",
+      "special_tokens.added_tokens_decoder:258882",
+      "special_tokens.added_tokens_decoder:258883",
+      "special_tokens.added_tokens_decoder:258884",
+      "special_tokens.added_tokens_decoder:3",
+      "special_tokens.added_tokens_decoder:4",
+      "special_tokens.added_tokens_decoder:46",
+      "special_tokens.added_tokens_decoder:47",
+      "special_tokens.added_tokens_decoder:48",
+      "special_tokens.added_tokens_decoder:49",
+      "special_tokens.added_tokens_decoder:50",
+      "special_tokens.added_tokens_decoder:51",
+      "special_tokens.added_tokens_decoder:52",
+      "special_tokens.added_tokens_decoder:98",
+      "added_tokens.decoder"
+    ],
+    "verdict_before": "unexplained differences"
+  }
+}
