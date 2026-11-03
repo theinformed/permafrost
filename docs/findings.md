@@ -6481,8 +6481,11 @@ E4B 0.282 and 0.009, tpls's 12B coder 0.404 and 0.018); one-direction passes on 
 pairs and the direction drifts (coder3101's Mistral Small on 12 layers 0.910 and 0.362, 3MPER0RR's 31B on 20 layers
 0.884 and 0.226, AISafety-Student's Ministral on 19 layers 0.908 and 0.250, AEON-7's 12B 0.764 and 0.204); and
 copies with adjacent 0.98 to 1.000 and far 0.33 to 0.86, one direction between neighbours and another across the
-depth, two blocks of one direction each (huihui-ai's 12B-qat 1.000 and 0.656, eadx's 26B-A4B-qat re-upload 1.000 and
-0.712, grimjim's Nemo 1.000 and 0.329, lemuralabs's 12B 0.978 and 0.861).
+depth, which read layer by layer as blocks of one direction each: huihui-ai's 12B-qat (1.000 and 0.656) holds one
+direction on layers 23 to 26 and another on 27 to 36, eadx's 26B-A4B-qat re-upload (1.000 and 0.712) one on layers
+0 to 11 and another on 12 to 29, grimjim's Nemo (1.000 and 0.329) three blocks, 3 to 16, 17 to 21 and 22 to 37, and
+lemuralabs's 12B (0.978 and 0.861) a direction of its own on each of layers 0 to 9 and then four blocks over layers
+12 to 47.
 
 A family is an agreement set, a median over shared keys of 0.9 or more, and five of the 31 families hold more than
 one mode. Three hold a near member: the 31B's per-layer family has 3MPER0RR's short-window pass at 0.884 and 0.226,
@@ -6495,8 +6498,8 @@ are within 0.9 of the index-31 direction, 32 of 60 shared keys, median 0.926; ag
 the 12B the index-29 kernel family (MoonRide, BinxNet, prithivMLmods, 3MPER0RR) holds Paul691's per-layer pass
 (0.745 and 0.019) through lemuralabs's copy: the two agree at 1.000 on every gate, up, q, k and v projection, 228
 keys, and disagree on every o_proj and down_proj, 96 keys, so they share one input-side edit and differ in the
-output-side rule, Paul691's turning with depth and lemuralabs's one direction with a second block. The median takes
-the 228 and joins them.
+output-side rule, Paul691's turning with depth and lemuralabs's in blocks. The median takes the 228 and joins
+them.
 
 Why it matters. The mode is in the saved vectors, and a pull now carries it before any card is read or any byte of
 weights is fetched at home: the placement step picks a parent's per-layer reference by this signature and the
