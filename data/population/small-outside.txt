@@ -31,3 +31,7 @@ llmfan46/MS3.2-PaintedFantasy-Visage-v3-34B-ultra-uncensored-heretic
 llmfan46/Gemma-4-Garnet-31B-it-uncensored-heretic
 keithtyser/gemma-4-26B-A4B-it-local-abliterated-sota-internal-t34
 llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1
+coder3101/Cydonia-24B-v4.3-heretic-v2
+llmfan46/Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic
+llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2
+llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2
