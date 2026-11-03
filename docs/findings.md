@@ -6506,8 +6506,12 @@ o_proj direction and its down_proj direction in the same layer. Every one-direct
 projects one direction on both (53 of 53 at 0.9 or more), and so do 55 of the 69 per-layer copies: a per-layer pass
 takes one direction per layer, the layer's own, and writes it on both output projections. The arbitrary-rank copies
 never do: 39 carry two directions (pair 0.02 to 0.19) and 26 edit no down_proj at all, as a search over one matrix
-at a time would. Four per-layer copies carry two directions per layer (Pranavz's Mistral Small 0.030, the two
-diffusiongemma passes at 0.075, sh0ck0r's Artemis at 0.188), and the eight between 0.4 and 0.9 are fine-tunes over
+at a time would. Four per-layer copies read two directions per layer (Pranavz's Mistral Small 0.030, the two
+diffusiongemma passes at 0.075, sh0ck0r's Artemis at 0.188); for the diffusion pair the reading is not a second
+direction, since their attention-output differences are a tenth the size of their down-projection edit (relative
+0.004 against 0.023) with no leading direction in them (first-singular share 0.012 at the median), so the o_proj
+vector the mode and the pair are read from is noise beside an edit written on the down projections and the expert
+tensors at a share of 0.98. The eight between 0.4 and 0.9 are fine-tunes over
 an ablation or edits with a second pass (richardyoung's measured against the 12B instruct rather than his fine-tune
 parent 0.452, aifeifei798's 0.405, Ilya626's 0.626, Justbackup's 0.637, Dingdust's 0.709, WWTCyberLab's 0.888).
 
@@ -6555,9 +6559,11 @@ as many layers, attention output only, at shares between 0.910 and 0.950, one ra
 fresh direction at each, the case the two readings were built to tell apart. Forty-three of the 135 copies of
 the other modes read under 0.9. Nineteen of them change more than 100 matrices, the fine-tunes over an
 ablation (Felldude, lemuralabs, Paul691, sh0ck0r's Artemis, richardyoung's coder pass among them), where the
-smallest share over hundreds of changed matrices is low by construction; among the rest, the four identical
-26B-A4B per-layer copies at 0.881 and the two diffusion copies at 0.002 carry the mixture's expert tensors in
-their changed set.
+smallest share over hundreds of changed matrices is low by construction. Among the rest, the four identical
+26B-A4B per-layer copies read 0.881 on one stacked expert tensor whose kind reads 0.984 at the median, and the
+two diffusion copies read 0.002 on attention-output matrices whose change is a tenth the size of the edit their
+down projections and expert tensors carry at 0.98, the same noise-level o_proj change that gives them their
+pair reading in finding 181.
 
 The size of each change per tensor does not sort by mode. The median relative difference over the changed
 tensors is 0.030 at the arbitrary-rank median against 0.021 and 0.020, but within the eleven parents the
