@@ -6549,6 +6549,14 @@ both of the other medians: the 12B 40 against 55 and 66, the 31B 46 against 120 
 49.5 and 70, the E4B 24.5 against 68 and 84, the 26B-A4B 27 against 50 and 51.5, Mistral Small 3.2 8 against
 80 and 174.5, Magistral Small 33.5 against 64, and the QAT and diffusion parents likewise.
 
+The edited windows sit at different depths. Read as fractions of each parent's layer count, the arbitrary-rank
+copies edit a band that starts at 0.43 of the depth at the median (quartiles 0.27 and 0.50) and ends at 0.86
+(0.76 to 0.94), a span of 0.40; 11 of the 65 reach the last layer. The one-direction copies start at 0.19 (0.08
+to 0.34) and end at the last layer in every quartile, a span of 0.81, 48 of 55 reaching it; the per-layer copies
+start at 0.26 (0.00 to 0.40) and end at 1.00 (0.97 to 1.00), a span of 0.71, 48 of 69 reaching it. The
+arbitrary-rank edit is a mid-depth band that leaves the last layers alone; the other two modes run from the first
+or second quarter of the depth to the end.
+
 The smallest first-singular energy share among a copy's changed matrices, the share of each difference's
 energy in its leading direction as the comparison estimates it, reads 0.466 at the arbitrary-rank median, with
 quartiles 0.022 and 0.862, against 0.980 under one direction (0.961 to 0.994) and 0.978 under per layer (0.593
@@ -6586,8 +6594,9 @@ of a key cuts into exactly this third, which is why the arbitrary-rank copies ca
 per comparison against 86 to 90 under the other modes.
 
 Evidence. `hpc/mode_sizes.py --modes results/directions/modes.json --weights results/weights --out
-results/directions/mode-sizes.md`, with its json beside it: the per-mode table with quartiles, the crossings by
-name, the per-parent table and the per-copy rows. The modes are those of finding 181
+results/directions/mode-sizes.md`, with its json beside it: the per-mode table with quartiles, the window of each
+mode as a fraction of depth with the count reaching the last layer, the crossings by name, the per-parent table
+and the per-copy rows. The modes are those of finding 181
 (`results/directions/modes.json`); the size figures are read from each copy's saved weight report under
 `results/weights/`; the shared-key medians are read from the census comparisons under `results/directions/`.
 
