@@ -171,7 +171,12 @@ it counts as a publisher root when its maker put out a leaf of the original's tr
 the comparison, and under any other maker the lineage screen holds the pair as unknown. A copy or
 original whose hub id carries a restricted maker's model name (a 1B pass named for a GLM distillation)
 is refused before any hub call, with the word named, under the same pattern list the home screen
-applies to a batch before it leaves, so a pinned batch no longer fails that screen on a name.
+applies to a batch before it leaves, so a pinned batch no longer fails that screen on a name. An
+original whose config at the pinned revision declares quantised weights is refused at pin time, before
+any fixture download, unless `--allow-quantised-original` asks for the pair; the record keeps the
+original's dtype and whether it is quantised, or that the config could not be read. A rate limit from
+the hub, wherever it arrives, stops the pass rather than reading as a missing repository or a refused
+pair.
 
 The `names` step also refuses a copy whose weight files are the ones a measured copy carries (by the
 LFS checksums), naming that copy and its round; a copy whose paired tensors have other shapes than the
