@@ -7,12 +7,21 @@
    "median_relative": 0.02967066805431325,
    "max_relative": 0.05998081863366268,
    "singular_share": 0.46568365827020913,
+   "start": 0.42857142857142855,
+   "end": 0.8571428571428571,
    "changed_tensors_q1": 17.0,
    "changed_tensors_q3": 38.0,
    "median_relative_q1": 0.023326055053632867,
    "median_relative_q3": 0.03734424605600384,
    "singular_share_q1": 0.021913640121056274,
-   "singular_share_q3": 0.8624228354392105
+   "singular_share_q3": 0.8624228354392105,
+   "start_q1": 0.2708333333333333,
+   "start_q3": 0.5,
+   "end_q1": 0.7619047619047619,
+   "end_q3": 0.9375,
+   "span": 0.4,
+   "to_last": 11,
+   "windowed": 65
   },
   "mixed": {
    "copies": 11,
@@ -21,12 +30,21 @@
    "median_relative": 0.01964601568809792,
    "max_relative": 0.03449947239643774,
    "singular_share": 0.9807864464397215,
+   "start": 0.075,
+   "end": 1.0,
    "changed_tensors_q1": 43.0,
    "changed_tensors_q3": 251.0,
    "median_relative_q1": 0.016475825783457222,
    "median_relative_q3": 0.028268451367747346,
    "singular_share_q1": 0.27032278617700256,
-   "singular_share_q3": 0.9879910240376875
+   "singular_share_q3": 0.9879910240376875,
+   "start_q1": 0.0,
+   "start_q3": 0.4455882352941176,
+   "end_q1": 0.9541666666666666,
+   "end_q3": 1.0,
+   "span": 0.875,
+   "to_last": 7,
+   "windowed": 11
   },
   "no file": {
    "copies": 1,
@@ -35,12 +53,21 @@
    "median_relative": null,
    "max_relative": null,
    "singular_share": null,
+   "start": null,
+   "end": null,
    "changed_tensors_q1": 0,
    "changed_tensors_q3": 0,
    "median_relative_q1": null,
    "median_relative_q3": null,
    "singular_share_q1": null,
-   "singular_share_q3": null
+   "singular_share_q3": null,
+   "start_q1": null,
+   "start_q3": null,
+   "end_q1": null,
+   "end_q3": null,
+   "span": null,
+   "to_last": 0,
+   "windowed": 0
   },
   "one direction": {
    "copies": 55,
@@ -49,12 +76,21 @@
    "median_relative": 0.020858411411770868,
    "max_relative": 0.02811312067371858,
    "singular_share": 0.9804913063859989,
+   "start": 0.1875,
+   "end": 1.0,
    "changed_tensors_q1": 50.0,
    "changed_tensors_q3": 80.0,
    "median_relative_q1": 0.015394663729969626,
    "median_relative_q3": 0.02563353377859997,
    "singular_share_q1": 0.9609731908159929,
-   "singular_share_q3": 0.9940076234106383
+   "singular_share_q3": 0.9940076234106383,
+   "start_q1": 0.08333333333333333,
+   "start_q3": 0.34330357142857143,
+   "end_q1": 1.0,
+   "end_q3": 1.0,
+   "span": 0.8125,
+   "to_last": 48,
+   "windowed": 55
   },
   "per layer": {
    "copies": 69,
@@ -63,12 +99,21 @@
    "median_relative": 0.020300252343315707,
    "max_relative": 0.03351575423490444,
    "singular_share": 0.9776969336764991,
+   "start": 0.2571428571428571,
+   "end": 1.0,
    "changed_tensors_q1": 42.0,
    "changed_tensors_q3": 94.0,
    "median_relative_q1": 0.016641090882752226,
    "median_relative_q3": 0.027290416657378205,
    "singular_share_q1": 0.5931043617215905,
-   "singular_share_q3": 0.991349350479117
+   "singular_share_q3": 0.991349350479117,
+   "start_q1": 0.0,
+   "start_q3": 0.40476190476190477,
+   "end_q1": 0.9666666666666667,
+   "end_q3": 1.0,
+   "span": 0.7142857142857143,
+   "to_last": 48,
+   "windowed": 69
   }
  },
  "parents": [
@@ -544,7 +589,12 @@
     "median_relative": 0.03242380432421918,
     "max_relative": 0.07026569462456346,
     "singular_share": 0.9139041251798574,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 48,
+    "start": 0.5,
+    "end": 0.8333333333333334,
+    "span": 0.3333333333333333,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -555,7 +605,12 @@
     "median_relative": 0.03242380432421918,
     "max_relative": 0.07026569462456346,
     "singular_share": 0.9139041251798574,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 48,
+    "start": 0.5,
+    "end": 0.8333333333333334,
+    "span": 0.3333333333333333,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -566,7 +621,12 @@
     "median_relative": 0.02173511245074422,
     "max_relative": 0.10288544028846403,
     "singular_share": 0.9752152541152818,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.3958333333333333,
+    "end": 0.875,
+    "span": 0.4791666666666667,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -577,7 +637,12 @@
     "median_relative": 0.05908630198378871,
     "max_relative": 0.11796149625459112,
     "singular_share": 0.9322022774137251,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 30,
+    "start": 0.36666666666666664,
+    "end": 0.7666666666666667,
+    "span": 0.4,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -588,7 +653,12 @@
     "median_relative": 0.02702155610050907,
     "max_relative": 0.07456297555310328,
     "singular_share": 0.9102838484396498,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 60,
+    "start": 0.5,
+    "end": 0.8,
+    "span": 0.3,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E2B-it",
@@ -599,7 +669,12 @@
     "median_relative": 0.023383864035138514,
     "max_relative": 0.03971458037658341,
     "singular_share": 0.9770658706059739,
-    "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 35,
+    "start": 0.2571428571428571,
+    "end": 1.0,
+    "span": 0.7428571428571429,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E2B-it",
@@ -610,7 +685,12 @@
     "median_relative": 0.050841241660255276,
     "max_relative": 0.0921495747142249,
     "singular_share": 0.950065594695589,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 35,
+    "start": 0.4857142857142857,
+    "end": 0.6857142857142857,
+    "span": 0.2,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E2B-it",
@@ -621,7 +701,12 @@
     "median_relative": 0.034168493858263885,
     "max_relative": 0.056536136835995225,
     "singular_share": 0.9482212707675006,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 35,
+    "start": 0.4,
+    "end": 0.5428571428571428,
+    "span": 0.14285714285714285,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -632,7 +717,12 @@
     "median_relative": 0.03612817164046073,
     "max_relative": 0.05187180884194854,
     "singular_share": 0.9200168242425643,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 42,
+    "start": 0.5,
+    "end": 0.8571428571428571,
+    "span": 0.35714285714285715,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -643,7 +733,12 @@
     "median_relative": 0.03612817164046073,
     "max_relative": 0.05187180884194854,
     "singular_share": 0.9200168242425643,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 42,
+    "start": 0.5,
+    "end": 0.8571428571428571,
+    "span": 0.35714285714285715,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -654,7 +749,12 @@
     "median_relative": 0.03612817164046073,
     "max_relative": 0.05187180884194854,
     "singular_share": 0.9200168242425643,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 42,
+    "start": 0.5,
+    "end": 0.8571428571428571,
+    "span": 0.35714285714285715,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -665,7 +765,12 @@
     "median_relative": 0.042776742726964835,
     "max_relative": 0.05694422440162527,
     "singular_share": 0.9359357326859644,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 42,
+    "start": 0.42857142857142855,
+    "end": 0.8571428571428571,
+    "span": 0.42857142857142855,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -676,7 +781,12 @@
     "median_relative": 0.03612817164046073,
     "max_relative": 0.05187180884194854,
     "singular_share": 0.9200168242425643,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 42,
+    "start": 0.5,
+    "end": 0.8571428571428571,
+    "span": 0.35714285714285715,
+    "to_last": false
    },
    {
     "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -687,7 +797,12 @@
     "median_relative": 0.06566774146633605,
     "max_relative": 0.1000041231174756,
     "singular_share": 0.9405509048513732,
-    "kinds": "attention_output"
+    "kinds": "attention_output",
+    "depth": 40,
+    "start": 0.3,
+    "end": 0.8,
+    "span": 0.5,
+    "to_last": false
    }
   ],
   "other_low": [
@@ -700,7 +815,12 @@
     "median_relative": 0.4221475685390423,
     "max_relative": 1.5996717827906894,
     "singular_share": 0.002173162702181904,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 42,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -711,7 +831,12 @@
     "median_relative": 0.002889842689768187,
     "max_relative": 0.08641975308641975,
     "singular_share": 0.0005293666101783596,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "coder3101/gemma-3-27b-it-heretic",
@@ -722,7 +847,12 @@
     "median_relative": 0.006381120804465188,
     "max_relative": 0.06978881901866563,
     "singular_share": 0.2823375560167061,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 62,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -733,7 +863,12 @@
     "median_relative": 0.017471132880892075,
     "max_relative": 0.03395213189626465,
     "singular_share": 0.855823006575712,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 40,
+    "start": 0.45,
+    "end": 0.75,
+    "span": 0.3,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -744,7 +879,12 @@
     "median_relative": 0.03256794760023079,
     "max_relative": 0.03449947239643774,
     "singular_share": 0.25830801633729905,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.4375,
+    "end": 0.9583333333333334,
+    "span": 0.5208333333333334,
+    "to_last": false
    },
    {
     "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -755,7 +895,12 @@
     "median_relative": 0.004503390658684749,
     "max_relative": 0.08641975308641975,
     "singular_share": 0.024942316546061685,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 48,
+    "start": 0.3125,
+    "end": 1.0,
+    "span": 0.6875,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -766,7 +911,12 @@
     "median_relative": 0.008259859215153598,
     "max_relative": 0.022372360175681096,
     "singular_share": 0.8022118984152256,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -777,7 +927,12 @@
     "median_relative": 0.0014700641938081632,
     "max_relative": 0.03287762426925772,
     "singular_share": 0.0008654853165103078,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -788,7 +943,12 @@
     "median_relative": 1.2061068859296749,
     "max_relative": 1.6441314764736714,
     "singular_share": 0.004921305752399875,
-    "kinds": "attention_output, feed_forward_down, other"
+    "kinds": "attention_output, feed_forward_down, other",
+    "depth": 60,
+    "start": 0.4,
+    "end": 0.85,
+    "span": 0.45,
+    "to_last": false
    },
    {
     "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -799,7 +959,12 @@
     "median_relative": 0.021544354507054848,
     "max_relative": 0.03617989238236321,
     "singular_share": 0.004561849273405481,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head",
+    "depth": 32,
+    "start": 0.1875,
+    "end": 1.0,
+    "span": 0.8125,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -810,7 +975,12 @@
     "median_relative": 0.007269822907384996,
     "max_relative": 0.02667288828588122,
     "singular_share": 0.5840775578867264,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 60,
+    "start": 0.3333333333333333,
+    "end": 1.0,
+    "span": 0.6666666666666666,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -821,7 +991,12 @@
     "median_relative": 0.01433710983819431,
     "max_relative": 0.02376511300778634,
     "singular_share": 0.793583605763375,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.10416666666666667,
+    "end": 1.0,
+    "span": 0.8958333333333334,
+    "to_last": true
    },
    {
     "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -832,7 +1007,12 @@
     "median_relative": 0.011297153690324916,
     "max_relative": 0.020696008771011215,
     "singular_share": 0.8515051221289426,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 40,
+    "start": 0.25,
+    "end": 0.975,
+    "span": 0.725,
+    "to_last": false
    },
    {
     "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -843,7 +1023,12 @@
     "median_relative": 0.013354810569614392,
     "max_relative": 0.019180151900550765,
     "singular_share": 0.7563793803068287,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 40,
+    "start": 0.175,
+    "end": 1.0,
+    "span": 0.825,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -854,7 +1039,12 @@
     "median_relative": 0.02083273522356656,
     "max_relative": 0.03241180967595202,
     "singular_share": 0.8388892964322194,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.08333333333333333,
+    "end": 1.0,
+    "span": 0.9166666666666666,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -865,7 +1055,12 @@
     "median_relative": 0.09387895812565947,
     "max_relative": 0.10447036243732195,
     "singular_share": 0.0005289660032570974,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+    "depth": 60,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -876,7 +1071,12 @@
     "median_relative": 0.4221475685390423,
     "max_relative": 1.5996717827906894,
     "singular_share": 0.002173162702181904,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 42,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -887,7 +1087,12 @@
     "median_relative": 0.004503390658684749,
     "max_relative": 0.08641975308641975,
     "singular_share": 0.024942316546061685,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -898,7 +1103,12 @@
     "median_relative": 0.0029318110410953275,
     "max_relative": 0.08641975308641975,
     "singular_share": 0.0005293665467064635,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -909,7 +1119,12 @@
     "median_relative": 0.0035040604511763314,
     "max_relative": 1.709830796283906,
     "singular_share": 0.005448006625649485,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+    "depth": 42,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "coder3101/gemma-3-27b-it-heretic",
@@ -920,7 +1135,12 @@
     "median_relative": 0.0027473989047877554,
     "max_relative": 0.040670013983640604,
     "singular_share": 0.2393967498355447,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 62,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -931,7 +1151,12 @@
     "median_relative": 0.0031669847824953214,
     "max_relative": 0.013124512489844115,
     "singular_share": 0.11932802297459909,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 48,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -942,7 +1167,12 @@
     "median_relative": 0.0018138127696142262,
     "max_relative": 0.08176577295347678,
     "singular_share": 0.002772930788660774,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+    "depth": 42,
+    "start": 0.023809523809523808,
+    "end": 1.0,
+    "span": 0.9761904761904762,
+    "to_last": true
    },
    {
     "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -953,7 +1183,12 @@
     "median_relative": 0.011630505398874075,
     "max_relative": 0.07606353991516877,
     "singular_share": 0.004433969689944565,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head",
+    "depth": 40,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
@@ -964,7 +1199,12 @@
     "median_relative": 0.010242623764703886,
     "max_relative": 0.017679777379653715,
     "singular_share": 0.1461449890856592,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 34,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E2B-it",
@@ -975,7 +1215,12 @@
     "median_relative": 0.0016887851875443752,
     "max_relative": 0.058097425884442395,
     "singular_share": 0.1133121538332979,
-    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 35,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -986,7 +1231,12 @@
     "median_relative": 0.020241037782062044,
     "max_relative": 0.030127180746739663,
     "singular_share": 0.8809384628518665,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -997,7 +1247,12 @@
     "median_relative": 0.020242178181704762,
     "max_relative": 0.030140586130390768,
     "singular_share": 0.8805775988634013,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -1008,7 +1263,12 @@
     "median_relative": 0.020242178181704762,
     "max_relative": 0.030140586130390768,
     "singular_share": 0.880577221227228,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -1019,7 +1279,12 @@
     "median_relative": 0.020242178181704762,
     "max_relative": 0.030140586130390768,
     "singular_share": 0.880577221227228,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.0,
+    "end": 1.0,
+    "span": 1.0,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -1030,7 +1295,12 @@
     "median_relative": 0.01548838412073144,
     "max_relative": 0.030508039974430134,
     "singular_share": 0.36218997563647,
-    "kinds": "attention_key, attention_output, attention_query, embedding, feed_forward_down, feed_forward_gate, feed_forward_up"
+    "kinds": "attention_key, attention_output, attention_query, embedding, feed_forward_down, feed_forward_gate, feed_forward_up",
+    "depth": 60,
+    "start": 0.4166666666666667,
+    "end": 1.0,
+    "span": 0.5833333333333334,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -1041,7 +1311,12 @@
     "median_relative": 0.03299291159381528,
     "max_relative": 0.04561917087811423,
     "singular_share": 0.5043049800725975,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 42,
+    "start": 0.09523809523809523,
+    "end": 1.0,
+    "span": 0.9047619047619048,
+    "to_last": true
    },
    {
     "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1052,7 +1327,12 @@
     "median_relative": 0.020440997088179324,
     "max_relative": 0.04136675766784002,
     "singular_share": 0.0017263546729451434,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.23333333333333334,
+    "end": 1.0,
+    "span": 0.7666666666666667,
+    "to_last": true
    },
    {
     "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1063,7 +1343,12 @@
     "median_relative": 0.020440997088179324,
     "max_relative": 0.04136675766784002,
     "singular_share": 0.0017263546729451434,
-    "kinds": "attention_output, expert_down, feed_forward_down"
+    "kinds": "attention_output, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.23333333333333334,
+    "end": 1.0,
+    "span": 0.7666666666666667,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -1074,7 +1359,12 @@
     "median_relative": 0.022183682894344116,
     "max_relative": 0.080354615870255,
     "singular_share": 0.24546924367755413,
-    "kinds": "attention_output, embedding, expert_down, feed_forward_down"
+    "kinds": "attention_output, embedding, expert_down, feed_forward_down",
+    "depth": 30,
+    "start": 0.3,
+    "end": 0.9,
+    "span": 0.6,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E2B-it",
@@ -1085,7 +1375,12 @@
     "median_relative": 0.058032787446619626,
     "max_relative": 0.07173865374951101,
     "singular_share": 0.5381914225805223,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 35,
+    "start": 0.2571428571428571,
+    "end": 0.9714285714285714,
+    "span": 0.7142857142857143,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -1096,7 +1391,12 @@
     "median_relative": 0.016641090882752226,
     "max_relative": 0.02482997856059808,
     "singular_share": 0.7923152879454759,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 60,
+    "start": 0.5666666666666667,
+    "end": 1.0,
+    "span": 0.43333333333333335,
+    "to_last": true
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -1107,7 +1407,12 @@
     "median_relative": 0.02488650706269194,
     "max_relative": 0.03435223460439461,
     "singular_share": 0.5931043617215905,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.2916666666666667,
+    "end": 0.7291666666666666,
+    "span": 0.4375,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-E4B-it",
@@ -1118,7 +1423,12 @@
     "median_relative": 0.03653005593241916,
     "max_relative": 0.043574344770120774,
     "singular_share": 0.658508724633914,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 42,
+    "start": 0.40476190476190477,
+    "end": 0.9761904761904762,
+    "span": 0.5714285714285714,
+    "to_last": false
    },
    {
     "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -1129,7 +1439,12 @@
     "median_relative": 0.015536966742140846,
     "max_relative": 0.026090739566980145,
     "singular_share": 0.8911275156652837,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 40,
+    "start": 0.6,
+    "end": 0.75,
+    "span": 0.15,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-26B-A4B-it",
@@ -1140,7 +1455,12 @@
     "median_relative": 0.017236953894595633,
     "max_relative": 0.030437731989397115,
     "singular_share": 0.8339472651855444,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 30,
+    "start": 0.4,
+    "end": 0.9666666666666667,
+    "span": 0.5666666666666667,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-12B-it",
@@ -1151,7 +1471,12 @@
     "median_relative": 0.0037824362436789413,
     "max_relative": 0.12841446984578367,
     "singular_share": 0.7410537935526722,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 48,
+    "start": 0.375,
+    "end": 0.8333333333333334,
+    "span": 0.4583333333333333,
+    "to_last": false
    },
    {
     "parent": "google/gemma-4-31B-it",
@@ -1162,7 +1487,12 @@
     "median_relative": 0.02227781606159618,
     "max_relative": 0.09041998722971226,
     "singular_share": 0.7343075880265988,
-    "kinds": "attention_output, feed_forward_down"
+    "kinds": "attention_output, feed_forward_down",
+    "depth": 60,
+    "start": 0.5166666666666667,
+    "end": 0.5833333333333334,
+    "span": 0.06666666666666667,
+    "to_last": false
    }
   ]
  },
@@ -1176,7 +1506,12 @@
    "median_relative": 0.015536966742140846,
    "max_relative": 0.026090739566980145,
    "singular_share": 0.8911275156652837,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.6,
+   "end": 0.75,
+   "span": 0.15,
+   "to_last": false
   },
   {
    "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -1187,7 +1522,12 @@
    "median_relative": 0.013354810569614392,
    "max_relative": 0.019180151900550765,
    "singular_share": 0.7563793803068287,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.175,
+   "end": 1.0,
+   "span": 0.825,
+   "to_last": true
   },
   {
    "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -1198,7 +1538,12 @@
    "median_relative": 0.013255076572563551,
    "max_relative": 0.01997085788134441,
    "singular_share": 0.961388844615977,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.075,
+   "end": 1.0,
+   "span": 0.925,
+   "to_last": true
   },
   {
    "parent": "TheDrummer/Cydonia-24B-v4.3",
@@ -1209,7 +1554,12 @@
    "median_relative": 0.011297153690324916,
    "max_relative": 0.020696008771011215,
    "singular_share": 0.8515051221289426,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.25,
+   "end": 0.975,
+   "span": 0.725,
+   "to_last": false
   },
   {
    "parent": "TheDrummer/Magidonia-24B-v4.3",
@@ -1220,7 +1570,12 @@
    "median_relative": 0.014691479328605286,
    "max_relative": 0.02596397505596939,
    "singular_share": 0.9807207978078741,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.675,
+   "end": 0.875,
+   "span": 0.2,
+   "to_last": false
   },
   {
    "parent": "TheDrummer/Magidonia-24B-v4.3",
@@ -1231,7 +1586,12 @@
    "median_relative": 0.017328935547155564,
    "max_relative": 0.022119648422761182,
    "singular_share": 0.9227510782672083,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.2,
+   "end": 1.0,
+   "span": 0.8,
+   "to_last": true
   },
   {
    "parent": "TheDrummer/Magidonia-24B-v4.3",
@@ -1242,7 +1602,12 @@
    "median_relative": 0.015231485931690375,
    "max_relative": 0.024423780072678106,
    "singular_share": 0.9605575370160089,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.275,
+   "end": 1.0,
+   "span": 0.725,
+   "to_last": true
   },
   {
    "parent": "coder3101/gemma-3-27b-it-heretic",
@@ -1253,7 +1618,12 @@
    "median_relative": 0.006381120804465188,
    "max_relative": 0.06978881901866563,
    "singular_share": 0.2823375560167061,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 62,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "coder3101/gemma-3-27b-it-heretic",
@@ -1264,7 +1634,12 @@
    "median_relative": 0.0027473989047877554,
    "max_relative": 0.040670013983640604,
    "singular_share": 0.2393967498355447,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 62,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1275,7 +1650,12 @@
    "median_relative": 0.020440997088179324,
    "max_relative": 0.04136675766784002,
    "singular_share": 0.0017263546729451434,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.23333333333333334,
+   "end": 1.0,
+   "span": 0.7666666666666667,
+   "to_last": true
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1286,7 +1666,12 @@
    "median_relative": 0.024891427781416335,
    "max_relative": 0.047095725368001336,
    "singular_share": 0.004588182028521999,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.23333333333333334,
+   "end": 0.5666666666666667,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1297,7 +1682,12 @@
    "median_relative": 0.011002316413718188,
    "max_relative": 0.04705817901808041,
    "singular_share": 0.021913640121056274,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.03333333333333333,
+   "end": 0.6666666666666666,
+   "span": 0.6333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/diffusiongemma-26B-A4B-it",
@@ -1308,7 +1698,12 @@
    "median_relative": 0.020440997088179324,
    "max_relative": 0.04136675766784002,
    "singular_share": 0.0017263546729451434,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.23333333333333334,
+   "end": 1.0,
+   "span": 0.7666666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1319,7 +1714,12 @@
    "median_relative": 0.02235091083319834,
    "max_relative": 0.03337461407251334,
    "singular_share": 0.9804913063859989,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3958333333333333,
+   "end": 1.0,
+   "span": 0.6041666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1330,7 +1730,12 @@
    "median_relative": 0.03256794760023079,
    "max_relative": 0.03449947239643774,
    "singular_share": 0.25830801633729905,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4375,
+   "end": 0.9583333333333334,
+   "span": 0.5208333333333334,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1341,7 +1746,12 @@
    "median_relative": 0.03685096214205791,
    "max_relative": 0.09951469705096737,
    "singular_share": 0.12921869598663155,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1352,7 +1762,12 @@
    "median_relative": 0.02083273522356656,
    "max_relative": 0.03241180967595202,
    "singular_share": 0.8388892964322194,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.08333333333333333,
+   "end": 1.0,
+   "span": 0.9166666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1363,7 +1778,12 @@
    "median_relative": 0.02488650706269194,
    "max_relative": 0.03435223460439461,
    "singular_share": 0.5931043617215905,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.2916666666666667,
+   "end": 0.7291666666666666,
+   "span": 0.4375,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1374,7 +1794,12 @@
    "median_relative": 0.017181958355018637,
    "max_relative": 0.020567932264641736,
    "singular_share": 0.9898539481253824,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1385,7 +1810,12 @@
    "median_relative": 0.02140994038445127,
    "max_relative": 0.030936825455452996,
    "singular_share": 0.9936336534264583,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6041666666666666,
+   "span": 0.125,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1396,7 +1826,12 @@
    "median_relative": 0.017181958355018637,
    "max_relative": 0.020567932264641736,
    "singular_share": 0.9898539481253824,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1407,7 +1842,12 @@
    "median_relative": 0.017181958355018637,
    "max_relative": 0.020567932264641736,
    "singular_share": 0.9898539481253824,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1418,7 +1858,12 @@
    "median_relative": 0.03242380432421918,
    "max_relative": 0.07026569462456346,
    "singular_share": 0.9139041251798574,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 48,
+   "start": 0.5,
+   "end": 0.8333333333333334,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1429,7 +1874,12 @@
    "median_relative": 0.022203058784780315,
    "max_relative": 0.03116253058299684,
    "singular_share": 0.9777735818950275,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3541666666666667,
+   "end": 1.0,
+   "span": 0.6458333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1440,7 +1890,12 @@
    "median_relative": 0.0029318110410953275,
    "max_relative": 0.08641975308641975,
    "singular_share": 0.0005293665467064635,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1451,7 +1906,12 @@
    "median_relative": 0.011021876728909889,
    "max_relative": 0.028123883743406488,
    "singular_share": 0.005069511850187292,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.8958333333333334,
+   "span": 0.4166666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1462,7 +1922,12 @@
    "median_relative": 0.015096462057384956,
    "max_relative": 0.030648493479957416,
    "singular_share": 0.0018328392616062583,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.5,
+   "end": 0.7708333333333334,
+   "span": 0.2708333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1473,7 +1938,12 @@
    "median_relative": 0.009251048716227853,
    "max_relative": 0.017924864469313382,
    "singular_share": 0.0023741705905129667,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.2916666666666667,
+   "end": 0.9166666666666666,
+   "span": 0.625,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1484,7 +1954,12 @@
    "median_relative": 0.0037824362436789413,
    "max_relative": 0.12841446984578367,
    "singular_share": 0.7410537935526722,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.375,
+   "end": 0.8333333333333334,
+   "span": 0.4583333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1495,7 +1970,12 @@
    "median_relative": 0.02140994038445127,
    "max_relative": 0.030936825455452996,
    "singular_share": 0.9936336534264583,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6041666666666666,
+   "span": 0.125,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1506,7 +1986,12 @@
    "median_relative": 0.017181958355018637,
    "max_relative": 0.020567932264641736,
    "singular_share": 0.9898539481253824,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1517,7 +2002,12 @@
    "median_relative": 0.01433710983819431,
    "max_relative": 0.02376511300778634,
    "singular_share": 0.793583605763375,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.10416666666666667,
+   "end": 1.0,
+   "span": 0.8958333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1528,7 +2018,12 @@
    "median_relative": 0.018158509970348173,
    "max_relative": 0.07636759026786123,
    "singular_share": 0.0015946221400891685,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.041666666666666664,
+   "end": 0.9375,
+   "span": 0.8958333333333334,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1539,7 +2034,12 @@
    "median_relative": 0.0031669847824953214,
    "max_relative": 0.013124512489844115,
    "singular_share": 0.11932802297459909,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1550,7 +2050,12 @@
    "median_relative": 0.02140994038445127,
    "max_relative": 0.030936825455452996,
    "singular_share": 0.9936336534264583,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6041666666666666,
+   "span": 0.125,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1561,7 +2066,12 @@
    "median_relative": 0.019992221759666834,
    "max_relative": 0.02497772818772488,
    "singular_share": 0.9808369133604995,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.6041666666666666,
+   "end": 0.7916666666666666,
+   "span": 0.1875,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1572,7 +2082,12 @@
    "median_relative": 0.008259859215153598,
    "max_relative": 0.022372360175681096,
    "singular_share": 0.8022118984152256,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1583,7 +2098,12 @@
    "median_relative": 0.017181958355018637,
    "max_relative": 0.020567932264641736,
    "singular_share": 0.9898539481253824,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1594,7 +2114,12 @@
    "median_relative": 0.002889842689768187,
    "max_relative": 0.08641975308641975,
    "singular_share": 0.0005293666101783596,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1605,7 +2130,12 @@
    "median_relative": 0.03242380432421918,
    "max_relative": 0.07026569462456346,
    "singular_share": 0.9139041251798574,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 48,
+   "start": 0.5,
+   "end": 0.8333333333333334,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1616,7 +2146,12 @@
    "median_relative": 0.020311678327385965,
    "max_relative": 0.02513500853547333,
    "singular_share": 0.9796826975738533,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it",
@@ -1627,7 +2162,12 @@
    "median_relative": 0.004503390658684749,
    "max_relative": 0.08641975308641975,
    "singular_share": 0.024942316546061685,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1638,7 +2178,12 @@
    "median_relative": 0.0247580430812008,
    "max_relative": 0.033207216805839004,
    "singular_share": 0.9800579891907001,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.5208333333333334,
+   "end": 1.0,
+   "span": 0.4791666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1649,7 +2194,12 @@
    "median_relative": 0.04120588852681632,
    "max_relative": 0.08792927170284065,
    "singular_share": 0.657138117600652,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.20833333333333334,
+   "end": 0.9791666666666666,
+   "span": 0.7708333333333334,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1660,7 +2210,12 @@
    "median_relative": 0.027637908501716518,
    "max_relative": 0.05222635351484247,
    "singular_share": 0.36278580010820594,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.2708333333333333,
+   "end": 0.8333333333333334,
+   "span": 0.5625,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1671,7 +2226,12 @@
    "median_relative": 0.022358099418868335,
    "max_relative": 0.05491786264551069,
    "singular_share": 0.7984208675140946,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6666666666666666,
+   "span": 0.1875,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1682,7 +2242,12 @@
    "median_relative": 0.02390527505530891,
    "max_relative": 0.08180913177357507,
    "singular_share": 0.5292558835484978,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 48,
+   "start": 0.5,
+   "end": 1.0,
+   "span": 0.5,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1693,7 +2258,12 @@
    "median_relative": 0.01964601568809792,
    "max_relative": 0.026983914234732898,
    "singular_share": 0.9919150750564685,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.7708333333333334,
+   "span": 0.2916666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1704,7 +2274,12 @@
    "median_relative": 0.025267119856451796,
    "max_relative": 0.03356230387448431,
    "singular_share": 0.9945804441082403,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3333333333333333,
+   "end": 1.0,
+   "span": 0.6666666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1715,7 +2290,12 @@
    "median_relative": 0.02967066805431325,
    "max_relative": 0.05998081863366268,
    "singular_share": 0.8448927243881302,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 48,
+   "start": 0.5,
+   "end": 0.7291666666666666,
+   "span": 0.22916666666666666,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1726,7 +2306,12 @@
    "median_relative": 0.019917245212805117,
    "max_relative": 0.05109103867299983,
    "singular_share": 0.9903250056246422,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.2916666666666667,
+   "end": 1.0,
+   "span": 0.7083333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
@@ -1737,7 +2322,12 @@
    "median_relative": 0.02173511245074422,
    "max_relative": 0.10288544028846403,
    "singular_share": 0.9752152541152818,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.3958333333333333,
+   "end": 0.875,
+   "span": 0.4791666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1748,7 +2338,12 @@
    "median_relative": 0.029243116907154105,
    "max_relative": 0.04561431181743532,
    "singular_share": 0.9850925579529431,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1759,7 +2354,12 @@
    "median_relative": 0.020241037782062044,
    "max_relative": 0.030127180746739663,
    "singular_share": 0.8809384628518665,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1770,7 +2370,12 @@
    "median_relative": 0.01969756160579158,
    "max_relative": 0.028275253217750408,
    "singular_share": 0.9776969336764991,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.3333333333333333,
+   "end": 0.9666666666666667,
+   "span": 0.6333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1781,7 +2386,12 @@
    "median_relative": 0.02867255701690966,
    "max_relative": 0.060030497452851106,
    "singular_share": 0.8936057562679744,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.2,
+   "end": 0.9666666666666667,
+   "span": 0.7666666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1792,7 +2402,12 @@
    "median_relative": 0.030115868329785515,
    "max_relative": 0.04672466571812082,
    "singular_share": 0.9914598069173536,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.13333333333333333,
+   "end": 1.0,
+   "span": 0.8666666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1803,7 +2418,12 @@
    "median_relative": 0.020242178181704762,
    "max_relative": 0.030140586130390768,
    "singular_share": 0.9906017701248858,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1814,7 +2434,12 @@
    "median_relative": 0.022183682894344116,
    "max_relative": 0.080354615870255,
    "singular_share": 0.24546924367755413,
-   "kinds": "attention_output, embedding, expert_down, feed_forward_down"
+   "kinds": "attention_output, embedding, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.3,
+   "end": 0.9,
+   "span": 0.6,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1825,7 +2450,12 @@
    "median_relative": 0.020242178181704762,
    "max_relative": 0.030140586130390768,
    "singular_share": 0.8805775988634013,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1836,7 +2466,12 @@
    "median_relative": 0.018830722102887467,
    "max_relative": 0.037738621782735966,
    "singular_share": 0.659062075640018,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 30,
+   "start": 0.3333333333333333,
+   "end": 1.0,
+   "span": 0.6666666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1847,7 +2482,12 @@
    "median_relative": 0.020242178181704762,
    "max_relative": 0.030140586130390768,
    "singular_share": 0.880577221227228,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1858,7 +2498,12 @@
    "median_relative": 0.05651418665711612,
    "max_relative": 0.0941537178889902,
    "singular_share": 0.9985195795842277,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1869,7 +2514,12 @@
    "median_relative": 0.017236953894595633,
    "max_relative": 0.030437731989397115,
    "singular_share": 0.8339472651855444,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.4,
+   "end": 0.9666666666666667,
+   "span": 0.5666666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1880,7 +2530,12 @@
    "median_relative": 0.022435355775707627,
    "max_relative": 0.038038158323384,
    "singular_share": 0.8357122729873383,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 30,
+   "start": 0.06666666666666667,
+   "end": 1.0,
+   "span": 0.9333333333333333,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1891,7 +2546,12 @@
    "median_relative": 0.05651418665711612,
    "max_relative": 0.0941537178889902,
    "singular_share": 0.9985195795842277,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1902,7 +2562,12 @@
    "median_relative": 0.05651418665711612,
    "max_relative": 0.0941537178889902,
    "singular_share": 0.9985195795842277,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1913,7 +2578,12 @@
    "median_relative": 0.02586751191687897,
    "max_relative": 0.03583342898110596,
    "singular_share": 0.9670601171522991,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.3,
+   "end": 1.0,
+   "span": 0.7,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1924,7 +2594,12 @@
    "median_relative": 0.020242178181704762,
    "max_relative": 0.030140586130390768,
    "singular_share": 0.880577221227228,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it",
@@ -1935,7 +2610,12 @@
    "median_relative": 0.08416298518726761,
    "max_relative": 0.09409346650468067,
    "singular_share": 0.9995362602656034,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 30,
+   "start": 0.5333333333333333,
+   "end": 1.0,
+   "span": 0.4666666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1946,7 +2626,12 @@
    "median_relative": 0.02566935765197638,
    "max_relative": 0.03936376940379104,
    "singular_share": 0.975974284168848,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.1,
+   "end": 1.0,
+   "span": 0.9,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1957,7 +2642,12 @@
    "median_relative": 0.05238463581916923,
    "max_relative": 0.07726546594201826,
    "singular_share": 0.38646304772159534,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.23333333333333334,
+   "end": 0.7666666666666667,
+   "span": 0.5333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1968,7 +2658,12 @@
    "median_relative": 0.05636429283138275,
    "max_relative": 0.07564169063453477,
    "singular_share": 0.7479724839238058,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.4,
+   "end": 0.6666666666666666,
+   "span": 0.26666666666666666,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1979,7 +2674,12 @@
    "median_relative": 0.024782129376925796,
    "max_relative": 0.04693141332228649,
    "singular_share": 0.44414145167270785,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 30,
+   "start": 0.4,
+   "end": 0.7,
+   "span": 0.3,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -1990,7 +2690,12 @@
    "median_relative": 0.06720660169996054,
    "max_relative": 0.11288878230414076,
    "singular_share": 0.9988692232190847,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -2001,7 +2706,12 @@
    "median_relative": 0.02686285600070991,
    "max_relative": 0.04992805987011737,
    "singular_share": 0.3787829690246811,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 30,
+   "start": 0.36666666666666664,
+   "end": 0.7666666666666667,
+   "span": 0.4,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -2012,7 +2722,12 @@
    "median_relative": 0.05908630198378871,
    "max_relative": 0.11796149625459112,
    "singular_share": 0.9322022774137251,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 30,
+   "start": 0.36666666666666664,
+   "end": 0.7666666666666667,
+   "span": 0.4,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
@@ -2023,7 +2738,12 @@
    "median_relative": 0.02013465003703667,
    "max_relative": 0.030765003732579302,
    "singular_share": 0.9461159894385472,
-   "kinds": "attention_output, expert_down, feed_forward_down"
+   "kinds": "attention_output, expert_down, feed_forward_down",
+   "depth": 30,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2034,7 +2754,12 @@
    "median_relative": 0.019039627211439376,
    "max_relative": 0.024361496215048184,
    "singular_share": 0.9807864464397215,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.6666666666666666,
+   "end": 1.0,
+   "span": 0.3333333333333333,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2045,7 +2770,12 @@
    "median_relative": 0.04433696557105497,
    "max_relative": 0.12027659111900475,
    "singular_share": 0.3426456140636967,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.2833333333333333,
+   "end": 0.8333333333333334,
+   "span": 0.55,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2056,7 +2786,12 @@
    "median_relative": 0.011765481279906271,
    "max_relative": 0.045472024076083105,
    "singular_share": 0.9469746915665521,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2067,7 +2802,12 @@
    "median_relative": 0.011277555204186815,
    "max_relative": 0.021217712994167404,
    "singular_share": 0.0034469981751975563,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.45,
+   "end": 0.7833333333333333,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2078,7 +2818,12 @@
    "median_relative": 1.2061068859296749,
    "max_relative": 1.6441314764736714,
    "singular_share": 0.004921305752399875,
-   "kinds": "attention_output, feed_forward_down, other"
+   "kinds": "attention_output, feed_forward_down, other",
+   "depth": 60,
+   "start": 0.4,
+   "end": 0.85,
+   "span": 0.45,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2089,7 +2834,12 @@
    "median_relative": 0.026680562130828846,
    "max_relative": 0.06967159778781135,
    "singular_share": 0.0012244360349840712,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.5,
+   "end": 0.9,
+   "span": 0.4,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2100,7 +2850,12 @@
    "median_relative": 0.023326055053632867,
    "max_relative": 0.04775832215576724,
    "singular_share": 0.0014409339319716896,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.5,
+   "end": 0.95,
+   "span": 0.45,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2111,7 +2866,12 @@
    "median_relative": 0.02227781606159618,
    "max_relative": 0.09041998722971226,
    "singular_share": 0.7343075880265988,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.5166666666666667,
+   "end": 0.5833333333333334,
+   "span": 0.06666666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2122,7 +2882,12 @@
    "median_relative": 0.015363317778881011,
    "max_relative": 0.025276020210863982,
    "singular_share": 0.9754402980450647,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2133,7 +2898,12 @@
    "median_relative": 0.016641090882752226,
    "max_relative": 0.02482997856059808,
    "singular_share": 0.7923152879454759,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.5666666666666667,
+   "end": 1.0,
+   "span": 0.43333333333333335,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2144,7 +2914,12 @@
    "median_relative": 0.021153571788271958,
    "max_relative": 0.02704106149519305,
    "singular_share": 0.9943513847198671,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.08333333333333333,
+   "end": 1.0,
+   "span": 0.9166666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2155,7 +2930,12 @@
    "median_relative": 0.01197037608915254,
    "max_relative": 0.01958183019187568,
    "singular_share": 0.9140744493195391,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.6166666666666667,
+   "end": 0.7833333333333333,
+   "span": 0.16666666666666666,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2166,7 +2946,12 @@
    "median_relative": 0.018786789376685015,
    "max_relative": 0.16924013683086359,
    "singular_share": 0.0015828740862542745,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 60,
+   "start": 0.016666666666666666,
+   "end": 0.9833333333333333,
+   "span": 0.9666666666666667,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2177,7 +2962,12 @@
    "median_relative": 0.013896812192875177,
    "max_relative": 0.018635932960169986,
    "singular_share": 0.9877074755142237,
-   "kinds": "attention_output, embedding, feed_forward_down"
+   "kinds": "attention_output, embedding, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2188,7 +2978,12 @@
    "median_relative": 0.020300252343315707,
    "max_relative": 0.02654222152207684,
    "singular_share": 0.9930044222568435,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.48333333333333334,
+   "end": 1.0,
+   "span": 0.5166666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2199,7 +2994,12 @@
    "median_relative": 0.013742902661812786,
    "max_relative": 0.016203276471752886,
    "singular_share": 0.9889632721629504,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2210,7 +3010,12 @@
    "median_relative": 0.021153571788271958,
    "max_relative": 0.02704106149519305,
    "singular_share": 0.9943513847198671,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.08333333333333333,
+   "end": 1.0,
+   "span": 0.9166666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2221,7 +3026,12 @@
    "median_relative": 0.04945942172332696,
    "max_relative": 0.07563990389262727,
    "singular_share": 0.9932401410299051,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down",
+   "depth": 60,
+   "start": 0.48333333333333334,
+   "end": 1.0,
+   "span": 0.5166666666666667,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2232,7 +3042,12 @@
    "median_relative": 0.02702155610050907,
    "max_relative": 0.07456297555310328,
    "singular_share": 0.9102838484396498,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 60,
+   "start": 0.5,
+   "end": 0.8,
+   "span": 0.3,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2243,7 +3058,12 @@
    "median_relative": 0.01548838412073144,
    "max_relative": 0.030508039974430134,
    "singular_share": 0.36218997563647,
-   "kinds": "attention_key, attention_output, attention_query, embedding, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, embedding, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 60,
+   "start": 0.4166666666666667,
+   "end": 1.0,
+   "span": 0.5833333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2254,7 +3074,12 @@
    "median_relative": 0.007269822907384996,
    "max_relative": 0.02667288828588122,
    "singular_share": 0.5840775578867264,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.3333333333333333,
+   "end": 1.0,
+   "span": 0.6666666666666666,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2265,7 +3090,12 @@
    "median_relative": 0.013742902661812786,
    "max_relative": 0.016203276471752886,
    "singular_share": 0.9889632721629504,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2276,7 +3106,12 @@
    "median_relative": 0.015366147190034254,
    "max_relative": 0.025264359262666573,
    "singular_share": 0.9745769052458337,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2287,7 +3122,12 @@
    "median_relative": 0.09387895812565947,
    "max_relative": 0.10447036243732195,
    "singular_share": 0.0005289660032570974,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+   "depth": 60,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-31B-it",
@@ -2298,7 +3138,12 @@
    "median_relative": 0.0481045144510758,
    "max_relative": 0.09128102055001763,
    "singular_share": 0.9836278159706215,
-   "kinds": "attention_key, attention_output, attention_query, attention_value"
+   "kinds": "attention_key, attention_output, attention_query, attention_value",
+   "depth": 60,
+   "start": 0.3,
+   "end": 0.9666666666666667,
+   "span": 0.6666666666666666,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -2309,7 +3154,12 @@
    "median_relative": 0.026860338894528026,
    "max_relative": 0.039964076852693424,
    "singular_share": 0.5490481344432816,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 60,
+   "start": 0.5,
+   "end": 0.6833333333333333,
+   "span": 0.18333333333333332,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -2320,7 +3170,12 @@
    "median_relative": 0.025890495425964305,
    "max_relative": 0.05413210669309466,
    "singular_share": 0.0029729202923634043,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 60,
+   "start": 0.25,
+   "end": 0.65,
+   "span": 0.4,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -2331,7 +3186,12 @@
    "median_relative": 0.03475122808669697,
    "max_relative": 0.06616618053396746,
    "singular_share": 0.8770057620620736,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 60,
+   "start": 0.26666666666666666,
+   "end": 0.6,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
@@ -2342,7 +3202,12 @@
    "median_relative": 0.07479101714132551,
    "max_relative": 0.415564864480365,
    "singular_share": 0.6283981366631034,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 60,
+   "start": 0.4,
+   "end": 0.9,
+   "span": 0.5,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2353,7 +3218,12 @@
    "median_relative": 0.04570124694794844,
    "max_relative": 0.0825303791675951,
    "singular_share": 0.2741429739309119,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.45714285714285713,
+   "end": 0.7142857142857143,
+   "span": 0.2571428571428571,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2364,7 +3234,12 @@
    "median_relative": 0.007443034809486679,
    "max_relative": 0.048493956096838826,
    "singular_share": 0.2726089826822651,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 35,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2375,7 +3250,12 @@
    "median_relative": 0.028611921985635617,
    "max_relative": 0.03618270234742561,
    "singular_share": 0.9936638621014097,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.42857142857142855,
+   "end": 1.0,
+   "span": 0.5714285714285714,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2386,7 +3266,12 @@
    "median_relative": 0.06361090418935639,
    "max_relative": 0.06995791534693654,
    "singular_share": 0.9992137310713013,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.14285714285714285,
+   "end": 1.0,
+   "span": 0.8571428571428571,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2397,7 +3282,12 @@
    "median_relative": 0.027290416657378205,
    "max_relative": 0.03351575423490444,
    "singular_share": 0.9880299666817669,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2408,7 +3298,12 @@
    "median_relative": 0.031131846345866434,
    "max_relative": 0.03546431242372384,
    "singular_share": 0.9967476425891665,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.42857142857142855,
+   "end": 1.0,
+   "span": 0.5714285714285714,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2419,7 +3314,12 @@
    "median_relative": 0.02065674012739433,
    "max_relative": 0.039520552563651,
    "singular_share": 0.0025091988935962706,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.42857142857142855,
+   "end": 0.6571428571428571,
+   "span": 0.22857142857142856,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2430,7 +3330,12 @@
    "median_relative": 0.016846156376562865,
    "max_relative": 0.04853783724621342,
    "singular_share": 0.002846362953219491,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.45714285714285713,
+   "end": 1.0,
+   "span": 0.5428571428571428,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2441,7 +3346,12 @@
    "median_relative": 0.027290416657378205,
    "max_relative": 0.03351575423490444,
    "singular_share": 0.9880299666817669,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2452,7 +3362,12 @@
    "median_relative": 0.035891132141254736,
    "max_relative": 0.059104403132023045,
    "singular_share": 0.9921601864125815,
-   "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 35,
+   "start": 0.2571428571428571,
+   "end": 1.0,
+   "span": 0.7428571428571429,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2463,7 +3378,12 @@
    "median_relative": 0.0016887851875443752,
    "max_relative": 0.058097425884442395,
    "singular_share": 0.1133121538332979,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 35,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2474,7 +3394,12 @@
    "median_relative": 0.023383864035138514,
    "max_relative": 0.03971458037658341,
    "singular_share": 0.9770658706059739,
-   "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_output, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 35,
+   "start": 0.2571428571428571,
+   "end": 1.0,
+   "span": 0.7428571428571429,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2485,7 +3410,12 @@
    "median_relative": 0.0347007294641962,
    "max_relative": 0.05674891323682397,
    "singular_share": 0.9958022313510756,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 35,
+   "start": 0.6285714285714286,
+   "end": 0.7714285714285715,
+   "span": 0.14285714285714285,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2496,7 +3426,12 @@
    "median_relative": 0.02559770990522356,
    "max_relative": 0.02811312067371858,
    "singular_share": 0.9954498967206639,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.2857142857142857,
+   "end": 1.0,
+   "span": 0.7142857142857143,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2507,7 +3442,12 @@
    "median_relative": 0.027290416657378205,
    "max_relative": 0.03351575423490444,
    "singular_share": 0.9880299666817669,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2518,7 +3458,12 @@
    "median_relative": 0.050841241660255276,
    "max_relative": 0.0921495747142249,
    "singular_share": 0.950065594695589,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 35,
+   "start": 0.4857142857142857,
+   "end": 0.6857142857142857,
+   "span": 0.2,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2529,7 +3474,12 @@
    "median_relative": 0.02559770990522356,
    "max_relative": 0.02811312067371858,
    "singular_share": 0.9954498967206639,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.2857142857142857,
+   "end": 1.0,
+   "span": 0.7142857142857143,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2540,7 +3490,12 @@
    "median_relative": 0.058032787446619626,
    "max_relative": 0.07173865374951101,
    "singular_share": 0.5381914225805223,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.2571428571428571,
+   "end": 0.9714285714285714,
+   "span": 0.7142857142857143,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2551,7 +3506,12 @@
    "median_relative": 0.045702856593439437,
    "max_relative": 0.054960542673676095,
    "singular_share": 0.9969226585414965,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.2571428571428571,
+   "end": 0.9714285714285714,
+   "span": 0.7142857142857143,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2562,7 +3522,12 @@
    "median_relative": 0.08702172303600353,
    "max_relative": 0.11994828026062203,
    "singular_share": 0.9988761598966556,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 35,
+   "start": 0.34285714285714286,
+   "end": 0.8857142857142857,
+   "span": 0.5428571428571428,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2573,7 +3538,12 @@
    "median_relative": 0.1005940961697299,
    "max_relative": 0.11524737289008258,
    "singular_share": 0.9996218814087577,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.6,
+   "end": 1.0,
+   "span": 0.4,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2584,7 +3554,12 @@
    "median_relative": 0.03639392900911896,
    "max_relative": 0.08777267555969953,
    "singular_share": 0.98727061165479,
-   "kinds": "attention_output, attention_query, attention_value, feed_forward_down"
+   "kinds": "attention_output, attention_query, attention_value, feed_forward_down",
+   "depth": 35,
+   "start": 0.2571428571428571,
+   "end": 1.0,
+   "span": 0.7428571428571429,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E2B-it",
@@ -2595,7 +3570,12 @@
    "median_relative": 0.034168493858263885,
    "max_relative": 0.056536136835995225,
    "singular_share": 0.9482212707675006,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 35,
+   "start": 0.4,
+   "end": 0.5428571428571428,
+   "span": 0.14285714285714285,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B",
@@ -2606,7 +3586,12 @@
    "median_relative": 0.4221475685390423,
    "max_relative": 1.5996717827906894,
    "singular_share": 0.002173162702181904,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B",
@@ -2617,7 +3602,12 @@
    "median_relative": 0.023968955135263904,
    "max_relative": 0.03564610949467417,
    "singular_share": 0.9856772498359145,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.40476190476190477,
+   "end": 0.8095238095238095,
+   "span": 0.40476190476190477,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2628,7 +3618,12 @@
    "median_relative": 0.05808513313427727,
    "max_relative": 0.10318072341213648,
    "singular_share": 0.18902779327581995,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.7857142857142857,
+   "span": 0.2857142857142857,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2639,7 +3634,12 @@
    "median_relative": 0.0224154373625199,
    "max_relative": 0.02836667488655235,
    "singular_share": 0.9764907001547529,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2650,7 +3650,12 @@
    "median_relative": 0.03612817164046073,
    "max_relative": 0.05187180884194854,
    "singular_share": 0.9200168242425643,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8571428571428571,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2661,7 +3666,12 @@
    "median_relative": 0.03612817164046073,
    "max_relative": 0.05187180884194854,
    "singular_share": 0.9200168242425643,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8571428571428571,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2672,7 +3682,12 @@
    "median_relative": 0.0018138127696142262,
    "max_relative": 0.08176577295347678,
    "singular_share": 0.002772930788660774,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+   "depth": 42,
+   "start": 0.023809523809523808,
+   "end": 1.0,
+   "span": 0.9761904761904762,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2683,7 +3698,12 @@
    "median_relative": 0.026870495020522044,
    "max_relative": 0.03619311218177333,
    "singular_share": 0.97587357825991,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.23809523809523808,
+   "end": 1.0,
+   "span": 0.7619047619047619,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2694,7 +3714,12 @@
    "median_relative": 0.4221475685390423,
    "max_relative": 1.5996717827906894,
    "singular_share": 0.002173162702181904,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2705,7 +3730,12 @@
    "median_relative": 0.0031624347577757857,
    "max_relative": 0.06058035343903201,
    "singular_share": 0.11151443004785981,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2716,7 +3746,12 @@
    "median_relative": 0.0035040604511763314,
    "max_relative": 1.709830796283906,
    "singular_share": 0.005448006625649485,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, other",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2727,7 +3762,12 @@
    "median_relative": 0.021322428252153264,
    "max_relative": 0.029018657574906757,
    "singular_share": 0.9782579134943803,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.42857142857142855,
+   "end": 0.8571428571428571,
+   "span": 0.42857142857142855,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2738,7 +3778,12 @@
    "median_relative": null,
    "max_relative": null,
    "singular_share": null,
-   "kinds": ""
+   "kinds": "",
+   "depth": null,
+   "start": null,
+   "end": null,
+   "span": null,
+   "to_last": null
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2749,7 +3794,12 @@
    "median_relative": 0.0794371974358669,
    "max_relative": 1.0080709770550773,
    "singular_share": 0.006315267130341217,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.4523809523809524,
+   "end": 0.9285714285714286,
+   "span": 0.47619047619047616,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2760,7 +3810,12 @@
    "median_relative": 0.026880356834266025,
    "max_relative": 0.038050378353720146,
    "singular_share": 0.996253600024784,
-   "kinds": "attention_output, feed_forward_down, feed_forward_gate"
+   "kinds": "attention_output, feed_forward_down, feed_forward_gate",
+   "depth": 42,
+   "start": 0.19047619047619047,
+   "end": 0.8333333333333334,
+   "span": 0.6428571428571429,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2771,7 +3826,12 @@
    "median_relative": 0.029931336083308037,
    "max_relative": 0.05911854365656327,
    "singular_share": 0.005500823576809979,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.9047619047619048,
+   "span": 0.40476190476190477,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2782,7 +3842,12 @@
    "median_relative": 0.032870379401468114,
    "max_relative": 0.06728812556726947,
    "singular_share": 0.23634905850579238,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.4523809523809524,
+   "end": 0.7619047619047619,
+   "span": 0.30952380952380953,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2793,7 +3858,12 @@
    "median_relative": 0.03551367734933414,
    "max_relative": 0.06534814457515234,
    "singular_share": 0.8624228354392105,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.4523809523809524,
+   "end": 0.8809523809523809,
+   "span": 0.42857142857142855,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2804,7 +3874,12 @@
    "median_relative": 0.02801210272110059,
    "max_relative": 0.0484072123003282,
    "singular_share": 0.32415890956404586,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8809523809523809,
+   "span": 0.38095238095238093,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2815,7 +3890,12 @@
    "median_relative": 0.03153055143115894,
    "max_relative": 0.056121509356855635,
    "singular_share": 0.2304100080768375,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8333333333333334,
+   "span": 0.3333333333333333,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2826,7 +3906,12 @@
    "median_relative": 0.02841293157299153,
    "max_relative": 0.04905993382659885,
    "singular_share": 0.39840015041724486,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.40476190476190477,
+   "end": 0.7619047619047619,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2837,7 +3922,12 @@
    "median_relative": 0.07787701731061401,
    "max_relative": 0.1418451770944016,
    "singular_share": 0.5865079692586938,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.42857142857142855,
+   "end": 0.6666666666666666,
+   "span": 0.23809523809523808,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2848,7 +3938,12 @@
    "median_relative": 0.03612817164046073,
    "max_relative": 0.05187180884194854,
    "singular_share": 0.9200168242425643,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8571428571428571,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2859,7 +3954,12 @@
    "median_relative": 0.03753858783698725,
    "max_relative": 0.0805803025276422,
    "singular_share": 0.46568365827020913,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 1.0,
+   "span": 0.5,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2870,7 +3970,12 @@
    "median_relative": 0.03299291159381528,
    "max_relative": 0.04561917087811423,
    "singular_share": 0.5043049800725975,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.09523809523809523,
+   "end": 1.0,
+   "span": 0.9047619047619048,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2881,7 +3986,12 @@
    "median_relative": 0.027447869743042974,
    "max_relative": 0.041342136905912694,
    "singular_share": 0.9935870060690608,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.09523809523809523,
+   "end": 1.0,
+   "span": 0.9047619047619048,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2892,7 +4002,12 @@
    "median_relative": 0.02189528385158685,
    "max_relative": 0.028675052178816312,
    "singular_share": 0.991349350479117,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2903,7 +4018,12 @@
    "median_relative": 0.028934105199370654,
    "max_relative": 0.061834006002186026,
    "singular_share": 0.00630107844866141,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.2619047619047619,
+   "end": 0.6666666666666666,
+   "span": 0.40476190476190477,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2914,7 +4034,12 @@
    "median_relative": 0.023968955135263904,
    "max_relative": 0.03564610949467417,
    "singular_share": 0.9856772498359145,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2925,7 +4050,12 @@
    "median_relative": 0.03734424605600384,
    "max_relative": 0.06045847016235667,
    "singular_share": 0.0020506496356225814,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 1.0,
+   "span": 0.5,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2936,7 +4066,12 @@
    "median_relative": 0.04933792197830468,
    "max_relative": 0.06113065521065429,
    "singular_share": 0.9989321765029141,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2947,7 +4082,12 @@
    "median_relative": 0.019926497025451025,
    "max_relative": 0.022500171612368457,
    "singular_share": 0.999884168852508,
-   "kinds": "attention_output, embedding, feed_forward_down"
+   "kinds": "attention_output, embedding, feed_forward_down",
+   "depth": 42,
+   "start": 0.47619047619047616,
+   "end": 0.8333333333333334,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2958,7 +4098,12 @@
    "median_relative": 0.042776742726964835,
    "max_relative": 0.05694422440162527,
    "singular_share": 0.9359357326859644,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.42857142857142855,
+   "end": 0.8571428571428571,
+   "span": 0.42857142857142855,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2969,7 +4114,12 @@
    "median_relative": 0.03612817164046073,
    "max_relative": 0.05187180884194854,
    "singular_share": 0.9200168242425643,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8571428571428571,
+   "span": 0.35714285714285715,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2980,7 +4130,12 @@
    "median_relative": 0.015954991077912282,
    "max_relative": 0.03208137780478781,
    "singular_share": 0.9694683625436357,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.2619047619047619,
+   "end": 1.0,
+   "span": 0.7380952380952381,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -2991,7 +4146,12 @@
    "median_relative": 0.015954882268589942,
    "max_relative": 0.03208161185332236,
    "singular_share": 0.969467964561198,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.2619047619047619,
+   "end": 1.0,
+   "span": 0.7380952380952381,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -3002,7 +4162,12 @@
    "median_relative": 0.04933792197830468,
    "max_relative": 0.06113065521065429,
    "singular_share": 0.9989321765029141,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.16666666666666666,
+   "end": 1.0,
+   "span": 0.8333333333333334,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -3013,7 +4178,12 @@
    "median_relative": 0.02189528385158685,
    "max_relative": 0.028675052178816312,
    "singular_share": 0.991349350479117,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -3024,7 +4194,12 @@
    "median_relative": 0.026187140016323076,
    "max_relative": 0.03054290278670921,
    "singular_share": 0.9585355934415941,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.4523809523809524,
+   "end": 1.0,
+   "span": 0.5476190476190477,
+   "to_last": true
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -3035,7 +4210,12 @@
    "median_relative": 0.03653005593241916,
    "max_relative": 0.043574344770120774,
    "singular_share": 0.658508724633914,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.40476190476190477,
+   "end": 0.9761904761904762,
+   "span": 0.5714285714285714,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it",
@@ -3046,7 +4226,12 @@
    "median_relative": 0.02095801777070611,
    "max_relative": 0.024314958573373423,
    "singular_share": 0.991448468222475,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.40476190476190477,
+   "end": 0.8571428571428571,
+   "span": 0.4523809523809524,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
@@ -3057,7 +4242,12 @@
    "median_relative": 0.038323702263665146,
    "max_relative": 0.06097200727199877,
    "singular_share": 0.45485763396761975,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 42,
+   "start": 0.47619047619047616,
+   "end": 0.8571428571428571,
+   "span": 0.38095238095238093,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
@@ -3068,7 +4258,12 @@
    "median_relative": 0.09717037077085956,
    "max_relative": 0.21362064697886382,
    "singular_share": 0.6515342475988752,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.5,
+   "end": 0.8809523809523809,
+   "span": 0.38095238095238093,
+   "to_last": false
   },
   {
    "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
@@ -3079,7 +4274,12 @@
    "median_relative": 0.02309487251498884,
    "max_relative": 0.02877043574568641,
    "singular_share": 0.9924551253429337,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 42,
+   "start": 0.42857142857142855,
+   "end": 1.0,
+   "span": 0.5714285714285714,
+   "to_last": true
   },
   {
    "parent": "inflatebot/MN-12B-Mag-Mell-R1",
@@ -3090,7 +4290,12 @@
    "median_relative": 0.017381927531307254,
    "max_relative": 0.021477723819531884,
    "singular_share": 0.9901255677459404,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "inflatebot/MN-12B-Mag-Mell-R1",
@@ -3101,7 +4306,12 @@
    "median_relative": 0.02131674663093091,
    "max_relative": 0.026815636247637,
    "singular_share": 0.9934410726538873,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
@@ -3112,7 +4322,12 @@
    "median_relative": 0.018433668850357496,
    "max_relative": 0.02478482242708696,
    "singular_share": 0.9671532376240716,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.15,
+   "end": 1.0,
+   "span": 0.85,
+   "to_last": true
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
@@ -3123,7 +4338,12 @@
    "median_relative": 0.017480693512911587,
    "max_relative": 0.053979458584813775,
    "singular_share": 0.7476704930418708,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.4,
+   "end": 0.575,
+   "span": 0.175,
+   "to_last": false
   },
   {
    "parent": "mistralai/Magistral-Small-2509",
@@ -3134,7 +4354,12 @@
    "median_relative": 0.023504231321604046,
    "max_relative": 0.09297600376976765,
    "singular_share": 0.8406194715837328,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.25,
+   "end": 0.925,
+   "span": 0.675,
+   "to_last": false
   },
   {
    "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
@@ -3145,7 +4370,12 @@
    "median_relative": 0.02180266550618081,
    "max_relative": 0.026422541339488455,
    "singular_share": 0.9893114770878125,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 34,
+   "start": 0.4411764705882353,
+   "end": 1.0,
+   "span": 0.5588235294117647,
+   "to_last": true
   },
   {
    "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
@@ -3156,7 +4386,12 @@
    "median_relative": 0.010242623764703886,
    "max_relative": 0.017679777379653715,
    "singular_share": 0.1461449890856592,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 34,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3167,7 +4402,12 @@
    "median_relative": 0.021544354507054848,
    "max_relative": 0.03617989238236321,
    "singular_share": 0.004561849273405481,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head",
+   "depth": 32,
+   "start": 0.1875,
+   "end": 1.0,
+   "span": 0.8125,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3178,7 +4418,12 @@
    "median_relative": 0.014467258780393146,
    "max_relative": 0.024700624895656238,
    "singular_share": 0.9762611518964417,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 32,
+   "start": 0.375,
+   "end": 1.0,
+   "span": 0.625,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3189,7 +4434,12 @@
    "median_relative": 0.015991497530783178,
    "max_relative": 0.018999884858224833,
    "singular_share": 0.9889967649564839,
-   "kinds": "attention_output, embedding, feed_forward_down"
+   "kinds": "attention_output, embedding, feed_forward_down",
+   "depth": 32,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3200,7 +4450,12 @@
    "median_relative": 0.020858411411770868,
    "max_relative": 0.023771660641461356,
    "singular_share": 0.991804338359999,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 32,
+   "start": 0.34375,
+   "end": 1.0,
+   "span": 0.65625,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
@@ -3211,7 +4466,12 @@
    "median_relative": 0.019083713920702912,
    "max_relative": 0.02499800477645704,
    "singular_share": 0.9730078901884462,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 32,
+   "start": 0.34375,
+   "end": 1.0,
+   "span": 0.65625,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -3222,7 +4482,12 @@
    "median_relative": 0.004276655596257872,
    "max_relative": 0.005783124893564699,
    "singular_share": 0.9163614220768522,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-Nemo-Instruct-2407",
@@ -3233,7 +4498,12 @@
    "median_relative": 0.015480518686022371,
    "max_relative": 0.022306184321273875,
    "singular_share": 0.9866705709875623,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.075,
+   "end": 0.95,
+   "span": 0.875,
+   "to_last": false
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3244,7 +4514,12 @@
    "median_relative": 0.011630505398874075,
    "max_relative": 0.07606353991516877,
    "singular_share": 0.004433969689944565,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, embedding, feed_forward_down, feed_forward_gate, feed_forward_up, output_head",
+   "depth": 40,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3255,7 +4530,12 @@
    "median_relative": 0.017471132880892075,
    "max_relative": 0.03395213189626465,
    "singular_share": 0.855823006575712,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.45,
+   "end": 0.75,
+   "span": 0.3,
+   "to_last": false
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3266,7 +4546,12 @@
    "median_relative": 0.017494472941037616,
    "max_relative": 0.032788137184348316,
    "singular_share": 0.9862848108181337,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.1,
+   "end": 1.0,
+   "span": 0.9,
+   "to_last": true
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3277,7 +4562,12 @@
    "median_relative": 0.06566774146633605,
    "max_relative": 0.1000041231174756,
    "singular_share": 0.9405509048513732,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 40,
+   "start": 0.3,
+   "end": 0.8,
+   "span": 0.5,
+   "to_last": false
   },
   {
    "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
@@ -3288,7 +4578,12 @@
    "median_relative": 0.015557841528248876,
    "max_relative": 0.022146702941629955,
    "singular_share": 0.987402733232557,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 40,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
@@ -3299,7 +4594,12 @@
    "median_relative": 0.01988471750958233,
    "max_relative": 0.026907087700329034,
    "singular_share": 0.9914337617840947,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6041666666666666,
+   "span": 0.125,
+   "to_last": false
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
@@ -3310,7 +4610,12 @@
    "median_relative": 0.023905764668035685,
    "max_relative": 0.02981579808765616,
    "singular_share": 0.987764236990851,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.1875,
+   "end": 1.0,
+   "span": 0.8125,
+   "to_last": true
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3321,7 +4626,12 @@
    "median_relative": 0.021426442854882398,
    "max_relative": 0.030950884214613353,
    "singular_share": 0.9925533569433366,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.4791666666666667,
+   "end": 0.6041666666666666,
+   "span": 0.125,
+   "to_last": false
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3332,7 +4642,12 @@
    "median_relative": 0.017247940848083572,
    "max_relative": 0.027272007140928395,
    "singular_share": 0.9825510279974423,
-   "kinds": "attention_output, feed_forward_down"
+   "kinds": "attention_output, feed_forward_down",
+   "depth": 48,
+   "start": 0.0625,
+   "end": 1.0,
+   "span": 0.9375,
+   "to_last": true
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3343,7 +4658,12 @@
    "median_relative": 0.004503390658684749,
    "max_relative": 0.08641975308641975,
    "singular_share": 0.024942316546061685,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up, final_normalization, input_normalization, other, post_attention_normalization",
+   "depth": 48,
+   "start": 0.3125,
+   "end": 1.0,
+   "span": 0.6875,
+   "to_last": true
   },
   {
    "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
@@ -3354,7 +4674,12 @@
    "median_relative": 0.0014700641938081632,
    "max_relative": 0.03287762426925772,
    "singular_share": 0.0008654853165103078,
-   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up"
+   "kinds": "attention_key, attention_output, attention_query, attention_value, feed_forward_down, feed_forward_gate, feed_forward_up",
+   "depth": 48,
+   "start": 0.0,
+   "end": 1.0,
+   "span": 1.0,
+   "to_last": true
   },
   {
    "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
@@ -3365,7 +4690,12 @@
    "median_relative": 0.03139968111404771,
    "max_relative": 0.04290705065139025,
    "singular_share": 0.5908593854062153,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 40,
+   "start": 0.3,
+   "end": 0.975,
+   "span": 0.675,
+   "to_last": false
   },
   {
    "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
@@ -3376,7 +4706,12 @@
    "median_relative": 0.03474990778185791,
    "max_relative": 0.051502098084662745,
    "singular_share": 0.7170677622832974,
-   "kinds": "attention_output"
+   "kinds": "attention_output",
+   "depth": 40,
+   "start": 0.3,
+   "end": 1.0,
+   "span": 0.7,
+   "to_last": true
   }
  ]
 }

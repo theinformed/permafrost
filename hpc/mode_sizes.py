@@ -3,6 +3,7 @@
 # Modified: SDE 2026-11-03  first pass: per-copy size figures from the weight report, medians per mode, markdown and json.
 # Modified: SDE 2026-11-03  quartiles beside the per-mode medians, a per-parent table and the singular-share crossings line.
 # Modified: SDE 2026-11-03  a crossings section listing the arbitrary-rank high-share and other-mode low-share copies by name.
+# Modified: SDE 2026-11-03  the edited window as a fraction of each parent's depth, per copy and per mode.
 """Join each census copy's edit mode with the size of its measured weight change.
 
 --modes names a json whose copies[] list has rows {parent, repo, layers, mode}.
@@ -13,11 +14,17 @@ with "changed" and "relative_difference", and "summary" carries
 min_first_singular_energy_share and changed_kinds. Per copy the changed
 tensor count, the count of distinct layers among the changed names, the
 median and max relative difference over the changed records, the singular
-share and the kinds are taken. The markdown goes to --out with a per-mode
-table (quartiles beside the medians), a crossings section (the count line,
-then the arbitrary-rank copies at singular share 0.9 or more and the
-other-mode copies under 0.9, by name), a per-parent table and a per-copy
-table, and the same stem with .json beside it.
+share and the kinds are taken. A copy row may carry "window": [first, last]
+(layer indices, inclusive) or null; the depth of a report is 1 + the largest
+layer index over every tensor name, changed or not. With both known, the
+window is given as start = first / depth, end = (last + 1) / depth, span =
+(last - first + 1) / depth and to_last = (last + 1 == depth). The markdown
+goes to --out with a per-mode table (quartiles beside the medians, then the
+window start and end triples, the median span and the copies reaching the
+last layer), a crossings section (the count line, then the arbitrary-rank
+copies at singular share 0.9 or more and the other-mode copies under 0.9, by
+name), a per-parent table and a per-copy table, and the same stem with .json
+beside it.
 """
 
 import argparse
@@ -32,6 +39,32 @@ LAYER = re.compile(r'layers\.(\d+)\.')
 def report_path(folder, repo):
     """Return the weight report path for a copy repo."""
     return Path(folder) / (repo.replace('/', '-') + '.json')
+
+
+def report_depth(report):
+    """Return 1 + the largest layer index over every tensor name, else None."""
+    largest = None
+    for name in (report.get('tensors') or {}):
+        match = LAYER.search(name)
+        if match:
+            index = int(match.group(1))
+            largest = index if largest is None else max(largest, index)
+    return None if largest is None else largest + 1
+
+
+def window_figures(window, depth):
+    """Return the window as fractions of the depth, else all None."""
+    if not window or depth is None:
+        return {'depth': depth, 'start': None, 'end': None, 'span': None,
+                'to_last': None}
+    first, last = window[0], window[1]
+    return {
+        'depth': depth,
+        'start': first / depth,
+        'end': (last + 1) / depth,
+        'span': (last - first + 1) / depth,
+        'to_last': last + 1 == depth,
+    }
 
 
 def copy_figures(report):
@@ -56,6 +89,7 @@ def copy_figures(report):
         'max_relative': max(values) if values else None,
         'singular_share': summary.get('min_first_singular_energy_share'),
         'kinds': ', '.join(kinds),
+        'depth': report_depth(report),
     }
 
 
@@ -110,8 +144,10 @@ def write_markdown(path, mode_rows, parent_rows, crossings, crossing_rows, rows)
         '',
         '| mode | copies | changed tensors (q1 / median / q3) | changed layers '
         '| median relative (q1 / median / q3) | max relative '
-        '| singular share (q1 / median / q3) |',
-        '| --- | --- | --- | --- | --- | --- | --- |',
+        '| singular share (q1 / median / q3) '
+        '| window start (q1 / median / q3) | window end (q1 / median / q3) '
+        '| span | to last layer |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for mode, figures in mode_rows:
         lines.append(
@@ -120,7 +156,11 @@ def write_markdown(path, mode_rows, parent_rows, crossings, crossing_rows, rows)
             f"| {three(figures['changed_layers'])} "
             f"| {triple(figures['median_relative_q1'], figures['median_relative'], figures['median_relative_q3'])} "
             f"| {three(figures['max_relative'])} "
-            f"| {triple(figures['singular_share_q1'], figures['singular_share'], figures['singular_share_q3'])} |")
+            f"| {triple(figures['singular_share_q1'], figures['singular_share'], figures['singular_share_q3'])} "
+            f"| {triple(figures['start_q1'], figures['start'], figures['start_q3'])} "
+            f"| {triple(figures['end_q1'], figures['end'], figures['end_q3'])} "
+            f"| {three(figures['span'])} "
+            f"| {figures['to_last']} of {figures['windowed']} |")
     lines += [
         '',
         crossings,
@@ -153,14 +193,16 @@ def write_markdown(path, mode_rows, parent_rows, crossings, crossing_rows, rows)
         '',
         '## per copy',
         '',
-        '| parent | copy | mode | changed tensors | changed layers | median relative '
+        '| parent | copy | mode | changed tensors | changed layers '
+        '| start | end | span | median relative '
         '| max relative | singular share | kinds |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         lines.append(
             f"| {row['parent']} | {row['repo']} | {row['mode']} "
             f"| {three(row['changed_tensors'])} | {three(row['changed_layers'])} "
+            f"| {three(row['start'])} | {three(row['end'])} | {three(row['span'])} "
             f"| {three(row['median_relative'])} | {three(row['max_relative'])} "
             f"| {three(row['singular_share'])} | {row['kinds']} |")
     path.write_text('\n'.join(lines) + '\n')
@@ -188,7 +230,9 @@ def main(argv=None):
         else:
             row.update({'changed_tensors': None, 'changed_layers': None,
                         'median_relative': None, 'max_relative': None,
-                        'singular_share': None, 'kinds': 'no report'})
+                        'singular_share': None, 'kinds': 'no report',
+                        'depth': None})
+        row.update(window_figures(copy.get('window'), row['depth']))
         rows.append(row)
     rows.sort(key=lambda r: (str(r['parent']), r['repo']))
 
@@ -198,12 +242,17 @@ def main(argv=None):
         measured = [row for row in rows if row['mode'] == mode and row['kinds'] != 'no report']
         figures = {'copies': len(measured)}
         for key in ('changed_tensors', 'changed_layers', 'median_relative',
-                    'max_relative', 'singular_share'):
+                    'max_relative', 'singular_share', 'start', 'end'):
             figures[key] = median_of([row[key] for row in measured])
-        for key in ('changed_tensors', 'median_relative', 'singular_share'):
+        for key in ('changed_tensors', 'median_relative', 'singular_share',
+                    'start', 'end'):
             q1, q3 = quartiles([row[key] for row in measured])
             figures[key + '_q1'] = q1
             figures[key + '_q3'] = q3
+        windowed = [row for row in measured if row['start'] is not None]
+        figures['span'] = median_of([row['span'] for row in windowed])
+        figures['to_last'] = sum(1 for row in windowed if row['to_last'])
+        figures['windowed'] = len(windowed)
         mode_rows.append((mode, figures))
 
     parent_rows = []

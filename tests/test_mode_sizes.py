@@ -3,6 +3,7 @@
 # Modified: SDE 2026-11-03  three copies, two reports, one missing report.
 # Modified: SDE 2026-11-03  a fourth copy for the quartiles, the per-parent rows and the crossings.
 # Modified: SDE 2026-11-03  the crossings section by name, and a fifth copy for the other-mode low-share table.
+# Modified: SDE 2026-11-03  the edited window as a fraction of each parent's depth, per copy and per mode.
 import contextlib
 import io
 import json
@@ -30,10 +31,13 @@ class ModeSizesTest(unittest.TestCase):
         self.weights = self.root / 'weights'
         self.weights.mkdir()
         modes = {'copies': [
-            {'parent': 'org/P', 'repo': 'one/a', 'layers': 2, 'mode': 'per layer'},
-            {'parent': 'org/P', 'repo': 'two/b', 'layers': 1, 'mode': 'arbitrary rank'},
+            {'parent': 'org/P', 'repo': 'one/a', 'layers': 2, 'mode': 'per layer',
+             'window': [0, 1]},
+            {'parent': 'org/P', 'repo': 'two/b', 'layers': 1, 'mode': 'arbitrary rank',
+             'window': [4, 4]},
             {'parent': 'org/P', 'repo': 'three/c', 'layers': 1, 'mode': 'mixed'},
-            {'parent': 'org/Q', 'repo': 'four/d', 'layers': 1, 'mode': 'arbitrary rank'},
+            {'parent': 'org/Q', 'repo': 'four/d', 'layers': 1, 'mode': 'arbitrary rank',
+             'window': [1, 1]},
         ]}
         self.modes = self.root / 'modes.json'
         self.modes.write_text(json.dumps(modes))
@@ -52,6 +56,8 @@ class ModeSizesTest(unittest.TestCase):
         (self.weights / 'four-d.json').write_text(json.dumps(report({
             'model.layers.2.mlp.down_proj.weight': {'changed': True,
                                                     'relative_difference': 0.7},
+            'model.layers.2.self_attn.o_proj.weight': {'changed': False,
+                                                       'relative_difference': 0.0},
         }, 0.95, ['feed_forward_down'])))
         self.out = self.root / 'sizes.md'
         with contextlib.redirect_stdout(io.StringIO()):
@@ -121,7 +127,7 @@ class ModeSizesTest(unittest.TestCase):
     def test_crossings_other_low(self):
         modes = json.loads(self.modes.read_text())
         modes['copies'].append({'parent': 'org/P', 'repo': 'five/e', 'layers': 1,
-                                'mode': 'per layer'})
+                                'mode': 'per layer', 'window': [0, 3]})
         self.modes.write_text(json.dumps(modes))
         (self.weights / 'five-e.json').write_text(json.dumps(report({
             'model.layers.0.mlp.down_proj.weight': {'changed': True,
@@ -144,6 +150,36 @@ class ModeSizesTest(unittest.TestCase):
         self.assertEqual(rows[('org/P', 'two/b')]['changed_tensors'], 1)
         self.assertAlmostEqual(rows[('org/P', 'two/b')]['singular_share'], 0.6)
         self.assertIn('| org/P | five/e | per layer | 2.000 | 2.000 | 0.300 |', out.read_text())
+
+    def test_windows(self):
+        one = self.rows[('org/P', 'one/a')]
+        self.assertEqual(one['depth'], 2)
+        self.assertAlmostEqual(one['start'], 0.0)
+        self.assertAlmostEqual(one['end'], 1.0)
+        self.assertAlmostEqual(one['span'], 1.0)
+        self.assertIs(one['to_last'], True)
+        two = self.rows[('org/P', 'two/b')]
+        self.assertAlmostEqual(two['start'], 0.8)
+        self.assertAlmostEqual(two['end'], 1.0)
+        self.assertAlmostEqual(two['span'], 0.2)
+        self.assertIs(two['to_last'], True)
+        four = self.rows[('org/Q', 'four/d')]
+        self.assertAlmostEqual(four['start'], 0.3333, places=3)
+        self.assertAlmostEqual(four['end'], 0.6667, places=3)
+        self.assertAlmostEqual(four['span'], 0.3333, places=3)
+        self.assertIs(four['to_last'], False)
+        three = self.rows[('org/P', 'three/c')]
+        self.assertIsNone(three['start'])
+        self.assertIsNone(three['to_last'])
+
+    def test_window_per_mode(self):
+        figures = self.document['modes']['arbitrary rank']
+        self.assertAlmostEqual(figures['start'], 0.5667, places=3)
+        self.assertAlmostEqual(figures['end'], 0.8333, places=3)
+        self.assertEqual(figures['to_last'], 1)
+        self.assertEqual(figures['windowed'], 2)
+        self.assertIn('| window start (q1 / median / q3) |', self.markdown)
+        self.assertIn('1 of 2', self.markdown)
 
     def test_per_parent(self):
         parents = self.document['parents']
