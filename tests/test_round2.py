@@ -1467,16 +1467,19 @@ class RateLimitWaitTests(unittest.TestCase):
     def run_fetch(self, errors, tries=1):
         calls = []
         sleeps = []
+        directory = os.path.join(self.folder.name, 'fetch')
+        os.makedirs(directory)
 
         def flaky(hub_id, **kwargs):
             calls.append(hub_id)
             if len(calls) <= errors:
                 raise Exception('429 Client Error: Too Many Requests for url: x')
+            Path(directory, 'config.json').write_text('')
 
         with patch.object(self.download, 'snapshot_download', flaky), \
                 patch.object(self.download.time, 'sleep', sleeps.append), \
                 contextlib.redirect_stdout(io.StringIO()):
-            self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+            self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, directory,
                                 [{'path': 'config.json'}], 'tok', tries=tries, pause=0)
         return calls, sleeps
 
@@ -1488,6 +1491,8 @@ class RateLimitWaitTests(unittest.TestCase):
     def test_four_rate_limits_give_up_after_three_waits(self):
         calls = []
         sleeps = []
+        directory = os.path.join(self.folder.name, 'fetch')
+        os.makedirs(directory)
 
         def flaky(hub_id, **kwargs):
             calls.append(hub_id)
@@ -1497,12 +1502,14 @@ class RateLimitWaitTests(unittest.TestCase):
                 patch.object(self.download.time, 'sleep', sleeps.append), \
                 contextlib.redirect_stdout(io.StringIO()):
             with self.assertRaises((ValueError, Exception)):
-                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, directory,
                                     [{'path': 'config.json'}], 'tok', tries=1, pause=0)
         self.assertEqual(sleeps, [310, 310, 310])
 
     def test_other_errors_do_not_wait(self):
         sleeps = []
+        directory = os.path.join(self.folder.name, 'fetch')
+        os.makedirs(directory)
 
         def broken(hub_id, **kwargs):
             raise Exception('boom')
@@ -1511,6 +1518,42 @@ class RateLimitWaitTests(unittest.TestCase):
                 patch.object(self.download.time, 'sleep', sleeps.append), \
                 contextlib.redirect_stdout(io.StringIO()):
             with self.assertRaises(ValueError):
-                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, directory,
                                     [{'path': 'config.json'}], 'tok', tries=1, pause=0)
         self.assertNotIn(310, sleeps)
+
+    def test_a_silent_partial_return_waits_like_a_rate_limit(self):
+        calls = []
+        sleeps = []
+        directory = os.path.join(self.folder.name, 'fetch')
+        os.makedirs(directory)
+
+        def silent(hub_id, **kwargs):
+            calls.append(hub_id)
+            if len(calls) > 1:
+                Path(directory, 'config.json').write_text('')
+
+        with patch.object(self.download, 'snapshot_download', silent), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, directory,
+                                [{'path': 'config.json'}], 'tok', tries=1, pause=0)
+        self.assertEqual(sleeps, [310])
+        self.assertEqual(len(calls), 2)
+
+    def test_a_silent_partial_return_gives_up_after_three_waits(self):
+        calls = []
+        sleeps = []
+        directory = os.path.join(self.folder.name, 'fetch')
+        os.makedirs(directory)
+
+        def silent(hub_id, **kwargs):
+            calls.append(hub_id)
+
+        with patch.object(self.download, 'snapshot_download', silent), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaises((ValueError, Exception)):
+                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, directory,
+                                    [{'path': 'config.json'}], 'tok', tries=1, pause=0)
+        self.assertEqual(sleeps, [310, 310, 310])
