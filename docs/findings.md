@@ -6569,9 +6569,9 @@ difference, and a per-layer edit that was rank one in each matrix with a fresh d
 read high on the share and arbitrary on the rotation.
 
 The crossing counts say where the rule bends. Fourteen of the 65 arbitrary-rank copies read a share of 0.9 or
-more, and eleven of them are the small kernel passes of finding 181's name table: 7 to 18 changed matrices on
-as many layers, attention output only, at shares between 0.910 and 0.950, one rank-one edit per layer with a
-fresh direction at each, the case the two readings were built to tell apart. Forty-three of the 135 copies of
+more, and eleven of them are small passes of 7 to 18 changed matrices on as many layers, ten of those on the
+attention output alone, at shares between 0.910 and 0.950: one rank-one edit per layer with a fresh direction at
+each, the case the two readings were built to tell apart. Forty-three of the 135 copies of
 the other modes read under 0.9. Nineteen of them change more than 100 matrices, the fine-tunes over an
 ablation (Felldude, lemuralabs, Paul691, sh0ck0r's Artemis, richardyoung's coder pass among them), where the
 smallest share over hundreds of changed matrices is low by construction. Among the rest, the four identical
