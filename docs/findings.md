@@ -6173,6 +6173,87 @@ and with a pinned library older than the architecture (transformers 4.56.2 has n
 differences" on configuration fields and templates that close at home, so every Gemma 4 copy's token-side reading is
 the home judgement until the pins move. Details in `docs/census-round-3.md`.
 
+## 176. The saved directions of 202 copies compared across 23 shared parents: one family on Mistral 7B, several on each Gemma 4 parent, and the names heretic, abliterated and uncensored do not predict the family
+
+Every measurement the census has pulled home keeps the leading left and right singular vectors of each changed
+matrix in `weights.directions.safetensors`, and the round notes have compared them two copies at a time. This reads
+all of them at once: of the 264 measurement folders pulled, the 202 that stand on the 23 parents with two or more
+measured copies, 1,968 copy pairs, 74,012 matrix pairs, each matrix pair the cosine of the two saved right vectors
+(the left vectors give the same reading on every pair but 30, where the two medians differ by more than 0.2). Two
+checks first. The sign of a saved vector is the measurement's convention (the largest entry of the left vector is
+made positive), so a pair at minus 0.96 agrees as well as one at plus 0.96: p-e-w's and sh0ck0r's E4B exports stand
+at 0.96 on all 60 shared matrices with the sign mixed layer by layer, and every figure below is a cosine without its
+sign. And the one copy measured twice on two systems, huihui-ai's E2B edit of finding 50, compares at 1.000 on all
+50 shared matrices between its two measurements.
+
+The distribution is two-humped. Of the 1,968 pairs, 887 have a median cosine under 0.1 and 1,139 under 0.2; 516
+reach 0.5 and 287 reach 0.9. Over the 74,012 matrix pairs the median is 0.111, 48 percent lie under 0.1 and 13.5
+percent over 0.9. The pairs at 0.9 or more sort every parent's copies into families, a family being the copies
+joined by pairs at 0.9 or more:
+
+| parent | copies | pairs | median | pairs at 0.9 or more | pairs under 0.2 | families | alone |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| google/gemma-4-E4B-it | 39 | 703 | 0.070 | 115 | 470 | 16, 5, 4, 2 | 12 |
+| google/gemma-4-12B-it | 29 | 406 | 0.231 | 36 | 198 | 6, 6, 3, 3, 3, 2 | 6 |
+| google/gemma-4-31B-it | 25 | 298 | 0.147 | 30 | 164 | 7, 4, 4, 2 | 8 |
+| google/gemma-4-E2B-it | 24 | 275 | 0.089 | 37 | 184 | 8, 7, 4 | 5 |
+| google/gemma-4-26B-A4B-it | 18 | 153 | 0.220 | 51 | 63 | 10, 3, 3 | 2 |
+| mistralai/Mistral-7B-Instruct-v0.3 | 5 | 10 | 0.863 | 4 | 0 | 5 | 0 |
+
+On Mistral 7B v0.3 the five copies are one family: five makers (3MPER0RR, paoloronco, richardyoung, evolveon,
+DogOnKeyboard), three named abliterated and two named heretic, measured on two systems in four rounds, stand at
+0.710 to 0.962 to each other on 37 to 49 shared matrices, the lowest pair two abliterated names and the highest the
+two Heretic passes. On every Gemma 4 parent the copies split. The E4B family of sixteen holds coder3101's export,
+llmfan46's two, NullpoLab's five ARA searches, MoonRide's ARA pass, JokeHer's, alphakek's, SassyDiffusion's,
+Himanshuoo8's and the three re-uploads of llmfan46's pass (Cup4, Cup5, Pound1320): 120 pairs within it at a median
+of 0.960, six under 0.5. p-e-w's family of five (his two exports, sh0ck0r's, BinxNet's and Dingdust's ContextPilot)
+stands apart from it: p-e-w's export against coder3101's is 0.065 on 21 shared matrices, against huihui-ai's 0.013
+on 66. Two Heretic passes on one parent are as often in different families as in one: of 588 pairs whose names both
+say heretic, 152 reach 0.9 and 321 stay under 0.2. Of the 589 pairs with one heretic name and one abliterated name,
+30 reach 0.9 and 404 stay under 0.2; of 200 abliterated pairs, 16 and 92; of 62 uncensored pairs, 25 and 28. The
+31B family of seven is finding 105's four (3MPER0RR, germlag, Vampelium, callmegrr) with ressl, TrevorJS and
+Sabomako; the 26B-A4B family of ten is TrevorJS's edit with its three re-uploads (claymorecrystal, sitten1,
+erunda337), DuoNeural's (finding 95), Rootkit7's, SevenOfNine's, BinxNet's, sh0ck0r's and tvall43's; and the 41
+pairs identical to the sixth decimal are re-uploads the rounds had already placed, among them the five account
+names on TrevorJS's 12B edit (finding 56), huihui-ai's edits under prithivMLmods's, TimelessSoul's, Ishowbackup's
+and akpsahan's names, and p-e-w's own reproduction (finding 102); none is new.
+
+The copies standing alone are of two kinds. Of the twelve E4B copies alone at 0.9, eight stay alone at 0.5:
+Felldude's and Ilya626's fine-tunes, Jiunsong's export, which saved no direction, chulcher's copy, which stands on
+the pretrained base (finding 100), and four edits whose direction no other measured copy shares, Madras1's and
+jokernifty's at one direction per matrix (mean first energy shares 0.997 and 1.000 over 81 and 31 matrices) and
+treadon's disinhibited pass and OS-Software's at more than one (0.77 over 42 and 20). The median is a knife edge
+for a copy that agrees on about half its matrices: Dingdust's ContextPilot, a fine-tune with a Heretic pass on top,
+stands at 0.93 to sh0ck0r's export and at 0.06 to p-e-w's, because 32 of its 60 matrices shared with sh0ck0r reach
+0.9 and 32 of the 68 shared with p-e-w do; for a mixed copy the fraction of matrices at 0.9 in the comparison file
+is the figure to read, not the median.
+
+The two humps are not an artefact of the fine-tunes and multi-direction edits. Kept to the matrices where both
+copies' reports read a first singular energy share of 0.9 or more, one direction per matrix on both sides, 1,497 of
+the 1,968 pairs keep three or more matrices (every copy has its report; 471 pairs keep fewer than three), and among
+them 267 reach 0.9 and 818 stay under 0.2: 620 under 0.1. The class table holds its shape: 130 of 433 clean Heretic
+pairs reach 0.9 and 228 stay under 0.2; 30 of 429 heretic-abliterated pairs reach 0.9 and 295 stay under 0.2. The
+sign convention touches 137 pairs, where the signed and the absolute medians differ by more than 0.5: compared with
+their signs, coder3101's two Magidonia passes, huihui-ai's 12B edit against Paul691's and BinxNet's 12B pass against
+Sabomako's read as disagreements, and without them as the agreements they are.
+
+Why it matters. The saved direction is the cheapest family marker the census has: one pass over the pulled
+measurements, no download and no byte read, sorts 202 copies into families and singletons, and a new copy's vectors
+against `results/directions/` place it before its first byte is read, as rounds 38 and 39 did by hand. The readings
+of 1.000 as a copy and 0.96 as the same tool (findings 85, 102, 105) hold census-wide, with one correction: the same
+tool on the same parent is not one direction. Each Gemma 4 parent carries several refusal-direction families and
+Mistral 7B carries one, the names on the hub say nothing about which family a copy is in, and the census does not
+yet read why two Heretic searches of one parent land in different families, whether the prompt set, the direction
+index the search settles on, or the tool's version. That is the next measurement.
+
+Evidence: `results/directions/index.md` (one row per pair), `results/directions/<parent>.json` (the per-matrix
+cosines, medians, extremes, the fractions at 0.9 and of sign flips, the per-kind medians; the shared key count there
+is twice the matrix count, one left and one right vector per matrix), `results/directions/families.md` and its json
+(the distribution, the families, the class table and the restriction), written by `hpc/direction_cosines.py` and
+`hpc/direction_families.py` from the direction files under
+`/opt/ai/hpc-packages/pulls/model-audit/<system>N/measurements/pair-K/`, and the per-copy `results/weights/` reports
+for the energy shares.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.

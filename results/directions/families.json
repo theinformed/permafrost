@@ -1,0 +1,944 @@
+{
+  "counts": {
+    "parents": 23,
+    "copies": 202,
+    "rows": 1968,
+    "skipped": 0,
+    "reports_missing": 0
+  },
+  "distribution": {
+    "bins": [
+      887,
+      252,
+      155,
+      81,
+      77,
+      51,
+      58,
+      45,
+      75,
+      287
+    ],
+    "keys": 74012,
+    "median": 0.110989,
+    "mean": 0.3017589888666703,
+    "under_low": 0.48274604118251097,
+    "over_high": 0.13487002107766308
+  },
+  "parents": [
+    {
+      "parent": "TheDrummer/Cydonia-24B-v4.3",
+      "copies": 4,
+      "rows": 6,
+      "median": 0.5445985,
+      "high": 1,
+      "low": 0,
+      "families": [
+        [
+          "coder3101/Cydonia-24B-v4.3-heretic-v2",
+          "coder3101/Cydonia-24B-v4.3-heretic-v3"
+        ]
+      ],
+      "alone": [
+        "coder3101/Cydonia-24B-v4.3-heretic-v4"
+      ]
+    },
+    {
+      "parent": "TheDrummer/Magidonia-24B-v4.3",
+      "copies": 3,
+      "rows": 3,
+      "median": 0.6441129999999999,
+      "high": 0,
+      "low": 0,
+      "families": [],
+      "alone": []
+    },
+    {
+      "parent": "coder3101/gemma-3-27b-it-heretic",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.779235,
+      "high": 0,
+      "low": 0,
+      "families": [],
+      "alone": []
+    },
+    {
+      "parent": "google/diffusiongemma-26B-A4B-it",
+      "copies": 4,
+      "rows": 6,
+      "median": 0.031396,
+      "high": 1,
+      "low": 4,
+      "families": [
+        [
+          "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+          "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored"
+        ]
+      ],
+      "alone": [
+        "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+        "Umranz/diffusiongemma-26B-A4B-it-abliteration"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+      "copies": 10,
+      "rows": 45,
+      "median": 0.146697,
+      "high": 3,
+      "low": 25,
+      "families": [
+        [
+          "coder3101/gemma-4-12B-it-qat-q4_0-unquantized-heretic",
+          "llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic",
+          "wnfldchen/gemma-4-12B-it-qat-q4_0-unquantized-heretic"
+        ]
+      ],
+      "alone": [
+        "JJaguar/gemma-4-12B-it-qat-q4_0-unquantized-heretic-nx",
+        "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja",
+        "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja-v2",
+        "huihui-ai/Huihui-gemma-4-12B-it-qat-q4_0-unquantized-abliterated"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "copies": 29,
+      "rows": 406,
+      "median": 0.23133349999999997,
+      "high": 36,
+      "low": 198,
+      "families": [
+        [
+          "3MPER0RR/gemma-4-12b-it-3MPER0RR-abliterated",
+          "BinxNet/gemma-4-12B-it-heretic",
+          "MoonRide/gemma-4-12B-it-heretic",
+          "Paul691/gemma-4-12B-it-abliterated-uncensored",
+          "lemuralabs/Gemma-4-12B-uncensored-bf16",
+          "prithivMLmods/gemma-4-12B-it-heretic_decensored"
+        ],
+        [
+          "Iambackup/gemma-4-12B-it-uncensored",
+          "Ishowbackup/gemma-4-12B-it-uncensored",
+          "Justbackup/gemma-4-12B-it-uncensored",
+          "Sabomako/gemma-4-12B-it-heretic",
+          "TrevorJS/gemma-4-12B-it-uncensored",
+          "laladream/gemma-4-12B-it-uncensored"
+        ],
+        [
+          "Ishowbackup/Huihui-gemma-4-12B-it-abliterated",
+          "TimelessSoul/Huihui-gemma-4-12B-it-abliterated",
+          "huihui-ai/Huihui-gemma-4-12B-it-abliterated"
+        ],
+        [
+          "MeFFyLe/gemma-4-12B-it-uncensored-heretic",
+          "coder3101/gemma-4-12B-it-heretic",
+          "llmfan46/gemma-4-12B-it-uncensored-heretic"
+        ],
+        [
+          "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals2",
+          "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals4",
+          "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9"
+        ],
+        [
+          "Vampelium/gemma-4-12B-it-heretic",
+          "igorls/gemma-4-12B-it-heretic-v1"
+        ]
+      ],
+      "alone": [
+        "AEON-7/Gemma-4-12B-it-AEON-Abliterated-K4-BF16",
+        "AlekseyCalvin/Lyrical_Translator_ru2en_on_Gemma4_12b_heretic_SFT_Run2"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+      "copies": 8,
+      "rows": 28,
+      "median": 0.14008425,
+      "high": 2,
+      "low": 17,
+      "families": [
+        [
+          "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+          "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+          "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara"
+        ]
+      ],
+      "alone": [
+        "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+        "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+        "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it",
+      "copies": 18,
+      "rows": 153,
+      "median": 0.2202185,
+      "high": 51,
+      "low": 63,
+      "families": [
+        [
+          "BinxNet/gemma-4-26B-A4B-it-heretic",
+          "DuoNeural/gemma-4-26B-A4B-it-abliterated",
+          "Rootkit7/Gemma-4-26B-A4B-abliterated",
+          "SevenOfNine/Gemma-4-26B-A4B-It-Abliterated",
+          "TrevorJS/gemma-4-26B-A4B-it-uncensored",
+          "claymorecrystal/gemma-4-26B-A4B-it-uncensored",
+          "erunda337/gemma-4-26B-A4B-it-uncensored",
+          "sh0ck0r/gemma-4-26B-A4B-it-heretic",
+          "sitten1/gemma-4-26B-A4B-it-uncensored",
+          "tvall43/gemma-4-26B-A4B-it-heretic"
+        ],
+        [
+          "SassyDiffusion/gemma-4-26B-A4B-it-heretic-ara",
+          "coder3101/gemma-4-26B-A4B-it-heretic",
+          "llmfan46/gemma-4-26B-A4B-it-uncensored-heretic"
+        ],
+        [
+          "huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated",
+          "prithivMLmods/gemma-4-26B-A4B-Heretic-Stable",
+          "prithivMLmods/gemma-4-26B-A4B-it-Uncensored-MAX"
+        ]
+      ],
+      "alone": []
+    },
+    {
+      "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+      "copies": 4,
+      "rows": 6,
+      "median": 0.566496,
+      "high": 1,
+      "low": 0,
+      "families": [
+        [
+          "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+          "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic"
+        ]
+      ],
+      "alone": [
+        "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it",
+      "copies": 25,
+      "rows": 298,
+      "median": 0.1467595,
+      "high": 30,
+      "low": 164,
+      "families": [
+        [
+          "3MPER0RR/gemma-4-31b-it-3MPER0RR-abliterated",
+          "Sabomako/gemma-4-31B-it-heretic",
+          "TrevorJS/gemma-4-31B-it-uncensored",
+          "Vampelium/gemma-4-31B-it-heretic",
+          "callmegrr/gemma-4-31B-it-heretic-z",
+          "germlag/gemma-4-31B-it-heretic-v2",
+          "ressl/gemma-4-31B-it-uncensored"
+        ],
+        [
+          "MoonRide/gemma-4-31B-it-heretic-ara",
+          "MoonRide/gemma-4-31B-it-heretic-ara-custom",
+          "coder3101/gemma-4-31B-it-heretic",
+          "llmfan46/gemma-4-31B-it-uncensored-heretic"
+        ],
+        [
+          "akpsahan/Huihui-gemma-4-31B-it-abliterated-v2",
+          "huihui-ai/Huihui-gemma-4-31B-it-abliterated",
+          "huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2",
+          "prithivMLmods/gemma-4-31B-it-Uncensored-MAX"
+        ],
+        [
+          "jcxu97/gemma-4-31B-it-abliterated",
+          "wangzhang/gemma-4-31B-it-abliterated"
+        ]
+      ],
+      "alone": [
+        "DuoNeural/Gemma4-31B-IT-Abliterated",
+        "cosmicoptima/gemma4-31b-consciousness-abliterated",
+        "sh0ck0r/Artemis-31B-v1.1-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E2B-it",
+      "copies": 24,
+      "rows": 275,
+      "median": 0.088708,
+      "high": 37,
+      "low": 184,
+      "families": [
+        [
+          "Ishowbackup/gemma-4-E2B-it-uncensored",
+          "TrevorJS/gemma-4-E2B-it-uncensored",
+          "WWTCyberLab/gemma-4-E2B-it-abliterated",
+          "aifeifei798/Heretic-Scalpel-E2B",
+          "anlord/gemma-4-E2B-it-abliterated",
+          "lessans/gemma-4-E2B-it-uncensored",
+          "treadon/gemma4-E2B-it-abliterated",
+          "tvall43/gemma-4-E2B-it-heretic-v1"
+        ],
+        [
+          "DuoNeural/Gemma-4-E2B-Heretic",
+          "Dzluck/gemma-4-E2B-it-abliterated-v2",
+          "MoonRide/gemma-4-E2B-it-heretic",
+          "huihui-ai/Huihui-gemma-4-E2B-it-abliterated",
+          "huihui-ai/Huihui-gemma-4-E2B-it-abliterated",
+          "prithivMLmods/gemma-4-E2B-it-Uncensored-MAX",
+          "tvall43/gemma-4-E2B-it-heretic-v0"
+        ],
+        [
+          "DavidAU/gemma-4-E2B-it-The-DECKARD-HERETIC-UNCENSORED-Thinking",
+          "MoonRide/gemma-4-E2B-it-heretic-ara",
+          "MoonRide/gemma-4-E2B-it-heretic-ara-custom",
+          "llmfan46/gemma-4-E2B-it-ultra-uncensored-heretic"
+        ]
+      ],
+      "alone": []
+    },
+    {
+      "parent": "google/gemma-4-E4B-it-qat-q4_0-unquantized",
+      "copies": 3,
+      "rows": 3,
+      "median": 0.066641,
+      "high": 0,
+      "low": 2,
+      "families": [],
+      "alone": [
+        "coder3101/gemma-4-E4B-it-qat-q4_0-unquantized-heretic",
+        "igorls/gemma-4-E4B-it-qat-q4_0-unquantized-heretic",
+        "prithivMLmods/gemma-4-E4B-it-qat-heretic_decensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B-it",
+      "copies": 39,
+      "rows": 703,
+      "median": 0.070385,
+      "high": 115,
+      "low": 470,
+      "families": [
+        [
+          "Cup4/gemma-4-E4B-it-uncensored-heretic",
+          "Cup5/gemma-4-E4B-it-uncensored-heretic",
+          "Himanshuoo8/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking",
+          "JokeHer/gemma-4-E4B-it-heretic",
+          "MoonRide/gemma-4-E4B-it-heretic-ara",
+          "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals3",
+          "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals5",
+          "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn",
+          "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8",
+          "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn",
+          "Pound1320/gemma-4-E4B-it-uncensored-heretic",
+          "SassyDiffusion/gemma-4-E4B-it-heretic",
+          "alphakek/gemma-4-E4B-it-heretic-mythos-v1",
+          "coder3101/gemma-4-E4B-it-heretic",
+          "llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic",
+          "llmfan46/gemma-4-E4B-it-uncensored-heretic"
+        ],
+        [
+          "BinxNet/gemma-4-E4B-it-heretic",
+          "Dingdust/ContextPilot-E4B-heretic",
+          "p-e-w/gemma-4-E4B-it-heretic",
+          "p-e-w/gemma-4-E4B-it-heretic-REPRODUCED-2",
+          "sh0ck0r/gemma-4-E4B-it-heretic"
+        ],
+        [
+          "TheUmbraWalker/gemma-4-E4B-it-2-heretic",
+          "TheUmbraWalker/gemma-4-E4B-it-heretic",
+          "TrevorJS/gemma-4-E4B-it-uncensored",
+          "senjiangchen/gemma-4-E4B-it-uncensored"
+        ],
+        [
+          "huihui-ai/Huihui-gemma-4-E4B-it-abliterated",
+          "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX"
+        ]
+      ],
+      "alone": [
+        "Felldude/gemma-4-E4B-uncensored",
+        "Ilya626/gemma-4-E4B-it-SDFT_Heretic_RP",
+        "Jiunsong/supergemma4-e4b-abliterated",
+        "Madras1/Gemma-4-E4B-Abliterated-Uncensored",
+        "OS-Software/gemma-4-E4B-it-uncensored-heretic",
+        "chulcher/gemma-4-e4b-abliterated",
+        "jokernifty/gemma-4-e4b-it-abliterated",
+        "treadon/gemma4-E4B-it-Abliterated-AND-Disinhibited-USE-THIS"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.028336,
+      "high": 0,
+      "low": 1,
+      "families": [],
+      "alone": [
+        "Felldude/gemma-4-E4B-uncensored",
+        "chulcher/gemma-4-e4b-abliterated"
+      ]
+    },
+    {
+      "parent": "inflatebot/MN-12B-Mag-Mell-R1",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.9981789999999999,
+      "high": 1,
+      "low": 0,
+      "families": [
+        [
+          "EldritchLabs/MN-12B-Mag-Mell-R1-Uncensored-Scale1.2",
+          "Naphula/MN-12B-Mag-Mell-R1-Uncensored"
+        ]
+      ],
+      "alone": []
+    },
+    {
+      "parent": "mistralai/Magistral-Small-2509",
+      "copies": 3,
+      "rows": 3,
+      "median": 0.048496,
+      "high": 1,
+      "low": 2,
+      "families": [
+        [
+          "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v1",
+          "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v2"
+        ]
+      ],
+      "alone": [
+        "grayarea/Magistral-Small-2509-Heretic-v1.2"
+      ]
+    },
+    {
+      "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.009075,
+      "high": 0,
+      "low": 1,
+      "families": [],
+      "alone": [
+        "AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic",
+        "ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored"
+      ]
+    },
+    {
+      "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+      "copies": 5,
+      "rows": 10,
+      "median": 0.8625514999999999,
+      "high": 4,
+      "low": 0,
+      "families": [
+        [
+          "3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated",
+          "DogOnKeyboard/Mistral-7B-Heretic",
+          "evolveon/Mistral-7B-Instruct-v0.3-abliterated",
+          "paoloronco/Mistral-7B-Instruct-v0.3-heretic",
+          "richardyoung/Mistral-7B-Instruct-v0.3-abliterated"
+        ]
+      ],
+      "alone": []
+    },
+    {
+      "parent": "mistralai/Mistral-Nemo-Instruct-2407",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.08083499999999999,
+      "high": 0,
+      "low": 1,
+      "families": [],
+      "alone": [
+        "DuoNeural/Mistral-NeMo-12B-Abliterated",
+        "grimjim/mistralai-Mistral-Nemo-Instruct-2407-extensive-BP-abliteration-12B"
+      ]
+    },
+    {
+      "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+      "copies": 5,
+      "rows": 10,
+      "median": 0.118436,
+      "high": 1,
+      "low": 7,
+      "families": [
+        [
+          "coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic",
+          "darkc0de/Mistral-Small-3.2-24B-Instruct-2506-heretic"
+        ]
+      ],
+      "alone": [
+        "llmfan46/Mistral-Small-3.2-24B-Instruct-2506-ultra-uncensored-heretic",
+        "nicoboss/Huihui-Mistral-Small-3.2-24B-Instruct-2506-abliterated-llamacppfixed"
+      ]
+    },
+    {
+      "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.359315,
+      "high": 0,
+      "low": 0,
+      "families": [],
+      "alone": [
+        "huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated",
+        "llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+      "copies": 4,
+      "rows": 6,
+      "median": 0.64951325,
+      "high": 2,
+      "low": 0,
+      "families": [
+        [
+          "llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic",
+          "richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic",
+          "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated"
+        ]
+      ],
+      "alone": [
+        "huihui-ai/Huihui-gemma-4-12B-coder-fable5-composer2.5-v1-abliterated"
+      ]
+    },
+    {
+      "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+      "copies": 2,
+      "rows": 1,
+      "median": 0.996257,
+      "high": 1,
+      "low": 0,
+      "families": [
+        [
+          "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1",
+          "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2"
+        ]
+      ],
+      "alone": []
+    }
+  ],
+  "families": [
+    {
+      "parent": "TheDrummer/Cydonia-24B-v4.3",
+      "members": [
+        "coder3101/Cydonia-24B-v4.3-heretic-v2",
+        "coder3101/Cydonia-24B-v4.3-heretic-v3"
+      ]
+    },
+    {
+      "parent": "google/diffusiongemma-26B-A4B-it",
+      "members": [
+        "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+        "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it-qat-q4_0-unquantized",
+      "members": [
+        "coder3101/gemma-4-12B-it-qat-q4_0-unquantized-heretic",
+        "llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic",
+        "wnfldchen/gemma-4-12B-it-qat-q4_0-unquantized-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "3MPER0RR/gemma-4-12b-it-3MPER0RR-abliterated",
+        "BinxNet/gemma-4-12B-it-heretic",
+        "MoonRide/gemma-4-12B-it-heretic",
+        "Paul691/gemma-4-12B-it-abliterated-uncensored",
+        "lemuralabs/Gemma-4-12B-uncensored-bf16",
+        "prithivMLmods/gemma-4-12B-it-heretic_decensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "Iambackup/gemma-4-12B-it-uncensored",
+        "Ishowbackup/gemma-4-12B-it-uncensored",
+        "Justbackup/gemma-4-12B-it-uncensored",
+        "Sabomako/gemma-4-12B-it-heretic",
+        "TrevorJS/gemma-4-12B-it-uncensored",
+        "laladream/gemma-4-12B-it-uncensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "Ishowbackup/Huihui-gemma-4-12B-it-abliterated",
+        "TimelessSoul/Huihui-gemma-4-12B-it-abliterated",
+        "huihui-ai/Huihui-gemma-4-12B-it-abliterated"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "MeFFyLe/gemma-4-12B-it-uncensored-heretic",
+        "coder3101/gemma-4-12B-it-heretic",
+        "llmfan46/gemma-4-12B-it-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals2",
+        "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals4",
+        "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-12B-it",
+      "members": [
+        "Vampelium/gemma-4-12B-it-heretic",
+        "igorls/gemma-4-12B-it-heretic-v1"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+      "members": [
+        "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+        "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+        "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it",
+      "members": [
+        "BinxNet/gemma-4-26B-A4B-it-heretic",
+        "DuoNeural/gemma-4-26B-A4B-it-abliterated",
+        "Rootkit7/Gemma-4-26B-A4B-abliterated",
+        "SevenOfNine/Gemma-4-26B-A4B-It-Abliterated",
+        "TrevorJS/gemma-4-26B-A4B-it-uncensored",
+        "claymorecrystal/gemma-4-26B-A4B-it-uncensored",
+        "erunda337/gemma-4-26B-A4B-it-uncensored",
+        "sh0ck0r/gemma-4-26B-A4B-it-heretic",
+        "sitten1/gemma-4-26B-A4B-it-uncensored",
+        "tvall43/gemma-4-26B-A4B-it-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it",
+      "members": [
+        "SassyDiffusion/gemma-4-26B-A4B-it-heretic-ara",
+        "coder3101/gemma-4-26B-A4B-it-heretic",
+        "llmfan46/gemma-4-26B-A4B-it-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-26B-A4B-it",
+      "members": [
+        "huihui-ai/Huihui-gemma-4-26B-A4B-it-abliterated",
+        "prithivMLmods/gemma-4-26B-A4B-Heretic-Stable",
+        "prithivMLmods/gemma-4-26B-A4B-it-Uncensored-MAX"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+      "members": [
+        "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+        "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it",
+      "members": [
+        "3MPER0RR/gemma-4-31b-it-3MPER0RR-abliterated",
+        "Sabomako/gemma-4-31B-it-heretic",
+        "TrevorJS/gemma-4-31B-it-uncensored",
+        "Vampelium/gemma-4-31B-it-heretic",
+        "callmegrr/gemma-4-31B-it-heretic-z",
+        "germlag/gemma-4-31B-it-heretic-v2",
+        "ressl/gemma-4-31B-it-uncensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it",
+      "members": [
+        "MoonRide/gemma-4-31B-it-heretic-ara",
+        "MoonRide/gemma-4-31B-it-heretic-ara-custom",
+        "coder3101/gemma-4-31B-it-heretic",
+        "llmfan46/gemma-4-31B-it-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it",
+      "members": [
+        "akpsahan/Huihui-gemma-4-31B-it-abliterated-v2",
+        "huihui-ai/Huihui-gemma-4-31B-it-abliterated",
+        "huihui-ai/Huihui-gemma-4-31B-it-abliterated-v2",
+        "prithivMLmods/gemma-4-31B-it-Uncensored-MAX"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-31B-it",
+      "members": [
+        "jcxu97/gemma-4-31B-it-abliterated",
+        "wangzhang/gemma-4-31B-it-abliterated"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E2B-it",
+      "members": [
+        "Ishowbackup/gemma-4-E2B-it-uncensored",
+        "TrevorJS/gemma-4-E2B-it-uncensored",
+        "WWTCyberLab/gemma-4-E2B-it-abliterated",
+        "aifeifei798/Heretic-Scalpel-E2B",
+        "anlord/gemma-4-E2B-it-abliterated",
+        "lessans/gemma-4-E2B-it-uncensored",
+        "treadon/gemma4-E2B-it-abliterated",
+        "tvall43/gemma-4-E2B-it-heretic-v1"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E2B-it",
+      "members": [
+        "DuoNeural/Gemma-4-E2B-Heretic",
+        "Dzluck/gemma-4-E2B-it-abliterated-v2",
+        "MoonRide/gemma-4-E2B-it-heretic",
+        "huihui-ai/Huihui-gemma-4-E2B-it-abliterated",
+        "huihui-ai/Huihui-gemma-4-E2B-it-abliterated",
+        "prithivMLmods/gemma-4-E2B-it-Uncensored-MAX",
+        "tvall43/gemma-4-E2B-it-heretic-v0"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E2B-it",
+      "members": [
+        "DavidAU/gemma-4-E2B-it-The-DECKARD-HERETIC-UNCENSORED-Thinking",
+        "MoonRide/gemma-4-E2B-it-heretic-ara",
+        "MoonRide/gemma-4-E2B-it-heretic-ara-custom",
+        "llmfan46/gemma-4-E2B-it-ultra-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B-it",
+      "members": [
+        "Cup4/gemma-4-E4B-it-uncensored-heretic",
+        "Cup5/gemma-4-E4B-it-uncensored-heretic",
+        "Himanshuoo8/gemma-4-E4B-it-Claude-Opus-4.5-HERETIC-UNCENSORED-Thinking",
+        "JokeHer/gemma-4-E4B-it-heretic",
+        "MoonRide/gemma-4-E4B-it-heretic-ara",
+        "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals3",
+        "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals5",
+        "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals6-attn",
+        "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8",
+        "NullpoLab/gemma-4-E4B-it-Heretic-ARA-Refusals8-attn",
+        "Pound1320/gemma-4-E4B-it-uncensored-heretic",
+        "SassyDiffusion/gemma-4-E4B-it-heretic",
+        "alphakek/gemma-4-E4B-it-heretic-mythos-v1",
+        "coder3101/gemma-4-E4B-it-heretic",
+        "llmfan46/gemma-4-E4B-it-ultra-uncensored-heretic",
+        "llmfan46/gemma-4-E4B-it-uncensored-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B-it",
+      "members": [
+        "BinxNet/gemma-4-E4B-it-heretic",
+        "Dingdust/ContextPilot-E4B-heretic",
+        "p-e-w/gemma-4-E4B-it-heretic",
+        "p-e-w/gemma-4-E4B-it-heretic-REPRODUCED-2",
+        "sh0ck0r/gemma-4-E4B-it-heretic"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B-it",
+      "members": [
+        "TheUmbraWalker/gemma-4-E4B-it-2-heretic",
+        "TheUmbraWalker/gemma-4-E4B-it-heretic",
+        "TrevorJS/gemma-4-E4B-it-uncensored",
+        "senjiangchen/gemma-4-E4B-it-uncensored"
+      ]
+    },
+    {
+      "parent": "google/gemma-4-E4B-it",
+      "members": [
+        "huihui-ai/Huihui-gemma-4-E4B-it-abliterated",
+        "prithivMLmods/gemma-4-E4B-it-Uncensored-MAX"
+      ]
+    },
+    {
+      "parent": "inflatebot/MN-12B-Mag-Mell-R1",
+      "members": [
+        "EldritchLabs/MN-12B-Mag-Mell-R1-Uncensored-Scale1.2",
+        "Naphula/MN-12B-Mag-Mell-R1-Uncensored"
+      ]
+    },
+    {
+      "parent": "mistralai/Magistral-Small-2509",
+      "members": [
+        "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v1",
+        "llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v2"
+      ]
+    },
+    {
+      "parent": "mistralai/Mistral-7B-Instruct-v0.3",
+      "members": [
+        "3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated",
+        "DogOnKeyboard/Mistral-7B-Heretic",
+        "evolveon/Mistral-7B-Instruct-v0.3-abliterated",
+        "paoloronco/Mistral-7B-Instruct-v0.3-heretic",
+        "richardyoung/Mistral-7B-Instruct-v0.3-abliterated"
+      ]
+    },
+    {
+      "parent": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
+      "members": [
+        "coder3101/Mistral-Small-3.2-24B-Instruct-2506-heretic",
+        "darkc0de/Mistral-Small-3.2-24B-Instruct-2506-heretic"
+      ]
+    },
+    {
+      "parent": "yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1",
+      "members": [
+        "llmfan46/gemma-4-12B-coder-fable5-composer2.5-v1-uncensored-heretic",
+        "richardyoung/gemma-4-12B-coder-fable5-composer2.5-v1-heretic",
+        "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-abliterated"
+      ]
+    },
+    {
+      "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+      "members": [
+        "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1",
+        "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2"
+      ]
+    }
+  ],
+  "classes": [
+    {
+      "class_a": "abliterated",
+      "class_b": "abliterated",
+      "rows": 200,
+      "median": 0.2286955,
+      "high": 16,
+      "low": 92
+    },
+    {
+      "class_a": "abliterated",
+      "class_b": "heretic",
+      "rows": 589,
+      "median": 0.0829355,
+      "high": 30,
+      "low": 404
+    },
+    {
+      "class_a": "abliterated",
+      "class_b": "uncensored",
+      "rows": 220,
+      "median": 0.2202185,
+      "high": 27,
+      "low": 97
+    },
+    {
+      "class_a": "heretic",
+      "class_b": "heretic",
+      "rows": 588,
+      "median": 0.1236105,
+      "high": 152,
+      "low": 321
+    },
+    {
+      "class_a": "heretic",
+      "class_b": "uncensored",
+      "rows": 309,
+      "median": 0.110435,
+      "high": 37,
+      "low": 197
+    },
+    {
+      "class_a": "uncensored",
+      "class_b": "uncensored",
+      "rows": 62,
+      "median": 0.2202185,
+      "high": 25,
+      "low": 28
+    }
+  ],
+  "single": {
+    "kept": 1497,
+    "drop_missing": 0,
+    "drop_few": 471,
+    "bins": [
+      620,
+      198,
+      138,
+      47,
+      50,
+      27,
+      29,
+      34,
+      87,
+      267
+    ],
+    "high": 267,
+    "low": 818,
+    "classes": [
+      {
+        "class_a": "abliterated",
+        "class_b": "abliterated",
+        "rows": 141,
+        "median": 0.253996,
+        "high": 16,
+        "low": 59
+      },
+      {
+        "class_a": "abliterated",
+        "class_b": "heretic",
+        "rows": 429,
+        "median": 0.091677,
+        "high": 30,
+        "low": 295
+      },
+      {
+        "class_a": "abliterated",
+        "class_b": "uncensored",
+        "rows": 178,
+        "median": 0.27299825,
+        "high": 26,
+        "low": 65
+      },
+      {
+        "class_a": "heretic",
+        "class_b": "heretic",
+        "rows": 433,
+        "median": 0.144398,
+        "high": 130,
+        "low": 228
+      },
+      {
+        "class_a": "heretic",
+        "class_b": "uncensored",
+        "rows": 257,
+        "median": 0.13733800000000002,
+        "high": 40,
+        "low": 146
+      },
+      {
+        "class_a": "uncensored",
+        "class_b": "uncensored",
+        "rows": 59,
+        "median": 0.273884,
+        "high": 25,
+        "low": 25
+      }
+    ]
+  },
+  "sign": {
+    "count": 137,
+    "rows": [
+      "coder3101/Magidonia-24B-v4.3-heretic ~ coder3101/Magidonia-24B-v4.3-heretic-v2",
+      "Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning ~ DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2",
+      "OS-Software/gemma-4-12B-it-qat-q4_0-unquantized-heretic-ja-v2 ~ llmfan46/gemma-4-12B-it-qat-q4_0-unquantized-uncensored-heretic",
+      "huihui-ai/Huihui-gemma-4-12B-it-abliterated ~ Paul691/gemma-4-12B-it-abliterated-uncensored",
+      "TimelessSoul/Huihui-gemma-4-12B-it-abliterated ~ Paul691/gemma-4-12B-it-abliterated-uncensored",
+      "Ishowbackup/Huihui-gemma-4-12B-it-abliterated ~ Paul691/gemma-4-12B-it-abliterated-uncensored",
+      "llmfan46/gemma-4-12B-it-uncensored-heretic ~ RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9",
+      "RumiaChannel/gemma-4-12B-it-uncensored-ara-Refusals9 ~ MeFFyLe/gemma-4-12B-it-uncensored-heretic",
+      "BinxNet/gemma-4-12B-it-heretic ~ Sabomako/gemma-4-12B-it-heretic",
+      "laladream/gemma-4-12B-it-uncensored ~ jwest33/gemma-4-12B-it-null-space-abliterated"
+    ]
+  }
+}
