@@ -3,6 +3,7 @@
 # Modified: SDE 2026-11-03  first pass: per-copy mode from own rotation, counts by name word and family, markdown and json.
 # Modified: SDE 2026-11-03  number a family by its 1-based position among the families of the same parent, not the whole list.
 # Modified: SDE 2026-11-03  skip the command's own modes.json and any copies list without pull and pair when reading the census.
+# Modified: SDE 2026-11-03  add the pair figure: median |cos| between the copy's o_proj and down_proj left vectors of the same layer.
 """Sort every census copy into an edit mode by its own layer rotation.
 
 --directions names a census folder of <parent id>.json files, each with a
@@ -13,12 +14,16 @@ gives the copy's own window, spread, adjacent and far medians. The mode is
 "few layers" under three layers, "one direction" when the far median (or the
 own spread when there is no far pair) is at least 0.9, "per layer" when the
 adjacent median is at least 0.5 and the far median at most 0.2, "arbitrary
-rank" when the adjacent median is under 0.2, and "mixed" otherwise. The
+rank" when the adjacent median is under 0.2, and "mixed" otherwise. The pair
+figure is the median |cos| between the copy's --kind left vector and its
+down_proj left vector (o_proj when --kind is down_proj) of the same layer,
+over the layers carrying both, and none when no layer carries both. The
 markdown goes to --out and the same stem with .json beside it.
 """
 
 import argparse
 import json
+import statistics
 from pathlib import Path
 
 from direction_layers import find_file, load_layers, place
@@ -48,6 +53,21 @@ def mode_of(layers, figures):
     if adjacent is not None and adjacent < ARBITRARY_ADJACENT:
         return 'arbitrary rank'
     return 'mixed'
+
+
+def pair_of(vectors, other):
+    """Return the median |cos| between same-layer vectors of two kinds, else None."""
+    values = []
+    for layer, vector in vectors.items():
+        if layer not in other:
+            continue
+        a = vector.double().flatten()
+        b = other[layer].double().flatten()
+        norm = float(a.norm() * b.norm())
+        if norm == 0.0:
+            continue
+        values.append(abs(float(a @ b)) / norm)
+    return statistics.median(values) if values else None
 
 
 def name_word(repo):
@@ -140,15 +160,15 @@ def write_markdown(path, rows, counts, by_name, family_rows):
                      + ' | '.join(str(row['counts'][mode]) for mode in MODES[:5]) + ' |')
     lines += [
         '',
-        '| parent | copy | layers | window | own spread | adjacent | far | mode | family |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| parent | copy | layers | window | own spread | adjacent | far | pair | mode | family |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         window = 'none' if row['window'] is None else f"{row['window'][0]}..{row['window'][1]}"
         lines.append(
             f"| {row['parent']} | {row['repo']} | {row['layers']} | {window} "
             f"| {three(row['own_spread'])} | {three(row['adjacent'])} | {three(row['far'])} "
-            f"| {row['mode']} | {row['family']} |")
+            f"| {three(row['pair'])} | {row['mode']} | {row['family']} |")
     path.write_text('\n'.join(lines) + '\n')
 
 
@@ -167,6 +187,7 @@ def main(argv=None):
     if args.families:
         families = json.loads(Path(args.families).read_text()).get('families', [])
     numbers = family_numbers(families)
+    other_kind = 'down_proj' if args.kind == 'o_proj' else 'o_proj'
 
     rows = []
     seen = set()
@@ -178,8 +199,10 @@ def main(argv=None):
             seen.add((parent, repo))
             path = find_file(args.pulls, copy)
             vectors = load_layers(path, args.kind) if path else {}
+            other = load_layers(path, other_kind) if path else {}
             row = {'parent': parent, 'repo': repo, 'layers': len(vectors),
                    'window': None, 'own_spread': None, 'adjacent': None, 'far': None,
+                   'pair': pair_of(vectors, other),
                    'mode': 'no file', 'family': family_of(numbers, parent, repo)}
             if vectors:
                 figures = place(vectors, {})

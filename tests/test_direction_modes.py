@@ -2,6 +2,7 @@
 # Created by SDE
 # Modified: SDE 2026-11-03  four copies, one family, a rotating reference and a basis ladder.
 # Modified: SDE 2026-11-03  a stale modes.json in the census folder is skipped, even when --out writes beside it.
+# Modified: SDE 2026-11-03  down_proj keys give the pair figure: 1.000, 0.000 and none.
 import contextlib
 import io
 import json
@@ -23,8 +24,8 @@ DIM = 16
 KIND = 'o_proj'
 
 
-def key(layer):
-    return f'model.layers.{layer}.self_attn.{KIND}.weight.left'
+def key(layer, kind=KIND):
+    return f'model.layers.{layer}.self_attn.{kind}.weight.left'
 
 
 def basis(index):
@@ -38,17 +39,20 @@ def at(degrees):
     return math.cos(angle) * basis(0) + math.sin(angle) * basis(1)
 
 
-def write_copy(root, pull, pair, tensors):
+def write_copy(root, pull, pair, tensors, down=None):
     folder = root / pull / 'measurements' / f'pair-{pair}'
     folder.mkdir(parents=True)
-    save_file({key(layer): value.float() for layer, value in tensors.items()},
-              str(folder / 'weights.directions.safetensors'))
+    saved = {key(layer): value.float() for layer, value in tensors.items()}
+    saved.update({key(layer, 'down_proj'): value.float()
+                  for layer, value in (down or {}).items()})
+    save_file(saved, str(folder / 'weights.directions.safetensors'))
 
 
 def build(root):
     reference = {layer: at(layer * 9) for layer in range(12)}
-    write_copy(root, 't1', 1, reference)
-    write_copy(root, 't1', 2, {layer: reference[7] for layer in range(5, 13)})
+    write_copy(root, 't1', 1, reference, down=dict(reference))
+    write_copy(root, 't1', 2, {layer: reference[7] for layer in range(5, 13)},
+               down={layer: basis(3) for layer in range(5, 13)})
     write_copy(root, 't1', 3, {layer: basis(layer + 2) for layer in range(12)})
     write_copy(root, 't1', 4, {layer: at(layer * 9) for layer in range(2)})
     write_copy(root, 't1', 5, {layer: basis(3) for layer in range(6)})
@@ -107,6 +111,9 @@ class DirectionModesTest(unittest.TestCase):
             self.assertEqual(rows['one/b-heretic']['family'], 1)
             self.assertEqual(rows['q/one']['family'], 1)
             self.assertEqual(rows['tiny/d']['family'], 'none')
+            self.assertAlmostEqual(rows['ref/a']['pair'], 1.0, places=3)
+            self.assertAlmostEqual(rows['one/b-heretic']['pair'], 0.0, places=3)
+            self.assertIsNone(rows['ara/c-abliterated']['pair'])
             self.assertEqual(document['counts']['per layer'], 1)
             self.assertEqual(document['counts']['no file'], 0)
             self.assertEqual(document['by_name']['one direction']['heretic'], 1)
@@ -127,6 +134,9 @@ class DirectionModesTest(unittest.TestCase):
             self.assertEqual([line.split(' | ')[1] for line in family_table], ['1', '1'])
             header = next(i for i, line in enumerate(lines)
                           if line.startswith('| parent | copy |'))
+            self.assertEqual(lines[header],
+                             '| parent | copy | layers | window | own spread | adjacent '
+                             '| far | pair | mode | family |')
             table = [line for line in lines[header + 2:] if line.startswith('| ')]
             self.assertEqual(len(table), 5)
             self.assertTrue(table[0].startswith('| org/P | ara/c-abliterated | 12 | 0..11 |'))
