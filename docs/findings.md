@@ -6254,6 +6254,47 @@ is twice the matrix count, one left and one right vector per matrix), `results/d
 `/opt/ai/hpc-packages/pulls/model-audit/<system>N/measurements/pair-K/`, and the per-copy `results/weights/` reports
 for the energy shares.
 
+## 177. On the E4B the direction families are the tool's lines: Heretic 1.2's arbitrary-rank ablation finds one direction for ten makers whatever their prompt set, Heretic 1.3 and 1.4 with a direction index near 31 find another at 0.07 to it, and the per-layer passes and the difference-of-means projections form the third and fourth
+
+The question finding 176 left open, why two Heretic searches of one parent land in different families, answers from
+the reading notes already written. For each of the 39 measured copies of google/gemma-4-E4B-it,
+`results/directions/e4b-families-parameters.md` sets the copy's family beside the tool, the version, the direction
+index, the kernel or window figures, the weight, the changed count and the prompt set its reading note records (39
+notes, 19 with a version printed, 13 with kernels, 6 with a direction index). The families sort by the line of the
+tool, not by the maker and not by the prompts.
+
+Family 1, sixteen copies, is Heretic 1.2.0's arbitrary-rank ablation: fourteen notes print that version with a
+start and an end layer index (starts 7 to 21, ends 35 to 42) and, where the card carries them, the preserve, steer
+and overcorrect figures (three of the fourteen are the re-uploads of llmfan46's pass under its card); the other two
+are alphakek's "private fork of Heretic" scored on a set the maker calls Mythos, at 0.995 to coder3101's export, and
+Himanshuoo8's fine-tune over coder3101's edit (finding 97). NullpoLab's five searches on ARA refusal sets, MoonRide's
+ARA pass, alphakek's custom set and the tool's shipped set all land on the same direction: 120 pairs at a median of
+0.960. Family 2, five copies, is Heretic 1.3.0 and 1.4.0 with a direction index between 31.13 and 32.21 (p-e-w
+31.26, sh0ck0r 31.87, Dingdust 31.13, BinxNet 32.21) and the two kernels the cards print. Between the two lines
+there is nothing shared: twelve pairs drawn across them stand at a median of 0.065 and a maximum of 0.070. Within
+the 1.3 line the index moves the direction: ImanolSuarez's pass, 1.3.0 at index 29.08 on the shipped prompt set,
+stands at 0.750 to p-e-w's on 37 matrices and in no family. Family 3 is the per-layer passes, TrevorJS's
+norm-preserving biprojection on all 42 layers at scale 1.0 (with senjiangchen's re-upload) and TheUmbraWalker's two
+Heretic 1.3.0 passes with one direction per layer, at 0.992 to it on 73 matrices (finding 85 read 0.98). Family 4
+is huihui-ai's difference-of-means projection at weight 2.5 with prithivMLmods's re-shard. The copies in no family
+are the other lines: Bahushruth's L-BFGS arbitrary-rank ablation at 0.736 to family 1, DuoNeural's arcee fork at
+0.761 to family 4, OS-Software's 2.0.0 transport edit at 0.431 to family 1 on seven matrices, chulcher's 1.1.0 pass
+measured against the instruct checkpoint it does not stand on (finding 100), Madras1's and jokernifty's projections
+at scales 1.35 and 1.0000, treadon's two biprojections on the top 17 and 20 layers, and the fine-tunes.
+
+Why it matters. The "same tool" reading of finding 105 now has its unit: the tool's line. Heretic 1.2's
+arbitrary-rank ablation and Heretic 1.3's kernel search on one parent are two tools for this purpose, at 0.07 to
+each other, and the prompt set a maker chooses does not move the direction within a line (ARA, a custom set and the
+shipped set agree at 0.96 or more) while the direction index does (29 against 31 gives 0.75). For the pinner this
+turns the family check into a version check: a new E4B copy whose card prints 1.2.0 should land in family 1 and one
+that prints 1.3.0 or 1.4.0 with an index near 31 in family 2, and a copy that does not is the one to read first.
+Whether the same holds on the 12B, the 31B, the E2B and the 26B-A4B is one more table each from the notes already
+written.
+
+Evidence: `results/directions/e4b-families-parameters.md` (one row per copy, figures copied from
+`docs/cards/<copy>.reading.md`), `results/directions/google-gemma-4-E4B-it.json` for the pair figures quoted, and
+`results/directions/families.json` for the family lists.
+
 ## Not yet established
 
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
