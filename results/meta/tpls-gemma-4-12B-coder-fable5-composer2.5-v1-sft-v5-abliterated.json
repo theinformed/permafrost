@@ -1,0 +1,1454 @@
+{
+  "schema_version": 1,
+  "modified": {
+    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5-abliterated",
+    "sha": "0b752c7b6c5155e57b4afc354fa8b43901d23188",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "2916bdfe9dcf016e28367ad3ccfaa38309bd54f424f367cc7be8dd8424f19e04",
+        "bytes": 2814
+      },
+      "tokenizer.json": {
+        "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "bytes": 32169626
+      },
+      "generation_config.json": {
+        "sha256": "f0f7ca9ea682738696f3960e39c427db6e3a4ff315265b13f4799125884e1dee",
+        "bytes": 255
+      },
+      "config.json": {
+        "sha256": "2ae705564272770415931ae107362da9f11706a0972bbe5386f782b29d003465",
+        "bytes": 4338
+      },
+      "chat_template.jinja": {
+        "sha256": "2805e43e9fcefc4e7c1a67b2045a83a8d3ab6b055014dbc4f699a5e3e41adb87",
+        "bytes": 353
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{{ bos_token }}{% for m in messages %}{{ '<|turn>' + ('model' if m['role'] == 'assistant' else m['role']) + '\n' }}{% if m['role'] == 'assistant' %}{% generation %}{{ m['content'] | trim + '<turn|>\n' }}{% endgeneration %}{% else %}{{ m['content'] | trim + '<turn|>\n' }}{% endif %}{% endfor %}{% if add_generation_prompt %}{{ '<|turn>model\n' }}{% endif %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": null,
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": {
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "pad_token_id": 0,
+        "suppress_tokens": [
+          258883,
+          258882
+        ],
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.12.1"
+      },
+      "config": {
+        "architectures": [
+          "Gemma4UnifiedForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "audio_embed_dim": 640,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_unified_audio",
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "dtype": "bfloat16",
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_type": "gemma4_unified",
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": true,
+          "bos_token_id": 2,
+          "dtype": "bfloat16",
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 3840,
+          "hidden_size_per_layer_input": 0,
+          "initializer_range": 0.02,
+          "intermediate_size": 15360,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 262144,
+          "model_type": "gemma4_unified_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 16,
+          "num_experts": null,
+          "num_global_key_value_heads": 1,
+          "num_hidden_layers": 48,
+          "num_key_value_heads": 8,
+          "num_kv_shared_layers": 0,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 1024,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": "vision",
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "transformers_version": "5.12.1",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "mm_embed_dim": 3840,
+          "mm_posemb_size": 1120,
+          "model_type": "gemma4_unified_vision",
+          "num_soft_tokens": 280,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 3840,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        }
+      }
+    }
+  },
+  "original": {
+    "repo": "tpls/gemma-4-12B-coder-fable5-composer2.5-v1-sft-v5",
+    "sha": "3cd205a21876c8c8584e5b80bb9d4c1ec4502b32",
+    "manifest": {
+      "tokenizer_config.json": {
+        "sha256": "48159f651d9495e69e30b84be1f367245d87bcb8d19353c821109f552b747753",
+        "bytes": 2764
+      },
+      "tokenizer.json": {
+        "sha256": "cc8d3a0ce36466ccc1278bf987df5f71db1719b9ca6b4118264f45cb627bfe0f",
+        "bytes": 32169626
+      },
+      "generation_config.json": {
+        "sha256": "8572cd7e6ae76e2baed5721c1f83abba289f0cfe04e8ac3cd59961280abbbd94",
+        "bytes": 260
+      },
+      "config.json": {
+        "sha256": "42fb3d626ff6a102910fbe21af05ba85dec1fbd91f617bbaa2c34e6493fdc0be",
+        "bytes": 4343
+      },
+      "chat_template.jinja": {
+        "sha256": "2805e43e9fcefc4e7c1a67b2045a83a8d3ab6b055014dbc4f699a5e3e41adb87",
+        "bytes": 353
+      }
+    },
+    "missing": [],
+    "invalid_json": {},
+    "snapshot": {
+      "templates": {
+        "default": "{{ bos_token }}{% for m in messages %}{{ '<|turn>' + ('model' if m['role'] == 'assistant' else m['role']) + '\n' }}{% if m['role'] == 'assistant' %}{% generation %}{{ m['content'] | trim + '<turn|>\n' }}{% endgeneration %}{% else %}{{ m['content'] | trim + '<turn|>\n' }}{% endif %}{% endfor %}{% if add_generation_prompt %}{{ '<|turn>model\n' }}{% endif %}"
+      },
+      "special_tokens": {
+        "tokenizer_config.json:bos_token": {
+          "value": "<bos>",
+          "ids": [
+            2
+          ]
+        },
+        "tokenizer_config.json:eos_token": {
+          "value": "<eos>",
+          "ids": [
+            1
+          ]
+        },
+        "tokenizer_config.json:pad_token": {
+          "value": "<pad>",
+          "ids": [
+            0
+          ]
+        },
+        "tokenizer_config.json:unk_token": {
+          "value": "<unk>",
+          "ids": [
+            3
+          ]
+        },
+        "tokenizer.json:0": {
+          "id": 0,
+          "content": "<pad>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:1": {
+          "id": 1,
+          "content": "<eos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:2": {
+          "id": 2,
+          "content": "<bos>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:3": {
+          "id": 3,
+          "content": "<unk>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:4": {
+          "id": 4,
+          "content": "<mask>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:46": {
+          "id": 46,
+          "content": "<|tool>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:47": {
+          "id": 47,
+          "content": "<tool|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:48": {
+          "id": 48,
+          "content": "<|tool_call>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:49": {
+          "id": 49,
+          "content": "<tool_call|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:50": {
+          "id": 50,
+          "content": "<|tool_response>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:51": {
+          "id": 51,
+          "content": "<tool_response|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:52": {
+          "id": 52,
+          "content": "<|\"|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:98": {
+          "id": 98,
+          "content": "<|think|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:100": {
+          "id": 100,
+          "content": "<|channel>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:101": {
+          "id": 101,
+          "content": "<channel|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:105": {
+          "id": 105,
+          "content": "<|turn>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:106": {
+          "id": 106,
+          "content": "<turn|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:255999": {
+          "id": 255999,
+          "content": "<|image>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:256000": {
+          "id": 256000,
+          "content": "<|audio>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258880": {
+          "id": 258880,
+          "content": "<|image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258881": {
+          "id": 258881,
+          "content": "<|audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258882": {
+          "id": 258882,
+          "content": "<image|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258883": {
+          "id": 258883,
+          "content": "<audio|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        },
+        "tokenizer.json:258884": {
+          "id": 258884,
+          "content": "<|video|>",
+          "single_word": false,
+          "lstrip": false,
+          "rstrip": false,
+          "normalized": false,
+          "special": true
+        }
+      },
+      "special_token_ids": {
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "video_token_id": 258884
+      },
+      "added_tokens": {
+        "tokenizer": [
+          {
+            "id": 0,
+            "content": "<pad>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 1,
+            "content": "<eos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 2,
+            "content": "<bos>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 3,
+            "content": "<unk>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 4,
+            "content": "<mask>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 46,
+            "content": "<|tool>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 47,
+            "content": "<tool|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 48,
+            "content": "<|tool_call>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 49,
+            "content": "<tool_call|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 50,
+            "content": "<|tool_response>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 51,
+            "content": "<tool_response|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 52,
+            "content": "<|\"|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 98,
+            "content": "<|think|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 100,
+            "content": "<|channel>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 101,
+            "content": "<channel|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 105,
+            "content": "<|turn>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 106,
+            "content": "<turn|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 255999,
+            "content": "<|image>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 256000,
+            "content": "<|audio>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258880,
+            "content": "<|image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258881,
+            "content": "<|audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258882,
+            "content": "<image|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258883,
+            "content": "<audio|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          },
+          {
+            "id": 258884,
+            "content": "<|video|>",
+            "single_word": false,
+            "lstrip": false,
+            "rstrip": false,
+            "normalized": false,
+            "special": true
+          }
+        ],
+        "decoder": null,
+        "file": null
+      },
+      "vocabulary_size": {
+        "base": 262144,
+        "with_added": 262144,
+        "config": null
+      },
+      "generation": {
+        "bos_token_id": 2,
+        "do_sample": true,
+        "eos_token_id": [
+          1,
+          106,
+          50
+        ],
+        "pad_token_id": 0,
+        "suppress_tokens": [
+          258883,
+          258882
+        ],
+        "temperature": 1.0,
+        "top_k": 64,
+        "top_p": 0.95,
+        "transformers_version": "5.13.0.dev0"
+      },
+      "config": {
+        "architectures": [
+          "Gemma4UnifiedForConditionalGeneration"
+        ],
+        "audio_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "audio_embed_dim": 640,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "model_type": "gemma4_unified_audio",
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        },
+        "audio_token_id": 258881,
+        "boa_token_id": 256000,
+        "boi_token_id": 255999,
+        "dtype": "bfloat16",
+        "eoa_token_index": 258883,
+        "eoi_token_id": 258882,
+        "eos_token_id": [
+          1,
+          106
+        ],
+        "image_token_id": 258880,
+        "initializer_range": 0.02,
+        "model_type": "gemma4_unified",
+        "text_config": {
+          "attention_bias": false,
+          "attention_dropout": 0.0,
+          "attention_k_eq_v": true,
+          "bos_token_id": 2,
+          "dtype": "bfloat16",
+          "enable_moe_block": false,
+          "eos_token_id": 1,
+          "final_logit_softcapping": 30.0,
+          "global_head_dim": 512,
+          "head_dim": 256,
+          "hidden_activation": "gelu_pytorch_tanh",
+          "hidden_size": 3840,
+          "hidden_size_per_layer_input": 0,
+          "initializer_range": 0.02,
+          "intermediate_size": 15360,
+          "layer_types": [
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "sliding_attention",
+            "full_attention"
+          ],
+          "max_position_embeddings": 262144,
+          "model_type": "gemma4_unified_text",
+          "moe_intermediate_size": null,
+          "num_attention_heads": 16,
+          "num_experts": null,
+          "num_global_key_value_heads": 1,
+          "num_hidden_layers": 48,
+          "num_key_value_heads": 8,
+          "num_kv_shared_layers": 0,
+          "pad_token_id": 0,
+          "rms_norm_eps": 1e-06,
+          "rope_parameters": {
+            "full_attention": {
+              "partial_rotary_factor": 0.25,
+              "rope_theta": 1000000.0,
+              "rope_type": "proportional"
+            },
+            "sliding_attention": {
+              "rope_theta": 10000.0,
+              "rope_type": "default"
+            }
+          },
+          "sliding_window": 1024,
+          "tie_word_embeddings": true,
+          "top_k_experts": null,
+          "use_bidirectional_attention": "vision",
+          "use_cache": true,
+          "use_double_wide_mlp": false,
+          "vocab_size": 262144,
+          "vocab_size_per_layer_input": 262144
+        },
+        "tie_word_embeddings": true,
+        "transformers_version": "5.13.0.dev0",
+        "video_token_id": 258884,
+        "vision_config": {
+          "_name_or_path": "",
+          "architectures": null,
+          "chunk_size_feed_forward": 0,
+          "dtype": "bfloat16",
+          "id2label": {
+            "0": "LABEL_0",
+            "1": "LABEL_1"
+          },
+          "initializer_range": 0.02,
+          "is_encoder_decoder": false,
+          "label2id": {
+            "LABEL_0": 0,
+            "LABEL_1": 1
+          },
+          "mm_embed_dim": 3840,
+          "mm_posemb_size": 1120,
+          "model_type": "gemma4_unified_vision",
+          "num_soft_tokens": 280,
+          "output_attentions": false,
+          "output_hidden_states": false,
+          "output_proj_dims": 3840,
+          "patch_size": 16,
+          "pooling_kernel_size": 3,
+          "problem_type": null,
+          "return_dict": true,
+          "rms_norm_eps": 1e-06
+        }
+      }
+    }
+  },
+  "differences": [
+    {
+      "path": "generation.transformers_version",
+      "original": "5.13.0.dev0",
+      "modified": "5.12.1",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "generation_config.json"
+        ],
+        "modified": [
+          "generation_config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    },
+    {
+      "path": "config.transformers_version",
+      "original": "5.13.0.dev0",
+      "modified": "5.12.1",
+      "class": "explained by re-save",
+      "original_present": true,
+      "modified_present": true,
+      "files": {
+        "original": [
+          "config.json"
+        ],
+        "modified": [
+          "config.json"
+        ]
+      },
+      "reason": "The saved version string changed."
+    }
+  ],
+  "missing": [
+    "modified template default render failed: ValueError: TemplateSyntaxError: Encountered unknown tag 'generation'. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'.",
+    "original template default render failed: ValueError: TemplateSyntaxError: Encountered unknown tag 'generation'. Jinja was looking for the following tags: 'elif' or 'else' or 'endif'. The innermost block that needs to be closed is 'if'."
+  ],
+  "rendered": {
+    "default": {}
+  },
+  "limitation": "This metadata audit does not certify the absence of hidden behavior.",
+  "verdict": "undecided",
+  "reclassification": {
+    "changed_paths": [],
+    "verdict_before": "undecided"
+  }
+}

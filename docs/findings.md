@@ -3,8 +3,8 @@
 Created by Sean Egan, 2026-10-29.
 
 The results the audit has established so far, strongest first, each with its evidence in this repository. The
-population is small: two hundred and fifty-four measurements of two hundred and forty-eight distinct published copies on thirty-four originals and forty-eight community parents (thirty-five
-copies are re-uploads of others, one of them its own parent's files under a second name, fifty-three have a measurement against a community parent, fifty of them measured against the community parent their cards name and not against a publisher's original (round 42: six fine-tunes or merges of a Google checkpoint and two unmeasured first edits; round 43: two fine-tunes of a Google checkpoint and six fine-tunes or merges of Mistral Nemo 12B; round 45: three edits of two Gemma 4 12B fine-tunes, a merge over a first edit of Ministral 3 14B, an edit and a re-upload of two Dolphin fine-tunes of Mistral Small 24B, a pass over unsloth's re-upload of Nemo Instruct, whose shards are Mistral's, and an edit of a Gemma 4 31B fine-tune; round 47: an edit of HuggingFaceH4's Zephyr fine-tune of Mistral 7B v0.1, an edit of GraySwanAI's circuit-breaker model of Mistral 7B Instruct v0.2, an edit of a text-only re-save of Mistral Small 3.2 whose tensors are Mistral's, a fine-tune over an unmeasured first edit of Gemma 3 4B, an edit of an expert-pruned Gemma 4 26B-A4B, two edits of Gemma 4 31B merges and a fine-tune over coder3101's measured 31B edit; round 49: edits of TheDrummer's Skyfall and Magidonia fine-tunes of Magistral Small 2509, an edit of a passthrough depth extension of a Mistral Small 3.2 fine-tune, an edit of LatitudeGames's Harbinger fine-tune of Mistral Small 3.1 Instruct, an edit of ConicCat's first Garnet fine-tune of Gemma 4 31B, a fine-tune over coder3101's measured 26B-A4B edit, a fine-tune over coder3101's unmeasured Gemma 3 27B edit and an edit of sam-paech's Gemma 2 9B merge; round 51: edits of TheDrummer's Magidonia and Skyfall v4.1 fine-tunes of Magistral Small 2509 and a training over unsloth's re-upload of Gemma 4 E4B instruct, whose file is Google's; round 52: edits of TheDrummer's Magidonia and zerofata's PaintedFantasy v4.1 fine-tunes of Magistral Small 2509, an edit of Vortex5's six-model merge of Gemma 4 26B-A4B, an edit of sam-paech's Gemma 2 9B fine-tune, a merge over Vortex5's unmeasured edit of a Gemma 4 26B-A4B fine-tune and two trainings over measured edits of Gemma 4 E4B and E2B, the first through prithivMLmods's re-upload of huihui-ai's edit; the other three, richardyoung's coder copy and sh0ck0r's Artemis and Pranavz's Hearthfire copies, measured against Google and again against the parents their cards name, findings 18 and 77; the parents counted as neither originals nor copies unless measured against their own parents, finding 117), three are measured against the pretrained base their `base_model` fields name while their cards name an instruct checkpoint or a fine-tune of one, and stand on the instruct checkpoint (round 51, findings 153 and 158), five copies are measured against
+population is small: two hundred and sixty-two measurements of two hundred and fifty-six distinct published copies on thirty-four originals and fifty-two community parents (thirty-five
+copies are re-uploads of others, one of them its own parent's files under a second name, sixty-one have a measurement against a community parent, fifty-eight of them measured against the community parent their cards name and not against a publisher's original (round 42: six fine-tunes or merges of a Google checkpoint and two unmeasured first edits; round 43: two fine-tunes of a Google checkpoint and six fine-tunes or merges of Mistral Nemo 12B; round 44: four edits by one maker of TheDrummer's Cydonia v4.3 fine-tune of Mistral Small 3.2, edits of ReadyArt's Forgotten-Abomination 36B and Omega-Darker 24B fine-tunes and of zerofata's PaintedFantasy v4.1 fine-tune of Magistral Small 2509, and an edit of Gryphe's Pantheon-Reasoning 1.1 fine-tune of Gemma 4 26B-A4B; round 45: three edits of two Gemma 4 12B fine-tunes, a merge over a first edit of Ministral 3 14B, an edit and a re-upload of two Dolphin fine-tunes of Mistral Small 24B, a pass over unsloth's re-upload of Nemo Instruct, whose shards are Mistral's, and an edit of a Gemma 4 31B fine-tune; round 47: an edit of HuggingFaceH4's Zephyr fine-tune of Mistral 7B v0.1, an edit of GraySwanAI's circuit-breaker model of Mistral 7B Instruct v0.2, an edit of a text-only re-save of Mistral Small 3.2 whose tensors are Mistral's, a fine-tune over an unmeasured first edit of Gemma 3 4B, an edit of an expert-pruned Gemma 4 26B-A4B, two edits of Gemma 4 31B merges and a fine-tune over coder3101's measured 31B edit; round 49: edits of TheDrummer's Skyfall and Magidonia fine-tunes of Magistral Small 2509, an edit of a passthrough depth extension of a Mistral Small 3.2 fine-tune, an edit of LatitudeGames's Harbinger fine-tune of Mistral Small 3.1 Instruct, an edit of ConicCat's first Garnet fine-tune of Gemma 4 31B, a fine-tune over coder3101's measured 26B-A4B edit, a fine-tune over coder3101's unmeasured Gemma 3 27B edit and an edit of sam-paech's Gemma 2 9B merge; round 51: edits of TheDrummer's Magidonia and Skyfall v4.1 fine-tunes of Magistral Small 2509 and a training over unsloth's re-upload of Gemma 4 E4B instruct, whose file is Google's; round 52: edits of TheDrummer's Magidonia and zerofata's PaintedFantasy v4.1 fine-tunes of Magistral Small 2509, an edit of Vortex5's six-model merge of Gemma 4 26B-A4B, an edit of sam-paech's Gemma 2 9B fine-tune, a merge over Vortex5's unmeasured edit of a Gemma 4 26B-A4B fine-tune and two trainings over measured edits of Gemma 4 E4B and E2B, the first through prithivMLmods's re-upload of huihui-ai's edit; the other three, richardyoung's coder copy and sh0ck0r's Artemis and Pranavz's Hearthfire copies, measured against Google and again against the parents their cards name, findings 18 and 77; the parents counted as neither originals nor copies unless measured against their own parents, finding 117), three are measured against the pretrained base their `base_model` fields name while their cards name an instruct checkpoint or a fine-tune of one, and stand on the instruct checkpoint (round 51, findings 153 and 158), five copies are measured against
 two originals each (three of them measured again in round 35 against the parent their cards name, which adds a measurement and no copy), one is measured twice against one original, one could not be paired tensor by tensor, and one could not be read because its original is
 published in float8), plus two edits of my own made to calibrate the measurement. Numbers are from the committed reports in `results/weights/` and `results/meta/`,
 counted by `hpc/population.py` with the judged groups listed in `data/population/`. The counting rules are in
@@ -44,15 +44,16 @@ measured against the community fine-tunes, first edits and re-uploads their card
 measured against the community fine-tunes, merges, re-saves and edits their cards name on Mistral 7B, Mistral Small 24B, Gemma 3 4B and Gemma 4 21B-A4B and 31B bases (round 47, the fourth second-generation round and the first outside the Gemma and Mistral instruct lines, read before rounds 44 and 46) and eight from six makers
 measured against the community fine-tunes, merges and edits their cards name on Mistral Small 24B, Gemma 4 26B-A4B and 31B, Gemma 3 27B and Gemma 2 9B bases (round 49, the fifth second-generation round, read before rounds 44, 46 and 48) and eight from six makers
 measured against the community fine-tunes and re-uploads their cards name and the publisher checkpoints their cards or fields name on Mistral Small 24B, Ministral 3 14B and 3B and Gemma 4 26B-A4B and E4B bases (round 51, read before rounds 44, 46, 48 and 50, three of them pinned against pretrained bases and read against the instruct checkpoints by byte range) and eight from seven makers
-measured against the community fine-tunes, merges, re-uploads and edits their cards name and the publisher checkpoint one card names on Mistral Small 24B, Gemma 4 26B-A4B, E4B and E2B and Gemma 2 9B bases (round 52, read before rounds 44, 46, 48 and 50), have
-been compared tensor by tensor with their stated originals or, in rounds 42, 43, 45, 47, 49, 51 and 52, their stated parents. In two hundred and two, the changed tensors are exactly the matrices the stated method reaches, and nothing else
-moved: the largest relative change outside the changed set is 0 in one hundred and fifty-seven copies, 0.00008, 0.000006, 0.00069, 0.00024,
-0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098, 0.00091, 0.000195, 0.000898, 0.000086, 0.000673, 0.000983, 0.00009, 0.000003, 0.000987, 0.000994, 0.000116, 0.000176, 0.000234, 0.000268, 0.0000034, 0.00074 and 0.000043 in thirty-two others on matrices the method itself weighted near zero or did not name,
+measured against the community fine-tunes, merges, re-uploads and edits their cards name and the publisher checkpoint one card names on Mistral Small 24B, Gemma 4 26B-A4B, E4B and E2B and Gemma 2 9B bases (round 52, read before rounds 44, 46, 48 and 50) and eight from three makers
+measured against the community fine-tunes their cards name on Mistral Small 24B, a 64-layer 36B stack at its width and Gemma 4 26B-A4B bases (round 44, read after round 52, four of them one maker's passes on one Cydonia fine-tune), have
+been compared tensor by tensor with their stated originals or, in rounds 42, 43, 44, 45, 47, 49, 51 and 52, their stated parents. In two hundred and ten, the changed tensors are exactly the matrices the stated method reaches, and nothing else
+moved: the largest relative change outside the changed set is 0 in one hundred and sixty-one copies, 0.00008, 0.000006, 0.00069, 0.00024,
+0.00031, 0.000096, 0.000225, 0.000999, 0.00095, 0.00029, 0.000767, 0.00096, 0.000251, 0.00038, 0.00098, 0.00091, 0.000195, 0.000898, 0.000086, 0.000673, 0.000983, 0.00009, 0.000003, 0.000987, 0.000994, 0.000116, 0.000176, 0.000234, 0.000268, 0.0000034, 0.00074, 0.000043, 0.0005995, 0.00006002, 0.00005784 and 0.0000903 in thirty-six others on matrices the method itself weighted near zero or did not name,
 0.0000011 in the jokernifty E4B copy, whose float16 save rounds the smallest values of untouched tensors (Ilya626's copy, one of the eleven below, reads the same value for the same reason),
 0.00099 in the richardyoung Gemma 4 12B coder copy, whose fine-tune left 61 normalisation vectors just under the
 threshold, 0.000998 in the aifeifei798 E2B copy, whose fine-tuning sits at the threshold on 26 tensors, and 0.000998
 in the Dingdust E4B copy, whose parent fine-tune sits at the threshold on 189 tensors, and 0.000995 in Justbackup's duplicate of DavidAU's 27B fine-tune over coder3101's edit, whose training sits at the threshold on the normalisation vectors (round 42), and 0.00097 in tpls's 12B coder edit, whose bfloat16 save of a float16 parent puts 263 matrices moved by the recast alone inside the changed set beside the edit's 59 (round 45, finding 127), and 0.00099 and 0.000999 in jwest33's Gemma 3 4B role-play fine-tune and nbeerbower's Gutenberg fine-tune, whose merged adapters leave five and fifty linear maps just under the threshold (round 47, findings 138 and 142), and 0.00000024 in Tetratype's antislop fine-tune, whose float16 save of a bfloat16 parent moves the untouched tensors by the rounding alone, and 0.00085 in DavidAU's second reasoning pass over coder3101's 27B edit, whose training leaves two layer 1 projections just under the threshold (round 49, findings 148 and 149), and in nchapman's two Ministral 3 copies and OS-Software's CyberStag copy, measured against pretrained bases, the publisher's instruction tuning on every matrix and, by byte range against the instruct checkpoints, the matrices outside the edit byte-equal (round 51, findings 153 and 158).
-One hundred and ninety of the two hundred and two are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
+One hundred and ninety-eight of the two hundred and ten are ablations (one, aifeifei798's, with 0.1 to 0.3 percent of training beside it,
 and one, DavidAU's E2B copy, with a fine-tune laid over it, as their cards say; one, wangzhang's edit of GraySwanAI's circuit-breaker model, over the parent's adapter stripped back to Mistral's instruct model, as its card says, finding 136; one, sh0ck0r's Artemis copy, is
 measured against the grandparent its `base_model` field names and reads its named parent's 4-bit round trip under
 the edit, finding 45, and measured again against that parent in round 35 reads the edit alone, finding 77; one, Dingdust's ContextPilot copy, is measured against the grandparent its field names and
@@ -361,11 +362,19 @@ and Felldude's E4B copy (finding 78). Justbackup's duplicate of DavidAU's unmeas
 | SubMaroon-exp/Kanimus-26B-A4B-FFT-heretic | Vortex5/Gemma-4-26B-A4B-Animus-V14.1-FFT-heretic | 28 of 1,013 (the queries and keys over the threshold, those of every other layer under it, the card's task arithmetic to the bit and none of the LoRA merge the card also describes, finding 162) | 0.00081 |
 | amkkk/Gemma4_E2B_Abliterated_Opus_Distilled | amkkk/Gemma4_E2B_Abliterated_Baked_HF_Ready | 70 of 1,951 (training on the per-layer input gates and projections of all 35 layers, the only text-decoder maps the adapter's target list names, the baked edit unchanged, finding 163) | 0 |
 | llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | 18 of 363 (attention outputs between layers 12 and 38 on the input side at weights to 2.16, the card's window 4 to 38 with seventeen layers traced, finding 166) | 0.000043 |
+| coder3101/Cydonia-24B-v4.3-heretic | TheDrummer/Cydonia-24B-v4.3 | 37 of 363 (the attention outputs of layers 24 to 29 and the down projections of 9 to 39, one direction per layer, the maker's first of four passes of the parent, finding 167) | 0 |
+| coder3101/Cydonia-24B-v4.3-heretic-v2 | TheDrummer/Cydonia-24B-v4.3 | 57 of 363 (the attention outputs of layers 7 to 39 and the down projections of 16 to 39, one shared direction, four minutes after the first, finding 167) | 0.0005995 |
+| coder3101/Cydonia-24B-v4.3-heretic-v3 | TheDrummer/Cydonia-24B-v4.3 | 74 of 363 (both writers of layers 3 to 39, a direction at 0.9972 between layers, finding 167) | 0 |
+| coder3101/Cydonia-24B-v4.3-heretic-v4 | TheDrummer/Cydonia-24B-v4.3 | 65 of 363 (the attention outputs of layers 10 to 38 and the down projections of 4 to 39, a direction at 0.9910 between layers, finding 167) | 0 |
+| llmfan46/Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic | ReadyArt/Forgotten-Abomination-36B-v4.1 | 40 of 579 (attention outputs between layers 17 and 63 of a 64-layer stack, one direction per matrix, 21 of them moved by more than half their norm, to 5.52, seven traced, findings 168 and 169) | 0.00006002 |
+| llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2 | ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B | 12 of 363 (attention outputs between layers 14 and 31, one direction per matrix, six traced, finding 168) | 0.00005784 |
+| Vortex5/Pantheon-Reasoning-26B-A4B-1.1-heretic | Gryphe/Pantheon-Reasoning-26B-A4B-1.1 | 23 of 1,014 (the attention outputs of layers 7 to 29, one direction per matrix, no expert and no dense writer, finding 170) | 0 |
+| llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | 18 of 363 (attention outputs between layers 12 and 39, one direction per matrix, the maker's second search of the parent, fourteen traced, finding 168) | 0.0000903 |
 
-The fair statement of the result is narrow: at the weight level, two hundred and two copies contain the edit or the
+The fair statement of the result is narrow: at the weight level, two hundred and ten copies contain the edit or the
 training they claim and no other, twelve carry a parent or a change their cards do not name or lack one they name, one could not be paired
 and one could not be read. Weight differences alone cannot certify the absence of hidden behaviour, and the census is
-two hundred and forty-eight distinct copies, two hundred and fourteen of them read. The reading counts come from the lists in
+two hundred and fifty-six distinct copies, two hundred and twenty-two of them read. The reading counts come from the lists in
 `data/population/`, so a read-out adds each new copy to its list and reruns `hpc/population.py`, which refuses a
 listed hub id that no report carries.
 
@@ -5899,6 +5908,124 @@ Evidence: `results/weights/llmfan46-MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensor
 `blueback14/measurements/pair-6/`, `nautilus20/measurements/pair-7/` and `nautilus18/measurements/pair-7/`, the two
 templates compared byte for byte, and the reading in `docs/cards/`.
 
+## 167. One maker's four Heretic passes of one Cydonia fine-tune, made in two pairs eight weeks apart, move from one direction per layer on 37 matrices to one shared direction on 57 and to a direction that turns by 0.003 and 0.009 between layers on 74 and 65, with the first-share flags rising from 15 to 41, 55 and 59
+
+TheDrummer's Cydonia-24B-v4.3 is a fine-tune whose field names mistralai/Mistral-Small-3.2-24B-Instruct-2506, with
+its 40 layers. coder3101 published four Heretic passes of it: the first and second on 2025-12-20, four minutes apart,
+saved under transformers 4.57.3, and the third and fourth on 2026-02-15, six minutes apart, saved under 4.57.6.
+Measured on Nautilus in round 44 against the parent at `db0426d3`, all four edit the attention outputs and the down
+projections alone, and every other tensor is exactly 0 (the second pass leaves one down projection below its down
+reach at 0.0005995, under the threshold). The first changes 37 of 363 tensors, the attention outputs of layers 24 to
+29 and the down projections of 9 to 39, with the two writers of a layer at 1.000 at the median (0.9973 at the least,
+on six layers) and the layers at 0.457 to one another (0.050 at the least). The second changes 57, the attention
+outputs of layers 7 to 39 and the down projections of 16 to 39, along one direction: 0.99999 between layers at the
+median, 0.9963 at the least, 0.9853 across the two kinds. The third changes 74, both writers of layers 3 to 39, at
+0.9972 between layers (0.9834 at the least) and 0.9966 within a layer (0.9554). The fourth changes 65, the attention
+outputs of layers 10 to 38 and the down projections of 4 to 39, at 0.9910 between layers (0.9479) and 0.9918 within a
+layer (0.9357), and it is the only one that leaves the last attention output exactly 0. Relative changes run 0.0016
+to 0.0261 across all four, and no changed matrix keeps its row norms. The flags are 15, 41, 55 and 59, all first
+shares under the 0.99 floor, the least 0.891, 0.756, 0.961 and 0.852, except one cross-kind cosine of 0.9068 on the
+fourth. The token side differs from the parent's in the two version strings alone.
+
+Why it matters: the move from one direction per layer to one shared direction is finding 160's order on a second
+parent. The maker's Magidonia passes went from per-layer (finding 144, 32 of 363) to a shared direction six minutes
+later (finding 160, 44 of 363), and its Mistral Small 3.2 pass is per-layer (finding 159); on Cydonia the same move
+takes four minutes. The February pair keeps the shared form with a small, measured turn between layers that the
+December shared pass lacks (0.9972 and 0.9910 against 0.99999), so the maker's later session changed how the direction
+is formed as well as where it is applied. The flag count grows with the changed set and stays almost entirely first
+shares, the floor round 52 read as charging bfloat16 storage on this maker's small edits, so across one maker's
+versions the count measures the reach more than any departure from the recipe.
+
+Not yet read: the four cards' kernel tables, and the four direction files against one another layer by layer, which
+would say whether the second pass's shared direction sits between the first pass's per-layer directions at a printed
+index as on Magidonia (finding 160) and whether the February passes take the December direction.
+
+Evidence: `results/weights/coder3101-Cydonia-24B-v4.3-heretic.json` and its `-v2`, `-v3` and `-v4` siblings, the
+`results/meta/` reports, the direction files under `nautilus44/measurements/pair-1/` to `pair-4/`, and the readings in
+`docs/cards/`.
+
+## 168. One maker's three ultra-uncensored searches of three Mistral Small fine-tunes edit the attention outputs alone with one direction per matrix and six to fourteen traces, and the second PaintedFantasy search keeps the first's 18 matrices and its start at layer 12 while editing the layer 39 the first left at 0, without the first's rewritten template
+
+llmfan46 revised three ultra-uncensored copies on 2026-03-27 within two hours and thirty-three minutes. Measured on
+Nautilus in round 44 against the parents their cards name, all three edit attention outputs and nothing else, one
+direction per matrix. Forgotten-Abomination 36B v4.1 (pair 5) changes 40 of 579, between layers 17 and 63 of 64, at
+0.017 between layers, first shares 0.939 to 0.989, seven more attention outputs under the threshold to 0.00006002.
+Omega-Darker Gaslight 24B (pair 6, the maker's second version) changes 12 of 363, between layers 14 and 31, at 0.048
+between layers, first shares 0.601 to 0.921, six under the threshold to 0.00005784. PaintedFantasy v4.1 (pair 8, the
+second version) changes 18 of 363, between layers 12 and 39, at 0.022 between layers, first shares 0.717 to 0.949,
+fourteen under the threshold to 0.0000903, five of them below layer 12. No changed matrix keeps its row norms. All
+three are transformers 5.3.0 saves that drop the 1,000 `added_tokens_decoder` declarations, and the two over parents
+with no generation file add one.
+
+Against the first PaintedFantasy search, measured in round 52 against the same parent revision (finding 166), the
+second edits the same number of matrices from the same first layer, and edits layer 39, which the first left exactly
+0 under a card whose `end_layer_index` of 39 the tool excluded. Its relative changes (0.0260 to 0.0515 against 0.0233
+to 0.0429) and first shares (0.717 to 0.949 against 0.591 to 0.933) run a little higher. It leaves fourteen traces
+where the first left seventeen, and seven of layers 0 to 11 exactly 0 where the first left layers 0 to 3. Its template does not differ from the parent's, where the first
+carried the parent's template with Windows line endings on all 51 lines.
+
+Why it matters: the maker's form of finding 166 and finding 145, attention outputs alone, one direction per matrix
+and traces under the threshold inside the reach, holds on three more parents, one of them a 64-layer stack. A second
+version on one parent moves the end of the reach by one layer and changes the export, so the version suffix marks a
+new search and a new save. The template rewrite that finding 166 counted among the maker's save marks is absent from
+the second version while the dropped declarations remain, so the dropped declarations are the steadier mark of the
+maker's path. The input-side signature of finding 166 (0.86 to 0.91 across five parents) is untested on these three
+until their direction files are compared.
+
+Evidence: `results/weights/llmfan46-Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic.json`,
+`results/weights/llmfan46-Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2.json`,
+`results/weights/llmfan46-MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2.json`, the `results/meta/`
+reports, the direction files under `nautilus44/measurements/pair-5/`, `pair-6/` and `pair-8/`, and the readings in
+`docs/cards/`.
+
+## 169. A search of a 64-layer 36B fine-tune at the 5,120 width of Mistral Small moves 21 of its 40 attention outputs by more than half the parent matrix's norm, to 5.52 at layer 23, where the same maker's searches of two 24B fine-tunes in the round move theirs by 0.056 at most
+
+ReadyArt's Forgotten-Abomination-36B-v4.1 names ReadyArt/Forgotten-Safeword-36B-4.1, which names
+TheDrummer/Skyfall-36B-v2; the stack has 64 layers at a width of 5,120, where Mistral Small 24B has 40, and its
+template renders Mistral's `[SYSTEM_PROMPT]` and `[INST]` turns. llmfan46's ultra-uncensored pass, measured on
+Nautilus in round 44 against the parent at `f4f88bf1`, changes 40 attention outputs between layers 17 and 63 at
+relative changes of 0.0494 to 5.5239, median 0.6335. Twenty-one are above 0.5: layer 23 at 5.5239, 27 at 2.7907, 32
+at 2.0890, 33 at 1.7827, 24 at 1.3784 and 29 at 0.9966 among them. The first shares run 0.939 to 0.989, higher than
+the same maker's 24B searches in the round (0.601 to 0.949), so each change is close to rank one. The maker's searches
+of the Omega-Darker and PaintedFantasy 24B fine-tunes move their matrices by 0.0223 to 0.0559.
+
+Why it matters: a relative change above 1 is a change larger than the parent's matrix, and two readings fit it. The
+search amplified components rather than removing them, as the maker's Queen search did at a relative change of 0.1205
+(finding 120, a component multiplied by 6.71), here at a relative change forty-five times larger; or the parent's attention
+outputs on those layers are nearly empty, as on the fourteen layers Skyfall 31B inserts (finding 143, norms of 0.23 to
+0.41 against 9.9 to 20.6), so that an ordinary change reads as a large fraction of a small matrix. The chain's end at
+a Skyfall release and a 64-layer stack at a 40-layer width favour the second. Under it, the relative change, like the
+kernel heights of finding 143, reads the parent's writers as much as the edit.
+
+Not yet read: the parent's tensor norms and a byte-range read of the layer 23 attention output on both sides, which
+decide between the two, and the side of the edit.
+
+Evidence: `results/weights/llmfan46-Forgotten-Abomination-36B-v4.1-ultra-uncensored-heretic.json`, the
+`results/meta/` report, the batch's lineage fields in `data/batches/round-44-batch-1.json`, and the reading in
+`docs/cards/`.
+
+## 170. Vortex5's Heretic search of Gryphe's Pantheon-Reasoning 1.1 edits the attention outputs of layers 7 to 29 alone with one direction per matrix, the form of the maker's two earlier 26B-A4B searches, where the per-layer pass of a merge built on this fine-tune edited both dense writers with one direction per layer
+
+Gryphe's Pantheon-Reasoning-26B-A4B-1.1 names google/gemma-4-26B-A4B-it and is one of the five fine-tunes in
+Vortex5's Phoenix-X merge. Vortex5's Pantheon-Reasoning-26B-A4B-1.1-heretic, measured on Nautilus in round 44 against
+the fine-tune at `9156318c`, changes 23 of 1,014 tensors: the attention outputs of layers 7 to 29, the run unbroken to
+the last layer, at relative changes of 0.0130 to 0.0539. Layers 0 to 6 are exactly 0, as are the queries, keys and
+values, the dense and expert feed-forward tensors and every norm. The 23 stand at 0.040 to one another at the median,
+first shares 0.839 to 0.963, no row norm kept. The maker's searches of its own Chimera-X and Moonlight-Dusk merges
+(finding 119) read attention outputs alone too, layers 6 to 22 and 9 to 21. alexokita's per-layer pass of Phoenix-X
+(finding 165) edited the dense down projections of layers 8 to 29 and the attention outputs of 15 to 29, with the two
+writers of a layer at 0.965 and the layers at 0.64, first shares 0.989 to 0.997.
+
+Why it matters: one fine-tune reached two ways, directly by its own search and inside a merge by a per-layer pass,
+carries two forms, each the form of its method and its maker. This extends finding 165's reading that on this base the
+method sets the edit's shape more than the parent does, now with the parent shared between the two. The maker's form
+holds on a third parent and reaches the last layer where the two earlier searches stopped at 22 and 21. Whether this
+search stands with the maker's earlier two (0.957 to each other, finding 119) or with the per-layer family (0.86 to
+0.87, finding 165) waits on the direction file.
+
+Evidence: `results/weights/Vortex5-Pantheon-Reasoning-26B-A4B-1.1-heretic.json`, the `results/meta/` report, the
+direction file under `nautilus44/measurements/pair-7/`, and the reading in `docs/cards/`.
+
 ## What the second pass settled
 
 The second census pass (Nautilus, card 5055, download 4080809, comparisons 4080810 to 4080815) repeated round 2's five
@@ -5914,7 +6041,7 @@ the home judgement until the pins move. Details in `docs/census-round-3.md`.
 - Behaviour. Study 1 (Qwen3-4B, original pass complete, modified and repeat passes owed) is the first behavioural read.
   Nothing above says what any copy does when asked a harmful question.
 - Variation. Each calibration recipe has one run on one base.
-- Population. Two hundred and forty-eight copies is a sample; the inventory sample of 30 repositories
+- Population. Two hundred and fifty-six copies is a sample; the inventory sample of 30 repositories
   (`docs/inventory-sample.md`) shows how mirrors and re-quantizations outnumber sources and how often the stated
   original cannot be resolved (16 of 30).
 
