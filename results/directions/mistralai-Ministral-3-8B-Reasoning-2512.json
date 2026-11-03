@@ -1,0 +1,415 @@
+{
+ "parent": "mistralai/Ministral-3-8B-Reasoning-2512",
+ "copies": [
+  {
+   "repo": "ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored",
+   "pull": "blueback8",
+   "pair": "8",
+   "keys": 476
+  },
+  {
+   "repo": "AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic",
+   "pull": "wheat30",
+   "pair": "5",
+   "keys": 90
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored",
+   "copy_b": "AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic",
+   "pull_a": "blueback8",
+   "pull_b": "wheat30",
+   "pair_a": "8",
+   "pair_b": "5",
+   "same_repo": false,
+   "shared_keys": 90,
+   "identical": false,
+   "left": {
+    "count": 45,
+    "median": 0.001021,
+    "min": -0.058342,
+    "max": 0.039094,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "language_model.model.layers.10.mlp.down_proj.weight.left",
+      0.035666
+     ],
+     [
+      "language_model.model.layers.11.mlp.down_proj.weight.left",
+      -0.054437
+     ],
+     [
+      "language_model.model.layers.12.mlp.down_proj.weight.left",
+      -0.056146
+     ],
+     [
+      "language_model.model.layers.13.mlp.down_proj.weight.left",
+      0.021034
+     ],
+     [
+      "language_model.model.layers.14.mlp.down_proj.weight.left",
+      0.007757
+     ],
+     [
+      "language_model.model.layers.15.mlp.down_proj.weight.left",
+      0.001021
+     ],
+     [
+      "language_model.model.layers.15.self_attn.o_proj.weight.left",
+      -0.040712
+     ],
+     [
+      "language_model.model.layers.16.mlp.down_proj.weight.left",
+      0.026716
+     ],
+     [
+      "language_model.model.layers.16.self_attn.o_proj.weight.left",
+      0.006664
+     ],
+     [
+      "language_model.model.layers.17.mlp.down_proj.weight.left",
+      -0.026316
+     ],
+     [
+      "language_model.model.layers.17.self_attn.o_proj.weight.left",
+      0.029626
+     ],
+     [
+      "language_model.model.layers.18.mlp.down_proj.weight.left",
+      0.013867
+     ],
+     [
+      "language_model.model.layers.18.self_attn.o_proj.weight.left",
+      0.039094
+     ],
+     [
+      "language_model.model.layers.19.mlp.down_proj.weight.left",
+      -0.015966
+     ],
+     [
+      "language_model.model.layers.19.self_attn.o_proj.weight.left",
+      -0.024804
+     ],
+     [
+      "language_model.model.layers.20.mlp.down_proj.weight.left",
+      -0.021821
+     ],
+     [
+      "language_model.model.layers.20.self_attn.o_proj.weight.left",
+      -0.045671
+     ],
+     [
+      "language_model.model.layers.21.mlp.down_proj.weight.left",
+      0.024992
+     ],
+     [
+      "language_model.model.layers.21.self_attn.o_proj.weight.left",
+      0.033024
+     ],
+     [
+      "language_model.model.layers.22.mlp.down_proj.weight.left",
+      -0.027221
+     ],
+     [
+      "language_model.model.layers.22.self_attn.o_proj.weight.left",
+      -0.041394
+     ],
+     [
+      "language_model.model.layers.23.mlp.down_proj.weight.left",
+      -0.015925
+     ],
+     [
+      "language_model.model.layers.23.self_attn.o_proj.weight.left",
+      0.026794
+     ],
+     [
+      "language_model.model.layers.24.mlp.down_proj.weight.left",
+      0.030104
+     ],
+     [
+      "language_model.model.layers.24.self_attn.o_proj.weight.left",
+      -0.017936
+     ],
+     [
+      "language_model.model.layers.25.mlp.down_proj.weight.left",
+      -0.027148
+     ],
+     [
+      "language_model.model.layers.25.self_attn.o_proj.weight.left",
+      0.018549
+     ],
+     [
+      "language_model.model.layers.26.mlp.down_proj.weight.left",
+      -0.030348
+     ],
+     [
+      "language_model.model.layers.26.self_attn.o_proj.weight.left",
+      -0.034367
+     ],
+     [
+      "language_model.model.layers.27.mlp.down_proj.weight.left",
+      0.002864
+     ],
+     [
+      "language_model.model.layers.27.self_attn.o_proj.weight.left",
+      0.012676
+     ],
+     [
+      "language_model.model.layers.28.mlp.down_proj.weight.left",
+      -0.004045
+     ],
+     [
+      "language_model.model.layers.28.self_attn.o_proj.weight.left",
+      0.004309
+     ],
+     [
+      "language_model.model.layers.29.mlp.down_proj.weight.left",
+      0.012449
+     ],
+     [
+      "language_model.model.layers.29.self_attn.o_proj.weight.left",
+      0.005646
+     ],
+     [
+      "language_model.model.layers.30.mlp.down_proj.weight.left",
+      -0.02386
+     ],
+     [
+      "language_model.model.layers.30.self_attn.o_proj.weight.left",
+      -0.020579
+     ],
+     [
+      "language_model.model.layers.31.mlp.down_proj.weight.left",
+      0.005353
+     ],
+     [
+      "language_model.model.layers.31.self_attn.o_proj.weight.left",
+      -0.022145
+     ],
+     [
+      "language_model.model.layers.32.mlp.down_proj.weight.left",
+      0.00302
+     ],
+     [
+      "language_model.model.layers.32.self_attn.o_proj.weight.left",
+      -0.016688
+     ],
+     [
+      "language_model.model.layers.33.mlp.down_proj.weight.left",
+      0.000757
+     ],
+     [
+      "language_model.model.layers.33.self_attn.o_proj.weight.left",
+      0.006705
+     ],
+     [
+      "language_model.model.layers.8.mlp.down_proj.weight.left",
+      0.031667
+     ],
+     [
+      "language_model.model.layers.9.mlp.down_proj.weight.left",
+      -0.058342
+     ]
+    ]
+   },
+   "right": {
+    "count": 45,
+    "median": 0.000283,
+    "min": -0.032372,
+    "max": 0.030431,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "language_model.model.layers.10.mlp.down_proj.weight.right",
+      0.003903
+     ],
+     [
+      "language_model.model.layers.11.mlp.down_proj.weight.right",
+      0.02591
+     ],
+     [
+      "language_model.model.layers.12.mlp.down_proj.weight.right",
+      -0.007596
+     ],
+     [
+      "language_model.model.layers.13.mlp.down_proj.weight.right",
+      -0.002456
+     ],
+     [
+      "language_model.model.layers.14.mlp.down_proj.weight.right",
+      0.013288
+     ],
+     [
+      "language_model.model.layers.15.mlp.down_proj.weight.right",
+      -0.004966
+     ],
+     [
+      "language_model.model.layers.15.self_attn.o_proj.weight.right",
+      0.023556
+     ],
+     [
+      "language_model.model.layers.16.mlp.down_proj.weight.right",
+      -0.007756
+     ],
+     [
+      "language_model.model.layers.16.self_attn.o_proj.weight.right",
+      -0.007966
+     ],
+     [
+      "language_model.model.layers.17.mlp.down_proj.weight.right",
+      0.011991
+     ],
+     [
+      "language_model.model.layers.17.self_attn.o_proj.weight.right",
+      -0.020335
+     ],
+     [
+      "language_model.model.layers.18.mlp.down_proj.weight.right",
+      0.001666
+     ],
+     [
+      "language_model.model.layers.18.self_attn.o_proj.weight.right",
+      0.015143
+     ],
+     [
+      "language_model.model.layers.19.mlp.down_proj.weight.right",
+      0.002973
+     ],
+     [
+      "language_model.model.layers.19.self_attn.o_proj.weight.right",
+      -0.006738
+     ],
+     [
+      "language_model.model.layers.20.mlp.down_proj.weight.right",
+      0.014452
+     ],
+     [
+      "language_model.model.layers.20.self_attn.o_proj.weight.right",
+      0.015281
+     ],
+     [
+      "language_model.model.layers.21.mlp.down_proj.weight.right",
+      0.003053
+     ],
+     [
+      "language_model.model.layers.21.self_attn.o_proj.weight.right",
+      -0.000628
+     ],
+     [
+      "language_model.model.layers.22.mlp.down_proj.weight.right",
+      -0.001997
+     ],
+     [
+      "language_model.model.layers.22.self_attn.o_proj.weight.right",
+      -0.027344
+     ],
+     [
+      "language_model.model.layers.23.mlp.down_proj.weight.right",
+      0.010948
+     ],
+     [
+      "language_model.model.layers.23.self_attn.o_proj.weight.right",
+      0.014787
+     ],
+     [
+      "language_model.model.layers.24.mlp.down_proj.weight.right",
+      -0.007465
+     ],
+     [
+      "language_model.model.layers.24.self_attn.o_proj.weight.right",
+      0.011693
+     ],
+     [
+      "language_model.model.layers.25.mlp.down_proj.weight.right",
+      -0.006302
+     ],
+     [
+      "language_model.model.layers.25.self_attn.o_proj.weight.right",
+      0.008099
+     ],
+     [
+      "language_model.model.layers.26.mlp.down_proj.weight.right",
+      -0.004733
+     ],
+     [
+      "language_model.model.layers.26.self_attn.o_proj.weight.right",
+      0.002568
+     ],
+     [
+      "language_model.model.layers.27.mlp.down_proj.weight.right",
+      -0.032372
+     ],
+     [
+      "language_model.model.layers.27.self_attn.o_proj.weight.right",
+      -0.013938
+     ],
+     [
+      "language_model.model.layers.28.mlp.down_proj.weight.right",
+      -0.002398
+     ],
+     [
+      "language_model.model.layers.28.self_attn.o_proj.weight.right",
+      0.013394
+     ],
+     [
+      "language_model.model.layers.29.mlp.down_proj.weight.right",
+      -0.008613
+     ],
+     [
+      "language_model.model.layers.29.self_attn.o_proj.weight.right",
+      -0.009075
+     ],
+     [
+      "language_model.model.layers.30.mlp.down_proj.weight.right",
+      0.014472
+     ],
+     [
+      "language_model.model.layers.30.self_attn.o_proj.weight.right",
+      0.000283
+     ],
+     [
+      "language_model.model.layers.31.mlp.down_proj.weight.right",
+      -0.013667
+     ],
+     [
+      "language_model.model.layers.31.self_attn.o_proj.weight.right",
+      0.030431
+     ],
+     [
+      "language_model.model.layers.32.mlp.down_proj.weight.right",
+      -0.029895
+     ],
+     [
+      "language_model.model.layers.32.self_attn.o_proj.weight.right",
+      0.017167
+     ],
+     [
+      "language_model.model.layers.33.mlp.down_proj.weight.right",
+      0.014329
+     ],
+     [
+      "language_model.model.layers.33.self_attn.o_proj.weight.right",
+      -0.005513
+     ],
+     [
+      "language_model.model.layers.8.mlp.down_proj.weight.right",
+      -0.019095
+     ],
+     [
+      "language_model.model.layers.9.mlp.down_proj.weight.right",
+      0.005753
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.00062,
+    "o_proj": 0.003438
+   },
+   "parent": "mistralai/Ministral-3-8B-Reasoning-2512"
+  }
+ ]
+}

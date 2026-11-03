@@ -1,0 +1,174 @@
+{
+ "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B",
+ "copies": [
+  {
+   "repo": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2",
+   "pull": "nautilus44",
+   "pair": "8",
+   "keys": 36
+  },
+  {
+   "repo": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1",
+   "pull": "wheat52",
+   "pair": "8",
+   "keys": 36
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v2",
+   "copy_b": "llmfan46/MS3.2-PaintedFantasy-v4.1-24B-ultra-uncensored-heretic-v1",
+   "pull_a": "nautilus44",
+   "pull_b": "wheat52",
+   "pair_a": "8",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 30,
+   "identical": false,
+   "left": {
+    "count": 15,
+    "median": 0.993937,
+    "min": -0.993393,
+    "max": 0.998143,
+    "high_fraction": 0.933333,
+    "flip_fraction": 0.066667,
+    "cosines": [
+     [
+      "model.layers.12.self_attn.o_proj.weight.left",
+      0.998024
+     ],
+     [
+      "model.layers.13.self_attn.o_proj.weight.left",
+      0.829374
+     ],
+     [
+      "model.layers.15.self_attn.o_proj.weight.left",
+      0.984853
+     ],
+     [
+      "model.layers.16.self_attn.o_proj.weight.left",
+      0.998056
+     ],
+     [
+      "model.layers.17.self_attn.o_proj.weight.left",
+      0.98704
+     ],
+     [
+      "model.layers.18.self_attn.o_proj.weight.left",
+      0.95532
+     ],
+     [
+      "model.layers.21.self_attn.o_proj.weight.left",
+      0.996232
+     ],
+     [
+      "model.layers.23.self_attn.o_proj.weight.left",
+      0.993937
+     ],
+     [
+      "model.layers.24.self_attn.o_proj.weight.left",
+      0.998143
+     ],
+     [
+      "model.layers.31.self_attn.o_proj.weight.left",
+      -0.993393
+     ],
+     [
+      "model.layers.33.self_attn.o_proj.weight.left",
+      0.997941
+     ],
+     [
+      "model.layers.35.self_attn.o_proj.weight.left",
+      0.947856
+     ],
+     [
+      "model.layers.36.self_attn.o_proj.weight.left",
+      0.982423
+     ],
+     [
+      "model.layers.37.self_attn.o_proj.weight.left",
+      0.996776
+     ],
+     [
+      "model.layers.38.self_attn.o_proj.weight.left",
+      0.994683
+     ]
+    ]
+   },
+   "right": {
+    "count": 15,
+    "median": 0.991664,
+    "min": -0.999433,
+    "max": 0.999897,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.066667,
+    "cosines": [
+     [
+      "model.layers.12.self_attn.o_proj.weight.right",
+      0.998684
+     ],
+     [
+      "model.layers.13.self_attn.o_proj.weight.right",
+      0.996257
+     ],
+     [
+      "model.layers.15.self_attn.o_proj.weight.right",
+      0.989962
+     ],
+     [
+      "model.layers.16.self_attn.o_proj.weight.right",
+      0.999213
+     ],
+     [
+      "model.layers.17.self_attn.o_proj.weight.right",
+      0.936676
+     ],
+     [
+      "model.layers.18.self_attn.o_proj.weight.right",
+      0.991664
+     ],
+     [
+      "model.layers.21.self_attn.o_proj.weight.right",
+      0.999826
+     ],
+     [
+      "model.layers.23.self_attn.o_proj.weight.right",
+      0.960872
+     ],
+     [
+      "model.layers.24.self_attn.o_proj.weight.right",
+      0.999897
+     ],
+     [
+      "model.layers.31.self_attn.o_proj.weight.right",
+      -0.999433
+     ],
+     [
+      "model.layers.33.self_attn.o_proj.weight.right",
+      0.999334
+     ],
+     [
+      "model.layers.35.self_attn.o_proj.weight.right",
+      0.955128
+     ],
+     [
+      "model.layers.36.self_attn.o_proj.weight.right",
+      0.958297
+     ],
+     [
+      "model.layers.37.self_attn.o_proj.weight.right",
+      0.999505
+     ],
+     [
+      "model.layers.38.self_attn.o_proj.weight.right",
+      0.979914
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.9928
+   },
+   "parent": "zerofata/MS3.2-PaintedFantasy-v4.1-24B"
+  }
+ ]
+}

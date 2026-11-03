@@ -1,0 +1,151 @@
+{
+ "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2",
+ "copies": [
+  {
+   "repo": "llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic",
+   "pull": "nautilus46",
+   "pair": "3",
+   "keys": 134
+  },
+  {
+   "repo": "huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated",
+   "pull": "wheat45",
+   "pair": "8",
+   "keys": 24
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "llmfan46/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2-uncensored-heretic",
+   "copy_b": "huihui-ai/Huihui-gemma-4-12B-agentic-fable5-abliterated",
+   "pull_a": "nautilus46",
+   "pull_b": "wheat45",
+   "pair_a": "3",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": 0.396584,
+    "min": -0.48716,
+    "max": 0.416316,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.left",
+      -0.227485
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.left",
+      -0.227133
+     ],
+     [
+      "model.language_model.layers.24.mlp.down_proj.weight.left",
+      0.395902
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      0.389092
+     ],
+     [
+      "model.language_model.layers.25.mlp.down_proj.weight.left",
+      0.400926
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      0.397266
+     ],
+     [
+      "model.language_model.layers.26.mlp.down_proj.weight.left",
+      0.416316
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      0.404181
+     ],
+     [
+      "model.language_model.layers.27.mlp.down_proj.weight.left",
+      0.406784
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      0.41046
+     ],
+     [
+      "model.language_model.layers.28.mlp.down_proj.weight.left",
+      -0.48716
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      -0.486003
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.335222,
+    "min": -0.436056,
+    "max": 0.386891,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.right",
+      -0.277672
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.right",
+      -0.26631
+     ],
+     [
+      "model.language_model.layers.24.mlp.down_proj.weight.right",
+      0.359379
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      0.324314
+     ],
+     [
+      "model.language_model.layers.25.mlp.down_proj.weight.right",
+      0.326093
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      0.34435
+     ],
+     [
+      "model.language_model.layers.26.mlp.down_proj.weight.right",
+      0.364172
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      0.362546
+     ],
+     [
+      "model.language_model.layers.27.mlp.down_proj.weight.right",
+      0.383319
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      0.386891
+     ],
+     [
+      "model.language_model.layers.28.mlp.down_proj.weight.right",
+      -0.436056
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      -0.359251
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.361775,
+    "o_proj": 0.353448
+   },
+   "parent": "yuxinlu1/gemma-4-12B-agentic-fable5-composer2.5-v2-3.5x-tau2"
+  }
+ ]
+}

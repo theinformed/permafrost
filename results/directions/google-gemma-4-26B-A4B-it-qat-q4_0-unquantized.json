@@ -1,0 +1,5202 @@
+{
+ "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized",
+ "copies": [
+  {
+   "repo": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "pull": "nautilus32",
+   "pair": "5",
+   "keys": 48
+  },
+  {
+   "repo": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "pull": "nautilus32",
+   "pair": "8",
+   "keys": 32
+  },
+  {
+   "repo": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull": "nautilus34",
+   "pair": "1",
+   "keys": 24
+  },
+  {
+   "repo": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "pull": "nautilus34",
+   "pair": "3",
+   "keys": 120
+  },
+  {
+   "repo": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "pull": "nautilus34",
+   "pair": "5",
+   "keys": 180
+  },
+  {
+   "repo": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull": "nautilus36",
+   "pair": "3",
+   "keys": 18
+  },
+  {
+   "repo": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull": "nautilus36",
+   "pair": "7",
+   "keys": 104
+  },
+  {
+   "repo": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull": "wheat37",
+   "pair": "2",
+   "keys": 64
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "5",
+   "pair_b": "1",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": 0.787602,
+    "min": -0.618966,
+    "max": 0.988558,
+    "high_fraction": 0.333333,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.795487
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.607689
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.779718
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.470503
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.65628
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.570628
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.988558
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.944847
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.956728
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.866892
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.9681
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.618966
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.916586,
+    "min": -0.983337,
+    "max": 0.982418,
+    "high_fraction": 0.75,
+    "flip_fraction": 0.166667,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.878409
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.94679
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.886589
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.909035
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.863444
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.955217
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.982418
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.950926
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.948574
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.924137
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.979707
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.983337
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.882499
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "1",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.990835,
+    "min": -0.770824,
+    "max": 0.99849,
+    "high_fraction": 0.777778,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.996124
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.992618
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.996513
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.988671
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.770824
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.99849
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.960399
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.990835
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.885642
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.890539,
+    "min": -0.914432,
+    "max": 0.992635,
+    "high_fraction": 0.555556,
+    "flip_fraction": 0.111111,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.900398
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.989507
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.971773
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.992635
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.914432
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.871648
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.879422
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.890539
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.845589
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.966086
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus36",
+   "pair_a": "5",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.860077,
+    "min": 0.492816,
+    "max": 0.988151,
+    "high_fraction": 0.444444,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.613903
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.800492
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.492816
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.678761
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.860077
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.988151
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.930174
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.975806
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.981734
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.830777,
+    "min": 0.726381,
+    "max": 0.93374,
+    "high_fraction": 0.222222,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.841721
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.832979
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.830777
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.81416
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.927351
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.826892
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.812622
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.93374
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.726381
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.831878
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus36",
+   "pull_b": "wheat37",
+   "pair_a": "3",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.695792,
+    "min": -0.524217,
+    "max": 0.768924,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.695792
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.679934
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.768911
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.768924
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.608463
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.720067
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.524217
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.673039
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.711863
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.654328,
+    "min": -0.542645,
+    "max": 0.712804,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.659569
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.654328
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.663272
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.635501
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.712804
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.589701
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.542645
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.655825
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.512935
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.661421
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus32",
+   "pull_b": "wheat37",
+   "pair_a": "8",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 32,
+   "identical": false,
+   "left": {
+    "count": 16,
+    "median": 0.554921,
+    "min": -0.649001,
+    "max": 0.783591,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      0.52633
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.457921
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      0.540737
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.561242
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      0.629077
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.569105
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.706914
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.644741
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      -0.649001
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.618687
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.685503
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.773283
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.477515
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.522231
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.619722
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.783591
+     ]
+    ]
+   },
+   "right": {
+    "count": 16,
+    "median": 0.642903,
+    "min": -0.684607,
+    "max": 0.68807,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      0.569952
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.593864
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      0.646757
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.653564
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.633162
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.649697
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.646842
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.68807
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      -0.684607
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.663493
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.684926
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.648391
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.639049
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.595104
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.659718
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.651376
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.599514,
+    "o_proj": 0.631714
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat37",
+   "pair_a": "1",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": 0.686726,
+    "min": -0.705507,
+    "max": 0.778127,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.684917
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.688535
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.691027
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.762215
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.778127
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.705507
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.717159
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.507529
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.67552
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.764872
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.5326
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.432934
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.63735,
+    "min": -0.714375,
+    "max": 0.713343,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.689063
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.700511
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.685002
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.713343
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.664657
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.714375
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.638617
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.564016
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.636082
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.539916
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.600714
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.555782
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.670089
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus32",
+   "pair_a": "5",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 32,
+   "identical": false,
+   "left": {
+    "count": 16,
+    "median": 0.408236,
+    "min": -0.651689,
+    "max": 0.785449,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.651689
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.302279
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      0.500672
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.386646
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      0.398415
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.418057
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      -0.31723
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.507488
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.2922
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.456123
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.371109
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.785449
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.610971
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.364676
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.582179
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.553952
+     ]
+    ]
+   },
+   "right": {
+    "count": 16,
+    "median": 0.607592,
+    "min": -0.653563,
+    "max": 0.705317,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.517582
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.632852
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      0.605872
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.653563
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.57454
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.676726
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      -0.624618
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.689991
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.577148
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.672338
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.67203
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.705317
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.555977
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.609312
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.563358
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.674564
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.528324,
+    "o_proj": 0.581632
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "8",
+   "pair_b": "1",
+   "same_repo": false,
+   "shared_keys": 16,
+   "identical": false,
+   "left": {
+    "count": 8,
+    "median": 0.549516,
+    "min": -0.525543,
+    "max": 0.835614,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.36521
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.431596
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.556954
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.579792
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.525543
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.835614
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.542079
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.620783
+     ]
+    ]
+   },
+   "right": {
+    "count": 8,
+    "median": 0.600526,
+    "min": -0.665393,
+    "max": 0.695092,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.580519
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.594165
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.620534
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.625194
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.665393
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.695092
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.576879
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.669793
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.578336
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus36",
+   "pair_a": "8",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 16,
+   "identical": false,
+   "left": {
+    "count": 8,
+    "median": 0.536726,
+    "min": -0.406497,
+    "max": 0.835262,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.367709
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.406497
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.554028
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.564956
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.492048
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.835262
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.519424
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.617261
+     ]
+    ]
+   },
+   "right": {
+    "count": 8,
+    "median": 0.583668,
+    "min": -0.567262,
+    "max": 0.671193,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.514373
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.567262
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.569001
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.598334
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.630299
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.607725
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.505111
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.671193
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.559492
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus32",
+   "pull_b": "wheat37",
+   "pair_a": "5",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 48,
+   "identical": false,
+   "left": {
+    "count": 24,
+    "median": 0.478919,
+    "min": -0.545438,
+    "max": 0.704462,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      0.43616
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.589615
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.545438
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.643651
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      0.617292
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.625762
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      0.517534
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.631301
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      -0.171501
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.627314
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      -0.469709
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.556588
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.426448
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.674915
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.255742
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.439926
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.467974
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.616679
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      0.325368
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.704462
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      -0.37933
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.496684
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.413878
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.461155
+     ]
+    ]
+   },
+   "right": {
+    "count": 24,
+    "median": 0.582095,
+    "min": -0.608981,
+    "max": 0.747118,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      0.582089
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.727605
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.608981
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.721725
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      0.598545
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.717346
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.582101
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.723521
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      -0.549439
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.722552
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      -0.560576
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.747118
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.669917
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.645349
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.462436
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.556584
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.519248
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.666402
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      0.521542
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.447542
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      -0.455031
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.58991
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.414889
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.542987
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.369623,
+    "o_proj": 0.629308
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "5",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 104,
+   "identical": false,
+   "left": {
+    "count": 36,
+    "median": 0.141505,
+    "min": -0.90663,
+    "max": 0.97481,
+    "high_fraction": 0.083333,
+    "flip_fraction": 0.027778,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.235989
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.080642
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.111838
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.121918
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.365571
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.407784
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.553091
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.518004
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.620909
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.611835
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.637661
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.695182
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.729956
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.840938
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.58675
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      0.917743
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.849862
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.97481
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.90663
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.824854
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.811656
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.left",
+      -0.702633
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.left",
+      0.721726
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      0.601342
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      0.488215
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      0.383153
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      -0.281146
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      0.303741
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      -0.244053
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.left",
+      -0.023781
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.left",
+      -0.036247
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.left",
+      -0.046033
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.left",
+      0.098615
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      0.116875
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      -0.126612
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      0.161092
+     ]
+    ]
+   },
+   "right": {
+    "count": 36,
+    "median": 0.192171,
+    "min": -0.968315,
+    "max": 0.962176,
+    "high_fraction": 0.111111,
+    "flip_fraction": 0.055556,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.234475
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.20109
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.173072
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.183253
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.392596
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.476582
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.519431
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.511986
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.622138
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.655807
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.728042
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.732461
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.696876
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.855868
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.877068
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      0.926667
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.91578
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.962176
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.968315
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.803226
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.835698
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.right",
+      -0.654527
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.right",
+      0.682442
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      0.66329
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      0.44407
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      0.377168
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      -0.348558
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      0.319601
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      -0.23408
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.right",
+      0.00577
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.right",
+      -0.034626
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.right",
+      -0.03989
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.right",
+      0.013533
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      0.059098
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      -0.144774
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      0.082574
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.633821,
+    "o_proj": 0.105227
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "copy_b": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "3",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.108153,
+    "min": -0.078605,
+    "max": 0.216377,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.216377
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.108153
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.17506
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.048153
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.171511
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.038419
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.078605
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.131544
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.040927
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.081259,
+    "min": -0.045078,
+    "max": 0.136213,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.081259
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.087842
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.111356
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      -0.027352
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.136213
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.035393
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.034831
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.101664
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.045078
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.08455
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "copy_b": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "5",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.08297,
+    "min": -0.337835,
+    "max": 0.362917,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.194247
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.121685
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.1743
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.08297
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.337835
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.178486
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.183539
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.362917
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.137912
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.073296,
+    "min": -0.312681,
+    "max": 0.274026,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.074278
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.107507
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.118882
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.073296
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.312681
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.125948
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.152438
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.274026
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.182522
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.078133
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "1",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": 0.079474,
+    "min": -0.298764,
+    "max": 0.325582,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.084854
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.023846
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.021795
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.109984
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.074094
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.300191
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.121556
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.179809
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.298764
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.179355
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.325582
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.299864
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.049691,
+    "min": -0.239984,
+    "max": 0.285415,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.008923
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.029802
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.033885
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.091336
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.065497
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.211408
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.099292
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.12918
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.239984
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.16223
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.190664
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.285415
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.069795
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "copy_b": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus34",
+   "pair_a": "3",
+   "pair_b": "5",
+   "same_repo": false,
+   "shared_keys": 120,
+   "identical": false,
+   "left": {
+    "count": 60,
+    "median": 0.05006,
+    "min": -0.717386,
+    "max": 0.777321,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.0.mlp.down_proj.weight.left",
+      -0.031047
+     ],
+     [
+      "model.language_model.layers.0.self_attn.o_proj.weight.left",
+      -0.028374
+     ],
+     [
+      "model.language_model.layers.1.mlp.down_proj.weight.left",
+      -0.002637
+     ],
+     [
+      "model.language_model.layers.1.self_attn.o_proj.weight.left",
+      -0.002326
+     ],
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.left",
+      0.777321
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.766385
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      0.68811
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.73446
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.66373
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.717386
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      0.633751
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.690862
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      -0.516921
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.515285
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.343399
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.272269
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.341002
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.325706
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.278018
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.294867
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.207889
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.196397
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.192243
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.243846
+     ],
+     [
+      "model.language_model.layers.2.mlp.down_proj.weight.left",
+      -0.039249
+     ],
+     [
+      "model.language_model.layers.2.self_attn.o_proj.weight.left",
+      0.041619
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      0.173627
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.214988
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.141533
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.167721
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.104446
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.10965
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.left",
+      -0.07328
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.left",
+      -0.059842
+     ],
+     [
+      "model.language_model.layers.24.mlp.down_proj.weight.left",
+      0.060884
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      -0.073949
+     ],
+     [
+      "model.language_model.layers.25.mlp.down_proj.weight.left",
+      0.056756
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      -0.065155
+     ],
+     [
+      "model.language_model.layers.26.mlp.down_proj.weight.left",
+      0.043364
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      -0.06715
+     ],
+     [
+      "model.language_model.layers.27.mlp.down_proj.weight.left",
+      0.042836
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      0.060127
+     ],
+     [
+      "model.language_model.layers.28.mlp.down_proj.weight.left",
+      -0.043244
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      -0.046946
+     ],
+     [
+      "model.language_model.layers.29.mlp.down_proj.weight.left",
+      0.016675
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      0.007936
+     ],
+     [
+      "model.language_model.layers.3.mlp.down_proj.weight.left",
+      0.115639
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.left",
+      -0.109044
+     ],
+     [
+      "model.language_model.layers.4.mlp.down_proj.weight.left",
+      -0.172445
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.left",
+      -0.177062
+     ],
+     [
+      "model.language_model.layers.5.mlp.down_proj.weight.left",
+      -0.289619
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.left",
+      -0.331049
+     ],
+     [
+      "model.language_model.layers.6.mlp.down_proj.weight.left",
+      0.315126
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.left",
+      0.33468
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.left",
+      0.366724
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      0.375484
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.left",
+      0.519081
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      -0.54855
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.left",
+      0.636481
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      0.660049
+     ]
+    ]
+   },
+   "right": {
+    "count": 60,
+    "median": 0.038157,
+    "min": -0.681475,
+    "max": 0.76292,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.0.mlp.down_proj.weight.right",
+      0.02806
+     ],
+     [
+      "model.language_model.layers.0.self_attn.o_proj.weight.right",
+      -0.034337
+     ],
+     [
+      "model.language_model.layers.1.mlp.down_proj.weight.right",
+      -0.007394
+     ],
+     [
+      "model.language_model.layers.1.self_attn.o_proj.weight.right",
+      0.004134
+     ],
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.right",
+      0.76292
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.720996
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      0.695966
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.700425
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.681475
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.606267
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      0.658383
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.636179
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      -0.576829
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.539842
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.396487
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      -0.337962
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.317726
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.347246
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.227376
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.411933
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.188946
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.173817
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.235356
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.224969
+     ],
+     [
+      "model.language_model.layers.2.mlp.down_proj.weight.right",
+      -0.007448
+     ],
+     [
+      "model.language_model.layers.2.self_attn.o_proj.weight.right",
+      0.031656
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      0.186323
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.200267
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.072273
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.218849
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.10355
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.118111
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.right",
+      -0.031799
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.right",
+      0.024403
+     ],
+     [
+      "model.language_model.layers.24.mlp.down_proj.weight.right",
+      0.04599
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      -0.117946
+     ],
+     [
+      "model.language_model.layers.25.mlp.down_proj.weight.right",
+      0.044659
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      -0.099429
+     ],
+     [
+      "model.language_model.layers.26.mlp.down_proj.weight.right",
+      0.026286
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      -0.063746
+     ],
+     [
+      "model.language_model.layers.27.mlp.down_proj.weight.right",
+      0.084894
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      0.048291
+     ],
+     [
+      "model.language_model.layers.28.mlp.down_proj.weight.right",
+      -0.095373
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      -0.090463
+     ],
+     [
+      "model.language_model.layers.29.mlp.down_proj.weight.right",
+      -0.097783
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      0.007593
+     ],
+     [
+      "model.language_model.layers.3.mlp.down_proj.weight.right",
+      0.019429
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.right",
+      -0.146097
+     ],
+     [
+      "model.language_model.layers.4.mlp.down_proj.weight.right",
+      -0.133664
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.right",
+      -0.317278
+     ],
+     [
+      "model.language_model.layers.5.mlp.down_proj.weight.right",
+      -0.173463
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.right",
+      -0.423828
+     ],
+     [
+      "model.language_model.layers.6.mlp.down_proj.weight.right",
+      0.279729
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.right",
+      0.479901
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.right",
+      0.258861
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      0.345774
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.right",
+      0.4298
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      -0.50402
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.right",
+      0.69846
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      0.607001
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.094222,
+    "o_proj": 0.000904
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus34",
+   "pair_a": "1",
+   "pair_b": "5",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": -0.006879,
+    "min": -0.333706,
+    "max": 0.405921,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.094997
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.196863
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.1181
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.17646
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.081239
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.405921
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.177353
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.18146
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.365831
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.17707
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.316835
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.333706
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.032974,
+    "min": -0.314787,
+    "max": 0.252869,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      -0.005433
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.070513
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.104875
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.118209
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.07138
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.252869
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.107027
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.148308
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.251999
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.166393
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.203252
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.314787
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.032974
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "8",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 32,
+   "identical": false,
+   "left": {
+    "count": 16,
+    "median": 0.022991,
+    "min": -0.068899,
+    "max": 0.141665,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.019206
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.121625
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.0128
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.068899
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      0.045876
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.091448
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.055299
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.008659
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.008839
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.141665
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.018239
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.053164
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.000194
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.024286
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.021696
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.086128
+     ]
+    ]
+   },
+   "right": {
+    "count": 16,
+    "median": 0.023556,
+    "min": -0.055799,
+    "max": 0.092237,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.053707
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.03528
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.018682
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.055799
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.04998
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.085572
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.020775
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.00014
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.00609
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.092237
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.060328
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.028025
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.006667
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.026337
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.000951
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.060851
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.007464,
+    "o_proj": 0.044222
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "5",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 48,
+   "identical": false,
+   "left": {
+    "count": 24,
+    "median": -0.001748,
+    "min": -0.082228,
+    "max": 0.158585,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      -0.02456
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.067138
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.007873
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.143749
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.003922
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.115962
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      -0.013694
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.156399
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      -0.018411
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.062443
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.040466
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.158585
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.020642
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.040389
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.021243
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.080902
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.00745
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.126959
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      0.002068
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.047532
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.000426
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.082228
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.001011
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.082368
+     ]
+    ]
+   },
+   "right": {
+    "count": 24,
+    "median": 0.013063,
+    "min": -0.069298,
+    "max": 0.111552,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      -0.034332
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.014396
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      0.011729
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.056562
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.005106
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.050715
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.009916
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.075878
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      -0.01749
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.010563
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.022935
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.111552
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.062884
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.016531
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.008707
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.026651
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.015096
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.094244
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.05587
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.048752
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.000504
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.069298
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.017387
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.074073
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.001748,
+    "o_proj": 0.045552
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus36",
+   "pair_a": "3",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 72,
+   "identical": false,
+   "left": {
+    "count": 36,
+    "median": 0.010474,
+    "min": -0.12594,
+    "max": 0.136029,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.047258
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.034685
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.073552
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.124444
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.115126
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.136029
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.109889
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.129913
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.084796
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.126554
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.114307
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      0.131399
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.104015
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.119089
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.013737
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      0.123578
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.098312
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.128753
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.101698
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.130885
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.091149
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.left",
+      0.132979
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.left",
+      -0.089491
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      -0.10918
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      -0.099578
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      -0.103666
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      -0.110149
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      -0.12594
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      -0.118869
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.left",
+      0.067667
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.left",
+      0.07975
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.left",
+      0.060494
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.left",
+      0.057347
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      0.056579
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      0.053217
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      0.036393
+     ]
+    ]
+   },
+   "right": {
+    "count": 36,
+    "median": -0.00313,
+    "min": -0.252698,
+    "max": 0.165818,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.121144
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.085333
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.065212
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.133793
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.172173
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.165818
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      -0.142839
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.038645
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.103916
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.154167
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.252698
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      0.11264
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.058661
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.166908
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.068642
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      0.144998
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.111152
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.050173
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.166641
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.093667
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.105527
+     ],
+     [
+      "model.language_model.layers.23.mlp.down_proj.weight.right",
+      0.079354
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.right",
+      -0.092337
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      -0.147195
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      -0.148776
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      -0.04481
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      -0.110825
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      -0.142325
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      -0.127189
+     ],
+     [
+      "model.language_model.layers.3.self_attn.o_proj.weight.right",
+      0.056652
+     ],
+     [
+      "model.language_model.layers.4.self_attn.o_proj.weight.right",
+      0.081698
+     ],
+     [
+      "model.language_model.layers.5.self_attn.o_proj.weight.right",
+      0.098982
+     ],
+     [
+      "model.language_model.layers.6.self_attn.o_proj.weight.right",
+      0.03855
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      0.049275
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      0.067916
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      0.051844
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.127654,
+    "o_proj": -0.087143
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus36",
+   "pair_a": "5",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 40,
+   "identical": false,
+   "left": {
+    "count": 20,
+    "median": -0.00124,
+    "min": -0.306859,
+    "max": 0.312689,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.054124
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.015285
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.012805
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.055758
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      -0.066707
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.049015
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.028554
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.228104
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.114668
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.111162
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.097285
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.152589
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.170058
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.306859
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      -0.170137
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.112474
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.168927
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.312689
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.048214
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.244421
+     ]
+    ]
+   },
+   "right": {
+    "count": 20,
+    "median": -0.00991,
+    "min": -0.281206,
+    "max": 0.204144,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.007865
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.027685
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.017363
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.074527
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      -0.146843
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.038907
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.092862
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.241418
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.195837
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.091677
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.158576
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.116723
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.204144
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.244467
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.226806
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.146977
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.170243
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.179476
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.033802
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.281206
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.019076,
+    "o_proj": -0.00371
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat37",
+   "pair_a": "3",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 64,
+   "identical": false,
+   "left": {
+    "count": 32,
+    "median": 0.005189,
+    "min": -0.293874,
+    "max": 0.286512,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.left",
+      0.047158
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.286512
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      -0.036498
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.116138
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      0.007532
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.128387
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.003259
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.14774
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      0.041994
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.178946
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.03388
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.078065
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      -0.002927
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.221045
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      0.026239
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.057455
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.006543
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.00926
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.030154
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.126933
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      -0.008449
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.052937
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.002324
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.117988
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      7.7e-05
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.057131
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.left",
+      0.003941
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      -0.198706
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.left",
+      -0.019281
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      0.208653
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.left",
+      0.006438
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      -0.293874
+     ]
+    ]
+   },
+   "right": {
+    "count": 32,
+    "median": -0.014087,
+    "min": -0.114847,
+    "max": 0.122079,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.right",
+      0.070946
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.122079
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      -0.044555
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      -0.02554
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.016096
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.043606
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.023311
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.063424
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      0.057402
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.089383
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.028762
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      -0.038836
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      -0.01952
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.118621
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      0.044797
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.021305
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.019233
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.020203
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.026313
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.05376
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.044459
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.03588
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      -0.018213
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.083177
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.01481
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.052925
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.right",
+      -0.012078
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      -0.114847
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.right",
+      -0.035684
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      0.112265
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.right",
+      -0.003107
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      -0.111277
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.003183,
+    "o_proj": 0.048266
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "eadx/Huihui-gemma-4-26B-A4B-it-qat-q4_0-unquantized-abliterated",
+   "pull_a": "nautilus34",
+   "pull_b": "nautilus34",
+   "pair_a": "1",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": -0.036448,
+    "min": -0.189558,
+    "max": 0.221859,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.074048
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.221859
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.104405
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      0.175897
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      -0.038681
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.189558
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.034458
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.06662
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.132581
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.034215
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.084687
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.069668
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": -0.015064,
+    "min": -0.10381,
+    "max": 0.103972,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      -0.0091
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      0.071248
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.08103
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      0.103972
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      -0.021027
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.10381
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.024115
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.029406
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.078107
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.056357
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.071511
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.084333
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": -0.025216
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus36",
+   "pair_a": "8",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 26,
+   "identical": false,
+   "left": {
+    "count": 13,
+    "median": -0.002316,
+    "min": -0.21271,
+    "max": 0.157536,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.002316
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.004037
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.071736
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.067894
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.045608
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.032401
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.202496
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.105796
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.136835
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.123949
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.077704
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.157536
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.21271
+     ]
+    ]
+   },
+   "right": {
+    "count": 13,
+    "median": -0.031106,
+    "min": -0.182427,
+    "max": 0.142485,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.030589
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.031106
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.07164
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.096807
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.047137
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.049717
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.182427
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.089583
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.083756
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.135451
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.062576
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.142485
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.148809
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.041059,
+    "o_proj": -0.051373
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "coder3101/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic",
+   "copy_b": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus36",
+   "pull_b": "nautilus36",
+   "pair_a": "3",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": -0.022953,
+    "min": -0.302747,
+    "max": 0.17533,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      0.01795
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.022953
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.106544
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.074315
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.253814
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.120907
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.17533
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.302747
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.128509
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": -0.034166,
+    "min": -0.256322,
+    "max": 0.1768,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.034166
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.036059
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.091298
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.066968
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.256322
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.113232
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.131512
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.254614
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.1768
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": -0.028559
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic-v2",
+   "copy_b": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "8",
+   "pair_b": "5",
+   "same_repo": false,
+   "shared_keys": 32,
+   "identical": false,
+   "left": {
+    "count": 16,
+    "median": -0.08237,
+    "min": -0.259052,
+    "max": 0.266805,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      0.0755
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.102829
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.091679
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      -0.073062
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      -0.132629
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.097075
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.162628
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.063593
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.14388
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.259052
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.186799
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.180342
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.159642
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.087004
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.160889
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.266805
+     ]
+    ]
+   },
+   "right": {
+    "count": 16,
+    "median": -0.047655,
+    "min": -0.22643,
+    "max": 0.163392,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      0.100673
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.040018
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.090056
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      -0.055291
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      -0.105071
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.11372
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.162866
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.049411
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.099093
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.22643
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.13401
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.100186
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.142977
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.08475
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.139484
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.163392
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.098375,
+    "o_proj": 0.004697
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "Mitchins/gemma-4-26B-A4B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus36",
+   "pull_b": "wheat37",
+   "pair_a": "7",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 48,
+   "identical": false,
+   "left": {
+    "count": 24,
+    "median": -0.047129,
+    "min": -0.256729,
+    "max": 0.339814,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.074556
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      0.045067
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.058622
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.013969
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.096191
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.064921
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.094699
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      -0.03341
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.227768
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.100107
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.13442
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.055738
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.154531
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.124694
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.256729
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      -0.14741
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      0.175066
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      -0.10252
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      0.339814
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.062691
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      -0.214023
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      -0.03852
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      0.065359
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      -0.010148
+     ]
+    ]
+   },
+   "right": {
+    "count": 24,
+    "median": -0.055308,
+    "min": -0.205756,
+    "max": 0.223164,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.069562
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      -0.006778
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.035551
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.018658
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.080588
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.117581
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.077097
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      -0.0662
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.205756
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.091481
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      -0.063526
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.100316
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.059259
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.133817
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.152287
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.173725
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.116456
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      -0.12714
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.223164
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.035978
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      -0.165003
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      -0.051358
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      0.05686
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      -0.032161
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.095794,
+    "o_proj": -0.033856
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "copy_b": "OS-Software/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ja",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat37",
+   "pair_a": "5",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 64,
+   "identical": false,
+   "left": {
+    "count": 32,
+    "median": -0.079498,
+    "min": -0.362723,
+    "max": 0.349402,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.left",
+      0.029964
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.left",
+      0.249497
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      0.044051
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.161757
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      0.073667
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.151846
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.043186
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.161997
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      -0.117647
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.172859
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      0.111715
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.114337
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      -0.13571
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.349273
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.193776
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.202583
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.077655
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      -0.157154
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      0.118869
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.349402
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      -0.166152
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.193266
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      -0.126798
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.362723
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.130603
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.247864
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.left",
+      -0.048348
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.left",
+      -0.18216
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.left",
+      -0.081341
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.left",
+      -0.209591
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.left",
+      0.055976
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.left",
+      -0.237611
+     ]
+    ]
+   },
+   "right": {
+    "count": 32,
+    "median": -0.067413,
+    "min": -0.257172,
+    "max": 0.192668,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.10.mlp.down_proj.weight.right",
+      0.087551
+     ],
+     [
+      "model.language_model.layers.10.self_attn.o_proj.weight.right",
+      0.143388
+     ],
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      0.046822
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      -0.032314
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      0.09906
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.057009
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.077816
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.093171
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      -0.133882
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.118015
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      0.1553
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.097312
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      -0.112809
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.257172
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.13143
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.080069
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.103756
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.077956
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      0.111197
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.171038
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.170576
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.119605
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      -0.157507
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.229407
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.105666
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.192668
+     ],
+     [
+      "model.language_model.layers.7.mlp.down_proj.weight.right",
+      -0.044745
+     ],
+     [
+      "model.language_model.layers.7.self_attn.o_proj.weight.right",
+      -0.105584
+     ],
+     [
+      "model.language_model.layers.8.mlp.down_proj.weight.right",
+      -0.098244
+     ],
+     [
+      "model.language_model.layers.8.self_attn.o_proj.weight.right",
+      -0.130402
+     ],
+     [
+      "model.language_model.layers.9.mlp.down_proj.weight.right",
+      0.020732
+     ],
+     [
+      "model.language_model.layers.9.self_attn.o_proj.weight.right",
+      -0.088359
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.046547,
+    "o_proj": -0.096972
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "mewse/gemma-4-26B-A4B-it-qat-q4_0-unquantized-heretic-ara",
+   "copy_b": "xdavxd/gemma-4-26B-A4B-it-qat-heretic-ega",
+   "pull_a": "nautilus32",
+   "pull_b": "nautilus34",
+   "pair_a": "5",
+   "pair_b": "5",
+   "same_repo": false,
+   "shared_keys": 48,
+   "identical": false,
+   "left": {
+    "count": 24,
+    "median": -0.077521,
+    "min": -0.300889,
+    "max": 0.352465,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.left",
+      0.032686
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.left",
+      -0.068969
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.left",
+      -0.060876
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.left",
+      -0.161273
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.left",
+      -0.086073
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.left",
+      0.137825
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.left",
+      -0.119106
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.left",
+      -0.097274
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.left",
+      -0.101762
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.left",
+      0.034885
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.left",
+      0.160713
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      -0.297958
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.left",
+      -0.201184
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      0.165902
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.left",
+      -0.112871
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.158394
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.left",
+      -0.185486
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      0.352465
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.left",
+      -0.163081
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.126155
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.left",
+      0.214403
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.300889
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.left",
+      0.160194
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.268235
+     ]
+    ]
+   },
+   "right": {
+    "count": 24,
+    "median": -0.078897,
+    "min": -0.290794,
+    "max": 0.305584,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.11.mlp.down_proj.weight.right",
+      0.099365
+     ],
+     [
+      "model.language_model.layers.11.self_attn.o_proj.weight.right",
+      0.016696
+     ],
+     [
+      "model.language_model.layers.12.mlp.down_proj.weight.right",
+      -0.099568
+     ],
+     [
+      "model.language_model.layers.12.self_attn.o_proj.weight.right",
+      -0.058225
+     ],
+     [
+      "model.language_model.layers.13.mlp.down_proj.weight.right",
+      -0.137465
+     ],
+     [
+      "model.language_model.layers.13.self_attn.o_proj.weight.right",
+      0.086813
+     ],
+     [
+      "model.language_model.layers.14.mlp.down_proj.weight.right",
+      -0.161837
+     ],
+     [
+      "model.language_model.layers.14.self_attn.o_proj.weight.right",
+      -0.100409
+     ],
+     [
+      "model.language_model.layers.15.mlp.down_proj.weight.right",
+      -0.225863
+     ],
+     [
+      "model.language_model.layers.15.self_attn.o_proj.weight.right",
+      0.042434
+     ],
+     [
+      "model.language_model.layers.16.mlp.down_proj.weight.right",
+      0.194798
+     ],
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      -0.290794
+     ],
+     [
+      "model.language_model.layers.17.mlp.down_proj.weight.right",
+      -0.284349
+     ],
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.099508
+     ],
+     [
+      "model.language_model.layers.18.mlp.down_proj.weight.right",
+      -0.184927
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      0.138912
+     ],
+     [
+      "model.language_model.layers.19.mlp.down_proj.weight.right",
+      -0.194771
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      0.262699
+     ],
+     [
+      "model.language_model.layers.20.mlp.down_proj.weight.right",
+      -0.22792
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      -0.152326
+     ],
+     [
+      "model.language_model.layers.21.mlp.down_proj.weight.right",
+      0.219037
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      -0.193202
+     ],
+     [
+      "model.language_model.layers.22.mlp.down_proj.weight.right",
+      0.177066
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.305584
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.107316,
+    "o_proj": 0.025791
+   },
+   "parent": "google/gemma-4-26B-A4B-it-qat-q4_0-unquantized"
+  }
+ ]
+}

@@ -1,0 +1,777 @@
+{
+ "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized",
+ "copies": [
+  {
+   "repo": "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull": "nautilus36",
+   "pair": "1",
+   "keys": 32
+  },
+  {
+   "repo": "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+   "pull": "nautilus36",
+   "pair": "2",
+   "keys": 42
+  },
+  {
+   "repo": "OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull": "nautilus36",
+   "pair": "4",
+   "keys": 44
+  },
+  {
+   "repo": "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged",
+   "pull": "wheat37",
+   "pair": "3",
+   "keys": 60
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+   "pull_a": "nautilus36",
+   "pull_b": "nautilus36",
+   "pair_a": "1",
+   "pair_b": "2",
+   "same_repo": false,
+   "shared_keys": 28,
+   "identical": false,
+   "left": {
+    "count": 14,
+    "median": 0.990159,
+    "min": -0.992943,
+    "max": 0.999691,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.071429,
+    "cosines": [
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.left",
+      0.957375
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.926669
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      0.998075
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      0.962362
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      0.996895
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      -0.992943
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      0.998836
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      0.993271
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.992914
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.994699
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      0.906235
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.999691
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      0.967716
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      0.987405
+     ]
+    ]
+   },
+   "right": {
+    "count": 14,
+    "median": 0.976823,
+    "min": -0.995768,
+    "max": 0.998889,
+    "high_fraction": 0.928571,
+    "flip_fraction": 0.071429,
+    "cosines": [
+     [
+      "model.language_model.layers.16.self_attn.o_proj.weight.right",
+      0.681683
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.967787
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      0.998889
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      0.980318
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      0.971364
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      -0.995768
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      0.998739
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      0.998889
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.973327
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.938153
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      0.962271
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.987699
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      0.995889
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      0.994077
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.983862
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+   "copy_b": "OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus36",
+   "pull_b": "nautilus36",
+   "pair_a": "2",
+   "pair_b": "4",
+   "same_repo": false,
+   "shared_keys": 18,
+   "identical": false,
+   "left": {
+    "count": 9,
+    "median": 0.367276,
+    "min": -0.539726,
+    "max": 0.69479,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.407976
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.367276
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      -0.39676
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.353019
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      -0.539726
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      0.311602
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.left",
+      0.522838
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.left",
+      0.69479
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.left",
+      0.619419
+     ]
+    ]
+   },
+   "right": {
+    "count": 9,
+    "median": 0.67749,
+    "min": -0.719552,
+    "max": 0.766906,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.650425
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.651752
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      -0.719552
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.72101
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      -0.704105
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      0.748032
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.right",
+      0.766906
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.right",
+      0.67749
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.right",
+      0.679973
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.571128
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "pull_a": "nautilus36",
+   "pull_b": "nautilus36",
+   "pair_a": "1",
+   "pair_b": "4",
+   "same_repo": false,
+   "shared_keys": 12,
+   "identical": false,
+   "left": {
+    "count": 6,
+    "median": 0.324186,
+    "min": -0.531981,
+    "max": 0.431418,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.431418
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.378828
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      -0.339303
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.359079
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      -0.531981
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      0.289292
+     ]
+    ]
+   },
+   "right": {
+    "count": 6,
+    "median": 0.648499,
+    "min": -0.715136,
+    "max": 0.746446,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.64553
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.651468
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      -0.715136
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.728103
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      -0.708197
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      0.746446
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.368954
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic",
+   "copy_b": "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged",
+   "pull_a": "nautilus36",
+   "pull_b": "wheat37",
+   "pair_a": "2",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 30,
+   "identical": false,
+   "left": {
+    "count": 15,
+    "median": 0.819111,
+    "min": -0.917991,
+    "max": 0.986853,
+    "high_fraction": 0.4,
+    "flip_fraction": 0.066667,
+    "cosines": [
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      0.766907
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      0.849478
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      0.933186
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      -0.668169
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      0.958902
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      0.955398
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.986853
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.725135
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      0.691672
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.825499
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      0.686056
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      -0.917991
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.left",
+      0.539899
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.left",
+      0.930079
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.left",
+      0.819111
+     ]
+    ]
+   },
+   "right": {
+    "count": 15,
+    "median": 0.419359,
+    "min": -0.486793,
+    "max": 0.489716,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      0.428887
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      0.489716
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      0.446602
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      -0.364997
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      0.398014
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      0.488416
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.400967
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.419359
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      0.434694
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.443494
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      0.372521
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      -0.486793
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.right",
+      0.366672
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.right",
+      0.334079
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.right",
+      0.441616
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.467509
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "llmfan46/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged",
+   "pull_a": "nautilus36",
+   "pull_b": "wheat37",
+   "pair_a": "1",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 24,
+   "identical": false,
+   "left": {
+    "count": 12,
+    "median": 0.808047,
+    "min": -0.955895,
+    "max": 0.977699,
+    "high_fraction": 0.5,
+    "flip_fraction": 0.083333,
+    "cosines": [
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      0.789808
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      0.948413
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      0.908289
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      0.685775
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      0.967542
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      0.977699
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.971571
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.688045
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      0.77296
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.826285
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      0.743638
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      -0.955895
+     ]
+    ]
+   },
+   "right": {
+    "count": 12,
+    "median": 0.408032,
+    "min": -0.475048,
+    "max": 0.51242,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      0.429612
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      0.51242
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      0.419554
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      0.359808
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      0.39651
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      0.490027
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.379233
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.379785
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      0.471149
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.435501
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      0.384406
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      -0.475048
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.501224
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  },
+  {
+   "copy_a": "OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic",
+   "copy_b": "wnfldchen/gemma-4-31B-it-qat-q4_0-unquantized-heretic-merged",
+   "pull_a": "nautilus36",
+   "pull_b": "wheat37",
+   "pair_a": "4",
+   "pair_b": "3",
+   "same_repo": false,
+   "shared_keys": 22,
+   "identical": false,
+   "left": {
+    "count": 11,
+    "median": 0.290642,
+    "min": -0.462274,
+    "max": 0.746497,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.386432
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.290642
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      -0.25441
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.211991
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.left",
+      -0.462274
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.left",
+      -0.258245
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.left",
+      0.465857
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.left",
+      0.746497
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.left",
+      0.687978
+     ],
+     [
+      "model.language_model.layers.39.self_attn.o_proj.weight.left",
+      0.536632
+     ],
+     [
+      "model.language_model.layers.40.self_attn.o_proj.weight.left",
+      0.231595
+     ]
+    ]
+   },
+   "right": {
+    "count": 11,
+    "median": 0.292525,
+    "min": -0.390907,
+    "max": 0.381856,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      0.280713
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      0.292525
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      -0.351653
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      0.332037
+     ],
+     [
+      "model.language_model.layers.34.self_attn.o_proj.weight.right",
+      -0.341304
+     ],
+     [
+      "model.language_model.layers.35.self_attn.o_proj.weight.right",
+      -0.390907
+     ],
+     [
+      "model.language_model.layers.36.self_attn.o_proj.weight.right",
+      0.333649
+     ],
+     [
+      "model.language_model.layers.37.self_attn.o_proj.weight.right",
+      0.252801
+     ],
+     [
+      "model.language_model.layers.38.self_attn.o_proj.weight.right",
+      0.327967
+     ],
+     [
+      "model.language_model.layers.39.self_attn.o_proj.weight.right",
+      0.339179
+     ],
+     [
+      "model.language_model.layers.40.self_attn.o_proj.weight.right",
+      0.381856
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.291584
+   },
+   "parent": "google/gemma-4-31B-it-qat-q4_0-unquantized"
+  }
+ ]
+}

@@ -1,0 +1,239 @@
+{
+ "parent": "google/gemma-4-E4B",
+ "copies": [
+  {
+   "repo": "Felldude/gemma-4-E4B-uncensored",
+   "pull": "blueback29",
+   "pair": "8",
+   "keys": 694
+  },
+  {
+   "repo": "chulcher/gemma-4-e4b-abliterated",
+   "pull": "nautilus46",
+   "pair": "1",
+   "keys": 46
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "Felldude/gemma-4-E4B-uncensored",
+   "copy_b": "chulcher/gemma-4-e4b-abliterated",
+   "pull_a": "blueback29",
+   "pull_b": "nautilus46",
+   "pair_a": "8",
+   "pair_b": "1",
+   "same_repo": false,
+   "shared_keys": 46,
+   "identical": false,
+   "left": {
+    "count": 23,
+    "median": 0.00051,
+    "min": -0.087643,
+    "max": 0.199363,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.left",
+      -0.003109
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.left",
+      0.007307
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.left",
+      -0.001926
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.left",
+      -0.043382
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.left",
+      -0.019804
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.left",
+      0.00051
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.left",
+      -0.005733
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.left",
+      -0.050286
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.left",
+      -0.027949
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.left",
+      -0.017399
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.left",
+      -0.087643
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.left",
+      0.093486
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.left",
+      -0.057707
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.left",
+      0.090093
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.left",
+      0.151278
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.left",
+      0.199363
+     ],
+     [
+      "model.language_model.layers.33.mlp.down_proj.weight.left",
+      0.133192
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.left",
+      0.133976
+     ],
+     [
+      "model.language_model.layers.34.mlp.down_proj.weight.left",
+      0.167134
+     ],
+     [
+      "model.language_model.layers.35.mlp.down_proj.weight.left",
+      0.145466
+     ],
+     [
+      "model.language_model.layers.36.mlp.down_proj.weight.left",
+      0.095872
+     ],
+     [
+      "model.language_model.layers.37.mlp.down_proj.weight.left",
+      0.10243
+     ],
+     [
+      "model.language_model.layers.38.mlp.down_proj.weight.left",
+      -0.028486
+     ]
+    ]
+   },
+   "right": {
+    "count": 23,
+    "median": -0.011507,
+    "min": -0.130827,
+    "max": 0.090912,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.language_model.layers.17.self_attn.o_proj.weight.right",
+      0.020315
+     ],
+     [
+      "model.language_model.layers.18.self_attn.o_proj.weight.right",
+      -0.073027
+     ],
+     [
+      "model.language_model.layers.19.self_attn.o_proj.weight.right",
+      -0.028336
+     ],
+     [
+      "model.language_model.layers.20.self_attn.o_proj.weight.right",
+      0.009104
+     ],
+     [
+      "model.language_model.layers.21.self_attn.o_proj.weight.right",
+      0.001608
+     ],
+     [
+      "model.language_model.layers.22.self_attn.o_proj.weight.right",
+      0.037629
+     ],
+     [
+      "model.language_model.layers.23.self_attn.o_proj.weight.right",
+      0.014261
+     ],
+     [
+      "model.language_model.layers.24.self_attn.o_proj.weight.right",
+      -0.003688
+     ],
+     [
+      "model.language_model.layers.25.self_attn.o_proj.weight.right",
+      -0.016333
+     ],
+     [
+      "model.language_model.layers.26.self_attn.o_proj.weight.right",
+      -0.009992
+     ],
+     [
+      "model.language_model.layers.27.self_attn.o_proj.weight.right",
+      -0.011507
+     ],
+     [
+      "model.language_model.layers.28.self_attn.o_proj.weight.right",
+      -0.004201
+     ],
+     [
+      "model.language_model.layers.29.self_attn.o_proj.weight.right",
+      0.066914
+     ],
+     [
+      "model.language_model.layers.30.self_attn.o_proj.weight.right",
+      -0.038111
+     ],
+     [
+      "model.language_model.layers.31.self_attn.o_proj.weight.right",
+      -0.125969
+     ],
+     [
+      "model.language_model.layers.32.self_attn.o_proj.weight.right",
+      -0.057979
+     ],
+     [
+      "model.language_model.layers.33.mlp.down_proj.weight.right",
+      -0.130827
+     ],
+     [
+      "model.language_model.layers.33.self_attn.o_proj.weight.right",
+      -0.087512
+     ],
+     [
+      "model.language_model.layers.34.mlp.down_proj.weight.right",
+      -0.091172
+     ],
+     [
+      "model.language_model.layers.35.mlp.down_proj.weight.right",
+      -0.111095
+     ],
+     [
+      "model.language_model.layers.36.mlp.down_proj.weight.right",
+      0.090912
+     ],
+     [
+      "model.language_model.layers.37.mlp.down_proj.weight.right",
+      0.025578
+     ],
+     [
+      "model.language_model.layers.38.mlp.down_proj.weight.right",
+      -0.024996
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.058245,
+    "o_proj": -0.004967
+   },
+   "parent": "google/gemma-4-E4B"
+  }
+ ]
+}

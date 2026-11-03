@@ -1,0 +1,1559 @@
+{
+ "parent": "google/diffusiongemma-26B-A4B-it",
+ "copies": [
+  {
+   "repo": "Umranz/diffusiongemma-26B-A4B-it-abliteration",
+   "pull": "nautilus34",
+   "pair": "8",
+   "keys": 76
+  },
+  {
+   "repo": "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+   "pull": "wheat30",
+   "pair": "6",
+   "keys": 40
+  },
+  {
+   "repo": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull": "wheat30",
+   "pair": "7",
+   "keys": 134
+  },
+  {
+   "repo": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull": "wheat30",
+   "pair": "8",
+   "keys": 134
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "copy_b": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull_a": "wheat30",
+   "pull_b": "wheat30",
+   "pair_a": "7",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 134,
+   "identical": true,
+   "left": {
+    "count": 48,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.20.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.20.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.21.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.21.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.22.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.22.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.23.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.23.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.24.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.24.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.25.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.25.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.26.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.26.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.27.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.27.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.28.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.28.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.29.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.29.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      1.0
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      1.0
+     ]
+    ]
+   },
+   "right": {
+    "count": 48,
+    "median": 1.0,
+    "min": 1.0,
+    "max": 1.0,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.20.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.20.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.21.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.21.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.22.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.22.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.23.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.23.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.24.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.24.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.25.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.25.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.26.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.26.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.27.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.27.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.28.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.28.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.29.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.29.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      1.0
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      1.0
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 1.0,
+    "o_proj": 1.0
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  },
+  {
+   "copy_a": "Umranz/diffusiongemma-26B-A4B-it-abliteration",
+   "copy_b": "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat30",
+   "pair_a": "8",
+   "pair_b": "6",
+   "same_repo": false,
+   "shared_keys": 40,
+   "identical": false,
+   "left": {
+    "count": 20,
+    "median": 0.649445,
+    "min": -0.991876,
+    "max": 0.991003,
+    "high_fraction": 0.5,
+    "flip_fraction": 0.1,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      0.035592
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      0.515537
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      -0.04838
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      -0.074008
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      -0.060813
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      0.931003
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      0.879011
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      0.783353
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      -0.131327
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      -0.943436
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      0.955911
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      0.913497
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      0.991003
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      0.973139
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      -0.864851
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      0.989924
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      0.947759
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      -0.991876
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      0.01909
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      0.974899
+     ]
+    ]
+   },
+   "right": {
+    "count": 20,
+    "median": 0.230835,
+    "min": -0.962941,
+    "max": 0.99946,
+    "high_fraction": 0.45,
+    "flip_fraction": 0.05,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      0.01571
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      0.479005
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      0.007276
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      -0.007856
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      0.07808
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      0.993508
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      0.998315
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      0.996383
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      -0.131066
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      -0.962941
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      0.997881
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      0.933522
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      0.99946
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      0.976048
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      -0.19258
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      0.267831
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      0.193839
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      -0.276045
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      -0.026724
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      0.902418
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": 0.027341,
+    "o_proj": 0.842885
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  },
+  {
+   "copy_a": "Umranz/diffusiongemma-26B-A4B-it-abliteration",
+   "copy_b": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat30",
+   "pair_a": "8",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 56,
+   "identical": false,
+   "left": {
+    "count": 28,
+    "median": -0.0562,
+    "min": -0.389295,
+    "max": 0.263896,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      -0.013183
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      0.091578
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      0.041182
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      -0.013232
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      -0.152726
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      -0.140375
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      -0.063
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      -0.120459
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      -0.126767
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      -0.065871
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      -0.17645
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      -0.0494
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      -0.121983
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      -0.389295
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.left",
+      -0.268874
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.left",
+      0.263896
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.left",
+      -0.104585
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.left",
+      0.189002
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.left",
+      -0.232127
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.left",
+      0.130904
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.left",
+      0.014452
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.left",
+      -0.041434
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      -0.084034
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      0.003457
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      -0.070311
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      0.048905
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      0.095332
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      0.203203
+     ]
+    ]
+   },
+   "right": {
+    "count": 28,
+    "median": -0.008002,
+    "min": -0.307609,
+    "max": 0.124992,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      0.033955
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      -0.006555
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      0.028837
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      0.004906
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      -0.133154
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      -0.00688
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      -0.078456
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      -0.025948
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      -0.132492
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      0.009394
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      -0.12205
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      -0.013861
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      -0.084262
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      -0.307609
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.right",
+      -0.230138
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.right",
+      0.124992
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.right",
+      -0.156438
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.right",
+      0.122927
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.right",
+      -0.188639
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.right",
+      0.085791
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.right",
+      0.007335
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.right",
+      -0.023062
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      -0.00383
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      -0.008122
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      0.017318
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      -0.007883
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      -0.196019
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      -0.00705
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.113284,
+    "o_proj": -0.006717
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  },
+  {
+   "copy_a": "Umranz/diffusiongemma-26B-A4B-it-abliteration",
+   "copy_b": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull_a": "nautilus34",
+   "pull_b": "wheat30",
+   "pair_a": "8",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 56,
+   "identical": false,
+   "left": {
+    "count": 28,
+    "median": -0.0562,
+    "min": -0.389295,
+    "max": 0.263896,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      -0.013183
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      0.091578
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      0.041182
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      -0.013232
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      -0.152726
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      -0.140375
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      -0.063
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      -0.120459
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      -0.126767
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      -0.065871
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      -0.17645
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      -0.0494
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      -0.121983
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      -0.389295
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.left",
+      -0.268874
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.left",
+      0.263896
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.left",
+      -0.104585
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.left",
+      0.189002
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.left",
+      -0.232127
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.left",
+      0.130904
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.left",
+      0.014452
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.left",
+      -0.041434
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      -0.084034
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      0.003457
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      -0.070311
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      0.048905
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      0.095332
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      0.203203
+     ]
+    ]
+   },
+   "right": {
+    "count": 28,
+    "median": -0.008002,
+    "min": -0.307609,
+    "max": 0.124992,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      0.033955
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      -0.006555
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      0.028837
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      0.004906
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      -0.133154
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      -0.00688
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      -0.078456
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      -0.025948
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      -0.132492
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      0.009394
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      -0.12205
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      -0.013861
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      -0.084262
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      -0.307609
+     ],
+     [
+      "model.decoder.layers.17.mlp.down_proj.weight.right",
+      -0.230138
+     ],
+     [
+      "model.decoder.layers.17.self_attn.o_proj.weight.right",
+      0.124992
+     ],
+     [
+      "model.decoder.layers.18.mlp.down_proj.weight.right",
+      -0.156438
+     ],
+     [
+      "model.decoder.layers.18.self_attn.o_proj.weight.right",
+      0.122927
+     ],
+     [
+      "model.decoder.layers.19.mlp.down_proj.weight.right",
+      -0.188639
+     ],
+     [
+      "model.decoder.layers.19.self_attn.o_proj.weight.right",
+      0.085791
+     ],
+     [
+      "model.decoder.layers.5.self_attn.o_proj.weight.right",
+      0.007335
+     ],
+     [
+      "model.decoder.layers.6.self_attn.o_proj.weight.right",
+      -0.023062
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      -0.00383
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      -0.008122
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      0.017318
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      -0.007883
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      -0.196019
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      -0.00705
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.113284,
+    "o_proj": -0.006717
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  },
+  {
+   "copy_a": "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+   "copy_b": "FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull_a": "wheat30",
+   "pull_b": "wheat30",
+   "pair_a": "6",
+   "pair_b": "7",
+   "same_repo": false,
+   "shared_keys": 40,
+   "identical": false,
+   "left": {
+    "count": 20,
+    "median": -0.025561,
+    "min": -0.410111,
+    "max": 0.649313,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      -0.271306
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      0.179504
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      0.003237
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      -0.005493
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      0.000173
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      -0.084762
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      -0.054626
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      -0.069944
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      0.02175
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      0.081143
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      -0.169515
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      -0.068299
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      -0.12364
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      -0.410111
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      0.156177
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      0.011962
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      -0.089713
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      -0.045629
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      0.649313
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      0.229049
+     ]
+    ]
+   },
+   "right": {
+    "count": 20,
+    "median": -0.018129,
+    "min": -0.2988,
+    "max": 0.035848,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      -0.004229
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      -0.026254
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      0.016709
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      0.035848
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      -0.015046
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      -0.005227
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      -0.0819
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      -0.025237
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      0.026498
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      -0.007927
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      -0.131594
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      -0.012307
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      -0.085326
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      -0.2988
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      -0.038632
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      -0.026097
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      0.017164
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      -0.021212
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      -0.021487
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      0.003863
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.018267,
+    "o_proj": -0.016759
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  },
+  {
+   "copy_a": "Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16",
+   "copy_b": "nnnxnsn/diffusiongemma-26B-A4B-it-HERETIC-Uncensored",
+   "pull_a": "wheat30",
+   "pull_b": "wheat30",
+   "pair_a": "6",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 40,
+   "identical": false,
+   "left": {
+    "count": 20,
+    "median": -0.025561,
+    "min": -0.410111,
+    "max": 0.649313,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.left",
+      -0.271306
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.left",
+      0.179504
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.left",
+      0.003237
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.left",
+      -0.005493
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.left",
+      0.000173
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.left",
+      -0.084762
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.left",
+      -0.054626
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.left",
+      -0.069944
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.left",
+      0.02175
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.left",
+      0.081143
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.left",
+      -0.169515
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.left",
+      -0.068299
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.left",
+      -0.12364
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.left",
+      -0.410111
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.left",
+      0.156177
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.left",
+      0.011962
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.left",
+      -0.089713
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.left",
+      -0.045629
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.left",
+      0.649313
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.left",
+      0.229049
+     ]
+    ]
+   },
+   "right": {
+    "count": 20,
+    "median": -0.018129,
+    "min": -0.2988,
+    "max": 0.035848,
+    "high_fraction": 0.0,
+    "flip_fraction": 0.0,
+    "cosines": [
+     [
+      "model.decoder.layers.10.mlp.down_proj.weight.right",
+      -0.004229
+     ],
+     [
+      "model.decoder.layers.10.self_attn.o_proj.weight.right",
+      -0.026254
+     ],
+     [
+      "model.decoder.layers.11.mlp.down_proj.weight.right",
+      0.016709
+     ],
+     [
+      "model.decoder.layers.11.self_attn.o_proj.weight.right",
+      0.035848
+     ],
+     [
+      "model.decoder.layers.12.mlp.down_proj.weight.right",
+      -0.015046
+     ],
+     [
+      "model.decoder.layers.12.self_attn.o_proj.weight.right",
+      -0.005227
+     ],
+     [
+      "model.decoder.layers.13.mlp.down_proj.weight.right",
+      -0.0819
+     ],
+     [
+      "model.decoder.layers.13.self_attn.o_proj.weight.right",
+      -0.025237
+     ],
+     [
+      "model.decoder.layers.14.mlp.down_proj.weight.right",
+      0.026498
+     ],
+     [
+      "model.decoder.layers.14.self_attn.o_proj.weight.right",
+      -0.007927
+     ],
+     [
+      "model.decoder.layers.15.mlp.down_proj.weight.right",
+      -0.131594
+     ],
+     [
+      "model.decoder.layers.15.self_attn.o_proj.weight.right",
+      -0.012307
+     ],
+     [
+      "model.decoder.layers.16.mlp.down_proj.weight.right",
+      -0.085326
+     ],
+     [
+      "model.decoder.layers.16.self_attn.o_proj.weight.right",
+      -0.2988
+     ],
+     [
+      "model.decoder.layers.7.mlp.down_proj.weight.right",
+      -0.038632
+     ],
+     [
+      "model.decoder.layers.7.self_attn.o_proj.weight.right",
+      -0.026097
+     ],
+     [
+      "model.decoder.layers.8.mlp.down_proj.weight.right",
+      0.017164
+     ],
+     [
+      "model.decoder.layers.8.self_attn.o_proj.weight.right",
+      -0.021212
+     ],
+     [
+      "model.decoder.layers.9.mlp.down_proj.weight.right",
+      -0.021487
+     ],
+     [
+      "model.decoder.layers.9.self_attn.o_proj.weight.right",
+      0.003863
+     ]
+    ]
+   },
+   "kind_medians": {
+    "down_proj": -0.018267,
+    "o_proj": -0.016759
+   },
+   "parent": "google/diffusiongemma-26B-A4B-it"
+  }
+ ]
+}
