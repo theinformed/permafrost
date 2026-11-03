@@ -1445,3 +1445,72 @@ class NamesFixtureTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class RateLimitWaitTests(unittest.TestCase):
+    def setUp(self):
+        self.folder = tempfile.TemporaryDirectory()
+        self.addCleanup(self.folder.cleanup)
+        self.saved = {key: os.environ.get(key) for key in ('AUDIT_WORK', 'WORKDIR')}
+        os.environ['AUDIT_WORK'] = self.folder.name
+        os.environ['WORKDIR'] = self.folder.name
+        self.addCleanup(self.restore)
+        self.download = module('download')
+
+    def restore(self):
+        for key, value in self.saved.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value
+
+    def run_fetch(self, errors, tries=1):
+        calls = []
+        sleeps = []
+
+        def flaky(hub_id, **kwargs):
+            calls.append(hub_id)
+            if len(calls) <= errors:
+                raise Exception('429 Client Error: Too Many Requests for url: x')
+
+        with patch.object(self.download, 'snapshot_download', flaky), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                contextlib.redirect_stdout(io.StringIO()):
+            self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+                                [{'path': 'config.json'}], 'tok', tries=tries, pause=0)
+        return calls, sleeps
+
+    def test_two_rate_limits_wait_and_then_return(self):
+        calls, sleeps = self.run_fetch(2)
+        self.assertEqual(sleeps, [310, 310])
+        self.assertEqual(len(calls), 3)
+
+    def test_four_rate_limits_give_up_after_three_waits(self):
+        calls = []
+        sleeps = []
+
+        def flaky(hub_id, **kwargs):
+            calls.append(hub_id)
+            raise Exception('429 Client Error: Too Many Requests for url: x')
+
+        with patch.object(self.download, 'snapshot_download', flaky), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaises((ValueError, Exception)):
+                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+                                    [{'path': 'config.json'}], 'tok', tries=1, pause=0)
+        self.assertEqual(sleeps, [310, 310, 310])
+
+    def test_other_errors_do_not_wait(self):
+        sleeps = []
+
+        def broken(hub_id, **kwargs):
+            raise Exception('boom')
+
+        with patch.object(self.download, 'snapshot_download', broken), \
+                patch.object(self.download.time, 'sleep', sleeps.append), \
+                contextlib.redirect_stdout(io.StringIO()):
+            with self.assertRaises(ValueError):
+                self.download.fetch({'hub_id': 'a/b', 'revision': 'r'}, '/tmp/none',
+                                    [{'path': 'config.json'}], 'tok', tries=1, pause=0)
+        self.assertNotIn(310, sleeps)

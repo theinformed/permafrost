@@ -4,6 +4,7 @@
 # Modified: SDE 2026-10-15  leave the duplicate consolidated shards behind; fold messages.
 # Modified: SDE 2026-10-29  any pair count, shared originals once, and a probe before any shard.
 # Modified: SDE 2026-10-30  fetch a checkpoint three times before giving up, naming the hub's own error.
+# Modified: SDE 2026-11-03  wait out the hub's five-minute API window on a 429 instead of spending the tries.
 import hashlib
 import json
 import os
@@ -14,6 +15,24 @@ from huggingface_hub import HfApi, snapshot_download
 from census import batch, checksum, count, pair, paths, token, verify
 from lineage import screen
 from say import fold
+
+
+def patient(action, label, waits=3, window=310):
+    """Call ACTION; on a hub 429 wait out the fixed five-minute window and call again."""
+    for wait in range(waits + 1):
+        try:
+            return action()
+        except Exception as error:
+            texts = [str(error)]
+            for chained in (error.__cause__, error.__context__):
+                if chained is not None:
+                    texts.append(str(chained))
+            if not any('429' in text or 'Too Many Requests' in text for text in texts):
+                raise
+            if wait == waits:
+                raise
+            print(fold('hub rate limit, waiting {} s for {}'.format(window, label), None), flush=True)
+            time.sleep(window)
 
 
 def selected(info):
@@ -63,7 +82,8 @@ def probe(api, credential):
     model = pair(1)['original']
     row = None
     try:
-        info = api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True)
+        info = patient(lambda: api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True),
+                       model['hub_id'])
         listed = [item for item in info.siblings if '/' not in item.rfilename
                   and item.rfilename.endswith('.json') and item.size is not None]
         if not listed:
@@ -96,8 +116,10 @@ def fetch(model, directory, rows, credential, tries=3, pause=120):
     """
     for attempt in range(1, tries + 1):
         try:
-            snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
-                              local_dir=str(directory), allow_patterns=[row['path'] for row in rows], max_workers=1)
+            patient(lambda: snapshot_download(model['hub_id'], revision=model['revision'], token=credential,
+                                              local_dir=str(directory),
+                                              allow_patterns=[row['path'] for row in rows], max_workers=1),
+                    model['hub_id'])
             return
         except Exception as error:
             cause = error.__cause__ or error.__context__
@@ -127,7 +149,8 @@ def main():
                 continue
             seen.add(str(directory))
             model = pair(number)[side]
-            info = api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True)
+            info = patient(lambda: api.model_info(model['hub_id'], revision=model['revision'], files_metadata=True),
+                           model['hub_id'])
             if info.sha != model['revision']:
                 raise ValueError('hub revision differs from census pin')
             plans.append((model, directory, selected(info)))
