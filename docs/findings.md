@@ -6501,6 +6501,16 @@ keys, and disagree on every o_proj and down_proj, 96 keys, so they share one inp
 output-side rule, Paul691's turning with depth and lemuralabs's in blocks. The median takes the 228 and joins
 them.
 
+One more figure from the same vectors, the pair column, separates the modes further: the agreement between a copy's
+o_proj direction and its down_proj direction in the same layer. Every one-direction copy that edits both matrices
+projects one direction on both (53 of 53 at 0.9 or more), and so do 55 of the 69 per-layer copies: a per-layer pass
+takes one direction per layer, the layer's own, and writes it on both output projections. The arbitrary-rank copies
+never do: 39 carry two directions (pair 0.02 to 0.19) and 26 edit no down_proj at all, as a search over one matrix
+at a time would. Four per-layer copies carry two directions per layer (Pranavz's Mistral Small 0.030, the two
+diffusiongemma passes at 0.075, sh0ck0r's Artemis at 0.188), and the eight between 0.4 and 0.9 are fine-tunes over
+an ablation or edits with a second pass (richardyoung's measured against the 12B instruct rather than his fine-tune
+parent 0.452, aifeifei798's 0.405, Ilya626's 0.626, Justbackup's 0.637, Dingdust's 0.709, WWTCyberLab's 0.888).
+
 Why it matters. The mode is in the saved vectors, and a pull now carries it before any card is read or any byte of
 weights is fetched at home: the placement step picks a parent's per-layer reference by this signature and the
 mode table names what each copy did. The name is no guide (heretic is arbitrary rank in half the cases, one
