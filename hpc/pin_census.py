@@ -20,6 +20,7 @@
 #   card_parent with a warning; the pinned original does not change for it.
 # Modified: SDE  a copy or original whose hub id carries a restricted maker's model name is refused before any hub call.
 # Modified: SDE  a pair the lineage screen would hold is refused at pin time.
+# Modified: SDE  a party whose file list holds no safetensors weights is refused at pin time.
 import argparse
 from collections import Counter
 from datetime import datetime, timezone
@@ -49,6 +50,10 @@ class Duplicate(ValueError):
 
 class Restricted(ValueError):
     """A hub id carries a restricted maker's model name; the home gate would refuse the manifest."""
+
+
+class Unpublished(ValueError):
+    """A party's published file list holds no safetensors weights for the names step to read."""
 
 
 RESTRICTED = None
@@ -141,6 +146,15 @@ def lfs_weights(info):
         if digest:
             weights[item.rfilename] = digest
     return weights
+
+
+def unpublished(info):
+    """True when a repository's file list is known and holds no safetensors weights but Mistral's consolidated files."""
+    siblings = getattr(info, 'siblings', None)
+    if not isinstance(siblings, list) or not siblings:
+        return False
+    return not any(item.rfilename.endswith('.safetensors') and not Path(item.rfilename).name.startswith('consolidated')
+                   for item in siblings)
 
 
 def measured_copies(root=ROOT):
@@ -347,6 +361,8 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     copy_history = api.list_repo_commits(modified)
     copy_commit = next(row for row in copy_history if row.commit_id == copy.sha)
     weights = lfs_weights(copy)
+    if unpublished(copy):
+        raise Unpublished('publishes no safetensors weights: ' + modified)
     source = duplicate_source(copy_history)
     measured = already_measured(modified, copy.sha, known)
     if measured and not allow_duplicate:
@@ -368,6 +384,8 @@ def pin(api, modified, original, known=(), allow_duplicate=False):
     if not eligible:
         raise ValueError('no original revision predates creation or the modified revision: ' + modified)
     commit = max(eligible, key=lambda row: row.created_at)
+    if unpublished(api.model_info(original, revision=commit.commit_id)):
+        raise Unpublished('publishes no safetensors weights: ' + original)
     seen = set()
 
     def lineage(repo, revision, root=False):
@@ -755,7 +773,7 @@ def main():
         raise ValueError('pair already pinned: ' + args.pair[0])
     try:
         row = pin(HfApi(), *args.pair, known=measured_copies(), allow_duplicate=args.allow_duplicate)
-    except (Duplicate, Restricted) as error:
+    except (Duplicate, Restricted, Unpublished) as error:
         print('refused {}: {}'.format(args.pair[0], error))
         sys.exit(1)
     copy = row['modified']
