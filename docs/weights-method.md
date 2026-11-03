@@ -240,11 +240,14 @@ down projections is 0.9 or more, the rotation is read from the down projections 
 which matrix each mode was read from with both shares beside it.
 
 `hpc/place_round.py --measurements PULL/measurements --directions results/directions --families
-results/directions/families.json --pulls DIR --batches data/batches --out FILE.md` is the step a read-out runs after
-the digest: each new copy of the pulled round is set against the census copies of its parent, keeping the nearest by
-median absolute cosine with its family number, and against the parent's per-layer reference, chosen by the same
-rotation signature, giving the layer its direction matches best; a parent with no census copies reads as new, and
-one with no per-layer copy gives no layer. A partner at a median of 0.9999 or more comes with a reading of the pin
+results/directions/families.json --pulls DIR --batches data/batches --weights results/weights --out FILE.md` is the
+step a read-out runs after the digest: each new copy of the pulled round is set against the census copies of its
+parent, keeping the nearest by median absolute cosine with its family number, and against the parent's per-layer
+reference, chosen by the same rotation signature, giving the layer its direction matches best; a parent with no
+census copies reads as new, and one with no per-layer copy gives no layer. The same noise rule applies here: a
+pulled copy whose own report in its pair folder says its attention-output change carries no edit is read from its
+down projections, the census copies likewise from the reports under `--weights`, and the row says which matrix it
+was read from. A partner at a median of 0.9999 or more comes with a reading of the pin
 records' weight-file checksums, the same files, different files or an overlap, so a re-upload and a second pass of
 one tool are told apart before any byte is read.
 

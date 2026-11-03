@@ -5,6 +5,7 @@
 # Modified: SDE 2026-11-03  a parent whose census copies all carry one direction reads "<repo> (one direction)" with no best layer.
 # Modified: SDE 2026-11-03  the reference is the census copy whose layers rotate per layer (adjacent |cos| >= 0.5, far <= 0.2), largest adjacent minus far; none reads "none (no per-layer copy)".
 # Modified: SDE 2026-11-03  --batches reads the pin records; a row at median 0.9999 or more says whether it and its partner carry the same weight files.
+# Modified: SDE 2026-11-03  a copy whose o_proj change is noise and whose down_proj change is clear is read from down_proj, as direction_modes does; --weights names the census weight reports and the row says which kind it was read from.
 """Place the new copies of one pulled round against the census of saved directions.
 
 --measurements names a round's pull: pair-* folders with metadata.json and
@@ -36,6 +37,15 @@ CHECKSUM_MEDIAN the row's checksums field says whether the copy and its partner
 carry the same weight files: "same weight files", "different weight files",
 "overlapping weight files", or "checksums missing for <copy|partner|both>";
 without --batches, or under the median, it reads "none".
+
+--weights names a folder of census weight reports (<repo with '/' as
+'-'>.json, as direction_modes writes them) and governs the census copies only.
+A copy is read from down_proj instead of the --kind when its o_proj change is
+noise (median first_singular_energy_share under OPROJ_NOISE) and its down_proj
+change is clear (at least DOWN_CLEAR), the rule direction_modes applies. The
+pulled copy is independent of --weights: when <pair folder>/weights.json
+exists it is read as that copy's report, with or without --weights. The row's
+read from field says which kind was used.
 """
 
 import argparse
@@ -48,13 +58,15 @@ from safetensors import safe_open
 
 import direction_cosines
 import direction_layers
+import direction_modes
 
 PER_LAYER_ADJACENT = 0.5
 PER_LAYER_FAR = 0.2
 CHECKSUM_MEDIAN = 0.9999
 
 FIELDS = ('copy', 'parent', 'partner', 'median', 'keys', 'family', 'window',
-          'own_spread', 'best_layer', 'cos', 'reference', 'checksums', 'note')
+          'own_spread', 'best_layer', 'cos', 'reference', 'read_from',
+          'checksums', 'note')
 
 
 def census_copies(document):
@@ -108,12 +120,24 @@ def family_of(families, parent, partner):
     return 'none'
 
 
-def reference_copy(copies, pulls, kind):
+def kind_of(report, kind):
+    """The kind a copy is read from: down_proj when its o_proj change is noise and its down_proj change is clear."""
+    if kind == 'o_proj' and report is not None:
+        o_share = direction_modes.share_of(report, 'attention_output')
+        down_share = direction_modes.share_of(report, 'feed_forward_down')
+        if (o_share is not None and o_share < direction_modes.OPROJ_NOISE
+                and down_share is not None and down_share >= direction_modes.DOWN_CLEAR):
+            return 'down_proj'
+    return kind
+
+
+def reference_copy(copies, pulls, kind, weights=None):
     """The census copy whose layers rotate per layer; ties go to more layers."""
     best = None
     for copy in copies:
         path = direction_layers.find_file(pulls, copy)
-        vectors = direction_layers.load_layers(path, kind) if path else {}
+        report = direction_modes.read_report(weights, copy['repo']) if weights else None
+        vectors = direction_layers.load_layers(path, kind_of(report, kind)) if path else {}
         if len(vectors) < 2:
             continue
         rot = direction_layers.rotation(vectors)
@@ -199,9 +223,9 @@ def checksums_of(copy, partner, batches):
     return 'different weight files'
 
 
-def place_pair(folder, census_dir, families, pulls, kind, batches=None):
+def place_pair(folder, census_dir, families, pulls, kind, batches=None, weights=None):
     copy, parent = direction_cosines.read_metadata(folder)
-    weights = folder / 'weights.directions.safetensors'
+    weights_path = folder / 'weights.directions.safetensors'
     path = census_dir / f'{direction_cosines.parent_id(parent)}.json'
     if not path.is_file():
         return empty_row(copy, parent, 'new parent')
@@ -209,7 +233,7 @@ def place_pair(folder, census_dir, families, pulls, kind, batches=None):
     copies = census_copies(document)
     in_census = any(c.get('repo') == copy for c in copies)
 
-    new = {'repo': copy, 'parent': parent, 'pull': '', 'pair': '', 'path': weights}
+    new = {'repo': copy, 'parent': parent, 'pull': '', 'pair': '', 'path': weights_path}
     partner = None
     best = None
     for candidate in copies:
@@ -235,9 +259,13 @@ def place_pair(folder, census_dir, families, pulls, kind, batches=None):
         if row['median'] >= CHECKSUM_MEDIAN:
             row['checksums'] = checksums_of(copy, partner['repo'], batches)
 
-    reference, reference_vectors = reference_copy(copies, pulls, kind)
+    reference, reference_vectors = reference_copy(copies, pulls, kind, weights)
     row['reference'] = reference['repo'] if reference is not None else 'none (no per-layer copy)'
-    vectors = direction_layers.load_layers(weights, kind)
+    report_path = folder / 'weights.json'
+    report = json.loads(report_path.read_text()) if report_path.is_file() else None
+    read_from = kind_of(report, kind)
+    row['read_from'] = read_from
+    vectors = direction_layers.load_layers(weights_path, read_from)
     if vectors:
         placed = direction_layers.place(vectors, reference_vectors)
         row['window'] = placed['window']
@@ -261,8 +289,8 @@ def write_markdown(path, rows):
         f'# {path.stem} -- new copies placed against the census of saved directions.',
         '',
         '| copy | parent | partner | median | keys | family | window | own spread '
-        '| best layer | cos | reference | checksums | note |',
-        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
+        '| best layer | cos | reference | read from | checksums | note |',
+        '| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |',
     ]
     for row in rows:
         window = ('none' if row['window'] is None
@@ -271,7 +299,8 @@ def write_markdown(path, rows):
             f"| {row['copy']} | {row['parent']} | {row['partner'] or 'none'} "
             f"| {three(row['median'])} | {whole(row['keys'])} | {row['family']} "
             f"| {window} | {three(row['own_spread'])} | {whole(row['best_layer'])} "
-            f"| {three(row['cos'])} | {row['reference']} | {row['checksums']} "
+            f"| {three(row['cos'])} | {row['reference']} | {row['read_from'] or 'none'} "
+            f"| {row['checksums']} "
             f"| {row['note']} |")
     path.write_text('\n'.join(lines) + '\n')
 
@@ -288,6 +317,8 @@ def main(argv=None):
     parser.add_argument('--kind', default='o_proj', help='tensor-name suffix (default o_proj)')
     parser.add_argument('--batches', default=None,
                         help='folder of pin records (round-N-batch-1.json) with pairs[]')
+    parser.add_argument('--weights', default=None,
+                        help='folder of census weight reports (<repo with / as ->.json)')
     parser.add_argument('--out', required=True, help='output markdown file')
     args = parser.parse_args(argv)
 
@@ -312,7 +343,7 @@ def main(argv=None):
             continue
         try:
             rows.append(place_pair(folder, census_dir, families, args.pulls,
-                                   args.kind, batches))
+                                   args.kind, batches, args.weights))
         except (OSError, ValueError, KeyError, TypeError) as error:
             first = str(error).splitlines()[0] if str(error) else type(error).__name__
             print(f'{folder.name}: {first}', file=sys.stderr)
