@@ -307,6 +307,28 @@ class BundleTests(unittest.TestCase):
         self.assertFalse(stale.exists())
         self.assertFalse((run.round / 'maker-guard.sha256').read_text().count('deepseek'))
 
+    def test_the_login_step_does_not_walk_the_project_tree(self):
+        """The kit piece's find over the project trees on Lustre took 53 s and 66 s on real cards, past a
+        login card's minute. The login step looks only in its own folder; the download job rewrites a list
+        left in another round's folder."""
+        run = self.fixture()
+        self.assertEqual(run.run(), 0)
+        planted = run.work / 'model-audit/rounds/1/scripts/banned-makers.txt'
+        planted.parent.mkdir(parents=True, exist_ok=True)
+        planted.write_text('# left by an earlier round\n')
+        self.assertEqual(run.call(['./round.sh', '--only', '10'], run.round), 0)
+        self.assertEqual(planted.read_text(), '# left by an earlier round\n')
+        self.assertFalse((planted.parent / 'lineage.py').exists())
+        self.assertNotIn('guard rewritten: ' + str(planted), run.log.read_text())
+        # The download job, run from this round's pinned copy, rewrites it and says so.
+        snapshot = json.loads(next((run.results / 'submissions').glob('*/snapshot.json')).read_text())
+        pinned = Path(snapshot['directory'])
+        run.environment['AUDIT_PINNED_ROUND'] = str(pinned)
+        self.assertEqual(run.call(['bash', str(pinned / 'jobs/download.sh')], pinned), 0)
+        self.assertNotIn('deepseek', planted.read_text())
+        self.assertTrue((planted.parent / 'lineage.py').is_file())
+        self.assertIn('guard rewritten: ' + str(planted), run.log.read_text().replace('\n', ''))
+
     def test_the_timing_step_queues_one_small_job_by_name(self):
         run = self.fixture()
         self.assertEqual(run.run(), 0)

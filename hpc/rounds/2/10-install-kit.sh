@@ -5,6 +5,7 @@
 # Modified: SDE 2026-10-29  rewrite a plain maker list left on the cluster as the hashed guard.
 # Modified: SDE 2026-10-13  compare the installed version before copying.
 # Modified: SDE 2026-10-30  move each kit file into place instead of writing over a running one.
+# Modified: SDE 2026-11-04  the tree walk moved to the download job.
 . ./env.sh
 start_piece kit 'Install the shared job reporting tools'
 mkdir -p logs
@@ -27,9 +28,10 @@ if [[ "$wanted" > "$current" ]]; then
         ln -sfn "$HOME/metoc/jobs/hpc/hpc" "$HOME/bin/hpc"
     fi
 fi
-# No maker name sits on a cluster: a plain list left by an earlier round becomes the hashed
+# No maker name sits on a cluster: a plain list left in this round's folder becomes the hashed
 # guard in place, with the screen that reads it, so a queued job that names the file still runs.
-for list in $(find . "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name banned-makers.txt 2>/dev/null | sort -u); do
+# Lists in other rounds' folders are rewritten by the download job, off the login node.
+for list in $(find . -name banned-makers.txt 2>/dev/null | sort -u); do
     if [ "$(dirname "$list")" -ef . ]; then
         rm -f "$list"
         echo "stale list removed: $list"

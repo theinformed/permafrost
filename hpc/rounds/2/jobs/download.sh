@@ -14,6 +14,7 @@
 # Modified: SDE 2026-10-31  the scheduler's test of the CPU requests runs here, off the login node, as a reading.
 # Modified: SDE 2026-10-31  the storage probe runs here too, before anything is staged.
 # Modified: SDE 2026-10-31  timestamped steps; pip bounded with its temp on the node's disk; wheels staged per system.
+# Modified: SDE 2026-11-04  the maker-list walk over the project trees runs here, off the login node.
 set -euo pipefail
 export AUDIT_JOB_STARTED=$(date +%s.%N)
 cd "${AUDIT_PINNED_ROUND:?a pinned submission copy is required}"
@@ -28,6 +29,17 @@ python3 ./lineage.py batch.json maker-guard.sha256
 # The space check runs here, where the space is about to be used, and not on the login node (round 19's
 # clock put 296 s of its login half in this probe's du over the project tree on Lustre).
 python3 ./storage.py
+# The maker-list walk runs here too: the login step's find over the project trees on Lustre took 53 s and
+# 66 s on real cards, past a login card's minute, so the kit step now looks only in its own folder.
+# A tree that cannot be read, or holds no list, leaves the job running.
+for list in $(find "${WORKDIR:-$HOME}/model-audit" "$HOME/model-audit" -name banned-makers.txt 2>/dev/null | sort -u); do
+    if [ "$(dirname "$list")" -ef . ]; then
+        continue
+    fi
+    cp maker-guard.sha256 "$list"
+    cp lineage.py "$(dirname "$list")/lineage.py"
+    echo "guard rewritten: $list"
+done
 # The start estimates the desk reads; the submit step has already queued the real requests, so a node
 # without the scheduler client only loses the reading.
 for piece in project sweep timing; do
