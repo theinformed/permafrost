@@ -4,75 +4,6 @@
   "pairs": [
     {
       "modified": {
-        "hub_id": "darkc0de/Mistral-Small-3.2-24B-Instruct-2506-heretic",
-        "maker": "darkc0de",
-        "revision": "65834f413aac2273deeb781222916a8c5de1ad4d",
-        "declared_base_model": [
-          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
-        ],
-        "base_model_chain": [
-          {
-            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-            "maker": "mistralai",
-            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
-            "declared_base_model": [
-              "mistralai/Mistral-Small-3.1-24B-Base-2503"
-            ],
-            "base_model_chain": [
-              {
-                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
-                "maker": "mistralai",
-                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
-                "declared_base_model": null,
-                "base_model_chain": [],
-                "created_at": "2025-03-16T23:31:11+00:00",
-                "publisher_root": true,
-                "lineage_known": true
-              }
-            ],
-            "created_at": "2025-06-19T17:41:13+00:00",
-            "publisher_root": false,
-            "lineage_known": true
-          }
-        ],
-        "created_at": "2026-04-06T14:41:37+00:00",
-        "revision_date": "2026-04-06T14:51:51+00:00",
-        "publisher_root": false,
-        "lineage_known": true
-      },
-      "original": {
-        "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-        "maker": "mistralai",
-        "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
-        "declared_base_model": [
-          "mistralai/Mistral-Small-3.1-24B-Base-2503"
-        ],
-        "base_model_chain": [
-          {
-            "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
-            "maker": "mistralai",
-            "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
-            "declared_base_model": null,
-            "base_model_chain": [],
-            "created_at": "2025-03-16T23:31:11+00:00",
-            "publisher_root": true,
-            "lineage_known": true
-          }
-        ],
-        "created_at": "2025-06-19T17:41:13+00:00",
-        "revision_date": "2025-12-22T10:16:55+00:00",
-        "publisher_root": false,
-        "lineage_known": true
-      },
-      "original_selection": {
-        "cutoff": "2026-04-06T14:41:37+00:00",
-        "rule": "latest commit at or before modified repository creation",
-        "history_commits_read": 10,
-        "original_history_starts": "2025-06-20T15:54:57+00:00"
-      }
-    },
-    {
-      "modified": {
         "hub_id": "0xA50C1A1/Mistral-Small-3.2-24B-Instruct-Heretic",
         "maker": "0xa50c1a1",
         "revision": "ec59d92698b2406916ed773bd0427b48fc5d0d55",
@@ -548,5 +479,5 @@
     }
   ],
   "pinned_at": "2026-10-31T18:51:42.721666+00:00",
-  "note": "Round 27, rehearsed on the Blueback table, lane by the desk, the first batch on the kit that pairs tensor names across an export with one more wrapper prefix: darkc0de's Mistral Small 3.2 heretic export carries model. in front of every name but lm_head, held from round 26 for that reason; beside it 0xA50C1A1's Mistral Small 3.2 heretic, Silicone-Moss's Magistral Small 2507, DogOnKeyboard's Mistral 7B v0.3, zetasepic's Mistral Small 2409 and three E4B copies (eshucode, KridgeDookie, Titanfrm). Held: byroneverson gemma-2-27b-it, the original is gated to the account; coder3101 and ccharnkij Ministral 3 14B Reasoning, the names fetch failed and the original is quantised; Pranavz Hearthfire and wangzhang Devstral 2, whose names differ beyond a wrapper."
+  "note": "Round 27, rehearsed on the Blueback table, lane by the desk, the first batch on the kit that pairs tensor names across an export with one more wrapper prefix: darkc0de's Mistral Small 3.2 heretic export carries model. in front of every name but lm_head, held from round 26 for that reason; beside it 0xA50C1A1's Mistral Small 3.2 heretic, Silicone-Moss's Magistral Small 2507, DogOnKeyboard's Mistral 7B v0.3, zetasepic's Mistral Small 2409 and three E4B copies (eshucode, KridgeDookie, Titanfrm). Held: byroneverson gemma-2-27b-it, the original is gated to the account; coder3101 and ccharnkij Ministral 3 14B Reasoning, the names fetch failed and the original is quantised; Pranavz Hearthfire and wangzhang Devstral 2, whose names differ beyond a wrapper. On the refile after the four download timeouts of 10-31, darkc0de's copy is out: round 51 pair 4 measured the same revisions."
 }

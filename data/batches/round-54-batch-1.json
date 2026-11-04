@@ -20194,116 +20194,6 @@
     },
     {
       "modified": {
-        "hub_id": "Pranavz/MS3.2-PaintedFantasy-v2-24B-heretic",
-        "maker": "pranavz",
-        "revision": "952a8a10a5f140f2c74e318d9825b777b9c29933",
-        "declared_base_model": [
-          "ConicCat/Mistral-Small-3.2-AntiRep-24B"
-        ],
-        "base_model_chain": [
-          {
-            "hub_id": "ConicCat/Mistral-Small-3.2-AntiRep-24B",
-            "maker": "coniccat",
-            "revision": "2b2e4dcd541272d13eca4a41fc41038d84aa32ad",
-            "declared_base_model": [
-              "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
-            ],
-            "base_model_chain": [
-              {
-                "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-                "maker": "mistralai",
-                "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
-                "declared_base_model": [
-                  "mistralai/Mistral-Small-3.1-24B-Base-2503"
-                ],
-                "base_model_chain": [
-                  {
-                    "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
-                    "maker": "mistralai",
-                    "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
-                    "declared_base_model": null,
-                    "base_model_chain": [],
-                    "created_at": "2025-03-16T23:31:11+00:00",
-                    "publisher_root": true,
-                    "lineage_known": true
-                  }
-                ],
-                "created_at": "2025-06-19T17:41:13+00:00",
-                "publisher_root": false,
-                "lineage_known": true
-              }
-            ],
-            "created_at": "2025-07-18T00:53:54+00:00",
-            "publisher_root": false,
-            "lineage_known": true
-          }
-        ],
-        "created_at": "2026-05-07T05:32:40+00:00",
-        "revision_date": "2026-05-07T05:35:38+00:00",
-        "weight_files_sha256": {
-          "model-00001-of-00010.safetensors": "4a29400bfa5fc9d17b90f9751dff35beba3add57dfa0a599d68d27188ac56379",
-          "model-00002-of-00010.safetensors": "16c956d132e9dbf3e617946cc575993f5a2c60cbdf475cd1be6af08454efd750",
-          "model-00003-of-00010.safetensors": "eba9c37e498c966e4c633d07801f773c67d1c0041239cb62ee01c8cb1c906960",
-          "model-00004-of-00010.safetensors": "1e4eeaa356d6c244cfccbe57e2d04ee573b9bcdb636eed6b222542cf00ed3ad3",
-          "model-00005-of-00010.safetensors": "49500fae58942796438769317677fa44a0e70e9cec2b241190d19dce2905fd0d",
-          "model-00006-of-00010.safetensors": "b9629fdef2447347725a575c48ec4c9be8c31539135e99f0ad014b68e42249ee",
-          "model-00007-of-00010.safetensors": "2ae257a6c4bea61d22f0658d12bc95829aca07dc05d6a1e34fe3568b3f84a888",
-          "model-00008-of-00010.safetensors": "23fed0b843e6b51e88d5bd34ed7de809f5fdef921cd192404316368bd0ebd6d7",
-          "model-00009-of-00010.safetensors": "e7f46c6fedb04c064a15dc37819f74c0d468662821ae2136ee30242ce1690afd",
-          "model-00010-of-00010.safetensors": "dcdfe87857d4942a91492f857bdc31355d1f55d1ab7fa492d63e978baf9189b1"
-        },
-        "card_parent": "zerofata/MS3.2-PaintedFantasy-v2-24B",
-        "publisher_root": false,
-        "lineage_known": true
-      },
-      "original": {
-        "hub_id": "ConicCat/Mistral-Small-3.2-AntiRep-24B",
-        "maker": "coniccat",
-        "revision": "2b2e4dcd541272d13eca4a41fc41038d84aa32ad",
-        "declared_base_model": [
-          "mistralai/Mistral-Small-3.2-24B-Instruct-2506"
-        ],
-        "base_model_chain": [
-          {
-            "hub_id": "mistralai/Mistral-Small-3.2-24B-Instruct-2506",
-            "maker": "mistralai",
-            "revision": "95a6d26c4bfb886c58daf9d3f7332c857cb27b43",
-            "declared_base_model": [
-              "mistralai/Mistral-Small-3.1-24B-Base-2503"
-            ],
-            "base_model_chain": [
-              {
-                "hub_id": "mistralai/Mistral-Small-3.1-24B-Base-2503",
-                "maker": "mistralai",
-                "revision": "ba6496e3dce1d0bdc93848804b1d4b9d5f3c57bc",
-                "declared_base_model": null,
-                "base_model_chain": [],
-                "created_at": "2025-03-16T23:31:11+00:00",
-                "publisher_root": true,
-                "lineage_known": true
-              }
-            ],
-            "created_at": "2025-06-19T17:41:13+00:00",
-            "publisher_root": false,
-            "lineage_known": true
-          }
-        ],
-        "created_at": "2025-07-18T00:53:54+00:00",
-        "revision_date": "2025-07-18T14:29:58+00:00",
-        "original_dtype": "bfloat16",
-        "original_quantised": false,
-        "publisher_root": false,
-        "lineage_known": true
-      },
-      "original_selection": {
-        "cutoff": "2026-05-07T05:32:40+00:00",
-        "rule": "latest commit at or before modified repository creation",
-        "history_commits_read": 7,
-        "original_history_starts": "2025-07-18T00:53:54+00:00"
-      }
-    },
-    {
-      "modified": {
         "hub_id": "PJMixers-Dev/gemma-3-1b-it-heretic-abliterated-uncensored-fixed",
         "maker": "pjmixers-dev",
         "revision": "18c9381748d8f8e2146afc8468fea841e05d0734",
@@ -20547,5 +20437,6 @@
       }
     }
   ],
-  "pinned_at": "2026-11-04T09:27:58.660524+00:00"
+  "pinned_at": "2026-11-04T09:27:58.660524+00:00",
+  "note": "Pranavz's copy is out: its card names zerofata's model as the parent while its base_model names ConicCat's, so it waits for a pin against the parent its card names."
 }
