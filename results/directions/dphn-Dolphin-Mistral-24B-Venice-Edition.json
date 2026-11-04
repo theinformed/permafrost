@@ -1,0 +1,18 @@
+{
+ "parent": "dphn/Dolphin-Mistral-24B-Venice-Edition",
+ "copies": [
+  {
+   "repo": "m-polignano/ANITA-NEXT-24B-Dolphin-Mistral-UNCENSORED-ITA",
+   "pull": "nautilus48",
+   "pair": "6",
+   "keys": 12
+  },
+  {
+   "repo": "AskVenice/venice-uncensored",
+   "pull": "wheat45",
+   "pair": "5",
+   "keys": 0
+  }
+ ],
+ "comparisons": []
+}

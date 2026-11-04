@@ -1,0 +1,102 @@
+{
+ "parent": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+ "copies": [
+  {
+   "repo": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2",
+   "pull": "nautilus44",
+   "pair": "6",
+   "keys": 24
+  },
+  {
+   "repo": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1",
+   "pull": "nautilus50",
+   "pair": "8",
+   "keys": 22
+  }
+ ],
+ "comparisons": [
+  {
+   "copy_a": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2",
+   "copy_b": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1",
+   "pull_a": "nautilus44",
+   "pull_b": "nautilus50",
+   "pair_a": "6",
+   "pair_b": "8",
+   "same_repo": false,
+   "shared_keys": 12,
+   "identical": false,
+   "left": {
+    "count": 6,
+    "median": 0.976862,
+    "min": -0.979663,
+    "max": 0.990113,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.166667,
+    "cosines": [
+     [
+      "model.layers.15.self_attn.o_proj.weight.left",
+      0.978427
+     ],
+     [
+      "model.layers.16.self_attn.o_proj.weight.left",
+      0.938518
+     ],
+     [
+      "model.layers.17.self_attn.o_proj.weight.left",
+      0.975297
+     ],
+     [
+      "model.layers.18.self_attn.o_proj.weight.left",
+      0.986365
+     ],
+     [
+      "model.layers.20.self_attn.o_proj.weight.left",
+      0.990113
+     ],
+     [
+      "model.layers.31.self_attn.o_proj.weight.left",
+      -0.979663
+     ]
+    ]
+   },
+   "right": {
+    "count": 6,
+    "median": 0.983609,
+    "min": -0.997579,
+    "max": 0.995576,
+    "high_fraction": 1.0,
+    "flip_fraction": 0.166667,
+    "cosines": [
+     [
+      "model.layers.15.self_attn.o_proj.weight.right",
+      0.995576
+     ],
+     [
+      "model.layers.16.self_attn.o_proj.weight.right",
+      0.985004
+     ],
+     [
+      "model.layers.17.self_attn.o_proj.weight.right",
+      0.99008
+     ],
+     [
+      "model.layers.18.self_attn.o_proj.weight.right",
+      0.982214
+     ],
+     [
+      "model.layers.20.self_attn.o_proj.weight.right",
+      0.959103
+     ],
+     [
+      "model.layers.31.self_attn.o_proj.weight.right",
+      -0.997579
+     ]
+    ]
+   },
+   "kind_medians": {
+    "o_proj": 0.980321
+   },
+   "parent": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B"
+  }
+ ]
+}

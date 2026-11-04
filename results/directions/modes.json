@@ -1,35 +1,35 @@
 {
  "counts": {
-  "per layer": 69,
-  "one direction": 55,
-  "arbitrary rank": 65,
-  "mixed": 11,
+  "per layer": 76,
+  "one direction": 56,
+  "arbitrary rank": 67,
+  "mixed": 13,
   "few layers": 0,
-  "no file": 1
+  "no file": 2
  },
  "by_name": {
   "per layer": {
-   "heretic": 25,
-   "abliterated": 26,
-   "uncensored": 18,
+   "heretic": 30,
+   "abliterated": 27,
+   "uncensored": 19,
    "other": 0
   },
   "one direction": {
-   "heretic": 29,
+   "heretic": 30,
    "abliterated": 20,
    "uncensored": 6,
    "other": 0
   },
   "arbitrary rank": {
-   "heretic": 55,
+   "heretic": 57,
    "abliterated": 7,
    "uncensored": 3,
    "other": 0
   },
   "mixed": {
-   "heretic": 3,
+   "heretic": 4,
    "abliterated": 6,
-   "uncensored": 2,
+   "uncensored": 3,
    "other": 0
   },
   "few layers": {
@@ -41,11 +41,24 @@
   "no file": {
    "heretic": 0,
    "abliterated": 1,
-   "uncensored": 0,
+   "uncensored": 1,
    "other": 0
   }
  },
  "families": [
+  {
+   "parent": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+   "family": 1,
+   "members": 2,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 2,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
   {
    "parent": "TheDrummer/Cydonia-24B-v4.3",
    "family": 1,
@@ -398,6 +411,19 @@
    }
   },
   {
+   "parent": "mistralai/Ministral-3-8B-Base-2512",
+   "family": 1,
+   "members": 3,
+   "counts": {
+    "per layer": 1,
+    "one direction": 1,
+    "arbitrary rank": 0,
+    "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
    "parent": "mistralai/Mistral-7B-Instruct-v0.3",
    "family": 1,
    "members": 5,
@@ -419,6 +445,84 @@
     "one direction": 0,
     "arbitrary rank": 0,
     "mixed": 1,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 1,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 2,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 3,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 1,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 2,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
+    "few layers": 0,
+    "no file": 0
+   }
+  },
+  {
+   "parent": null,
+   "family": 3,
+   "members": 0,
+   "counts": {
+    "per layer": 0,
+    "one direction": 0,
+    "arbitrary rank": 0,
+    "mixed": 0,
     "few layers": 0,
     "no file": 0
    }
@@ -451,6 +555,114 @@
   }
  ],
  "copies": [
+  {
+   "parent": "DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme",
+   "repo": "DavidAU/Gemma-3-4B-VL-it-Gemini-Pro-Heretic-Uncensored-Thinking",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.17479523480394954,
+   "adjacent": 0.6804557474516975,
+   "far": 0.10979264405029268,
+   "pair": 0.7073028441775179,
+   "read_from": "o_proj",
+   "o_share": 0.8051372897324305,
+   "down_share": 0.7634111225048708,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme",
+   "repo": "DavidAU/gemma-3-4b-it-vl-Heretic-4-Horsemen-Uncensored",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.2117250168866493,
+   "adjacent": 0.5600061133520748,
+   "far": 0.09566760858600454,
+   "pair": 0.5839752824666418,
+   "read_from": "o_proj",
+   "o_share": 0.8560191675675146,
+   "down_share": 0.8448491023939182,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "DreamFast/gemma-3-12b-it-heretic",
+   "repo": "DavidAU/gemma-3-12b-it-vl-Gemini-3-Pro-Preview-Heretic-Uncensored-Thinking",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.04872562065812868,
+   "adjacent": 0.5658722730890385,
+   "far": 0.02483385420386314,
+   "pair": 0.5120207964502538,
+   "read_from": "o_proj",
+   "o_share": 0.6275526059904156,
+   "down_share": 0.737008060865961,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "DreamFast/gemma-3-12b-it-heretic",
+   "repo": "DavidAU/gemma-3-12b-it-vl-HighIQ-Polaris-Heretic-Uncensored-Thinking",
+   "layers": 48,
+   "window": [
+    0,
+    47
+   ],
+   "own_spread": 0.07989808003642543,
+   "adjacent": 0.6384464379831651,
+   "far": 0.04370454804234243,
+   "pair": 0.6326179851271966,
+   "read_from": "o_proj",
+   "o_share": 0.5967223352874506,
+   "down_share": 0.7512015399685497,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+   "repo": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1",
+   "layers": 11,
+   "window": [
+    10,
+    33
+   ],
+   "own_spread": 0.05326672185864133,
+   "adjacent": 0.1442007937804528,
+   "far": 0.01659268674939678,
+   "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.9421145163817445,
+   "down_share": null,
+   "mode": "arbitrary rank",
+   "family": 1
+  },
+  {
+   "parent": "ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B",
+   "repo": "llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2",
+   "layers": 12,
+   "window": [
+    14,
+    31
+   ],
+   "own_spread": 0.048234258896965504,
+   "adjacent": 0.1335681404165194,
+   "far": 0.014818409127427152,
+   "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.8429832700485049,
+   "down_share": null,
+   "mode": "arbitrary rank",
+   "family": 1
+  },
   {
    "parent": "TheDrummer/Cydonia-24B-v4.3",
    "repo": "coder3101/Cydonia-24B-v4.3-heretic",
@@ -597,6 +809,24 @@
   },
   {
    "parent": "coder3101/gemma-3-27b-it-heretic",
+   "repo": "DavidAU/Gemma-3-27b-it-vl-SuperBrain7x-High-Reasoning-ULTRAMIND-Heretic-Uncensored",
+   "layers": 62,
+   "window": [
+    0,
+    61
+   ],
+   "own_spread": 0.04426390794231038,
+   "adjacent": 0.45598386897645593,
+   "far": 0.02669447272282667,
+   "pair": 0.48738205068900686,
+   "read_from": "o_proj",
+   "o_share": 0.6905011913082013,
+   "down_share": 0.862878556577301,
+   "mode": "mixed",
+   "family": "none"
+  },
+  {
+   "parent": "coder3101/gemma-3-27b-it-heretic",
    "repo": "Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning",
    "layers": 62,
    "window": [
@@ -610,6 +840,39 @@
    "read_from": "o_proj",
    "o_share": 0.6667340130710702,
    "down_share": 0.7720646421077915,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "dphn/Dolphin-Mistral-24B-Venice-Edition",
+   "repo": "AskVenice/venice-uncensored",
+   "layers": 0,
+   "window": null,
+   "own_spread": null,
+   "adjacent": null,
+   "far": null,
+   "pair": null,
+   "read_from": "o_proj",
+   "o_share": null,
+   "down_share": null,
+   "mode": "no file",
+   "family": "none"
+  },
+  {
+   "parent": "dphn/Dolphin-Mistral-24B-Venice-Edition",
+   "repo": "m-polignano/ANITA-NEXT-24B-Dolphin-Mistral-UNCENSORED-ITA",
+   "layers": 4,
+   "window": [
+    0,
+    30
+   ],
+   "own_spread": 0.011009449507752192,
+   "adjacent": 0.8022304842516846,
+   "far": 0.010092609790339229,
+   "pair": null,
+   "read_from": "o_proj",
+   "o_share": 0.30773568853519506,
+   "down_share": null,
    "mode": "per layer",
    "family": "none"
   },
@@ -2289,6 +2552,24 @@
   },
   {
    "parent": "google/gemma-4-31B-it",
+   "repo": "sh0ck0r/heretic-rp-vision-31b",
+   "layers": 60,
+   "window": [
+    0,
+    59
+   ],
+   "own_spread": 0.051599412926673194,
+   "adjacent": 0.5058939545333964,
+   "far": 0.03132147632315405,
+   "pair": 0.5206017106630969,
+   "read_from": "o_proj",
+   "o_share": 0.7254807700615231,
+   "down_share": 0.6600718001496689,
+   "mode": "per layer",
+   "family": "none"
+  },
+  {
+   "parent": "google/gemma-4-31B-it",
    "repo": "wangzhang/gemma-4-31B-it-abliterated",
    "layers": 40,
    "window": [
@@ -3668,6 +3949,60 @@
    "o_share": 0.9261969458132001,
    "down_share": 0.9148632928830158,
    "mode": "arbitrary rank",
+   "family": 1
+  },
+  {
+   "parent": "mistralai/Ministral-3-8B-Base-2512",
+   "repo": "Felldude/Ministral-3-8B-Uncensored",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.01970115949915538,
+   "adjacent": 0.24822549678363992,
+   "far": 0.012020756188959342,
+   "pair": 0.1595034558950395,
+   "read_from": "o_proj",
+   "o_share": 0.00485600890780527,
+   "down_share": 0.002195310849818111,
+   "mode": "mixed",
+   "family": 1
+  },
+  {
+   "parent": "mistralai/Ministral-3-8B-Base-2512",
+   "repo": "nchapman/Ministral-3-8B-Instruct-2512-heretic-BF16",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.9880414565613683,
+   "adjacent": 0.9953943538474795,
+   "far": 0.9729836745412568,
+   "pair": 0.996488637914161,
+   "read_from": "o_proj",
+   "o_share": 0.05778003770900372,
+   "down_share": 0.07000510829317667,
+   "mode": "one direction",
+   "family": 1
+  },
+  {
+   "parent": "mistralai/Ministral-3-8B-Base-2512",
+   "repo": "s3nh/Ministral-3-8B-Instruct-2512-BF16-abliterated",
+   "layers": 34,
+   "window": [
+    0,
+    33
+   ],
+   "own_spread": 0.020755510831921682,
+   "adjacent": 0.6205533631964412,
+   "far": 0.014699942606607775,
+   "pair": 0.08455964885222636,
+   "read_from": "o_proj",
+   "o_share": 0.008141167909873969,
+   "down_share": 0.07509114325730867,
+   "mode": "per layer",
    "family": 1
   },
   {

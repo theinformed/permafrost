@@ -1,19 +1,20 @@
 # modes -- every census copy sorted into an edit mode by how its own directions rotate with depth.
 
-copies 201: per layer 69, one direction 55, arbitrary rank 65, mixed 11, few layers 0, no file 1
+copies 214: per layer 76, one direction 56, arbitrary rank 67, mixed 13, few layers 0, no file 2
 
 | mode | heretic | abliterated | uncensored | other | total |
 | --- | --- | --- | --- | --- | --- |
-| per layer | 25 | 26 | 18 | 0 | 69 |
-| one direction | 29 | 20 | 6 | 0 | 55 |
-| arbitrary rank | 55 | 7 | 3 | 0 | 65 |
-| mixed | 3 | 6 | 2 | 0 | 11 |
+| per layer | 30 | 27 | 19 | 0 | 76 |
+| one direction | 30 | 20 | 6 | 0 | 56 |
+| arbitrary rank | 57 | 7 | 3 | 0 | 67 |
+| mixed | 4 | 6 | 3 | 0 | 13 |
 | few layers | 0 | 0 | 0 | 0 | 0 |
-| no file | 0 | 1 | 0 | 0 | 1 |
-| total | 112 | 60 | 29 | 0 | 201 |
+| no file | 0 | 1 | 1 | 0 | 2 |
+| total | 121 | 61 | 32 | 0 | 214 |
 
 | parent | family | members | per layer | one direction | arbitrary rank | mixed | few layers |
 | --- | --- | --- | --- | --- | --- | --- | --- |
+| ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B | 1 | 2 | 0 | 0 | 2 | 0 | 0 |
 | TheDrummer/Cydonia-24B-v4.3 | 1 | 2 | 0 | 2 | 0 | 0 | 0 |
 | google/diffusiongemma-26B-A4B-it | 1 | 2 | 2 | 0 | 0 | 0 | 0 |
 | google/gemma-4-12B-it-qat-q4_0-unquantized | 1 | 3 | 0 | 0 | 3 | 0 | 0 |
@@ -41,13 +42,26 @@ copies 201: per layer 69, one direction 55, arbitrary rank 65, mixed 11, few lay
 | google/gemma-4-E4B-it | 4 | 2 | 0 | 2 | 0 | 0 | 0 |
 | inflatebot/MN-12B-Mag-Mell-R1 | 1 | 2 | 0 | 2 | 0 | 0 | 0 |
 | mistralai/Magistral-Small-2509 | 1 | 2 | 0 | 0 | 2 | 0 | 0 |
+| mistralai/Ministral-3-8B-Base-2512 | 1 | 3 | 1 | 1 | 0 | 1 | 0 |
 | mistralai/Mistral-7B-Instruct-v0.3 | 1 | 5 | 0 | 5 | 0 | 0 | 0 |
 | mistralai/Mistral-Small-3.2-24B-Instruct-2506 | 1 | 2 | 1 | 0 | 0 | 1 | 0 |
+| None | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| None | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| None | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
+| None | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
+| None | 2 | 0 | 0 | 0 | 0 | 0 | 0 |
+| None | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | yuxinlu1/gemma-4-12B-coder-fable5-composer2.5-v1 | 1 | 3 | 0 | 3 | 0 | 0 | 0 |
 | zerofata/MS3.2-PaintedFantasy-v4.1-24B | 1 | 2 | 0 | 0 | 2 | 0 | 0 |
 
 | parent | copy | layers | window | own spread | adjacent | far | pair | read from | o share | down share | mode | family |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme | DavidAU/Gemma-3-4B-VL-it-Gemini-Pro-Heretic-Uncensored-Thinking | 34 | 0..33 | 0.175 | 0.680 | 0.110 | 0.707 | o_proj | 0.805 | 0.763 | per layer | none |
+| DavidAU/gemma-3-4b-it-heretic-uncensored-abliterated-Extreme | DavidAU/gemma-3-4b-it-vl-Heretic-4-Horsemen-Uncensored | 34 | 0..33 | 0.212 | 0.560 | 0.096 | 0.584 | o_proj | 0.856 | 0.845 | per layer | none |
+| DreamFast/gemma-3-12b-it-heretic | DavidAU/gemma-3-12b-it-vl-Gemini-3-Pro-Preview-Heretic-Uncensored-Thinking | 48 | 0..47 | 0.049 | 0.566 | 0.025 | 0.512 | o_proj | 0.628 | 0.737 | per layer | none |
+| DreamFast/gemma-3-12b-it-heretic | DavidAU/gemma-3-12b-it-vl-HighIQ-Polaris-Heretic-Uncensored-Thinking | 48 | 0..47 | 0.080 | 0.638 | 0.044 | 0.633 | o_proj | 0.597 | 0.751 | per layer | none |
+| ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B | llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v1 | 11 | 10..33 | 0.053 | 0.144 | 0.017 | none | o_proj | 0.942 | none | arbitrary rank | 1 |
+| ReadyArt/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B | llmfan46/Omega-Darker-Gaslight_The-Final-Forgotten-Fever-Dream-24B-ultra-uncensored-heretic-v2 | 12 | 14..31 | 0.048 | 0.134 | 0.015 | none | o_proj | 0.843 | none | arbitrary rank | 1 |
 | TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic | 6 | 24..29 | 0.895 | 0.950 | none | 1.000 | o_proj | 0.984 | 0.990 | per layer | none |
 | TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic-v2 | 33 | 7..39 | 1.000 | 1.000 | 1.000 | 1.000 | o_proj | 0.988 | 0.982 | one direction | 1 |
 | TheDrummer/Cydonia-24B-v4.3 | coder3101/Cydonia-24B-v4.3-heretic-v3 | 37 | 3..39 | 0.995 | 0.998 | 0.994 | 0.997 | o_proj | 0.981 | 0.990 | one direction | 1 |
@@ -56,7 +70,10 @@ copies 201: per layer 69, one direction 55, arbitrary rank 65, mixed 11, few lay
 | TheDrummer/Magidonia-24B-v4.3 | coder3101/Magidonia-24B-v4.3-heretic-v2 | 32 | 8..39 | 1.000 | 1.000 | 1.000 | 1.000 | o_proj | 0.993 | 0.976 | one direction | none |
 | TheDrummer/Magidonia-24B-v4.3 | grayarea/Magidonia-24B-v4.3-heretic-v1.2 | 29 | 11..39 | 0.996 | 0.999 | 0.995 | 0.998 | o_proj | 0.990 | 0.989 | one direction | none |
 | coder3101/gemma-3-27b-it-heretic | DavidAU/Gemma-3-27b-it-Gemini-Heretic-Uncensored-Deeper-Reasoning-Series2 | 62 | 0..61 | 0.036 | 0.466 | 0.024 | 0.452 | o_proj | 0.675 | 0.850 | mixed | none |
+| coder3101/gemma-3-27b-it-heretic | DavidAU/Gemma-3-27b-it-vl-SuperBrain7x-High-Reasoning-ULTRAMIND-Heretic-Uncensored | 62 | 0..61 | 0.044 | 0.456 | 0.027 | 0.487 | o_proj | 0.691 | 0.863 | mixed | none |
 | coder3101/gemma-3-27b-it-heretic | Justbackup/Gemma-3-27b-it-Uncensored-HERETIC-Gemini-Deep-Reasoning | 62 | 0..61 | 0.069 | 0.650 | 0.036 | 0.637 | o_proj | 0.667 | 0.772 | per layer | none |
+| dphn/Dolphin-Mistral-24B-Venice-Edition | AskVenice/venice-uncensored | 0 | none | none | none | none | none | o_proj | none | none | no file | none |
+| dphn/Dolphin-Mistral-24B-Venice-Edition | m-polignano/ANITA-NEXT-24B-Dolphin-Mistral-UNCENSORED-ITA | 4 | 0..30 | 0.011 | 0.802 | 0.010 | none | o_proj | 0.308 | none | per layer | none |
 | google/diffusiongemma-26B-A4B-it | FredyRivera-dev/diffusiongemma-26B-A4B-it-HERETIC-Uncensored | 23 | 7..29 | 0.161 | 0.799 | 0.052 | 0.075 | down_proj | 0.012 | 0.981 | per layer | 1 |
 | google/diffusiongemma-26B-A4B-it | Goodoldjam/DiffusionGemma-26B-E38-Abliterated-BF16 | 10 | 7..16 | 0.140 | 0.157 | none | 0.025 | o_proj | 0.884 | 0.661 | arbitrary rank | none |
 | google/diffusiongemma-26B-A4B-it | Umranz/diffusiongemma-26B-A4B-it-abliteration | 19 | 1..19 | 0.055 | 0.188 | 0.020 | 0.029 | o_proj | 0.609 | 0.732 | arbitrary rank | none |
@@ -150,6 +167,7 @@ copies 201: per layer 69, one direction 55, arbitrary rank 65, mixed 11, few lay
 | google/gemma-4-31B-it | prithivMLmods/gemma-4-31B-it-Uncensored-MAX | 60 | 0..59 | 1.000 | 1.000 | 1.000 | 1.000 | o_proj | 0.990 | 0.990 | one direction | 3 |
 | google/gemma-4-31B-it | ressl/gemma-4-31B-it-uncensored | 60 | 0..59 | 0.043 | 0.842 | 0.016 | 0.995 | o_proj | 0.990 | 0.991 | per layer | 1 |
 | google/gemma-4-31B-it | sh0ck0r/Artemis-31B-v1.1-heretic | 60 | 0..59 | 0.145 | 0.972 | 0.094 | 0.188 | o_proj | 0.011 | 0.022 | per layer | none |
+| google/gemma-4-31B-it | sh0ck0r/heretic-rp-vision-31b | 60 | 0..59 | 0.052 | 0.506 | 0.031 | 0.521 | o_proj | 0.725 | 0.660 | per layer | none |
 | google/gemma-4-31B-it | wangzhang/gemma-4-31B-it-abliterated | 40 | 18..57 | 0.166 | 0.854 | 0.064 | none | o_proj | 0.998 | none | per layer | 4 |
 | google/gemma-4-31B-it-qat-q4_0-unquantized | OS-Software/gemma-4-31B-it-qat-q4_0-unquantized-uncensored-heretic | 11 | 30..40 | 0.099 | 0.176 | 0.013 | 0.028 | o_proj | 0.880 | 0.661 | arbitrary rank | none |
 | google/gemma-4-31B-it-qat-q4_0-unquantized | coder3101/gemma-4-31B-it-qat-q4_0-unquantized-heretic | 21 | 15..38 | 0.096 | 0.132 | 0.047 | none | o_proj | 0.960 | none | arbitrary rank | 1 |
@@ -227,6 +245,9 @@ copies 201: per layer 69, one direction 55, arbitrary rank 65, mixed 11, few lay
 | mistralai/Magistral-Small-2509 | grayarea/Magistral-Small-2509-Heretic-v1.2 | 34 | 6..39 | 0.996 | 0.998 | 0.995 | 0.997 | o_proj | 0.994 | 0.991 | one direction | none |
 | mistralai/Magistral-Small-2509 | llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v1 | 7 | 16..22 | 0.062 | 0.073 | none | 0.096 | o_proj | 0.916 | 0.902 | arbitrary rank | 1 |
 | mistralai/Magistral-Small-2509 | llmfan46/Magistral-Small-2509-ultra-uncensored-heretic-v2 | 23 | 10..36 | 0.026 | 0.070 | 0.016 | 0.046 | o_proj | 0.926 | 0.915 | arbitrary rank | 1 |
+| mistralai/Ministral-3-8B-Base-2512 | Felldude/Ministral-3-8B-Uncensored | 34 | 0..33 | 0.020 | 0.248 | 0.012 | 0.160 | o_proj | 0.005 | 0.002 | mixed | 1 |
+| mistralai/Ministral-3-8B-Base-2512 | nchapman/Ministral-3-8B-Instruct-2512-heretic-BF16 | 34 | 0..33 | 0.988 | 0.995 | 0.973 | 0.996 | o_proj | 0.058 | 0.070 | one direction | 1 |
+| mistralai/Ministral-3-8B-Base-2512 | s3nh/Ministral-3-8B-Instruct-2512-BF16-abliterated | 34 | 0..33 | 0.021 | 0.621 | 0.015 | 0.085 | o_proj | 0.008 | 0.075 | per layer | 1 |
 | mistralai/Ministral-3-8B-Reasoning-2512 | AISafety-Student/Ministral-3-8B-Reasoning-2512-heretic | 19 | 15..33 | 0.530 | 0.908 | 0.250 | 1.000 | o_proj | 0.992 | 0.995 | mixed | none |
 | mistralai/Ministral-3-8B-Reasoning-2512 | ccharnkij/Ministral-3-8B-Reasoning-2512-Uncensored | 34 | 0..33 | 0.118 | 0.710 | 0.047 | 0.617 | o_proj | 0.392 | 0.261 | per layer | none |
 | mistralai/Mistral-7B-Instruct-v0.3 | 3MPER0RR/Mistral-7B-v0.3-3MPER0RR-abliterated | 26 | 6..31 | 0.994 | 0.998 | 0.992 | 0.994 | o_proj | 0.496 | 0.244 | one direction | 1 |
