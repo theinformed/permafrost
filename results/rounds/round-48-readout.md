@@ -41,3 +41,4 @@ Pairs here with no census row: 1
 - Felldude/Ministral-3-8B-Uncensored, same parent, also reads 243 tensors over 34 layers, saved as float32.
 - Pair 6 (m-polignano) changed 6 tensors over 4 layers, relative difference 0.00103 to 0.00168.
 - Pair 5 (sh0ck0r/heretic-rp-vision-31b) places at median 0.374 against Kooten/gemma-4-31b-abliterated-v1.1, with o_share 0.725.
+- Both Ministral 8B rows here are pinned against the pretrained base their fields name, not the instruct checkpoint their names carry. Until they are read against the 8B instruct checkpoint in bfloat16, the 243 tensors and the mode rows (per layer for s3nh, one direction for nchapman) may include the publisher's instruction tuning and do not give the size of the edit. The same applies to Felldude's copy if its weights stand on the instruct model.

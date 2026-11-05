@@ -40,3 +40,4 @@ Pairs here with no census row: 6
 - Pair 6 (nchapman) shares six tensor kinds to every digit with round 48 pair 7 (s3nh) against mistralai/Ministral-3-8B-Base-2512; see the round 48 read-out. Its mode row reads one direction with pair 0.996 and o_share 0.058.
 - Pair 2 (coder3101, parent 0xSero/Gemma-4-19B) changed 10 tensors over 10 layers with min singular share 0.006.
 - Pair 4 (Naphula/Quill-v1-abliterated) changed 84 tensors over 42 layers with min singular share 0.995; pair 7 (grayarea) changed 55 over 32 with 0.992.
+- Pair 6's 243 tensors and its mode row may include the publisher's instruction tuning, since the pin is the pretrained base and not the instruct checkpoint; see the last note in the round 48 read-out.
